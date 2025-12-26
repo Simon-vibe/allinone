@@ -1,154 +1,258 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线工具箱 - 开发者与创作者的瑞士军刀</title>
-    <meta name="description" content="免费、快速、隐私安全的在线工具集合，包括 JSON 格式化、图片压缩、Base64 转换等。所有处理均在浏览器本地完成。">
+    <title>Tool Directory</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* 简单的卡片悬停效果  */
-        .tool-card:hover {
-            transform: translateY(-4px);
+        body {
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-    <!-- 1. Hero 区域 (顶部宣传) -->
-    <header class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-            <div class="flex justify-center mb-4">
-                <div class="bg-indigo-100 p-3 rounded-full">
-                    <i class="fa-solid fa-toolbox text-4xl text-indigo-600"></i>
-                </div>
+    <!-- Navbar -->
+    <nav class="bg-white py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <span class="text-xl font-bold text-gray-900">Tool Directory</span>
             </div>
-            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-                在线工具箱
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="./index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="#all-tools" class="hover:text-blue-600 transition" data-i18n="nav.categories">Categories</a>
+                <a href="./about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+
+                <a href="#"
+                    class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                    data-i18n="nav.login">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-12">
+        <div
+            class="bg-gradient-to-br from-blue-600 to-slate-900 rounded-[2rem] p-12 md:p-24 text-center text-white relative overflow-hidden shadow-2xl">
+            <!-- Decorative circle -->
+            <div
+                class="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20">
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight relative z-10" data-i18n="hero.title">
+                All the tools you need, in one place.
             </h1>
-            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-                简单、高效、保护隐私。所有数据处理均在您的浏览器本地完成，无需上传服务器。
+            <p class="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto mb-10 relative z-10" data-i18n="hero.subtitle">
+                A categorized collection of developer utilities, converters, and productivity tools.
             </p>
-        </div>
-    </header>
 
-    <!-- 2. 工具列表网格 -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        
-        <!-- 分类标题: 开发工具 -->
-        <div class="mb-8">
-            <h2 class="text-lg font-bold text-gray-900 uppercase tracking-wider mb-4 border-l-4 border-indigo-500 pl-3">
-                开发人员工具
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- JSON 工具卡片 -->
-                <a href="/tools/json-formatter/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-blue-50 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
-                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-blue-600">JSON 格式化</h3>
-                    </div>
-                    <p class="text-gray-500 text-sm">
-                        美化、压缩和校验 JSON 数据。支持语法高亮和错误检测，让数据阅读更轻松。
-                    </p>
-                </a>
-
-                <!-- Base64 工具卡片 -->
-                <a href="/tools/base64-converter/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-purple-50 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-purple-600">Base64 转换</h3>
-                    </div>
-                    <p class="text-gray-500 text-sm">
-                        快速将文本或数据进行 Base64 编码和解码。完美支持 UTF-8 中文字符，拒绝乱码。
-                    </p>
-                </a>
-
-                <!-- 时间戳工具卡片 -->
-                <a href="/tools/timestamp-converter/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-emerald-50 text-emerald-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                            <i class="fa-solid fa-clock"></i>
-                        </div>
-                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-emerald-600">Unix 时间戳</h3>
-                    </div>
-                    <p class="text-gray-500 text-sm">
-                        实时查看当前时间戳，支持日期时间与 Unix 时间戳（秒/毫秒）之间的双向转换。
-                    </p>
-                </a>
-
-            </div>
-        </div>
-
-        <!-- 分类标题: 内容与媒体 -->
-        <div class="mb-8">
-            <h2 class="text-lg font-bold text-gray-900 uppercase tracking-wider mb-4 border-l-4 border-pink-500 pl-3">
-                内容与媒体
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- 图片压缩卡片 -->
-                <a href="/tools/image-compressor/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-pink-50 text-pink-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-pink-600 group-hover:text-white transition-colors">
-                            <i class="fa-solid fa-image"></i>
-                        </div>
-                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-pink-600">图片压缩转换</h3>
-                    </div>
-                    <p class="text-gray-500 text-sm">
-                        纯浏览器端图片压缩。调整质量、转换格式 (JPG/PNG/WebP)，保护隐私不上传。
-                    </p>
-                </a>
-
-                <!-- Markdown 卡片 -->
-                <a href="/tools/markdown-editor/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-gray-100 text-gray-700 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-gray-700 group-hover:text-white transition-colors">
-                            <i class="fa-brands fa-markdown"></i>
-                        </div>
-                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-gray-700">Markdown 编辑器</h3>
-                    </div>
-                    <p class="text-gray-500 text-sm">
-                        所见即所得的 Markdown 写作环境。支持实时预览、字数统计，一键导出 .md 或 HTML。
-                    </p>
-                </a>
-
-                <!-- 待开发卡片 (占位符) -->
-                <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col justify-center items-center text-center text-gray-400">
-                    <i class="fa-solid fa-hammer text-3xl mb-2"></i>
-                    <h3 class="font-medium">更多工具开发中...</h3>
-                    <p class="text-xs mt-1">敬请期待</p>
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto relative z-10">
+                <div class="relative flex items-center">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 text-gray-400"></i>
+                    <input type="text" data-i18n="search.placeholder"
+                        placeholder="Search for a tool (e.g., JSON Formatter)..."
+                        class="w-full pl-12 pr-32 py-4 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-xl">
+                    <button
+                        class="absolute right-2 top-2 bottom-2 bg-blue-600 text-white px-6 rounded-md font-medium hover:bg-blue-700 transition"
+                        data-i18n="search.btn">
+                        Search
+                    </button>
                 </div>
-
             </div>
+        </div>
+    </div>
+
+    <!-- Featured Tools -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
+        <div class="flex justify-between items-end mb-8">
+            <h2 class="text-3xl font-bold text-gray-900" data-i18n="featured.title">Featured Tools</h2>
+            <a href="#" class="text-blue-600 font-medium hover:text-blue-800 flex items-center transition">
+                <span data-i18n="featured.viewAll">View all</span>
+                <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+
+        <!-- Featured Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- Card 1: Image Resizer -->
+            <div
+                class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group">
+                <div class="absolute top-6 right-6 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase"
+                    data-i18n="tool.popular">POPULAR</div>
+                <div
+                    class="bg-blue-50 w-14 h-14 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6">
+                    <i class="fa-regular fa-image"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.imgcomp.title">Image Resizer</h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.imgcomp.desc">
+                    Resize images instantly without quality loss. Supports PNG, JPG, and WebP.
+                </p>
+                <a href="./tools/image-compressor/index.html"
+                    class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition"
+                    data-i18n="tool.launch">
+                    Launch Tool
+                </a>
+            </div>
+
+            <!-- Card 2: QR Generator (Using Base64 logic as placeholder or new tool? Let's genericize or map to existing) -->
+            <!-- Mapping "QR Generator" from screenshot to "Base64 Encoder" for now as it's an existing tool -->
+            <div
+                class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group">
+                <div class="absolute top-6 right-6 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase"
+                    data-i18n="tool.popular">POPULAR</div>
+                <div
+                    class="bg-purple-50 w-14 h-14 rounded-xl flex items-center justify-center text-purple-600 text-2xl mb-6">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <!-- Using Base64 content but styled as card 2 -->
+                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.base64.title">Base64 Encoder</h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.base64.desc">
+                    Encode and decode data strings easily. Essential for developers.
+                </p>
+                <a href="./tools/base64-converter/index.html"
+                    class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition"
+                    data-i18n="tool.launch">
+                    Launch Tool
+                </a>
+            </div>
+
+            <!-- Card 3: Base64 Encoder (or JSON formatter) -->
+            <div
+                class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group">
+                <div class="absolute top-6 right-6 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase"
+                    data-i18n="tool.popular">POPULAR</div>
+                <div
+                    class="bg-orange-50 w-14 h-14 rounded-xl flex items-center justify-center text-orange-600 text-2xl mb-6">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.json.title">JSON Formatter</h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.json.desc">
+                    Beautify and validate JSON data instantly.
+                </p>
+                <a href="./tools/json-formatter/index.html"
+                    class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition"
+                    data-i18n="tool.launch">
+                    Launch Tool
+                </a>
+            </div>
+        </div>
+
+        <!-- All Tools Section -->
+        <h2 id="all-tools" class="text-2xl font-bold text-gray-900 mb-6" data-i18n="cat.dev">All Tools</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- Tile: Unix Timestamp -->
+            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                <div class="w-10 h-10 bg-red-100 rounded text-red-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.timestamp.title">Unix Timestamp</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.timestamp.desc">Convert
+                    between dates and Unix timestamps.</p>
+                <a href="./tools/timestamp-converter/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                    data-i18n="tool.launch">Open</a>
+            </div>
+
+            <!-- Tile: Markdown Editor -->
+            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                <div class="w-10 h-10 bg-orange-100 rounded text-orange-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.md.title">Markdown Editor</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.md.desc">WYSIWYG Markdown
+                    editor.</p>
+                <a href="./tools/markdown-editor/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                    data-i18n="tool.launch">Open</a>
+            </div>
+
+            <!-- Tile: Image Resizer (Repeated for completeness) -->
+            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                    <i class="fa-regular fa-image"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.imgcomp.title">Image Resizer</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.imgcomp.desc">Resize images
+                    instantly.</p>
+                <a href="./tools/image-compressor/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                    data-i18n="tool.launch">Open</a>
+            </div>
+
+            <!-- Tile: JSON Formatter (Repeated for completeness) -->
+            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                <div class="w-10 h-10 bg-green-100 rounded text-green-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.json.title">JSON Formatter</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.json.desc">Beautify JSON
+                    data.</p>
+                <a href="./tools/json-formatter/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                    data-i18n="tool.launch">Open</a>
+            </div>
+
+            <!-- Tile: Base64 (Repeated for completeness) -->
+            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                <div class="w-10 h-10 bg-purple-100 rounded text-purple-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.base64.title">Base64 Encoder</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.base64.desc">Encode and
+                    decode data.</p>
+                <a href="./tools/base64-converter/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                    data-i18n="tool.launch">Open</a>
+            </div>
+
         </div>
 
     </main>
 
-    <!-- 3. 页脚 -->
-    <footer class="bg-white border-t border-gray-200 mt-auto">
-        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-            <div class="md:flex md:items-center md:justify-between">
-                <div class="flex justify-center md:order-2 space-x-6">
-                    <a href="https://github.com/yourusername/tools" target="_blank" class="text-gray-400 hover:text-gray-500">
-                        <span class="sr-only">GitHub</span>
-                        <i class="fa-brands fa-github text-xl"></i>
-                    </a>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-xl"></i>
+                    <span class="text-lg font-bold text-gray-900">Tool Directory</span>
                 </div>
-                <div class="mt-8 md:mt-0 md:order-1">
-                    <p class="text-center text-base text-gray-400">
-                        &copy; <script>document.write(new Date().getFullYear())</script> My Tools Site. All rights reserved. 
-                        Hosted on Cloudflare Pages.
-                    </p>
+                <div class="flex space-x-8 text-sm text-gray-500">
+                    <a href="./privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy
+                        Policy</a>
+                    <a href="./terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="./about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
+            </div>
+            <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
+                © 2023 Tool Directory. All rights reserved.
             </div>
         </div>
     </footer>
 
+    <script src="./js/i18n.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Tool Directory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar (Same as Index) -->
+    <nav class="bg-white py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="./index.html" class="text-xl font-bold text-gray-900">Tool Directory</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="./index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="#" class="hover:text-blue-600 transition" data-i18n="nav.categories">Categories</a>
+                <a href="./about.html" class="text-blue-600 font-bold hover:text-blue-600 transition"
+                    data-i18n="nav.about">About</a>
+
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+
+                <a href="#"
+                    class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                    data-i18n="nav.login">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Hero -->
+    <div
+        class="bg-slate-900 text-white py-20 px-4 sm:px-6 lg:px-8 mt-6 max-w-7xl mx-auto rounded-[2rem] overflow-hidden relative">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
+            <div class="w-full md:w-1/2 mb-10 md:mb-0 relative z-10">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight" data-i18n="about.hero.title">
+                    Simplifying Your Workflow
+                </h1>
+                <p class="text-gray-300 text-lg mb-8 leading-relaxed" data-i18n="about.hero.desc">
+                    We provide a suite of powerful, free-to-use tools designed to make your daily digital tasks easier,
+                    faster, and more secure. Built by developers who value efficiency.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="./index.html"
+                        class="bg-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition">Explore
+                        Tools</a>
+                    <a href="#story"
+                        class="bg-slate-800 px-6 py-3 rounded-lg font-medium hover:bg-slate-700 transition">Read Our
+                        Story</a>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 flex justify-center relative z-10">
+                <!-- Placeholder for wave image -->
+                <div
+                    class="w-full h-64 bg-gradient-to-r from-blue-500 to-teal-400 rounded-xl opacity-80 filter blur-xl absolute transform scale-90">
+                </div>
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Technology Abstract"
+                    class="relative rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition duration-500 w-4/5">
+            </div>
+
+            <!-- Abstract background elements -->
+            <div
+                class="absolute top-0 right-0 w-96 h-96 bg-blue-600 rounded-full mix-blend-overlay filter blur-3xl opacity-20">
+            </div>
+            <div
+                class="absolute bottom-0 left-0 w-96 h-96 bg-purple-600 rounded-full mix-blend-overlay filter blur-3xl opacity-20">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Core Values -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4" data-i18n="about.values.title">Our Core Values</h2>
+            <p class="text-gray-500 max-w-2xl" data-i18n="about.values.subtitle">
+                Built with the user in mind, we focus on what matters most: speed, privacy, and accessibility.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Value 1 -->
+            <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition">
+                <div
+                    class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl mb-6">
+                    <i class="fa-solid fa-piggy-bank"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="about.val.free.title">Free to Use</h3>
+                <p class="text-gray-500 text-sm leading-relaxed" data-i18n="about.val.free.desc">
+                    Access all tools without hidden fees, credit cards, or premium subscriptions.
+                </p>
+            </div>
+
+            <!-- Value 2 -->
+            <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition">
+                <div
+                    class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl mb-6">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="about.val.privacy.title">Privacy Focused
+                </h3>
+                <p class="text-gray-500 text-sm leading-relaxed" data-i18n="about.val.privacy.desc">
+                    Your data is processed securely. Files are automatically deleted after processing.
+                </p>
+            </div>
+
+            <!-- Value 3 -->
+            <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition">
+                <div
+                    class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl mb-6">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="about.val.fast.title">Fast Processing</h3>
+                <p class="text-gray-500 text-sm leading-relaxed" data-i18n="about.val.fast.desc">
+                    Optimized algorithms ensure your tasks are completed in seconds, not minutes.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section (Placeholder) -->
+    <div class="bg-gray-50 py-20 border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12" data-i18n="about.team.title">Meet the Team</h2>
+            <div class="flex space-x-6 overflow-x-auto pb-4">
+                <!-- Member 1 -->
+                <div class="min-w-[250px] bg-white p-6 rounded-xl border border-gray-200 flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gray-300 rounded-full flex-shrink-0"></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Alex Johnson</h4>
+                        <p class="text-xs text-gray-500">Lead Developer</p>
+                    </div>
+                </div>
+                <!-- Member 2 -->
+                <div class="min-w-[250px] bg-white p-6 rounded-xl border border-gray-200 flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gray-300 rounded-full flex-shrink-0"></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Sarah Chen</h4>
+                        <p class="text-xs text-gray-500">UI/UX Designer</p>
+                    </div>
+                </div>
+                <!-- Member 3 -->
+                <div class="min-w-[250px] bg-white p-6 rounded-xl border border-gray-200 flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gray-300 rounded-full flex-shrink-0"></div>
+                    <div>
+                        <h4 class="font-bold text-gray-900">Mike Ross</h4>
+                        <p class="text-xs text-gray-500">Backend Engineer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4" data-i18n="about.contact.title">Get in Touch</h2>
+        <p class="text-gray-500 mb-8" data-i18n="about.contact.desc">Have a question or spotted a bug? Send us a
+            message.</p>
+
+        <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="about.form.name">Name</label>
+                    <input type="text"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2"
+                        data-i18n="about.form.email">Email</label>
+                    <input type="email"
+                        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                </div>
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                    data-i18n="about.form.subject">Subject</label>
+                <select
+                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                    <option>General Inquiry</option>
+                    <option>Bug Report</option>
+                    <option>Feature Request</option>
+                </select>
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                    data-i18n="about.form.message">Message</label>
+                <textarea rows="4"
+                    class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"></textarea>
+            </div>
+            <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition"
+                data-i18n="about.form.send">
+                Send Message
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer (Same as Index) -->
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-xl"></i>
+                    <span class="text-lg font-bold text-gray-900">Tool Directory</span>
+                </div>
+                <div class="flex space-x-8 text-sm text-gray-500">
+                    <a href="#" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="#" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
+                    <a href="#" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
+                © 2023 Tool Directory. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/i18n.js"></script>
+</body>
+
+</html>

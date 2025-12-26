@@ -1,58 +1,108 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base64 编码/解码 - 在线工具箱</title>
+    <title>Base64 Converter - Tool Directory</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        textarea {
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+        }
+    </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <a href="/" class="text-xl font-bold text-indigo-600 flex items-center gap-2">
-                <i class="fa-solid fa-toolbox"></i> 我的工具站
-                <span class="text-gray-400 text-sm font-normal">/ Base64 转换</span>
-            </a>
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">Tool Directory</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+            </div>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-10 space-y-8">
-        
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">明文文本 (Text)</h2>
-            <textarea id="text-input" rows="6" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="在此输入要编码的文本..."></textarea>
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4">Base64 Converter</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto">Encode and decode data strings easily. Essential for developers.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Tool Content -->
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+
+        <!-- Encoder Input -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+            <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                <i class="fa-solid fa-file-lines text-blue-500 mr-2"></i> Plain Text
+            </h2>
+            <textarea id="text-input" rows="6"
+                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm outline-none shadow-inner"
+                placeholder="Type text here to encode..."></textarea>
         </div>
 
-        <div class="flex justify-center gap-4">
-            <button id="btn-encode" class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-full font-medium shadow-lg transition transform hover:-translate-y-0.5">
-                <i class="fa-solid fa-arrow-down"></i> 编码 (Encode)
+        <!-- Controls -->
+        <div class="flex flex-col md:flex-row justify-center gap-4 mb-8">
+            <button id="btn-encode"
+                class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-blue-200 transition transform hover:-translate-y-1">
+                <i class="fa-solid fa-arrow-down"></i> Encode
             </button>
-            <button id="btn-decode" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-full font-medium shadow-lg transition transform hover:-translate-y-0.5">
-                <i class="fa-solid fa-arrow-up"></i> 解码 (Decode)
+            <button id="btn-decode"
+                class="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-emerald-200 transition transform hover:-translate-y-1">
+                <i class="fa-solid fa-arrow-up"></i> Decode
             </button>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h2 class="text-lg font-semibold text-gray-800">Base64 结果</h2>
-                <button id="btn-copy" class="text-sm text-gray-500 hover:text-indigo-600 transition">
-                    <i class="fa-regular fa-copy"></i> 复制结果
+        <!-- Decoder Input -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center">
+                    <i class="fa-solid fa-code text-purple-500 mr-2"></i> Base64 Output
+                </h2>
+                <button id="btn-copy"
+                    class="text-sm text-gray-400 hover:text-blue-600 font-medium transition flex items-center">
+                    <i class="fa-regular fa-copy mr-1"></i> Copy
                 </button>
             </div>
-            <textarea id="base64-input" rows="6" class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="在此输入要解码的 Base64 字符串..."></textarea>
+            <textarea id="base64-input" rows="6"
+                class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 font-mono text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none outline-none shadow-inner"
+                placeholder="Paste Base64 string here to decode..."></textarea>
         </div>
 
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            &copy; 2023 Tool Directory. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../js/i18n.js"></script>
     <script>
-        // 处理 UTF-8 字符的 Base64 编码/解码函数
         function utf8_to_b64(str) {
             try {
                 return window.btoa(unescape(encodeURIComponent(str)));
             } catch (e) {
-                alert("编码失败，请检查输入内容。");
+                alert("Encoding failed. Please check your input.");
                 return "";
             }
         }
@@ -61,7 +111,7 @@
             try {
                 return decodeURIComponent(escape(window.atob(str)));
             } catch (e) {
-                alert("解码失败：无效的 Base64 字符串。");
+                alert("Decoding failed: Invalid Base64 string.");
                 return "";
             }
         }
@@ -72,12 +122,12 @@
 
             document.getElementById('btn-encode').addEventListener('click', () => {
                 const val = textInput.value;
-                if(val) base64Input.value = utf8_to_b64(val);
+                if (val) base64Input.value = utf8_to_b64(val);
             });
 
             document.getElementById('btn-decode').addEventListener('click', () => {
                 const val = base64Input.value.trim();
-                if(val) textInput.value = b64_to_utf8(val);
+                if (val) textInput.value = b64_to_utf8(val);
             });
 
             document.getElementById('btn-copy').addEventListener('click', () => {
@@ -87,4 +137,5 @@
         });
     </script>
 </body>
+
 </html>

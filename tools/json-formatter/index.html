@@ -1,70 +1,109 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON 格式化与校验 - 在线工具箱</title>
+    <title>JSON Formatter - Tool Directory</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        textarea { font-family: 'Menlo', 'Monaco', 'Courier New', monospace; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        textarea {
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="text-xl font-bold text-indigo-600 flex items-center gap-2">
-                        <i class="fa-solid fa-toolbox"></i> 我的工具站
-                    </a>
-                    <span class="ml-4 px-3 py-1 rounded-md text-sm font-medium bg-indigo-50 text-indigo-700">JSON 工具</span>
-                </div>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">Tool Directory</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 h-full flex flex-col">
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-bold text-gray-900">JSON 格式化/校验器</h1>
-            <div class="space-x-2">
-                <button id="btn-format" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">
-                    <i class="fa-solid fa-indent mr-1"></i> 格式化
-                </button>
-                <button id="btn-compress" class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-50 transition">
-                    <i class="fa-solid fa-compress mr-1"></i> 压缩
-                </button>
-                <button id="btn-clear" class="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-md hover:bg-red-100 transition">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            </div>
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4">JSON Formatter & Validator</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto">Beautify and validate your JSON data instantly. Error detection
+                included.</p>
         </div>
+    </div>
 
-        <!-- 错误提示栏 -->
-        <div id="error-msg" class="hidden mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700"></div>
+    <!-- Main Tool Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 
-        <div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-4 h-[600px]">
-            <!-- 输入区 -->
-            <div class="flex flex-col">
-                <label class="block text-sm font-medium text-gray-700 mb-1">输入 / 粘贴 JSON</label>
-                <textarea id="json-input" class="flex-grow w-full border border-gray-300 rounded-md p-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none text-sm" placeholder='{"name": "example"}'></textarea>
-            </div>
-            
-            <!-- 输出区 -->
-            <div class="flex flex-col">
-                <div class="flex justify-between items-center mb-1">
-                    <label class="block text-sm font-medium text-gray-700">结果</label>
-                    <button id="btn-copy" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">
-                        <i class="fa-regular fa-copy"></i> 复制
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="space-x-2 mb-4 md:mb-0">
+                    <button id="btn-format"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition shadow-sm">
+                        <i class="fa-solid fa-indent mr-2"></i> Format
+                    </button>
+                    <button id="btn-compress"
+                        class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition">
+                        <i class="fa-solid fa-compress mr-2"></i> Minify
                     </button>
                 </div>
-                <textarea id="json-output" readonly class="flex-grow w-full border border-gray-300 rounded-md p-4 bg-gray-50 text-sm text-gray-800 resize-none focus:outline-none"></textarea>
+                <button id="btn-clear" class="text-red-500 hover:text-red-700 font-medium transition">
+                    <i class="fa-solid fa-trash mr-1"></i> Clear
+                </button>
+            </div>
+
+            <!-- Error Msg -->
+            <div id="error-msg" class="hidden mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-md">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-[600px]">
+                <!-- Input -->
+                <div class="flex flex-col h-full">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Input JSON</label>
+                    <textarea id="json-input"
+                        class="flex-grow w-full border border-gray-200 rounded-xl p-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm leading-relaxed shadow-inner outline-none"
+                        placeholder='{"name": "example"}'></textarea>
+                </div>
+
+                <!-- Output -->
+                <div class="flex flex-col h-full">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-semibold text-gray-700">Result</label>
+                        <button id="btn-copy"
+                            class="text-xs text-blue-600 hover:text-blue-800 font-bold uppercase tracking-wide">
+                            <i class="fa-regular fa-copy mr-1"></i> Copy
+                        </button>
+                    </div>
+                    <textarea id="json-output" readonly
+                        class="flex-grow w-full border border-gray-200 rounded-xl p-4 bg-gray-50 text-sm text-gray-800 resize-none focus:outline-none shadow-inner"></textarea>
+                </div>
             </div>
         </div>
+
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            &copy; 2023 Tool Directory. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../js/i18n.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('json-input');
@@ -83,17 +122,15 @@
                     const parsed = JSON.parse(raw);
                     output.value = minify ? JSON.stringify(parsed) : JSON.stringify(parsed, null, 4);
                     hideError();
-                    // 只有成功解析才更新输入框内容（可选，防止用户想保留原格式）
-                    // input.value = output.value; 
                 } catch (e) {
                     showError(e.message);
                 }
             }
 
             function showError(msg) {
-                errorMsg.textContent = `无效的 JSON: ${msg}`;
+                errorMsg.textContent = `Invalid JSON: ${msg}`;
                 errorMsg.classList.remove('hidden');
-                output.value = ''; // 出错时清空输出
+                output.value = '';
             }
 
             function hideError() {
@@ -102,7 +139,7 @@
 
             document.getElementById('btn-format').addEventListener('click', () => processJSON(false));
             document.getElementById('btn-compress').addEventListener('click', () => processJSON(true));
-            
+
             document.getElementById('btn-clear').addEventListener('click', () => {
                 input.value = '';
                 output.value = '';
@@ -115,7 +152,7 @@
                 output.select();
                 document.execCommand('copy');
                 const originalText = document.getElementById('btn-copy').innerHTML;
-                document.getElementById('btn-copy').innerHTML = '<i class="fa-solid fa-check"></i> 已复制';
+                document.getElementById('btn-copy').innerHTML = '<i class="fa-solid fa-check"></i> Copied';
                 setTimeout(() => {
                     document.getElementById('btn-copy').innerHTML = originalText;
                 }, 2000);
@@ -123,4 +160,5 @@
         });
     </script>
 </body>
+
 </html>

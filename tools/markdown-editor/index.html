@@ -1,102 +1,177 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown 实时预览 - 在线工具箱</title>
+    <title>Markdown Editor - Tool Directory</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 引入 Marked 解析库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Markdown 预览的基本样式 */
-        .prose h1 { font-size: 2em; font-weight: bold; margin-bottom: 0.5em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
-        .prose h2 { font-size: 1.5em; font-weight: bold; margin-top: 1em; margin-bottom: 0.5em; }
-        .prose p { margin-bottom: 1em; line-height: 1.6; }
-        .prose ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; }
-        .prose ol { list-style-type: decimal; padding-left: 1.5em; margin-bottom: 1em; }
-        .prose code { background-color: #f3f4f6; padding: 0.2em 0.4em; border-radius: 0.25em; font-family: monospace; font-size: 0.9em; color: #e01b24; }
-        .prose pre { background-color: #1f2937; color: #f3f4f6; padding: 1em; border-radius: 0.5em; overflow-x: auto; margin-bottom: 1em; }
-        .prose pre code { background-color: transparent; color: inherit; padding: 0; }
-        .prose blockquote { border-left: 4px solid #e5e7eb; padding-left: 1em; color: #6b7280; font-style: italic; }
-        .prose img { max-width: 100%; height: auto; border-radius: 0.5em; }
-        .prose a { color: #4f46e5; text-decoration: underline; }
-        
-        textarea { resize: none; font-family: 'Menlo', 'Monaco', 'Courier New', monospace; }
-        /* 隐藏滚动条但保留功能 */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        textarea {
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+        }
+
+        /* Markdown Styles */
+        .prose h1 {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 0.5em;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.3em;
+            color: #111827;
+        }
+
+        .prose h2 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            color: #1f2937;
+        }
+
+        .prose p {
+            margin-bottom: 1em;
+            line-height: 1.7;
+            color: #374151;
+        }
+
+        .prose ul {
+            list-style-type: disc;
+            padding-left: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        .prose ol {
+            list-style-type: decimal;
+            padding-left: 1.5em;
+            margin-bottom: 1em;
+        }
+
+        .prose code {
+            background-color: #f3f4f6;
+            padding: 0.2em 0.4em;
+            border-radius: 0.25em;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #ef4444;
+        }
+
+        .prose pre {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 1em;
+            border-radius: 0.5em;
+            overflow-x: auto;
+            margin-bottom: 1em;
+        }
+
+        .prose pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        .prose blockquote {
+            border-left: 4px solid #e5e7eb;
+            padding-left: 1em;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .prose img {
+            max-width: 100%;
+            border-radius: 0.5em;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .prose a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body class="bg-gray-100 h-screen flex flex-col overflow-hidden">
 
-    <!-- 顶部工具栏 -->
-    <header class="bg-white border-b border-gray-200 h-14 flex items-center justify-between px-4 flex-shrink-0 z-10">
-        <div class="flex items-center gap-2">
-            <a href="/" class="text-gray-500 hover:text-gray-700 mr-2"><i class="fa-solid fa-arrow-left"></i></a>
-            <h1 class="font-bold text-gray-800">Markdown Editor</h1>
+    <!-- Header -->
+    <header
+        class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 flex-shrink-0 z-10 shadow-sm">
+        <div class="flex items-center">
+            <a href="../../index.html" class="text-xl font-bold text-gray-900 flex items-center gap-2 mr-6">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600"></i> Tool Directory
+            </a>
+            <div class="h-6 w-px bg-gray-300 mr-6 hidden md:block"></div>
+            <h1 class="font-bold text-gray-700 text-lg hidden md:block">Markdown Editor</h1>
         </div>
-        <div class="flex gap-2">
-            <button id="btn-copy-html" class="text-sm px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded text-gray-700 transition">
-                复制 HTML
+        <div class="flex gap-3">
+            <button id="btn-copy-html"
+                class="text-sm px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg text-gray-700 font-medium transition flex items-center">
+                <i class="fa-solid fa-code mr-2"></i> Copy HTML
             </button>
-            <button id="btn-download" class="text-sm px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 rounded text-white transition">
-                下载 .md
+            <button id="btn-download"
+                class="text-sm px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium transition shadow-sm flex items-center">
+                <i class="fa-solid fa-download mr-2"></i> Download
             </button>
         </div>
     </header>
 
-    <!-- 主体编辑区 -->
+    <!-- Main Editor -->
     <main class="flex-grow flex flex-col md:flex-row h-full overflow-hidden">
-        
-        <!-- 左侧输入 -->
-        <div class="w-full md:w-1/2 h-1/2 md:h-full flex flex-col border-b md:border-b-0 md:border-r border-gray-200 bg-white">
-            <div class="bg-gray-50 border-b border-gray-100 px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider flex justify-between">
-                <span>Markdown 输入</span>
-                <span id="word-count">0 字</span>
+
+        <!-- Input -->
+        <div
+            class="w-full md:w-1/2 h-1/2 md:h-full flex flex-col border-b md:border-b-0 md:border-r border-gray-200 bg-white">
+            <div
+                class="bg-gray-50 border-b border-gray-200 px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider flex justify-between items-center">
+                <span>Markdown Input</span>
+                <span id="word-count" class="bg-gray-200 px-2 py-1 rounded text-gray-600">0 words</span>
             </div>
-            <textarea id="editor" class="flex-grow p-4 w-full h-full focus:outline-none text-gray-800 text-sm leading-relaxed no-scrollbar" placeholder="# 欢迎使用 Markdown 编辑器&#10;&#10;开始在这里输入..."></textarea>
+            <textarea id="editor"
+                class="flex-grow p-6 w-full h-full focus:outline-none text-gray-800 text-sm leading-relaxed resize-none"
+                placeholder="# Welcome to Markdown Editor..."></textarea>
         </div>
 
-        <!-- 右侧预览 -->
-        <div class="w-full md:w-1/2 h-1/2 md:h-full flex flex-col bg-white">
-            <div class="bg-gray-50 border-b border-gray-100 px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                预览
+        <!-- Preview -->
+        <div class="w-full md:w-1/2 h-1/2 md:h-full flex flex-col bg-gray-50">
+            <div
+                class="bg-white border-b border-gray-200 px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                Live Preview
             </div>
             <div id="preview" class="flex-grow p-8 overflow-y-auto prose max-w-none">
-                <!-- 渲染内容在这里 -->
+                <!-- Content -->
             </div>
         </div>
 
     </main>
 
+    <script src="../../js/i18n.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const editor = document.getElementById('editor');
             const preview = document.getElementById('preview');
             const wordCount = document.getElementById('word-count');
 
-            // 初始示例文本
-            const initialText = `# 欢迎！\n\n这是一个简单的**实时 Markdown 编辑器**。\n\n- 支持标准语法\n- 左侧输入，右侧预览\n- 纯前端运行\n\n\`console.log('Hello World');\`\n`;
+            const initialText = `# Welcome!\n\nThis is a simple **Markdown Editor**.\n\n- Real-time preview\n- Clean interface\n- Pure client-side\n\n\`console.log('Hello World');\`\n`;
             editor.value = initialText;
 
             function render() {
                 const text = editor.value;
-                // 使用 marked 渲染
                 preview.innerHTML = marked.parse(text);
-                // 更新字数
-                wordCount.textContent = text.length + ' 字';
+                wordCount.textContent = text.length + ' chars';
             }
 
-            // 实时监听
             editor.addEventListener('input', render);
-            
-            // 初始化渲染
             render();
 
-            // 下载功能
             document.getElementById('btn-download').addEventListener('click', () => {
-                const blob = new Blob([editor.value], {type: "text/markdown;charset=utf-8"});
+                const blob = new Blob([editor.value], { type: "text/markdown;charset=utf-8" });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -105,7 +180,6 @@
                 URL.revokeObjectURL(url);
             });
 
-            // 复制 HTML 功能
             document.getElementById('btn-copy-html').addEventListener('click', () => {
                 const html = preview.innerHTML;
                 const tempTextArea = document.createElement('textarea');
@@ -114,13 +188,14 @@
                 tempTextArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(tempTextArea);
-                
+
                 const btn = document.getElementById('btn-copy-html');
-                const originalText = btn.textContent;
-                btn.textContent = '已复制!';
-                setTimeout(() => btn.textContent = originalText, 2000);
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Copied!';
+                setTimeout(() => btn.innerHTML = originalHtml, 2000);
             });
         });
     </script>
 </body>
+
 </html>

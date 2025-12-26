@@ -1,90 +1,141 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图片压缩与转换 - 在线工具箱</title>
+    <title>Image Compressor - Tool Directory</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-800 min-h-screen">
 
-    <div class="max-w-4xl mx-auto px-4 py-8">
-        <header class="mb-8 text-center">
-            <h1 class="text-3xl font-bold text-gray-900">图片压缩与格式转换</h1>
-            <p class="text-gray-600 mt-2">完全在浏览器本地处理，您的图片不会上传到服务器。</p>
-        </header>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- 设置区域 -->
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">Tool Directory</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4">Image Compressor & Converter</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto">Resize images locally. Privacy focused - no uploads.</p>
+        </div>
+    </div>
+
+    <!-- Main Tool Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Sidebar: Settings -->
             <div class="md:col-span-1 space-y-6">
-                
-                <!-- 上传区 -->
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <label class="block mb-2 font-semibold">1. 选择图片</label>
-                    <input type="file" id="file-input" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+                <!-- Upload -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <label class="block mb-3 font-bold text-gray-900">1. Select Image</label>
+                    <input type="file" id="file-input" accept="image/*"
+                        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer transition">
                 </div>
 
-                <!-- 参数区 -->
-                <div id="settings-panel" class="bg-white p-4 rounded-lg shadow opacity-50 pointer-events-none transition-opacity">
-                    <label class="block mb-2 font-semibold">2. 压缩设置</label>
-                    
-                    <div class="mb-4">
-                        <label class="block text-sm text-gray-600 mb-1">输出格式</label>
-                        <select id="format-select" class="w-full border-gray-300 rounded-md shadow-sm p-2 border">
-                            <option value="image/jpeg">JPEG (推荐)</option>
-                            <option value="image/png">PNG (无损/透明)</option>
-                            <option value="image/webp">WebP (现代格式)</option>
+                <!-- Controls -->
+                <div id="settings-panel"
+                    class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 opacity-50 pointer-events-none transition-opacity duration-300">
+                    <label class="block mb-4 font-bold text-gray-900">2. Compression Settings</label>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-600 mb-2">Output Format</label>
+                        <select id="format-select"
+                            class="w-full border-gray-200 rounded-lg shadow-sm p-3 border outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="image/jpeg">JPEG (Recommended)</option>
+                            <option value="image/png">PNG (Lossless/Transparent)</option>
+                            <option value="image/webp">WebP (Modern)</option>
                         </select>
                     </div>
 
-                    <div class="mb-4">
-                        <div class="flex justify-between">
-                            <label class="block text-sm text-gray-600 mb-1">质量 (压缩比)</label>
-                            <span id="quality-val" class="text-sm font-bold text-indigo-600">0.8</span>
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <label class="block text-sm font-medium text-gray-600">Quality</label>
+                            <span id="quality-val" class="text-sm font-bold text-blue-600">0.8</span>
                         </div>
-                        <input type="range" id="quality-range" min="0.1" max="1.0" step="0.1" value="0.8" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                        <input type="range" id="quality-range" min="0.1" max="1.0" step="0.1" value="0.8"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
                     </div>
 
-                    <button id="btn-process" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition">
-                        应用更改
+                    <button id="btn-process"
+                        class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                        Apply Changes
                     </button>
                 </div>
             </div>
 
-            <!-- 预览区域 -->
-            <div class="md:col-span-2 bg-white p-4 rounded-lg shadow flex flex-col items-center justify-center min-h-[400px] border-2 border-dashed border-gray-300" id="preview-container">
+            <!-- Main: Preview -->
+            <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center justify-center min-h-[500px]"
+                id="preview-container">
+
                 <div class="text-center text-gray-400" id="placeholder-text">
-                    <i class="fa-regular fa-image text-4xl mb-2"></i>
-                    <p>预览将显示在这里</p>
+                    <i class="fa-regular fa-image text-5xl mb-4"></i>
+                    <p class="text-lg">Preview will appear here</p>
                 </div>
-                
+
                 <div id="result-view" class="hidden w-full flex flex-col items-center">
-                    <div class="flex justify-center gap-8 text-sm mb-4 w-full bg-gray-50 p-2 rounded">
-                        <div>
-                            <span class="text-gray-500">原始大小:</span>
-                            <span id="original-size" class="font-bold">0 KB</span>
+                    <!-- Stats Bar -->
+                    <div
+                        class="flex flex-wrap justify-center gap-4 md:gap-12 text-sm mb-6 w-full bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <div class="text-center">
+                            <span class="block text-gray-500 text-xs uppercase tracking-wide">Original</span>
+                            <span id="original-size" class="font-bold text-gray-900 text-lg">0 KB</span>
                         </div>
-                        <div>
-                            <span class="text-gray-500">压缩后:</span>
-                            <span id="compressed-size" class="font-bold text-green-600">0 KB</span>
+                        <div class="text-center">
+                            <span class="block text-gray-500 text-xs uppercase tracking-wide">Compressed</span>
+                            <span id="compressed-size" class="font-bold text-green-600 text-lg">0 KB</span>
                         </div>
-                        <div>
-                            <span class="text-gray-500">减少:</span>
-                            <span id="reduction-rate" class="font-bold text-indigo-600">0%</span>
+                        <div class="text-center">
+                            <span class="block text-gray-500 text-xs uppercase tracking-wide">Reduction</span>
+                            <span id="reduction-rate" class="font-bold text-blue-600 text-lg">0%</span>
                         </div>
                     </div>
-                    
-                    <img id="preview-img" class="max-h-[400px] max-w-full object-contain shadow-sm border border-gray-200" src="" alt="预览">
-                    
-                    <a id="download-link" href="#" download="compressed-image.jpg" class="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none">
-                        <i class="fa-solid fa-download mr-2"></i> 下载图片
+
+                    <div
+                        class="relative w-full flex justify-center bg-checkered p-4 rounded-xl border border-gray-100 mb-6">
+                        <img id="preview-img" class="max-h-[400px] max-w-full object-contain shadow-md rounded-lg"
+                            src="" alt="Preview">
+                    </div>
+
+                    <a id="download-link" href="#" download="compressed-image.jpg"
+                        class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none transition transform hover:-translate-y-1">
+                        <i class="fa-solid fa-download mr-2"></i> Download Image
                     </a>
                 </div>
             </div>
         </div>
-    </div>
 
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            &copy; 2023 Tool Directory. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="../../js/i18n.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const fileInput = document.getElementById('file-input');
@@ -107,7 +158,6 @@
             let originalImage = null;
             let originalFileSize = 0;
 
-            // 格式化文件大小
             function formatSize(bytes) {
                 if (bytes === 0) return '0 B';
                 const k = 1024;
@@ -116,12 +166,10 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
 
-            // 更新滑块数值
             qualityRange.addEventListener('input', (e) => {
                 qualityVal.textContent = e.target.value;
             });
 
-            // 处理图片上传
             fileInput.addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -134,14 +182,13 @@
                     originalImage = new Image();
                     originalImage.src = event.target.result;
                     originalImage.onload = () => {
-                        // 激活面板
                         settingsPanel.classList.remove('opacity-50', 'pointer-events-none');
                         settingsPanel.classList.add('opacity-100');
                         placeholderText.classList.add('hidden');
-                        previewContainer.classList.remove('border-dashed');
+                        previewContainer.classList.remove('border-dashed'); // Visual feedback removal
                         resultView.classList.remove('hidden');
                         
-                        processImage(); // 自动初次处理
+                        processImage();
                     };
                 };
                 reader.readAsDataURL(file);
@@ -158,7 +205,6 @@
                 canvas.width = originalImage.width;
                 canvas.height = originalImage.height;
                 
-                // 绘制背景（处理 PNG 转 JPEG 透明变成黑色问题，填充白色）
                 if (formatSelect.value === 'image/jpeg') {
                     ctx.fillStyle = '#FFFFFF';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -171,21 +217,17 @@
 
                 const dataUrl = canvas.toDataURL(format, quality);
                 
-                // 更新预览
                 previewImg.src = dataUrl;
                 
-                // 计算新大小 (DataURL Base64 长度大约是文件大小的 4/3)
                 const head = 'data:' + format + ';base64,';
                 const sizeInBytes = Math.round((dataUrl.length - head.length) * 3 / 4);
                 
                 compressedSizeEl.textContent = formatSize(sizeInBytes);
                 
-                // 计算减少率
                 const reduction = ((originalFileSize - sizeInBytes) / originalFileSize * 100).toFixed(1);
                 reductionRateEl.textContent = reduction + '%';
-                reductionRateEl.className = reduction > 0 ? "font-bold text-green-600" : "font-bold text-red-600";
+                reductionRateEl.className = reduction > 0 ? "font-bold text-green-600 text-lg" : "font-bold text-red-600 text-lg";
 
-                // 设置下载
                 const ext = format.split('/')[1];
                 downloadLink.href = dataUrl;
                 downloadLink.download = `compressed_${new Date().getTime()}.${ext}`;
@@ -193,4 +235,5 @@
         });
     </script>
 </body>
+
 </html>
