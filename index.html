@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线工具箱 - 开发者与创作者的瑞士军刀</title>
+    <meta name="description" content="免费、快速、隐私安全的在线工具集合，包括 JSON 格式化、图片压缩、Base64 转换等。所有处理均在浏览器本地完成。">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 简单的卡片悬停效果 */
+        .tool-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- 1. Hero 区域 (顶部宣传) -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+            <div class="flex justify-center mb-4">
+                <div class="bg-indigo-100 p-3 rounded-full">
+                    <i class="fa-solid fa-toolbox text-4xl text-indigo-600"></i>
+                </div>
+            </div>
+            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                在线工具箱
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+                简单、高效、保护隐私。所有数据处理均在您的浏览器本地完成，无需上传服务器。
+            </p>
+        </div>
+    </header>
+
+    <!-- 2. 工具列表网格 -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        
+        <!-- 分类标题: 开发工具 -->
+        <div class="mb-8">
+            <h2 class="text-lg font-bold text-gray-900 uppercase tracking-wider mb-4 border-l-4 border-indigo-500 pl-3">
+                开发人员工具
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- JSON 工具卡片 -->
+                <a href="/tools/json-formatter/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-blue-50 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-blue-600">JSON 格式化</h3>
+                    </div>
+                    <p class="text-gray-500 text-sm">
+                        美化、压缩和校验 JSON 数据。支持语法高亮和错误检测，让数据阅读更轻松。
+                    </p>
+                </a>
+
+                <!-- Base64 工具卡片 -->
+                <a href="/tools/base64-converter/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-50 text-purple-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-purple-600">Base64 转换</h3>
+                    </div>
+                    <p class="text-gray-500 text-sm">
+                        快速将文本或数据进行 Base64 编码和解码。完美支持 UTF-8 中文字符，拒绝乱码。
+                    </p>
+                </a>
+
+                <!-- 时间戳工具卡片 -->
+                <a href="/tools/timestamp-converter/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-emerald-50 text-emerald-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-emerald-600">Unix 时间戳</h3>
+                    </div>
+                    <p class="text-gray-500 text-sm">
+                        实时查看当前时间戳，支持日期时间与 Unix 时间戳（秒/毫秒）之间的双向转换。
+                    </p>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- 分类标题: 内容与媒体 -->
+        <div class="mb-8">
+            <h2 class="text-lg font-bold text-gray-900 uppercase tracking-wider mb-4 border-l-4 border-pink-500 pl-3">
+                内容与媒体
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 图片压缩卡片 -->
+                <a href="/tools/image-compressor/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-pink-50 text-pink-600 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-pink-600 group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-image"></i>
+                        </div>
+                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-pink-600">图片压缩转换</h3>
+                    </div>
+                    <p class="text-gray-500 text-sm">
+                        纯浏览器端图片压缩。调整质量、转换格式 (JPG/PNG/WebP)，保护隐私不上传。
+                    </p>
+                </a>
+
+                <!-- Markdown 卡片 -->
+                <a href="/tools/markdown-editor/" class="tool-card group block bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gray-100 text-gray-700 w-12 h-12 rounded-lg flex items-center justify-center text-xl group-hover:bg-gray-700 group-hover:text-white transition-colors">
+                            <i class="fa-brands fa-markdown"></i>
+                        </div>
+                        <h3 class="ml-4 text-xl font-semibold text-gray-900 group-hover:text-gray-700">Markdown 编辑器</h3>
+                    </div>
+                    <p class="text-gray-500 text-sm">
+                        所见即所得的 Markdown 写作环境。支持实时预览、字数统计，一键导出 .md 或 HTML。
+                    </p>
+                </a>
+
+                <!-- 待开发卡片 (占位符) -->
+                <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col justify-center items-center text-center text-gray-400">
+                    <i class="fa-solid fa-hammer text-3xl mb-2"></i>
+                    <h3 class="font-medium">更多工具开发中...</h3>
+                    <p class="text-xs mt-1">敬请期待</p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 3. 页脚 -->
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:items-center md:justify-between">
+                <div class="flex justify-center md:order-2 space-x-6">
+                    <a href="https://github.com/yourusername/tools" target="_blank" class="text-gray-400 hover:text-gray-500">
+                        <span class="sr-only">GitHub</span>
+                        <i class="fa-brands fa-github text-xl"></i>
+                    </a>
+                </div>
+                <div class="mt-8 md:mt-0 md:order-1">
+                    <p class="text-center text-base text-gray-400">
+                        &copy; <script>document.write(new Date().getFullYear())</script> My Tools Site. All rights reserved. 
+                        Hosted on Cloudflare Pages.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

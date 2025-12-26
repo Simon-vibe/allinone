@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 编码/解码 - 在线工具箱</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <a href="/" class="text-xl font-bold text-indigo-600 flex items-center gap-2">
+                <i class="fa-solid fa-toolbox"></i> 我的工具站
+                <span class="text-gray-400 text-sm font-normal">/ Base64 转换</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-5xl mx-auto w-full px-4 py-10 space-y-8">
+        
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">明文文本 (Text)</h2>
+            <textarea id="text-input" rows="6" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="在此输入要编码的文本..."></textarea>
+        </div>
+
+        <div class="flex justify-center gap-4">
+            <button id="btn-encode" class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-full font-medium shadow-lg transition transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-arrow-down"></i> 编码 (Encode)
+            </button>
+            <button id="btn-decode" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-full font-medium shadow-lg transition transform hover:-translate-y-0.5">
+                <i class="fa-solid fa-arrow-up"></i> 解码 (Decode)
+            </button>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h2 class="text-lg font-semibold text-gray-800">Base64 结果</h2>
+                <button id="btn-copy" class="text-sm text-gray-500 hover:text-indigo-600 transition">
+                    <i class="fa-regular fa-copy"></i> 复制结果
+                </button>
+            </div>
+            <textarea id="base64-input" rows="6" class="w-full p-3 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="在此输入要解码的 Base64 字符串..."></textarea>
+        </div>
+
+    </main>
+
+    <script>
+        // 处理 UTF-8 字符的 Base64 编码/解码函数
+        function utf8_to_b64(str) {
+            try {
+                return window.btoa(unescape(encodeURIComponent(str)));
+            } catch (e) {
+                alert("编码失败，请检查输入内容。");
+                return "";
+            }
+        }
+
+        function b64_to_utf8(str) {
+            try {
+                return decodeURIComponent(escape(window.atob(str)));
+            } catch (e) {
+                alert("解码失败：无效的 Base64 字符串。");
+                return "";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const textInput = document.getElementById('text-input');
+            const base64Input = document.getElementById('base64-input');
+
+            document.getElementById('btn-encode').addEventListener('click', () => {
+                const val = textInput.value;
+                if(val) base64Input.value = utf8_to_b64(val);
+            });
+
+            document.getElementById('btn-decode').addEventListener('click', () => {
+                const val = base64Input.value.trim();
+                if(val) textInput.value = b64_to_utf8(val);
+            });
+
+            document.getElementById('btn-copy').addEventListener('click', () => {
+                base64Input.select();
+                document.execCommand('copy');
+            });
+        });
+    </script>
+</body>
+</html>

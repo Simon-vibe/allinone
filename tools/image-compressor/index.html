@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片压缩与转换 - 在线工具箱</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen">
+
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-900">图片压缩与格式转换</h1>
+            <p class="text-gray-600 mt-2">完全在浏览器本地处理，您的图片不会上传到服务器。</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 设置区域 -->
+            <div class="md:col-span-1 space-y-6">
+                
+                <!-- 上传区 -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <label class="block mb-2 font-semibold">1. 选择图片</label>
+                    <input type="file" id="file-input" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+                </div>
+
+                <!-- 参数区 -->
+                <div id="settings-panel" class="bg-white p-4 rounded-lg shadow opacity-50 pointer-events-none transition-opacity">
+                    <label class="block mb-2 font-semibold">2. 压缩设置</label>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-600 mb-1">输出格式</label>
+                        <select id="format-select" class="w-full border-gray-300 rounded-md shadow-sm p-2 border">
+                            <option value="image/jpeg">JPEG (推荐)</option>
+                            <option value="image/png">PNG (无损/透明)</option>
+                            <option value="image/webp">WebP (现代格式)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between">
+                            <label class="block text-sm text-gray-600 mb-1">质量 (压缩比)</label>
+                            <span id="quality-val" class="text-sm font-bold text-indigo-600">0.8</span>
+                        </div>
+                        <input type="range" id="quality-range" min="0.1" max="1.0" step="0.1" value="0.8" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                    </div>
+
+                    <button id="btn-process" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition">
+                        应用更改
+                    </button>
+                </div>
+            </div>
+
+            <!-- 预览区域 -->
+            <div class="md:col-span-2 bg-white p-4 rounded-lg shadow flex flex-col items-center justify-center min-h-[400px] border-2 border-dashed border-gray-300" id="preview-container">
+                <div class="text-center text-gray-400" id="placeholder-text">
+                    <i class="fa-regular fa-image text-4xl mb-2"></i>
+                    <p>预览将显示在这里</p>
+                </div>
+                
+                <div id="result-view" class="hidden w-full flex flex-col items-center">
+                    <div class="flex justify-center gap-8 text-sm mb-4 w-full bg-gray-50 p-2 rounded">
+                        <div>
+                            <span class="text-gray-500">原始大小:</span>
+                            <span id="original-size" class="font-bold">0 KB</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">压缩后:</span>
+                            <span id="compressed-size" class="font-bold text-green-600">0 KB</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">减少:</span>
+                            <span id="reduction-rate" class="font-bold text-indigo-600">0%</span>
+                        </div>
+                    </div>
+                    
+                    <img id="preview-img" class="max-h-[400px] max-w-full object-contain shadow-sm border border-gray-200" src="" alt="预览">
+                    
+                    <a id="download-link" href="#" download="compressed-image.jpg" class="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none">
+                        <i class="fa-solid fa-download mr-2"></i> 下载图片
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('file-input');
+            const formatSelect = document.getElementById('format-select');
+            const qualityRange = document.getElementById('quality-range');
+            const qualityVal = document.getElementById('quality-val');
+            const btnProcess = document.getElementById('btn-process');
+            
+            const settingsPanel = document.getElementById('settings-panel');
+            const previewContainer = document.getElementById('preview-container');
+            const placeholderText = document.getElementById('placeholder-text');
+            const resultView = document.getElementById('result-view');
+            const previewImg = document.getElementById('preview-img');
+            const downloadLink = document.getElementById('download-link');
+            
+            const originalSizeEl = document.getElementById('original-size');
+            const compressedSizeEl = document.getElementById('compressed-size');
+            const reductionRateEl = document.getElementById('reduction-rate');
+
+            let originalImage = null;
+            let originalFileSize = 0;
+
+            // 格式化文件大小
+            function formatSize(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // 更新滑块数值
+            qualityRange.addEventListener('input', (e) => {
+                qualityVal.textContent = e.target.value;
+            });
+
+            // 处理图片上传
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                originalFileSize = file.size;
+                originalSizeEl.textContent = formatSize(file.size);
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    originalImage = new Image();
+                    originalImage.src = event.target.result;
+                    originalImage.onload = () => {
+                        // 激活面板
+                        settingsPanel.classList.remove('opacity-50', 'pointer-events-none');
+                        settingsPanel.classList.add('opacity-100');
+                        placeholderText.classList.add('hidden');
+                        previewContainer.classList.remove('border-dashed');
+                        resultView.classList.remove('hidden');
+                        
+                        processImage(); // 自动初次处理
+                    };
+                };
+                reader.readAsDataURL(file);
+            });
+
+            btnProcess.addEventListener('click', processImage);
+
+            function processImage() {
+                if (!originalImage) return;
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = originalImage.width;
+                canvas.height = originalImage.height;
+                
+                // 绘制背景（处理 PNG 转 JPEG 透明变成黑色问题，填充白色）
+                if (formatSelect.value === 'image/jpeg') {
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+                
+                ctx.drawImage(originalImage, 0, 0);
+
+                const quality = parseFloat(qualityRange.value);
+                const format = formatSelect.value;
+
+                const dataUrl = canvas.toDataURL(format, quality);
+                
+                // 更新预览
+                previewImg.src = dataUrl;
+                
+                // 计算新大小 (DataURL Base64 长度大约是文件大小的 4/3)
+                const head = 'data:' + format + ';base64,';
+                const sizeInBytes = Math.round((dataUrl.length - head.length) * 3 / 4);
+                
+                compressedSizeEl.textContent = formatSize(sizeInBytes);
+                
+                // 计算减少率
+                const reduction = ((originalFileSize - sizeInBytes) / originalFileSize * 100).toFixed(1);
+                reductionRateEl.textContent = reduction + '%';
+                reductionRateEl.className = reduction > 0 ? "font-bold text-green-600" : "font-bold text-red-600";
+
+                // 设置下载
+                const ext = format.split('/')[1];
+                downloadLink.href = dataUrl;
+                downloadLink.download = `compressed_${new Date().getTime()}.${ext}`;
+            }
+        });
+    </script>
+</body>
+</html>
