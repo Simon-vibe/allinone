@@ -151,12 +151,12 @@
     <script>
         function utf8_to_b64(str) {
             try { return window.btoa(unescape(encodeURIComponent(str))); }
-            catch (e) { alert("Encoding failed. Please check your input."); return ""; }
+            catch (e) { alert(window.i18n.t('base64.error.fail')); return ""; }
         }
 
         function b64_to_utf8(str) {
             try { return decodeURIComponent(escape(window.atob(str))); }
-            catch (e) { alert("Decoding failed: Invalid Base64 string."); return ""; }
+            catch (e) { alert(window.i18n.t('base64.error.decode')); return ""; }
         }
 
         document.addEventListener('DOMContentLoaded', () => {

@@ -215,7 +215,7 @@
             window.getSelection().addRange(range);
             document.execCommand('copy');
             window.getSelection().removeAllRanges();
-            alert('Copied: ' + el.innerText);
+            alert(window.i18n.t('ts.success.copied') + el.innerText);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -240,9 +240,9 @@
                 // but basic toggle logic can remain or use Keys if strict i18n needed.
                 // For simplicity, we'll rely on global refresh or just toggle text here based on simple logic.
                 // To be fully robust, we should check currentLang from window.i18n
-                const lang = window.i18n ? window.i18n.currentLang : 'en';
-                const resumeText = lang === 'zh' ? "继续更新" : "Resume Update";
-                const pauseText = lang === 'zh' ? "暂停更新" : "Pause Update";
+                // const lang = window.i18n ? window.i18n.currentLang : 'en';
+                const resumeText = window.i18n.t('ts.action.resume');
+                const pauseText = window.i18n.t('ts.action.pause');
 
                 btnPause.innerText = isPaused ? resumeText : pauseText;
                 btnPause.classList.toggle('text-red-500', isPaused);

@@ -183,7 +183,7 @@
             }
 
             function showError(msg) {
-                errorMsg.textContent = `Invalid JSON: ${msg}`;
+                errorMsg.textContent = window.i18n.t('json.error.invalid') + msg;
                 errorMsg.classList.remove('hidden');
                 output.value = '';
             }
@@ -208,7 +208,7 @@
                 document.execCommand('copy');
                 const btn = document.getElementById('btn-copy');
                 const originalHtml = btn.innerHTML;
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> ' + window.i18n.t('json.success.copied');
                 setTimeout(() => {
                     btn.innerHTML = originalHtml;
                 }, 2000);

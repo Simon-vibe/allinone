@@ -58,6 +58,44 @@ const translations = {
         "pdf.drag.title": "Drop PDF Statement Here",
         "pdf.drag.subtitle": "or click to select file",
         "pdf.status.processing": "Processing PDF...",
+
+        // Common
+        "common.new": "NEW",
+        "common.popular": "POPULAR",
+        "common.open": "Open",
+        "common.copied": "Copied",
+        "common.copy_failed": "Copy Failed",
+
+        // About Page
+        "about.explore": "Explore Tools",
+        "about.story": "Read Our Story",
+        "about.team.role.lead": "Lead Developer",
+        "about.team.role.design": "UI/UX Designer",
+        "about.team.role.backend": "Backend Engineer",
+        "about.form.option.general": "General Inquiry",
+        "about.form.option.bug": "Bug Report",
+        "about.form.option.feature": "Feature Request",
+
+        // Tool JS Messages
+        "base64.error.fail": "Encoding failed. Please check your input.",
+        "base64.error.decode": "Decoding failed: Invalid Base64 string.",
+
+        "img.opt.jpeg": "JPEG (Recommended)",
+        "img.opt.png": "PNG (Lossless/Transparent)",
+        "img.opt.webp": "WebP (Modern)",
+        "img.stat.reduction": "Reduction",
+        "img.action.download_image": "Download Image",
+
+        "json.error.invalid": "Invalid JSON: ",
+        "json.success.copied": "Copied",
+
+        "ts.action.pause": "Pause Update",
+        "ts.action.resume": "Resume Update",
+        "ts.success.copied": "Copied: ",
+
+        "md.success.copied": "Copied!",
+        "md.init.text": "# Welcome!\\n\\nThis is a simple **Markdown Editor**.\\n\\n- Real-time preview\\n- Clean interface\\n- Pure client-side\\n\\n`console.log('Hello World');`\\n",
+
         "pdf.status.ready": "Ready to Download",
         "pdf.status.error": "Error processing file",
         "pdf.preview.title": "Preview Extracted Data",
@@ -298,6 +336,44 @@ const translations = {
         "pdf.drag.title": "将 PDF 对账单拖放到此处",
         "pdf.drag.subtitle": "或点击选择文件",
         "pdf.status.processing": "正在处理 PDF...",
+
+        // Common
+        "common.new": "最新",
+        "common.popular": "热门",
+        "common.open": "打开",
+        "common.copied": "已复制",
+        "common.copy_failed": "复制失败",
+
+        // About Page
+        "about.explore": "浏览工具",
+        "about.story": "阅读我们的故事",
+        "about.team.role.lead": "首席开发",
+        "about.team.role.design": "UI/UX 设计师",
+        "about.team.role.backend": "后端工程师",
+        "about.form.option.general": "一般咨询",
+        "about.form.option.bug": "错误报告",
+        "about.form.option.feature": "功能请求",
+
+        // Tool JS Messages
+        "base64.error.fail": "编码失败，请检查输入。",
+        "base64.error.decode": "解码失败：无效的 Base64 字符串。",
+
+        "img.opt.jpeg": "JPEG (推荐)",
+        "img.opt.png": "PNG (无损/透明)",
+        "img.opt.webp": "WebP (现代)",
+        "img.stat.reduction": "压缩率",
+        "img.action.download_image": "下载图片",
+
+        "json.error.invalid": "无效的 JSON: ",
+        "json.success.copied": "已复制",
+
+        "ts.action.pause": "暂停更新",
+        "ts.action.resume": "恢复更新",
+        "ts.success.copied": "已复制：",
+
+        "md.success.copied": "已复制！",
+        "md.init.text": "# 欢迎！\\n\\n这是一个简单的 **Markdown 编辑器**。\\n\\n- 实时预览\\n- 界面简洁\\n- 纯客户端处理\\n\\n`console.log('你好，世界');`\\n",
+
         "pdf.status.ready": "准备下载",
         "pdf.status.error": "处理文件出错",
         "pdf.preview.title": "预览提取的数据",

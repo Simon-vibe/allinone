@@ -205,7 +205,7 @@
             const preview = document.getElementById('preview');
             const wordCount = document.getElementById('word-count');
 
-            const initialText = `# Welcome!\n\nThis is a simple **Markdown Editor**.\n\n- Real-time preview\n- Clean interface\n- Pure client-side\n\n\`console.log('Hello World');\`\n`;
+            const initialText = window.i18n.t('md.init.text');
             editor.value = initialText;
 
             function render() {
@@ -246,7 +246,7 @@
 
                 const btn = document.getElementById('btn-copy-html');
                 const originalHtml = btn.innerHTML;
-                btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> Copied!';
+                btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> ' + window.i18n.t('md.success.copied');
                 setTimeout(() => btn.innerHTML = originalHtml, 2000);
             });
         });
