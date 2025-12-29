@@ -172,7 +172,25 @@ const translations = {
         "ts.faq.sub.title": "What is Unix Time?",
         "ts.faq.sub.desc": "Unix time (also known as Epoch time) is the number of seconds that have elapsed since January 1, 1970 (UTC). It is widely used in computing to track time.",
         "ts.faq.feat.curr": "<strong>Current Time:</strong> Displays the live, ticking Unix timestamp.",
-        "ts.faq.feat.conv": "<strong>Two-way Conversion:</strong> Convert Date -> Timestamp or Timestamp -> Date."
+        "ts.faq.feat.conv": "<strong>Two-way Conversion:</strong> Convert Date -> Timestamp or Timestamp -> Date.",
+
+        // Privacy & Terms
+        "privacy.title": "Privacy Policy",
+        "privacy.intro": "Your privacy is important to us. It is allinone.page's policy to respect your privacy regarding any information we may collect from you across our website.",
+        "privacy.h1": "1. Information We Collect",
+        "privacy.p1": "We do not collect any personal data. All tool processing (e.g., Image Compression, JSON formatting) happens entirely within your browser (Client-Side). No data is sent to our servers.",
+        "privacy.h2": "2. Local Storage",
+        "privacy.p2": "We use Local Storage to save your language preference (English/Chinese). This data stays on your device.",
+        "privacy.h3": "3. Third Party Services",
+        "privacy.p3": "We may use third-party CDN services (like Tailwind CSS, FontAwesome) to load resources. These services may collect standard access logs.",
+
+        "terms.title": "Terms of Service",
+        "terms.h1": "1. Terms",
+        "terms.p1": "By accessing this website, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws.",
+        "terms.h2": "2. Use License",
+        "terms.p2": "Permission is granted to temporarily download one copy of the materials (information or software) on Tool Directory's website for personal, non-commercial transitory viewing only.",
+        "terms.h3": "3. Disclaimer",
+        "terms.p3": "The materials on allinone.page's website are provided on an 'as is' basis. allinone.page makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
     },
     zh: {
         "nav.home": "首页",
@@ -349,7 +367,25 @@ const translations = {
         "ts.faq.sub.title": "什么是 Unix 时间？",
         "ts.faq.sub.desc": "Unix 时间（也称为 Epoch 时间）是自 1970 年 1 月 1 日（UTC）以来经过的秒数。它广泛用于计算中以跟踪时间。",
         "ts.faq.feat.curr": "<strong>当前时间：</strong>显示实时跳动的 Unix 时间戳。",
-        "ts.faq.feat.conv": "<strong>双向转换：</strong>将日期转换为时间戳或将时间戳转换为日期。"
+        "ts.faq.feat.conv": "<strong>双向转换：</strong>将日期转换为时间戳或将时间戳转换为日期。",
+
+        // Privacy & Terms
+        "privacy.title": "隐私政策",
+        "privacy.intro": "您的隐私对我们很重要。allinone.page 尊重您在其网站上可能收集的任何信息的隐私。",
+        "privacy.h1": "1. 信息收集",
+        "privacy.p1": "我们不收集任何个人数据。所有工具处理（如图片压缩、JSON 格式化）完全在您的浏览器（客户端）内进行。没有数据发送到我们的服务器。",
+        "privacy.h2": "2. 本地存储",
+        "privacy.p2": "我们使用本地存储来保存您的语言偏好（英文/中文）。此数据保留在您的设备上。",
+        "privacy.h3": "3. 第三方服务",
+        "privacy.p3": "我们可能会使用第三方 CDN 服务（如 Tailwind CSS, FontAwesome）加载资源。这些服务可能会收集标准访问日志。",
+
+        "terms.title": "服务条款",
+        "terms.h1": "1. 条款",
+        "terms.p1": "访问本网站，即表示您同意受这些服务条款、所有适用法律和法规的约束，并同意您有负责遵守任何适用的当地法律。",
+        "terms.h2": "2. 使用许可",
+        "terms.p2": "允许暂时下载 Tool Directory 网站上的一份材料（信息或软件）副本，仅供个人、非商业性暂时查看。",
+        "terms.h3": "3. 免责声明",
+        "terms.p3": "allinone.page 网站上的材料按“原样”提供。allinone.page 不作任何明示或暗示的保证，特此声明并否认所有其他保证，包括但不限于适销性、特定用途适用性或不侵犯知识产权或其他侵犯权利的暗示保证或条件。"
     }
 };
 
