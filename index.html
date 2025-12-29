@@ -154,20 +154,21 @@
                 </a>
             </div>
 
-            <!-- Card 2: QR Generator (Using Base64 content) -->
+            <!-- Card 2: PDF to Word (New) -->
             <div
                 class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full">
-                <div class="absolute top-6 right-6 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase"
-                    data-i18n="common.popular">POPULAR</div>
+                <div class="absolute top-6 right-6 bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded uppercase"
+                    data-i18n="common.new">
+                    NEW</div>
                 <div
-                    class="bg-purple-50 w-14 h-14 rounded-xl flex items-center justify-center text-purple-600 text-2xl mb-6">
-                    <i class="fa-solid fa-qrcode"></i>
+                    class="bg-blue-50 w-14 h-14 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6">
+                    <i class="fa-solid fa-file-word"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.base64.title">Base64 Encoder</h3>
-                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.base64.desc">
-                    Encode and decode data strings easily. Essential for developers.
+                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.pdf2word.title">PDF to Word</h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.pdf2word.desc">
+                    Convert PDF files to editable Word documents (.docx) instantly.
                 </p>
-                <a href="./tools/base64-converter/index.html"
+                <a href="./tools/pdf-to-word/index.html"
                     class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition mt-auto"
                     data-i18n="tool.launch">
                     Launch Tool
@@ -279,6 +280,146 @@
                 <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pdf.desc">Convert PDF to
                     Excel.</p>
                 <a href="./tools/pdf-to-excel/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: PDF to Word -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="PDF to Word" data-keywords="pdf word docx converter">
+                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-file-word"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf2word.title">PDF to Word</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pdf2word.desc">Convert PDF to
+                    Word.</p>
+                <a href="./tools/pdf-to-word/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: Merge PDF -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="Merge PDF" data-keywords="pdf merge combine">
+                <div class="w-10 h-10 bg-red-100 rounded text-red-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-copy"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.merge.title">Merge PDF</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.merge.desc">Combine multiple
+                    PDFs.</p>
+                <a href="./tools/merge-pdf/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: PDF to JPG -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="PDF to JPG" data-keywords="pdf image jpg converter">
+                <div class="w-10 h-10 bg-yellow-100 rounded text-yellow-500 flex items-center justify-center mb-4">
+                    <i class="fa-regular fa-image"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf2jpg.title">PDF to JPG</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pdf2jpg.desc">Convert PDF
+                    pages to Images.</p>
+                <a href="./tools/pdf-to-jpg/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: Image Converter -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="Image Converter" data-keywords="image webp jpg png converter">
+                <div class="w-10 h-10 bg-pink-100 rounded text-pink-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-camera-rotate"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.imgconv.title">Image Converter</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.imgconv.desc">Convert WebP to
+                    JPG etc.</p>
+                <a href="./tools/image-converter/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: Background Remover -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="Background Remover" data-keywords="image background remove ai">
+                <div class="w-10 h-10 bg-gray-100 rounded text-gray-600 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.bgrem.title">Background Remover</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.bgrem.desc">Remove image
+                    backgrounds.</p>
+                <a href="./tools/background-remover/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: QR Code Generator -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="QR Code Generator" data-keywords="qr code generator">
+                <div class="w-10 h-10 bg-purple-100 rounded text-purple-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.qr.title">QR Code Generator</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.qr.desc">Make custom QR
+                    codes.</p>
+                <a href="./tools/qr-generator/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: UUID Generator -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="UUID Generator" data-keywords="uuid guid generator random">
+                <div class="w-10 h-10 bg-indigo-100 rounded text-indigo-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-fingerprint"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.uuid.title">UUID Generator</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.uuid.desc">Generate random
+                    UUIDs.</p>
+                <a href="./tools/uuid-generator/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: Password Generator -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="Password Generator" data-keywords="password secure generator">
+                <div class="w-10 h-10 bg-green-100 rounded text-green-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pwd.title">Password Generator</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pwd.desc">Create strong
+                    passwords.</p>
+                <a href="./tools/password-generator/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: Diff Checker -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="Diff Checker" data-keywords="diff compare text">
+                <div class="w-10 h-10 bg-orange-100 rounded text-orange-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.diff.title">Diff Checker</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.diff.desc">Compare two texts.
+                </p>
+                <a href="./tools/diff-checker/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
+                    data-i18n="common.open">Open</a>
+            </div>
+
+            <!-- Tile: SQL Formatter -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                data-title="SQL Formatter" data-keywords="sql format beautify">
+                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.sql.title">SQL Formatter</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.sql.desc">Beautify SQL code.
+                </p>
+                <a href="./tools/sql-formatter/index.html"
                     class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
                     data-i18n="common.open">Open</a>
             </div>

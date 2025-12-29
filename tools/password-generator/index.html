@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pwd.meta.title">Password Generator - Strong & Secure Passwords</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
+    <meta name="description"
+        content="Create strong, secure, and random passwords online. Customizable length and characters. 100% client-side security."
+        data-i18n="pwd.meta.desc">
+    <meta name="keywords"
+        content="password generator, strong password, secure password, random password tool, online password maker"
+        data-i18n="pwd.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/password-generator/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/password-generator/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/password-generator/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/password-generator/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/password-generator/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Password Generator - Free Online Tool">
+    <meta property="og:description" content="Generate strong passwords instantly in your browser.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.pwd.title">Password Generator</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.pwd.desc">Create strong, secure passwords to
+                protect your accounts. Generated locally, never stored.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="max-w-3xl mx-auto">
+
+            <!-- Result Display -->
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-8 mb-6 relative">
+                <div class="flex items-center justify-between gap-4 mb-4">
+                    <input type="text" id="password-output" readonly
+                        class="w-full text-3xl font-mono text-gray-800 bg-transparent border-none focus:ring-0 p-0 tracking-wider"
+                        value="">
+
+                    <button id="btn-refresh" class="text-gray-400 hover:text-blue-600 transition" title="Regenerate">
+                        <i class="fa-solid fa-rotate-right text-2xl"></i>
+                    </button>
+                </div>
+
+                <div class="h-1 w-full bg-gray-100 rounded-full overflow-hidden mb-6">
+                    <div id="strength-bar" class="h-full w-0 transition-all duration-300"></div>
+                </div>
+
+                <button id="btn-copy"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-bold transition shadow-md shadow-blue-200 flex items-center justify-center text-lg">
+                    <i class="fa-regular fa-copy mr-2"></i> <span data-i18n="json.action.copy">Copy Password</span>
+                </button>
+            </div>
+
+            <!-- Settings -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-12">
+                <h3 class="text-lg font-bold text-gray-900 mb-6" data-i18n="uuid.settings">Settings</h3>
+
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-gray-700 font-bold" data-i18n="pwd.label.length">Length</label>
+                            <span id="length-val"
+                                class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-bold">16</span>
+                        </div>
+                        <input type="range" id="pwd-length" min="4" max="64" value="16" step="1"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <label
+                            class="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-blue-400 cursor-pointer transition">
+                            <input type="checkbox" id="chk-uppercase" checked class="w-5 h-5 text-blue-600 rounded">
+                            <span class="text-gray-700" data-i18n="pwd.opt.uppercase">Uppercase (A-Z)</span>
+                        </label>
+                        <label
+                            class="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-blue-400 cursor-pointer transition">
+                            <input type="checkbox" id="chk-lowercase" checked class="w-5 h-5 text-blue-600 rounded">
+                            <span class="text-gray-700" data-i18n="pwd.opt.lowercase">Lowercase (a-z)</span>
+                        </label>
+                        <label
+                            class="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-blue-400 cursor-pointer transition">
+                            <input type="checkbox" id="chk-numbers" checked class="w-5 h-5 text-blue-600 rounded">
+                            <span class="text-gray-700" data-i18n="pwd.opt.numbers">Numbers (0-9)</span>
+                        </label>
+                        <label
+                            class="flex items-center space-x-3 p-3 rounded-lg border border-gray-200 hover:border-blue-400 cursor-pointer transition">
+                            <input type="checkbox" id="chk-symbols" checked class="w-5 h-5 text-blue-600 rounded">
+                            <span class="text-gray-700" data-i18n="pwd.opt.symbols">Symbols (!@#$)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-8 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="pwd.faq.title">Password Generator FAQ</h2>
+            <p class="mb-4" data-i18n="pwd.faq.desc">Create secure passwords to keep your online accounts safe. Our tool
+                runs locally in your browser.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Features</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="pwd.feat.1"><strong>Secure:</strong> Generated locally, never transmitted.</li>
+                <li data-i18n="pwd.feat.2"><strong>Customizable:</strong> Choose length and character types.</li>
+                <li data-i18n="common.free"><strong>Free:</strong> Unlimited use.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const output = document.getElementById('password-output');
+            const lengthInput = document.getElementById('pwd-length');
+            const lengthVal = document.getElementById('length-val');
+            const chkUpper = document.getElementById('chk-uppercase');
+            const chkLower = document.getElementById('chk-lowercase');
+            const chkNumbers = document.getElementById('chk-numbers');
+            const chkSymbols = document.getElementById('chk-symbols');
+            const btnRefresh = document.getElementById('btn-refresh');
+            const btnCopy = document.getElementById('btn-copy');
+            const strengthBar = document.getElementById('strength-bar');
+
+            const CHARS = {
+                upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                lower: 'abcdefghijklmnopqrstuvwxyz',
+                number: '0123456789',
+                symbol: '!@#$%^&*()_+~`|}{[]:;?><,./-='
+            };
+
+            function generate() {
+                const length = parseInt(lengthInput.value);
+                lengthVal.textContent = length;
+
+                let chars = '';
+                if (chkUpper.checked) chars += CHARS.upper;
+                if (chkLower.checked) chars += CHARS.lower;
+                if (chkNumbers.checked) chars += CHARS.number;
+                if (chkSymbols.checked) chars += CHARS.symbol;
+
+                if (chars === '') {
+                    output.value = '';
+                    updateStrength(0);
+                    return;
+                }
+
+                let password = '';
+                const array = new Uint32Array(length);
+                window.crypto.getRandomValues(array);
+
+                for (let i = 0; i < length; i++) {
+                    password += chars[array[i] % chars.length];
+                }
+
+                output.value = password;
+                updateStrength(password.length, Object.keys(CHARS).filter(k =>
+                    (k === 'upper' && chkUpper.checked) ||
+                    (k === 'lower' && chkLower.checked) ||
+                    (k === 'number' && chkNumbers.checked) ||
+                    (k === 'symbol' && chkSymbols.checked)
+                ).length);
+            }
+
+            function updateStrength(length, typesCount) {
+                // Simple heuristic
+                let score = 0;
+                if (length > 8) score += 20;
+                if (length > 12) score += 20;
+                if (length > 16) score += 20;
+                score += typesCount * 10;
+
+                let color = 'bg-red-500';
+                if (score > 80) color = 'bg-green-500';
+                else if (score > 50) color = 'bg-yellow-500';
+
+                strengthBar.className = `h-full ${color} transition-all duration-300`;
+                strengthBar.style.width = Math.min(score, 100) + '%';
+            }
+
+            [lengthInput, chkUpper, chkLower, chkNumbers, chkSymbols].forEach(el => {
+                el.addEventListener('input', generate);
+            });
+
+            btnRefresh.addEventListener('click', generate);
+
+            btnCopy.addEventListener('click', () => {
+                output.select();
+                document.execCommand('copy');
+                const originalText = btnCopy.querySelector('span').innerText;
+                btnCopy.querySelector('span').innerText = 'Copied!';
+                setTimeout(() => btnCopy.querySelector('span').innerText = originalText, 2000);
+            });
+
+            // Initial
+            generate();
+        });
+    </script>
+</body>
+
+</html>

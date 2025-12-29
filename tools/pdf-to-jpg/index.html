@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pdf2jpg.meta.title">PDF to JPG Converter - Convert PDF Pages to Images</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>">
+    <meta name="description"
+        content="Convert PDF pages to JPG images online. Free, secure, and high-quality. Download all pages as a ZIP file."
+        data-i18n="pdf2jpg.meta.desc">
+    <meta name="keywords" content="pdf to jpg, pdf to image, convert pdf to jpg, pdf to png, online pdf converter"
+        data-i18n="pdf2jpg.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/pdf-to-jpg/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/pdf-to-jpg/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/pdf-to-jpg/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/pdf-to-jpg/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/pdf-to-jpg/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF to JPG Converter - Free Online Tool">
+    <meta property="og:description"
+        content="Convert PDF documents into high-quality JPG images securely in your browser.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <!-- JSZip -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- FileSaver.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.pdf2jpg.title">PDF to JPG Converter</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.pdf2jpg.desc">Convert each page of your PDF into
+                high-quality JPG images. Download singly or as a ZIP archive.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <!-- Upload Section -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 text-center transition-all"
+            id="drop-zone">
+            <input type="file" id="file-input" accept=".pdf" class="hidden">
+            <div class="space-y-4 pointer-events-none">
+                <div
+                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-regular fa-image text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900" data-i18n="pdf.drag.title">Drop PDF Here</h3>
+                <p class="text-gray-500" data-i18n="pdf.drag.subtitle">or click to select file</p>
+                <button onclick="document.getElementById('file-input').click()"
+                    class="pointer-events-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-sm"
+                    data-i18n="pdf.action.select_file">
+                    Select File
+                </button>
+            </div>
+            <p class="mt-6 text-xs text-gray-400 flex items-center justify-center gap-1">
+                <i class="fa-solid fa-lock"></i> <span data-i18n="pdf.note.privacy">Processed locally. Your data never
+                    leaves this browser.</span>
+            </p>
+        </div>
+
+        <!-- Processing State -->
+        <div id="processing-state" class="hidden text-center py-12">
+            <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-600 mb-4"></i>
+            <p class="text-lg font-medium text-gray-600" data-i18n="pdf.status.processing">Processing PDF...</p>
+            <p class="text-sm text-gray-400 mt-2" id="process-progress"></p>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-section" class="hidden text-center py-8">
+            <div class="bg-green-50 rounded-2xl p-8 border border-green-100 max-w-md mx-auto">
+                <div
+                    class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-check text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="pdf2jpg.status.ready">Images Ready!</h3>
+                <p class="text-gray-600 mb-6" id="result-info">Converted X pages.</p>
+
+                <div class="flex gap-3 justify-center">
+                    <button id="btn-download-zip"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition shadow-sm flex items-center">
+                        <i class="fa-solid fa-file-zipper mr-2"></i> <span data-i18n="pdf2jpg.download_zip">Download
+                            ZIP</span>
+                    </button>
+                    <button onclick="location.reload()"
+                        class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-3 rounded-lg font-medium transition">
+                        <span data-i18n="common.reset">Convert Another</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Previews Grid -->
+            <div id="preview-grid" class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Images injected here -->
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="pdf2jpg.faq.title">How to Convert PDF to JPG?
+            </h2>
+            <p class="mb-4" data-i18n="pdf2jpg.faq.desc">Convert PDF pages into individual JPG images instantly. Best
+                for sharing documents as images on social media.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Features</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="pdf2jpg.feat.1"><strong>High Quality:</strong> Renders pages at high resolution.</li>
+                <li data-i18n="common.client_side"><strong>Client-Side:</strong> No server uploads, 100% privacy.</li>
+                <li data-i18n="common.free"><strong>Free:</strong> No limitations or watermarks.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const processingState = document.getElementById('processing-state');
+            const resultSection = document.getElementById('result-section');
+            const previewGrid = document.getElementById('preview-grid');
+            const resultInfo = document.getElementById('result-info');
+            const btnDownloadZip = document.getElementById('btn-download-zip');
+            const progressText = document.getElementById('process-progress');
+
+            let currentZip = null;
+
+            // Drag & Drop
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500', 'bg-blue-50'); });
+            dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-blue-500', 'bg-blue-50'); });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+                if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files[0]) processFile(e.target.files[0]);
+            });
+
+            btnDownloadZip.addEventListener('click', () => {
+                if (currentZip) {
+                    currentZip.generateAsync({ type: "blob" }).then(function (content) {
+                        saveAs(content, "images.zip");
+                    });
+                }
+            });
+
+            async function processFile(file) {
+                if (file.type !== 'application/pdf') {
+                    alert('Please select a PDF file.');
+                    return;
+                }
+
+                dropZone.classList.add('hidden');
+                processingState.classList.remove('hidden');
+                resultSection.classList.add('hidden');
+                previewGrid.innerHTML = '';
+                currentZip = new JSZip();
+
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+                    const numPages = pdf.numPages;
+                    const scale = 2.0; // High quality
+
+                    for (let i = 1; i <= numPages; i++) {
+                        progressText.textContent = `Processing page ${i} of ${numPages}...`;
+
+                        const page = await pdf.getPage(i);
+                        const viewport = page.getViewport({ scale: scale });
+
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        await page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise;
+
+                        // Create Image
+                        const imgData = canvas.toDataURL('image/jpeg', 0.85);
+
+                        // Add to Zip
+                        const imgDataOnly = imgData.split(',')[1];
+                        currentZip.file(`page_${i}.jpg`, imgDataOnly, { base64: true });
+
+                        // Add Preview
+                        const imgEl = document.createElement('img');
+                        imgEl.src = imgData;
+                        imgEl.className = 'w-full h-auto rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition';
+                        previewGrid.appendChild(imgEl);
+                    }
+
+                    resultInfo.textContent = `Converted ${numPages} pages successfully.`;
+                    processingState.classList.add('hidden');
+                    resultSection.classList.remove('hidden');
+
+                } catch (err) {
+                    console.error(err);
+                    alert('Error processing PDF: ' + err.message);
+                    dropZone.classList.remove('hidden');
+                    processingState.classList.add('hidden');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

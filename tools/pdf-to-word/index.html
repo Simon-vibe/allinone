@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pdf2word.meta.title">PDF to Word Converter - Free Online PDF to Docx</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+    <meta name="description"
+        content="Convert PDF to Word (Docx) documents online for free. Extract text from PDF securely in your browser. No upload required."
+        data-i18n="pdf2word.meta.desc">
+    <meta name="keywords"
+        content="pdf to word, pdf to docx, convert pdf to word, online pdf converter, free pdf tool"
+        data-i18n="pdf2word.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/pdf-to-word/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/pdf-to-word/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/pdf-to-word/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/pdf-to-word/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/pdf-to-word/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PDF to Word Converter - Free Online Tool">
+    <meta property="og:description"
+        content="Convert PDF files to editable Word documents securely in your browser.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    
+    <!-- Docx.js -->
+    <script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>
+    <!-- FileSaver.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition" data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en" class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh" class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.pdf2word.title">PDF to Word Converter</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.pdf2word.desc">Extract text from PDF files and save as Word (.docx) documents locally.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <!-- Upload Section -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 text-center transition-all" id="drop-zone">
+            <input type="file" id="file-input" accept=".pdf" class="hidden">
+            <div class="space-y-4 pointer-events-none">
+                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-file-word text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900" data-i18n="pdf.drag.title">Drop PDF Here</h3>
+                <p class="text-gray-500" data-i18n="pdf.drag.subtitle">or click to select file</p>
+                <button onclick="document.getElementById('file-input').click()"
+                    class="pointer-events-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-sm"
+                    data-i18n="pdf.action.select_file">
+                    Select File
+                </button>
+            </div>
+            <p class="mt-6 text-xs text-gray-400 flex items-center justify-center gap-1">
+                <i class="fa-solid fa-lock"></i> <span data-i18n="pdf.note.privacy">Processed locally. Your data never leaves this browser.</span>
+            </p>
+        </div>
+
+        <!-- Processing State -->
+        <div id="processing-state" class="hidden text-center py-12">
+            <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-600 mb-4"></i>
+            <p class="text-lg font-medium text-gray-600" data-i18n="pdf.status.processing">Processing PDF...</p>
+            <p class="text-sm text-gray-400 mt-2" id="process-progress"></p>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-section" class="hidden text-center py-8">
+            <div class="bg-green-50 rounded-2xl p-8 border border-green-100 max-w-md mx-auto">
+                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-check text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="pdf.status.ready">Ready to Download</h3>
+                <p class="text-gray-600 mb-6" id="result-filename">document.docx</p>
+                
+                <div class="flex gap-3 justify-center">
+                    <button id="btn-download"
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition shadow-sm flex items-center">
+                        <i class="fa-solid fa-download mr-2"></i> <span data-i18n="common.download">Download</span>
+                    </button>
+                    <button onclick="location.reload()"
+                        class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-3 rounded-lg font-medium transition">
+                        <span data-i18n="common.reset">Convert Another</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="pdf2word.faq.title">How to Convert PDF to Word?</h2>
+            <p class="mb-4" data-i18n="pdf2word.faq.desc">Our tool extracts text from your PDF files and creates a new Microsoft Word document (.docx). It's fast, free, and secure.</p>
+            
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Features</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="pdf2word.feat.1"><strong>Text Extraction:</strong> Accurately pulls text from standard PDFs.</li>
+                <li data-i18n="common.client_side"><strong>Client-Side:</strong> No server uploads, 100% privacy.</li>
+                <li data-i18n="common.free"><strong>Free:</strong> No limitations or watermarks.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const processingState = document.getElementById('processing-state');
+            const resultSection = document.getElementById('result-section');
+            const btnDownload = document.getElementById('btn-download');
+            const progressText = document.getElementById('process-progress');
+            
+            let generatedBlob = null;
+            let currentFileName = 'document.docx';
+
+            // Drag & Drop
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500', 'bg-blue-50'); });
+            dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-blue-500', 'bg-blue-50'); });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+                if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files[0]) processFile(e.target.files[0]);
+            });
+
+            btnDownload.addEventListener('click', () => {
+                if (generatedBlob) {
+                    saveAs(generatedBlob, currentFileName);
+                }
+            });
+
+            async function processFile(file) {
+                if (file.type !== 'application/pdf') {
+                    alert('Please select a PDF file.');
+                    return;
+                }
+
+                dropZone.classList.add('hidden');
+                processingState.classList.remove('hidden');
+                resultSection.classList.add('hidden');
+                progressText.textContent = 'Initializing...';
+
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+                    
+                    const doc = new docx.Document({
+                        sections: [{
+                            properties: {},
+                            children: []
+                        }]
+                    });
+
+                    const children = [];
+                    const numPages = pdf.numPages;
+
+                    for (let i = 1; i <= numPages; i++) {
+                        progressText.textContent = `Processing page ${i} of ${numPages}...`;
+                        
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        
+                        // Simple Line sorting and grouping
+                        // This is a basic implementation. Better extraction requires more complex layout logic.
+                        const items = textContent.items;
+                        if (items.length === 0) continue;
+
+                        // Sort by Y (desc) then X (asc)
+                        items.sort((a, b) => {
+                            if (Math.abs(a.transform[5] - b.transform[5]) > 5) {
+                                return b.transform[5] - a.transform[5]; // Top to bottom
+                            }
+                            return a.transform[4] - b.transform[4]; // Left to right
+                        });
+
+                        let currentY = items[0].transform[5];
+                        let lineText = "";
+
+                        items.forEach(item => {
+                            // Check for new line
+                            if (Math.abs(item.transform[5] - currentY) > 10) {
+                                if(lineText.trim()) {
+                                    children.push(new docx.Paragraph({ text: lineText }));
+                                }
+                                lineText = "";
+                                currentY = item.transform[5];
+                            }
+                            lineText += item.str + " "; // Add space between words
+                        });
+                        
+                        // Push last line of page
+                        if(lineText.trim()) {
+                            children.push(new docx.Paragraph({ text: lineText }));
+                        }
+                        
+                        // Add page break if not last page
+                        if (i < numPages) {
+                             children.push(new docx.Paragraph({ children: [new docx.PageBreak()] }));
+                        }
+                    }
+
+                    // Create final document
+                    const finalDoc = new docx.Document({
+                        sections: [{
+                            properties: {},
+                            children: children
+                        }]
+                    });
+
+                    progressText.textContent = 'Generating Word document...';
+                    generatedBlob = await docx.Packer.toBlob(finalDoc);
+                    
+                    currentFileName = file.name.replace('.pdf', '') + '.docx';
+                    document.getElementById('result-filename').textContent = currentFileName;
+
+                    processingState.classList.add('hidden');
+                    resultSection.classList.remove('hidden');
+
+                } catch (err) {
+                    console.error(err);
+                    alert('Error processing file: ' + err.message);
+                    dropZone.classList.remove('hidden');
+                    processingState.classList.add('hidden');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
