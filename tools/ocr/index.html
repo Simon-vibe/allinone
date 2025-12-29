@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="ocr.meta.title">Free Online OCR - Convert Image to Text</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+    <meta name="description"
+        content="Convert images to text online for free. Support for English, Chinese, and multiple languages. 100% Client-side privacy."
+        data-i18n="ocr.meta.desc">
+    <meta name="keywords" content="ocr online, image to text, extract text from image, free ocr, tesseract.js"
+        data-i18n="ocr.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/ocr/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/ocr/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/ocr/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/ocr/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/ocr/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Free Online OCR - Image to Text Converter">
+    <meta property="og:description" content="Extract text from images instantly in your browser.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        #drop-zone {
+            transition: all 0.3s ease;
+        }
+
+        #drop-zone.drag-over {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.ocr.title">Image OCR</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.ocr.desc">Convert images to text using AI. Runs
+                100% in your browser.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Left: Input -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <div id="drop-zone"
+                        class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+                        <input type="file" id="file-input" class="hidden" accept="image/*">
+                        <div class="text-6xl mb-4">🖼️</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2" data-i18n="ocr.drag.title">Drop Image Here</h3>
+                        <p class="text-gray-500 text-sm mb-4" data-i18n="ocr.drag.subtitle">or click to select file</p>
+                        <button
+                            class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                            data-i18n="common.open">Select Image</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="ocr.settings">Settings</h3>
+                    <div class="flex items-center justify-between">
+                        <label class="text-sm font-medium text-gray-700" data-i18n="ocr.lang">Language</label>
+                        <select id="lang-select" class="border rounded-md p-2 text-sm bg-gray-50">
+                            <option value="eng">English</option>
+                            <option value="chi_sim">Chinese (Simplified)</option>
+                            <option value="chi_tra">Chinese (Traditional)</option>
+                            <option value="jpn">Japanese</option>
+                            <option value="kor">Korean</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div id="preview-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="ocr.preview">Image Preview</h3>
+                    <img id="image-preview" src="" alt="Preview" class="max-w-full h-auto rounded-lg shadow-sm">
+                </div>
+            </div>
+
+            <!-- Right: Output -->
+            <div class="space-y-6">
+
+                <div id="status-container"
+                    class="hidden bg-blue-50 text-blue-800 p-4 rounded-lg flex items-center space-x-3">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <span id="status-text">Initializing Tesseract...</span>
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 ml-4 max-w-[150px]">
+                        <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <span id="progress-percent" class="text-xs">0%</span>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-900" data-i18n="base64.output.label">Result</h3>
+                        <button id="btn-copy" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            <i class="fa-regular fa-copy mr-1"></i> <span data-i18n="json.action.copy">Copy</span>
+                        </button>
+                    </div>
+                    <textarea id="result-text" readonly
+                        class="flex-grow w-full border border-gray-200 rounded-lg p-4 font-mono text-sm bg-gray-50 outline-none resize-none min-h-[400px]"
+                        placeholder="Extracted text will appear here..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="ocr.faq.title">OCR Tool FAQ</h2>
+            <p class="mb-4" data-i18n="ocr.faq.desc">Extract text from images automatically. Our OCR tool uses advanced
+                machine learning to recognize text in your photos.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Features</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="ocr.feat.1"><strong>Multi-Language:</strong> Support for English, Chinese, and more.</li>
+                <li data-i18n="ocr.feat.2"><strong>Privacy First:</strong> All processing is done in your browser. No
+                    image uploads.</li>
+                <li data-i18n="ocr.feat.3"><strong>Free:</strong> Unlimited use without cost.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const langSelect = document.getElementById('lang-select');
+            const statusContainer = document.getElementById('status-container');
+            const statusText = document.getElementById('status-text');
+            const progressBar = document.getElementById('progress-bar');
+            const progressPercent = document.getElementById('progress-percent');
+            const resultText = document.getElementById('result-text');
+            const btnCopy = document.getElementById('btn-copy');
+            const imagePreview = document.getElementById('image-preview');
+            const previewContainer = document.getElementById('preview-container');
+
+            // Handle file selection
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('drag-over');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length) processFile(files[0]);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) processFile(e.target.files[0]);
+            });
+
+            async function processFile(file) {
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+
+                const lang = langSelect.value;
+                statusContainer.classList.remove('hidden');
+                resultText.value = '';
+
+                try {
+                    const { data: { text } } = await Tesseract.recognize(
+                        file,
+                        lang,
+                        {
+                            logger: m => {
+                                if (m.status === 'recognizing text') {
+                                    const pct = Math.round(m.progress * 100);
+                                    statusText.innerText = `Recognizing text... ${pct}%`;
+                                    progressBar.style.width = `${pct}%`;
+                                    progressPercent.innerText = `${pct}%`;
+                                } else {
+                                    statusText.innerText = m.status;
+                                }
+                            }
+                        }
+                    );
+
+                    resultText.value = text;
+                    statusText.innerText = 'Done!';
+                    progressBar.style.width = '100%';
+                    progressPercent.innerText = '100%';
+
+                    setTimeout(() => {
+                        statusContainer.classList.add('hidden');
+                    }, 2000);
+
+                } catch (error) {
+                    console.error(error);
+                    statusText.innerText = 'Error: ' + error.message;
+                    statusContainer.classList.remove('hidden'); // Keep visible on error
+                }
+            }
+
+            // Copy functionality
+            btnCopy.addEventListener('click', () => {
+                resultText.select();
+                document.execCommand('copy');
+                const originalText = btnCopy.innerHTML;
+                btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${i18n.t('common.copied')}`;
+                setTimeout(() => {
+                    btnCopy.innerHTML = originalText;
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+
+</html>

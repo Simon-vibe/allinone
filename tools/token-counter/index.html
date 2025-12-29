@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="token.meta.title">LLM Token Counter - GPT-4/Claude Cost Calculator</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    <meta name="description"
+        content="Count tokens for GPT-3.5, GPT-4, and Claude. Estimate API costs instantly for your prompts."
+        data-i18n="token.meta.desc">
+    <meta name="keywords" content="token counter, gpt token count, llm prompt cost, claude tokenizer, openai tokens"
+        data-i18n="token.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/token-counter/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/token-counter/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/token-counter/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/token-counter/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/token-counter/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LLM Token Counter & Cost Estimator">
+    <meta property="og:description" content="Calculate tokens and API costs for ChatGPT and Claude models.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.token.title">LLM Token Counter</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.token.desc">Count tokens and estimate costs for
+                GPT-4, Claude, and Gemini.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left: Stats -->
+            <div class="lg:col-span-1 space-y-4">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 stat-card">
+                    <div class="text-gray-500 text-sm font-medium uppercase mb-2" data-i18n="token.label.count">Token
+                        Count</div>
+                    <div class="text-5xl font-bold text-blue-600" id="token-count">0</div>
+                    <div class="text-gray-400 text-xs mt-2" data-i18n="token.label.chars">Characters: <span
+                            id="char-count">0</span></div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="token.cost.title">Estimated Cost (Input)</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-600">GPT-4o</span>
+                            <span class="font-mono font-medium" id="cost-gpt4o">$0.0000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-600">GPT-3.5 Turbo</span>
+                            <span class="font-mono font-medium" id="cost-gpt35">$0.0000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-gray-600">Claude 3.5 Sonnet</span>
+                            <span class="font-mono font-medium" id="cost-claude">$0.0000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Text Area -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full flex flex-col">
+                    <textarea id="text-input"
+                        class="flex-grow w-full border border-gray-200 rounded-lg p-6 font-mono text-base focus:ring-2 focus:ring-blue-500 outline-none resize-none min-h-[400px]"
+                        placeholder="Paste your text here to calculate tokens..."></textarea>
+
+                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
+                        <button id="btn-clear" class="text-red-500 hover:text-red-700 text-sm font-medium">
+                            <i class="fa-solid fa-trash mr-1"></i> <span data-i18n="json.action.clear">Clear</span>
+                        </button>
+                        <button id="btn-copy" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            <i class="fa-regular fa-copy mr-1"></i> <span data-i18n="json.action.copy">Copy Text</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="token.faq.title">Token Counter FAQ</h2>
+            <p class="mb-4" data-i18n="token.faq.desc">Understanding token usage is crucial for managing costs when
+                working with Large Language Models (LLMs) like ChatGPT and Claude.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">How are tokens calculated?</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="token.feat.1"><strong>Not just words:</strong> 1000 tokens is approximately 750 words.
+                </li>
+                <li data-i18n="token.feat.2"><strong>Tokenizer:</strong> We use the standard `cl100k_base` encoding used
+                    by GPT-4.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gpt-3-encoder/1.1.0/gpt-3-encoder.min.js"></script>
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textInput = document.getElementById('text-input');
+            const tokenCount = document.getElementById('token-count');
+            const charCount = document.getElementById('char-count');
+            const btnClear = document.getElementById('btn-clear');
+            const btnCopy = document.getElementById('btn-copy');
+
+            const costGpt4o = document.getElementById('cost-gpt4o');
+            const costGpt35 = document.getElementById('cost-gpt35');
+            const costClaude = document.getElementById('cost-claude');
+
+            // Pricing per 1K tokens (Input)
+            const PRICING = {
+                gpt4o: 0.005, // $5.00 / 1M tokens -> $0.005 / 1K
+                gpt35: 0.0005, // $0.50 / 1M tokens -> $0.0005 / 1K
+                claude: 0.003  // $3.00 / 1M tokens -> $0.003 / 1K
+            };
+
+            function updateStats() {
+                const text = textInput.value;
+                charCount.textContent = text.length.toLocaleString();
+
+                if (!text) {
+                    tokenCount.textContent = '0';
+                    updateCosts(0);
+                    return;
+                }
+
+                try {
+                    // Try using the encoder
+                    const encoded = gpt3Encoder.encode(text);
+                    const tokens = encoded.length;
+                    tokenCount.textContent = tokens.toLocaleString();
+                    updateCosts(tokens);
+                } catch (e) {
+                    // Fallback approximation: ~4 chars per token
+                    console.warn("Encoder error, using approximation", e);
+                    const tokens = Math.ceil(text.length / 4);
+                    tokenCount.textContent = "~" + tokens.toLocaleString();
+                    updateCosts(tokens);
+                }
+            }
+
+            function updateCosts(tokens) {
+                costGpt4o.textContent = '$' + (tokens / 1000 * PRICING.gpt4o).toFixed(4);
+                costGpt35.textContent = '$' + (tokens / 1000 * PRICING.gpt35).toFixed(4);
+                costClaude.textContent = '$' + (tokens / 1000 * PRICING.claude).toFixed(4);
+            }
+
+            textInput.addEventListener('input', updateStats);
+
+            btnClear.addEventListener('click', () => {
+                textInput.value = '';
+                updateStats();
+            });
+
+            btnCopy.addEventListener('click', () => {
+                textInput.select();
+                document.execCommand('copy');
+                const originalHtml = btnCopy.innerHTML;
+                btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${i18n.t('common.copied')}`;
+                setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
+            });
+
+            // Initial call if there's pre-filled text (e.g. from cache)
+            updateStats();
+        });
+    </script>
+</body>
+
+</html>

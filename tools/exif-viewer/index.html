@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="exif.meta.title">EXIF Data Viewer - View Image Metadata Online</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📷</text></svg>">
+    <meta name="description"
+        content="View hidden EXIF metadata in your photos instantly. Check ISO, shutter speed, GPS location, and camera model. 100% Client-side."
+        data-i18n="exif.meta.desc">
+    <meta name="keywords" content="exif viewer, image metadata, view details, check photo location, online exif tool"
+        data-i18n="exif.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/exif-viewer/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/exif-viewer/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/exif-viewer/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/exif-viewer/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/exif-viewer/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="EXIF Data Viewer - View Image Metadata">
+    <meta property="og:description"
+        content="Extract hidden details from your photos: Camera settings, GPS, Date, and more.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        #drop-zone {
+            transition: all 0.3s ease;
+        }
+
+        #drop-zone.drag-over {
+            border-color: #2563eb;
+            background-color: #eff6ff;
+        }
+
+        .metadata-row:nth-child(even) {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.exif.title">EXIF Data Viewer</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.exif.desc">View hidden metadata in your images.
+                Camera model, settings, GPS, and more.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left: Input & Preview -->
+            <div class="space-y-6 lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <div id="drop-zone"
+                        class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+                        <input type="file" id="file-input" class="hidden"
+                            accept="image/jpeg,image/tiff,image/png,image/webp">
+                        <div class="text-6xl mb-4">📷</div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2" data-i18n="exif.drag.title">Drop Image Here
+                        </h3>
+                        <p class="text-gray-500 text-sm mb-4" data-i18n="exif.drag.subtitle">or click to select file</p>
+                        <button
+                            class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+                            data-i18n="common.open">Select Image</button>
+                    </div>
+                </div>
+
+                <div id="preview-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="ocr.preview">Image Preview</h3>
+                    <img id="image-preview" src="" alt="Preview" class="max-w-full h-auto rounded-lg shadow-sm">
+                    <p id="file-name" class="text-sm text-gray-500 mt-2 text-center break-all"></p>
+                </div>
+
+                <!-- Privacy Warning if GPS found -->
+                <div id="gps-warning" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <i class="fa-solid fa-triangle-exclamation text-yellow-500 mt-1 mr-2"></i>
+                        <div>
+                            <h4 class="font-bold text-yellow-800 text-sm" data-i18n="exif.warn.gps.title">Location Data
+                                Found</h4>
+                            <p class="text-xs text-yellow-700 mt-1" data-i18n="exif.warn.gps.desc">This image contains
+                                GPS coordinates. Be careful when sharing it publicly.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Metadata Table -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 min-h-[500px]">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-900" data-i18n="exif.data.title">Image Metadata</h3>
+                        <button id="btn-clear" class="text-sm text-red-500 hover:text-red-700 hidden">
+                            <i class="fa-solid fa-trash mr-1"></i> <span data-i18n="json.action.clear">Clear</span>
+                        </button>
+                    </div>
+
+                    <div id="empty-state" class="text-center py-20 text-gray-400">
+                        <i class="fa-solid fa-search text-4xl mb-4"></i>
+                        <p data-i18n="exif.data.empty">Upload an image to view its EXIF data.</p>
+                    </div>
+
+                    <div id="metadata-container" class="hidden">
+                        <!-- Key Data Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <span class="text-xs text-gray-500 uppercase block mb-1">Make</span>
+                                <span class="font-bold text-gray-800 text-sm" id="meta-make">-</span>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <span class="text-xs text-gray-500 uppercase block mb-1">Model</span>
+                                <span class="font-bold text-gray-800 text-sm" id="meta-model">-</span>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <span class="text-xs text-gray-500 uppercase block mb-1">ISO</span>
+                                <span class="font-bold text-gray-800 text-sm" id="meta-iso">-</span>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <span class="text-xs text-gray-500 uppercase block mb-1">Date</span>
+                                <span class="font-bold text-gray-800 text-sm" id="meta-date">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Full Table -->
+                        <div class="overflow-x-auto border rounded-lg">
+                            <table class="min-w-full">
+                                <thead class="bg-gray-50 border-b">
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                            Tag</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                            Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="metadata-body" class="bg-white">
+                                    <!-- Rows generated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="exif.faq.title">EXIF Viewer FAQ</h2>
+            <p class="mb-4" data-i18n="exif.faq.desc">EXIF (Exchangeable Image File Format) data files contain
+                information about how the image was taken.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">What data can you see?</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="exif.feat.1"><strong>Camera Details:</strong> Manufacturer, Model, Lens info.</li>
+                <li data-i18n="exif.feat.2"><strong>Settings:</strong> Shutter speed, Aperture, ISO, Focal length.</li>
+                <li data-i18n="exif.feat.3"><strong>GPS:</strong> Latitude, Longitude, Altitude (if enabled).</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js"></script>
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const previewContainer = document.getElementById('preview-container');
+            const imagePreview = document.getElementById('image-preview');
+            const fileName = document.getElementById('file-name');
+            const gpsWarning = document.getElementById('gps-warning');
+
+            const emptyState = document.getElementById('empty-state');
+            const metadataContainer = document.getElementById('metadata-container');
+            const metadataBody = document.getElementById('metadata-body');
+            const btnClear = document.getElementById('btn-clear');
+
+            const metaMake = document.getElementById('meta-make');
+            const metaModel = document.getElementById('meta-model');
+            const metaIso = document.getElementById('meta-iso');
+            const metaDate = document.getElementById('meta-date');
+
+            // Handle file selection
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('drag-over');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length) processFile(files[0]);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) processFile(e.target.files[0]);
+            });
+
+            btnClear.addEventListener('click', clearData);
+
+            function clearData() {
+                emptyState.classList.remove('hidden');
+                metadataContainer.classList.add('hidden');
+                previewContainer.classList.add('hidden');
+                gpsWarning.classList.add('hidden');
+                fileInput.value = '';
+                btnClear.classList.add('hidden');
+            }
+
+            async function processFile(file) {
+                // Show preview
+                fileName.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+
+                try {
+                    const output = await exifr.parse(file, {
+                        tiff: true,
+                        exif: true,
+                        gps: true,
+                        ifd0: true,
+                        ifd1: true
+                    }); // Extract all tags
+
+                    displayMetadata(output);
+
+                } catch (error) {
+                    console.error(error);
+                    alert("Could not read EXIF data. The image might not contain any.");
+                    clearData();
+                }
+            }
+
+            function displayMetadata(data) {
+                if (!data) {
+                    alert("No EXIF data found in this image.");
+                    return;
+                }
+
+                emptyState.classList.add('hidden');
+                metadataContainer.classList.remove('hidden');
+                btnClear.classList.remove('hidden');
+
+                // Update Key Stats
+                metaMake.textContent = data.Make || '-';
+                metaModel.textContent = data.Model || '-';
+                metaIso.textContent = data.ISO || '-';
+
+                // Format Date
+                if (data.DateTimeOriginal) {
+                    metaDate.textContent = new Date(data.DateTimeOriginal).toLocaleString();
+                } else if (data.CreateDate) {
+                    metaDate.textContent = new Date(data.CreateDate).toLocaleString();
+                } else {
+                    metaDate.textContent = '-';
+                }
+
+                // Check GPS
+                if (data.latitude && data.longitude) {
+                    gpsWarning.classList.remove('hidden');
+                } else {
+                    gpsWarning.classList.add('hidden');
+                }
+
+                // Render Table
+                metadataBody.innerHTML = '';
+                for (const [key, value] of Object.entries(data)) {
+                    // Skip binary buffers or massive thumbnail data
+                    if (value instanceof Uint8Array || key === 'MakerNote' || key === 'UserComment') continue;
+
+                    let displayValue = value;
+                    if (value instanceof Date) displayValue = value.toLocaleString();
+                    if (typeof value === 'number') {
+                        // Round floats to 4 decimals
+                        displayValue = Math.round(value * 10000) / 10000;
+                    }
+
+                    const row = document.createElement('tr');
+                    row.className = 'metadata-row border-b border-gray-100 hover:bg-blue-50 transition';
+                    row.innerHTML = `
+                        <td class="px-6 py-3 text-sm font-medium text-gray-900 break-words w-1/3">${key}</td>
+                        <td class="px-6 py-3 text-sm text-gray-600 break-words font-mono">${displayValue}</td>
+                    `;
+                    metadataBody.appendChild(row);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
