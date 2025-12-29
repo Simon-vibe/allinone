@@ -40,6 +40,7 @@ function copyDir(src, dest) {
 }
 
 // 修正资源路径：因为所有页面都下沉了一级（/en/ 或 /zh/），所以资源引用要加 ../
+// 修正资源路径：因为所有页面都下沉了一级（/en/ 或 /zh/），所以资源引用要加 ../
 function adjustRelativePaths(content) {
     return content.replace(/(href|src|action)=["']([^"']+)["']/g, (match, attr, url) => {
         if (url.startsWith('http') || url.startsWith('//') || url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('data:')) {
@@ -47,9 +48,12 @@ function adjustRelativePaths(content) {
         }
         if (url.startsWith('/')) return match;
 
+        // Remove anchor/query for extension check
+        const cleanUrl = url.split('#')[0].split('?')[0];
+
         // 关键修复：除了 .html 链接外，其他资源（css, js, images）都需要加 ../
         // 如果链接以 .html 结尾，或者直接是目录（以 / 结尾），则认为是内部跳转，保持相对路径不变（因为 /en/ 和 /zh/ 目录结构是对称的）
-        if (url.endsWith('.html') || url.endsWith('/')) {
+        if (cleanUrl.endsWith('.html') || cleanUrl.endsWith('/')) {
             return match;
         }
 
