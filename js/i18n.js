@@ -151,7 +151,7 @@ const translations = {
         "tool.pdf.desc": "安全地将 PDF 银行对账单转为 Excel。无需上传数据，浏览器本地处理。",
         "tool.more.title": "更多工具即将推出...",
         "tool.more.desc": "敬请期待。",
-        "footer.rights": "© 2023 allinone.page. All rights reserved.",
+        "footer.rights": "© 2023 allinone.page. 保留所有权利。",
         "footer.privacy": "隐私政策",
         "footer.terms": "服务条款",
         "footer.contact": "联系我们",
