@@ -58,7 +58,7 @@
             </div>
 
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight relative z-10" data-i18n="hero.title">
-                All the tools you need, in one place.
+                All the tools you need, in one page.
             </h1>
             <p class="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto mb-10 relative z-10" data-i18n="hero.subtitle">
                 A categorized collection of developer utilities, converters, and productivity tools.
@@ -68,10 +68,10 @@
             <div class="max-w-2xl mx-auto relative z-10">
                 <div class="relative flex items-center">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 text-gray-400"></i>
-                    <input type="text" data-i18n="search.placeholder"
+                    <input type="text" id="search-input" data-i18n="search.placeholder"
                         placeholder="Search for a tool (e.g., JSON Formatter)..."
                         class="w-full pl-12 pr-32 py-4 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-xl">
-                    <button
+                    <button id="search-btn"
                         class="absolute right-2 top-2 bottom-2 bg-blue-600 text-white px-6 rounded-md font-medium hover:bg-blue-700 transition"
                         data-i18n="search.btn">
                         Search
@@ -85,14 +85,11 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
         <div class="flex justify-between items-end mb-8">
             <h2 class="text-3xl font-bold text-gray-900" data-i18n="featured.title">Featured Tools</h2>
-            <a href="#" class="text-blue-600 font-medium hover:text-blue-800 flex items-center transition">
-                <span data-i18n="featured.viewAll">View all</span>
-                <i class="fa-solid fa-arrow-right ml-2"></i>
-            </a>
+            <!-- View all link removed -->
         </div>
 
         <!-- Featured Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div id="featured-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             <!-- Card 0: PDF Converter (New) -->
             <div
                 class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group">
@@ -134,8 +131,7 @@
                 </a>
             </div>
 
-            <!-- Card 2: QR Generator (Using Base64 logic as placeholder or new tool? Let's genericize or map to existing) -->
-            <!-- Mapping "QR Generator" from screenshot to "Base64 Encoder" for now as it's an existing tool -->
+            <!-- Card 2: QR Generator (Using Base64 content) -->
             <div
                 class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group">
                 <div class="absolute top-6 right-6 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase"
@@ -144,7 +140,6 @@
                     class="bg-purple-50 w-14 h-14 rounded-xl flex items-center justify-center text-purple-600 text-2xl mb-6">
                     <i class="fa-solid fa-qrcode"></i>
                 </div>
-                <!-- Using Base64 content but styled as card 2 -->
                 <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.base64.title">Base64 Encoder</h3>
                 <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.base64.desc">
                     Encode and decode data strings easily. Essential for developers.
@@ -156,7 +151,7 @@
                 </a>
             </div>
 
-            <!-- Card 3: Base64 Encoder (or JSON formatter) -->
+            <!-- Card 3: JSON Formatter -->
             <div
                 class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group">
                 <div class="absolute top-6 right-6 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase"
@@ -179,10 +174,11 @@
 
         <!-- All Tools Section -->
         <h2 id="all-tools" class="text-2xl font-bold text-gray-900 mb-6" data-i18n="cat.dev">All Tools</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="all-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
             <!-- Tile: Unix Timestamp -->
-            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition"
+                data-title="Unix Timestamp" data-keywords="time date">
                 <div class="w-10 h-10 bg-red-100 rounded text-red-500 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-clock"></i>
                 </div>
@@ -195,7 +191,8 @@
             </div>
 
             <!-- Tile: Markdown Editor -->
-            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition"
+                data-title="Markdown Editor" data-keywords="md text write">
                 <div class="w-10 h-10 bg-orange-100 rounded text-orange-500 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </div>
@@ -207,8 +204,9 @@
                     data-i18n="tool.launch">Open</a>
             </div>
 
-            <!-- Tile: Image Resizer (Repeated for completeness) -->
-            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+            <!-- Tile: Image Resizer -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition"
+                data-title="Image Resizer" data-keywords="photo picture compress">
                 <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
                     <i class="fa-regular fa-image"></i>
                 </div>
@@ -220,8 +218,9 @@
                     data-i18n="tool.launch">Open</a>
             </div>
 
-            <!-- Tile: JSON Formatter (Repeated for completeness) -->
-            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+            <!-- Tile: JSON Formatter -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition"
+                data-title="JSON Formatter" data-keywords="beautify validate">
                 <div class="w-10 h-10 bg-green-100 rounded text-green-500 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-code"></i>
                 </div>
@@ -233,8 +232,9 @@
                     data-i18n="tool.launch">Open</a>
             </div>
 
-            <!-- Tile: Base64 (Repeated for completeness) -->
-            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+            <!-- Tile: Base64 Encoder -->
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition"
+                data-title="Base64 Encoder" data-keywords="decode encode string">
                 <div class="w-10 h-10 bg-purple-100 rounded text-purple-500 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-arrow-right-arrow-left"></i>
                 </div>
@@ -247,7 +247,8 @@
             </div>
 
             <!-- Tile: PDF Converter -->
-            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition"
+                data-title="Bank Statement Converter" data-keywords="pdf excel">
                 <div class="w-10 h-10 bg-indigo-100 rounded text-indigo-500 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-file-invoice-dollar"></i>
                 </div>
@@ -287,6 +288,68 @@
     </footer>
 
     <script src="./js/i18n.js?v=2"></script>
-</body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const allToolsGrid = document.getElementById('all-tools-grid');
+            const featuredGrid = document.getElementById('featured-grid');
+            const featuredTitle = document.querySelector('[data-i18n="featured.title"]');
+
+            // Get values from i18n if possible, but search depends on text content which changes.
+            // Best to simple filter based on current text content in the DOM.
+
+            function performSearch() {
+                const term = searchInput.value.toLowerCase().trim();
+                const toolCards = allToolsGrid.querySelectorAll('.tool-card');
+
+                if (term.length > 0) {
+                    // Hide Featured Section
+                    if (featuredGrid) featuredGrid.classList.add('hidden');
+                    if (featuredTitle) featuredTitle.parentElement.classList.add('hidden'); // Container of title
+
+                    // Filter All Tools
+                    toolCards.forEach(card => {
+                        // Search in visible text content
+                        const text = card.textContent.toLowerCase();
+                        // Also check custom data attributes if any (I added them in HTML)
+                        const meta = (card.getAttribute('data-keywords') || '') + ' ' + (card.getAttribute('data-title') || '');
+
+                        if (text.includes(term) || meta.toLowerCase().includes(term)) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                } else {
+                    // Show everything
+                    if (featuredGrid) featuredGrid.classList.remove('hidden');
+                    if (featuredTitle) featuredTitle.parentElement.classList.remove('hidden');
+
+                    toolCards.forEach(card => card.classList.remove('hidden'));
+                }
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('input', performSearch);
+
+                // Handle enter key
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                        // Scroll to results
+                        allToolsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+
+            if (searchBtn) {
+                searchBtn.addEventListener('click', () => {
+                    performSearch();
+                    allToolsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+        });
+    </script>
 
 </html>
