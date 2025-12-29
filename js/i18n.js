@@ -412,6 +412,8 @@ class I18nManager {
             } else if (el.tagName === 'TEXTAREA' && el.getAttribute('placeholder')) {
                 el.placeholder = translation;
                 el.innerHTML = translation;
+            } else {
+                el.innerHTML = translation;
             }
         });
 
