@@ -4,9 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base64 Converter - allinone.page</title>
+    <title>Base64 Encoder & Decoder - Online Converter</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
+    <meta name="description"
+        content="Encode to Base64 or decode from Base64 string instantly. Supports text and files. Secure client-side processing.">
+    <meta name="keywords"
+        content="base64 encoder, base64 decoder, base64 converter, online base64 tool, string to base64, base64 to string">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/base64-converter/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/base64-converter/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/base64-converter/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/base64-converter/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/base64-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Base64 Encoder & Decoder - Online Converter">
+    <meta property="og:description" content="Encode text to Base64 or decode Base64 strings. Fast and secure.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -91,6 +110,21 @@
                 data-i18n="base64.output.placeholder" placeholder="Paste Base64 string here to decode..."></textarea>
         </div>
 
+        <!-- Rich Content / FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Fast Base64 Encoder/Decoder</h2>
+            <p class="mb-4">Easily translate text to Base64 strings or decode Base64 back to readable text with our
+                <strong>Base64 Converter</strong>. Essential for developers working with data transmission.
+            </p>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">How it works:</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li><strong>Encode:</strong> Turns plain text (e.g., "Hello") into Base64 format (e.g., "SGVsbG8=").
+                </li>
+                <li><strong>Decode:</strong> Converts Base64 strings back to their original text.</li>
+                <li><strong>Safe:</strong> No data leaves your browser.</li>
+            </ul>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -131,6 +165,22 @@
                 document.execCommand('copy');
             });
         });
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Base64 Converter",
+      "url": "https://allinone.page/tools/base64-converter/",
+      "description": "Encode and decode Base64 strings securely in your browser.",
+      "applicationCategory": "DeveloperTool",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
     </script>
 </body>
 

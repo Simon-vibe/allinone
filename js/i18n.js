@@ -256,9 +256,18 @@ class I18nManager {
     }
 
     getInitialLanguage() {
-        const savedLang = localStorage.getItem('app_lang');
-        if (savedLang) return savedLang;
+        // 1. Check URL parameter (Priority for SEO)
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        if (langParam && translations[langParam]) {
+            return langParam;
+        }
 
+        // 2. Check localStorage
+        const savedLang = localStorage.getItem('app_lang');
+        if (savedLang && translations[savedLang]) return savedLang;
+
+        // 3. Browser default
         const browserLang = navigator.language.toLowerCase();
         return browserLang.startsWith('zh') ? 'zh' : 'en';
     }
@@ -270,9 +279,15 @@ class I18nManager {
 
     setLanguage(lang) {
         if (!translations[lang]) return;
-        this.currentLang = lang;
+        if (this.currentLang === lang) return;
+
+        // Save preference
         localStorage.setItem('app_lang', lang);
-        this.updateDOM();
+
+        // Update URL to trigger reload (SEO requirement)
+        const url = new URL(window.location);
+        url.searchParams.set('lang', lang);
+        window.location.href = url.toString();
     }
 
     t(key) {

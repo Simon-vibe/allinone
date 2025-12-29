@@ -4,9 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unix Timestamp Converter - allinone.page</title>
+    <title>Unix Timestamp Converter - Epoch to Date</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
+    <meta name="description"
+        content="Convert Unix timestamp to human-readable date and vice versa. Supports seconds and milliseconds. Free online timestamp tool.">
+    <meta name="keywords"
+        content="unix timestamp converter, epoch converter, timestamp to date, date to timestamp, unix time, epoch time">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/timestamp-converter/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/timestamp-converter/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/timestamp-converter/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/timestamp-converter/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/timestamp-converter/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Unix Timestamp Converter - Epoch to Date">
+    <meta property="og:description" content="Convert between Unix timestamps and dates instantly.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -150,6 +169,20 @@
 
         </div>
 
+        <!-- Rich Content / FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Unix Timestamp Converter</h2>
+            <p class="mb-4">Convert between Unix Epoch timestamps and human-readable dates instantly. Supports both
+                seconds and milliseconds formats used in programming.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">What is Unix Time?</h3>
+            <p>Unix time (also known as Epoch time) is the number of seconds that have elapsed since January 1, 1970
+                (UTC). It is widely used in computing to track time.</p>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li><strong>Current Time:</strong> Displays the live, ticking Unix timestamp.</li>
+                <li><strong>Two-way Conversion:</strong> Convert Date -> Timestamp or Timestamp -> Date.</li>
+            </ul>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -238,6 +271,22 @@
                 resultTsBox.classList.remove('hidden');
             });
         });
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Timestamp Converter",
+      "url": "https://allinone.page/tools/timestamp-converter/",
+      "description": "Convert Unix timestamp to date and vice versa.",
+      "applicationCategory": "DeveloperTool",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
     </script>
 </body>
 

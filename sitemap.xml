@@ -1,45 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://allinone.page/index.html</loc>
-    <lastmod>2023-12-29</lastmod>
+    <loc>https://allinone.page/</loc>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://allinone.page/about.html</loc>
-    <lastmod>2023-12-29</lastmod>
+    <lastmod>2026-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://allinone.page/tools/pdf-to-excel/index.html</loc>
+    <loc>https://allinone.page/tools/pdf-to-excel/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://allinone.page/tools/json-formatter/index.html</loc>
+    <loc>https://allinone.page/tools/json-formatter/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://allinone.page/tools/base64-converter/index.html</loc>
+    <loc>https://allinone.page/tools/base64-converter/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://allinone.page/tools/image-compressor/index.html</loc>
+    <loc>https://allinone.page/tools/image-compressor/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-   <url>
-    <loc>https://allinone.page/tools/markdown-editor/index.html</loc>
+  <url>
+    <loc>https://allinone.page/tools/markdown-editor/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-   <url>
-    <loc>https://allinone.page/tools/timestamp-converter/index.html</loc>
+  <url>
+    <loc>https://allinone.page/tools/timestamp-converter/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://allinone.page/terms.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://allinone.page/privacy.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

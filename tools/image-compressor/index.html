@@ -4,9 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Compressor - allinone.page</title>
+    <title>Image Resizer & Compressor - Optimize PNG/JPG/WebP (Local)</title>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛠️</text></svg>">
+    <meta name="description"
+        content="Compress and resize images instantly in your browser. Reduce file size without losing quality. Supports PNG, JPEG, WebP. 100% Client-side.">
+    <meta name="keywords"
+        content="image compressor, online image resizer, reduce image size, compress png, compress jpeg, optimize webp, free image tool">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/image-compressor/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/image-compressor/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/image-compressor/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/image-compressor/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/image-compressor/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Image Resizer & Compressor - Optimize PNG/JPG/WebP">
+    <meta property="og:description"
+        content="Compress and resize images securely in your browser. No file upload required.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -142,6 +162,21 @@
             </div>
         </div>
 
+        <!-- Rich Content / FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Compress Images Online Without Uploading</h2>
+            <p class="mb-4">Our <strong>Image Compressor</strong> provides a fast and secure way to optimize your photos
+                and graphics. All compression happens directly on your device, ensuring your private photos are never
+                sent
+                to a cloud server.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Features:</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li><strong>Privacy First:</strong> Browser-based processing means 100% data security.</li>
+                <li><strong>Format Support:</strong> Compatible with PNG, JPEG, and WebP.</li>
+                <li><strong>Custom Controls:</strong> Adjust quality and max dimensions easily.</li>
+            </ul>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -247,6 +282,22 @@
                 downloadLink.download = `compressed_${new Date().getTime()}.${ext}`;
             }
         });
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Image Compressor",
+      "url": "https://allinone.page/tools/image-compressor/",
+      "description": "Compress and resize images securely in your browser.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
     </script>
 </body>
 
