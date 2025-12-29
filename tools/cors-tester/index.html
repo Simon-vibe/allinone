@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="cors.meta.title">CORS Fetch Tester - Debug Cross-Origin Requests Online</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+    <meta name="description"
+        content="Debug CORS (Cross-Origin Resource Sharing) issues by sending real Fetch requests from your browser. Analyze headers and status codes."
+        data-i18n="cors.meta.desc">
+    <meta name="keywords"
+        content="cors tester, test cors online, cross origin resource sharing, debug cors, fetch api tester"
+        data-i18n="cors.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/cors-tester/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/cors-tester/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/cors-tester/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/cors-tester/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/cors-tester/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CORS Fetch Tester">
+    <meta property="og:description" content="Debug Cross-Origin requests instantly.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.cors.title">CORS Fetch Tester</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.cors.desc">Debugging Cross-Origin policies is
+                hard. This tool makes it easy by testing APIs directly from your browser.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Left: Inputs -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="cors.label.req">Request Details</h3>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Method</label>
+                        <select id="req-method" class="w-full border border-gray-300 rounded-lg p-2 text-sm font-mono">
+                            <option value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                            <option value="HEAD">HEAD</option>
+                            <option value="OPTIONS">OPTIONS</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">URL</label>
+                        <input type="url" id="req-url"
+                            class="w-full border border-gray-300 rounded-lg p-2 text-sm font-mono"
+                            placeholder="https://api.example.com/data">
+                    </div>
+
+                    <button id="btn-send"
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> <span data-i18n="cors.action.send">Send
+                            Request</span>
+                    </button>
+                </div>
+
+                <!-- Quick Test URLs -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="cors.label.examples">Example Tests</h3>
+                    <div class="space-y-2 text-sm">
+                        <button class="w-full text-left p-2 hover:bg-gray-50 rounded text-gray-600"
+                            onclick="fillUrl('https://httpbin.org/get')">
+                            <span class="font-mono text-green-600">GET</span> httpbin.org (Always Works)
+                        </button>
+                        <button class="w-full text-left p-2 hover:bg-gray-50 rounded text-gray-600"
+                            onclick="fillUrl('https://google.com')">
+                            <span class="font-mono text-red-600">GET</span> google.com (Often Fails)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Results -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-gray-900" data-i18n="cors.label.response">Response</h3>
+                        <span id="status-badge"
+                            class="hidden px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide"></span>
+                    </div>
+
+                    <div id="loading" class="hidden flex items-center justify-center h-40">
+                        <i class="fa-solid fa-circle-notch fa-spin text-3xl text-blue-500"></i>
+                    </div>
+
+                    <div id="response-content" class="hidden font-mono text-sm overflow-auto max-h-[500px]">
+
+                        <!-- Headers -->
+                        <div class="mb-6">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Headers</h4>
+                            <div id="res-headers" class="bg-gray-50 p-4 rounded-lg border border-gray-200"></div>
+                        </div>
+
+                        <!-- Body -->
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Body Snippet</h4>
+                            <pre id="res-body" class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto"></pre>
+                        </div>
+                    </div>
+
+                    <div id="initial-state" class="flex flex-col items-center justify-center h-40 text-gray-400">
+                        <i class="fa-solid fa-server text-4xl mb-3"></i>
+                        <p data-i18n="cors.msg.waiting">Waiting for request...</p>
+                    </div>
+
+                    <!-- Error Analysis -->
+                    <div id="cors-help" class="hidden mt-6 bg-red-50 border border-red-100 rounded-lg p-4">
+                        <h4 class="font-bold text-red-700 mb-2"><i class="fa-solid fa-circle-exclamation mr-1"></i> CORS
+                            Error Detected</h4>
+                        <p class="text-sm text-red-600 mb-2" data-i18n="cors.err.desc">The browser blocked this request.
+                            This usually means the server is missing the Access-Control-Allow-Origin header.</p>
+                        <p class="text-sm text-red-600 font-bold">Fix:</p>
+                        <code
+                            class="block bg-red-100 text-red-800 p-2 rounded mt-1 text-xs">Access-Control-Allow-Origin: *</code>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="cors.faq.title">CORS Tester FAQ</h2>
+            <p class="mb-4" data-i18n="cors.faq.desc">CORS (Cross-Origin Resource Sharing) is a security mechanism that
+                allows a web page from one domain to request resources from another domain.</p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        // Helper
+        function fillUrl(url) {
+            document.getElementById('req-url').value = url;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnSend = document.getElementById('btn-send');
+            const reqUrl = document.getElementById('req-url');
+            const reqMethod = document.getElementById('req-method');
+
+            const initialState = document.getElementById('initial-state');
+            const loading = document.getElementById('loading');
+            const responseContent = document.getElementById('response-content');
+
+            const statusBadge = document.getElementById('status-badge');
+            const resHeaders = document.getElementById('res-headers');
+            const resBody = document.getElementById('res-body');
+            const corsHelp = document.getElementById('cors-help');
+
+            btnSend.addEventListener('click', async () => {
+                const url = reqUrl.value.trim();
+                const method = reqMethod.value;
+
+                if (!url) {
+                    alert("Please enter a URL");
+                    return;
+                }
+
+                // Reset UI
+                initialState.classList.add('hidden');
+                loading.classList.remove('hidden');
+                responseContent.classList.add('hidden');
+                statusBadge.classList.add('hidden');
+                corsHelp.classList.add('hidden');
+
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+                    const start = performance.now();
+                    const response = await fetch(url, {
+                        method: method,
+                        signal: controller.signal
+                    });
+                    const duration = Math.round(performance.now() - start);
+                    clearTimeout(timeoutId);
+
+                    // Show Success UI
+                    loading.classList.add('hidden');
+                    responseContent.classList.remove('hidden');
+                    statusBadge.classList.remove('hidden');
+
+                    // Status
+                    statusBadge.textContent = `${response.status} ${response.statusText} (${duration}ms)`;
+                    if (response.ok) {
+                        statusBadge.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-green-100 text-green-600';
+                    } else {
+                        statusBadge.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-orange-100 text-orange-600';
+                    }
+
+                    // Headers
+                    let headerHtml = '<div class="grid grid-cols-1 gap-1">';
+                    for (const [key, value] of response.headers) {
+                        headerHtml += `<div class="flex break-all"><span class="font-bold text-gray-700 w-1/3 mr-2">${key}:</span> <span class="text-gray-600 w-2/3">${value}</span></div>`;
+                    }
+                    headerHtml += '</div>';
+                    resHeaders.innerHTML = headerHtml;
+
+                    // Body
+                    const text = await response.text();
+                    resBody.textContent = text.slice(0, 1000) + (text.length > 1000 ? '\n... (truncated)' : '');
+
+                } catch (error) {
+                    // CORS Error or Network Error
+                    loading.classList.add('hidden');
+                    responseContent.classList.remove('hidden'); // Show what we can (often empty for CORS)
+                    statusBadge.classList.remove('hidden');
+
+                    statusBadge.textContent = "FAILED";
+                    statusBadge.className = 'px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-red-100 text-red-600';
+
+                    resHeaders.innerHTML = `<span class="italic text-gray-500">No headers available (Blocked)</span>`;
+                    resBody.textContent = error.message;
+
+                    // Detect likelihood of CORS
+                    if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                        corsHelp.classList.remove('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

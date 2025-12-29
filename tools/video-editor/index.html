@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="video.meta.title">Browser Video Editor - Trim, Cut & Convert Locally</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <meta name="description"
+        content="Edit videos directly in your browser without uploading. Trim, cut, and convert format (MP4/GIF) locally using FFmpeg WASM."
+        data-i18n="video.meta.desc">
+    <meta name="keywords"
+        content="video editor, trim video online, ffmpeg wasm, convert video to gif, cut video browser"
+        data-i18n="video.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/video-editor/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/video-editor/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/video-editor/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/video-editor/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/video-editor/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Browser Video Editor">
+    <meta property="og:description" content="Secure, local video editing and conversion using WebAssembly.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Range Slider Styling */
+        .range-slider {
+            position: relative;
+            height: 20px;
+        }
+    </style>
+    <!-- COI for SharedArrayBuffer -->
+    <script src="coi-serviceworker.js"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.video.title">Browser Video Editor</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.video.desc">Trim, cut, and convert videos locally
+                using FFmpeg WASM. No upload required.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <!-- File Upload Area -->
+        <div id="upload-area"
+            class="border-2 border-dashed border-blue-200 rounded-xl p-12 text-center bg-blue-50 hover:bg-blue-100 transition cursor-pointer mb-8">
+            <input type="file" id="file-input" class="hidden" accept="video/*">
+            <i class="fa-solid fa-film text-5xl text-blue-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-gray-700 mb-2" data-i18n="video.drop.title">Drag & Drop Video Here</h3>
+            <p class="text-gray-500" data-i18n="video.drop.desc">or click to upload (MP4, WEBM, MOV)</p>
+        </div>
+
+        <!-- Editor Area -->
+        <div id="editor-area" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Left: Player & Controls -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Video Player -->
+                <div class="bg-black rounded-xl overflow-hidden shadow-lg">
+                    <video id="video-preview" controls class="w-full max-h-[500px] mx-auto"></video>
+                </div>
+
+                <!-- Trimming Controls -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="video.label.trim">Trim Video</h3>
+
+                    <div class="flex space-x-4 mb-4">
+                        <div class="flex-1">
+                            <label class="text-xs text-gray-500 font-bold uppercase" data-i18n="video.label.start">Start
+                                Time</label>
+                            <input type="number" id="start-time" value="0" step="0.1"
+                                class="w-full border border-gray-300 rounded p-2 text-sm mt-1">
+                        </div>
+                        <div class="flex-1">
+                            <label class="text-xs text-gray-500 font-bold uppercase" data-i18n="video.label.end">End
+                                Time</label>
+                            <input type="number" id="end-time" value="0" step="0.1"
+                                class="w-full border border-gray-300 rounded p-2 text-sm mt-1">
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-400">
+                        <i class="fa-solid fa-circle-info mr-1"></i>
+                        <span data-i18n="video.tip.time">Enter start/end times in seconds. Play video to find correct
+                            timestamps.</span>
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Right: Actions & Log -->
+            <div class="lg:col-span-1 space-y-6">
+
+                <!-- Conversion Options -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="video.label.opt">Output Options</h3>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2"
+                            data-i18n="video.label.format">Format</label>
+                        <select id="format-select" class="w-full border border-gray-300 rounded-lg p-2 text-sm">
+                            <option value="mp4">MP4 (H.264)</option>
+                            <option value="gif">GIF (Animated)</option>
+                            <option value="mp3">MP3 (Audio Only)</option>
+                        </select>
+                    </div>
+
+                    <button id="btn-process"
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center justify-center shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-gears mr-2"></i>
+                        <span data-i18n="video.action.process">Process Video</span>
+                    </button>
+
+                    <div id="progress-container" class="hidden mt-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <p id="progress-text" class="text-xs text-center text-gray-500 mt-2">Initializing...</p>
+                    </div>
+
+                </div>
+
+                <!-- Results -->
+                <div id="result-area" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="video.label.result">Result</h3>
+                    <div id="output-preview" class="mb-4 flex justify-center"></div>
+                    <a id="btn-download" href="#"
+                        class="w-full bg-green-600 text-white py-2 rounded-lg font-bold hover:bg-green-700 transition flex items-center justify-center text-sm shadow-sm">
+                        <i class="fa-solid fa-download mr-2"></i>
+                        <span data-i18n="common.download">Download</span>
+                    </a>
+                </div>
+
+                <!-- Logs -->
+                <div class="bg-gray-900 rounded-xl p-4 text-xs font-mono text-green-400 h-[200px] overflow-y-auto"
+                    id="log-output">
+                    <span class="text-gray-500">// System Ready</span><br>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="video.faq.title">Browser Video Editor FAQ</h2>
+            <p class="mb-4" data-i18n="video.faq.desc">Editing video traditionally requires powerful local software or
+                uploading large files to a server. We use WebAssembly to solve this.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Features</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="video.feat.1"><strong>Local Processing:</strong> Your video never leaves your browser.
+                    Zero privacy risk.</li>
+                <li data-i18n="video.feat.2"><strong>FFmpeg WASM:</strong> Powered by the industry-standard video
+                    processing engine, ported to the web.</li>
+                <li data-i18n="video.feat.3"><strong>Cross-Platform:</strong> Works on Windows, Mac, and Linux browsers
+                    (Chrome/Edge/Firefox recommended).</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.12.7/dist/umd/ffmpeg.js"></script>
+    <script src="https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+    <script src="../../js/i18n.js?v=2"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { FFmpeg } = FFmpegWASM;
+            const { fetchFile } = FFmpegUtil;
+
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input');
+            const editorArea = document.getElementById('editor-area');
+            const videoPreview = document.getElementById('video-preview');
+            const startTimeInput = document.getElementById('start-time');
+            const endTimeInput = document.getElementById('end-time');
+            const btnProcess = document.getElementById('btn-process');
+            const formatSelect = document.getElementById('format-select');
+            const progressContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const resultArea = document.getElementById('result-area');
+            const outputPreview = document.getElementById('output-preview');
+            const btnDownload = document.getElementById('btn-download');
+            const logOutput = document.getElementById('log-output');
+
+            let ffmpeg = null;
+            let inputFile = null;
+
+            // Logger
+            const log = (msg) => {
+                logOutput.innerHTML += `> ${msg}<br>`;
+                logOutput.scrollTop = logOutput.scrollHeight;
+            };
+
+            // Initialize FFmpeg
+            const loadFFmpeg = async () => {
+                log("Loading FFmpeg engine...");
+                ffmpeg = new FFmpeg();
+
+                ffmpeg.on('log', ({ message }) => {
+                    // Only log relevant info to avoid spamming
+                    if (message.includes('frame=') || message.includes('size=')) {
+                        // Optional: update UI detail
+                    } else {
+                        // log(message); 
+                    }
+                });
+
+                ffmpeg.on('progress', ({ progress }) => {
+                    const percent = Math.round(progress * 100);
+                    progressBar.style.width = `${percent}%`;
+                    progressText.textContent = `Processing: ${percent}%`;
+                });
+
+                try {
+                    // Load binaries from CDN
+                    await ffmpeg.load({
+                        coreURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
+                        wasmURL: 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm',
+                    });
+                    log("Engine loaded successfully.");
+                    btnProcess.disabled = false;
+                } catch (e) {
+                    log("Error loading engine: " + e.message);
+                    console.error(e);
+                    alert("Failed to load video engine. Your browser might not support SharedArrayBuffer. Please use latest Chrome/Edge on Desktop.");
+                }
+            };
+
+            // Only load when user uploads (save bandwidth) or immediately?
+            // Let's load immediately to be ready
+            loadFFmpeg();
+
+            // File Handling
+            uploadArea.addEventListener('click', () => fileInput.click());
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) handleFile(e.target.files[0]);
+            });
+
+            function handleFile(file) {
+                inputFile = file;
+                const url = URL.createObjectURL(file);
+                videoPreview.src = url;
+
+                // Reset UI
+                editorArea.classList.remove('hidden');
+                uploadArea.classList.add('hidden');
+                resultArea.classList.add('hidden');
+
+                // Get duration
+                videoPreview.onloadedmetadata = () => {
+                    endTimeInput.value = videoPreview.duration.toFixed(1);
+                    log(`Loaded video: ${file.name} (${videoPreview.duration.toFixed(1)}s)`);
+                };
+            }
+
+            // Processing Logic
+            btnProcess.addEventListener('click', async () => {
+                if (!ffmpeg || !inputFile) return;
+
+                const start = startTimeInput.value;
+                const duration = (endTimeInput.value - start).toFixed(2);
+                const format = formatSelect.value;
+                const outputName = `output.${format}`;
+
+                if (duration <= 0) {
+                    alert("End time must be greater than start time.");
+                    return;
+                }
+
+                btnProcess.disabled = true;
+                progressContainer.classList.remove('hidden');
+                progressBar.style.width = '0%';
+
+                log("Starting operation...");
+
+                try {
+                    // 1. Write file
+                    await ffmpeg.writeFile('input', await fetchFile(inputFile));
+
+                    // 2. Build command
+                    let args = [];
+                    // -ss before -i is faster (input seeking)
+                    args.push('-ss', start.toString());
+                    args.push('-i', 'input');
+                    args.push('-t', duration.toString()); // Duration to keep
+
+                    if (format === 'mp4') {
+                        // Fast preset
+                        args.push('-c:v', 'libx264', '-preset', 'ultrafast');
+                    } else if (format === 'gif') {
+                        // Optimize GIF palette
+                        args.push('-vf', 'fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse');
+                    } else if (format === 'mp3') {
+                        // Extract audio
+                        args.push('-vn', '-acodec', 'libmp3lame');
+                    }
+
+                    args.push(outputName);
+
+                    log(`Running command: ffmpeg ${args.join(' ')}`);
+
+                    // 3. Exec
+                    await ffmpeg.exec(args);
+
+                    log("Processing finished.");
+
+                    // 4. Read Result
+                    const data = await ffmpeg.readFile(outputName);
+
+                    // 5. Create URL
+                    const blob = new Blob([data.buffer], { type: format === 'mp4' ? 'video/mp4' : (format === 'gif' ? 'image/gif' : 'audio/mpeg') });
+                    const url = URL.createObjectURL(blob);
+
+                    // 6. Show Result
+                    resultArea.classList.remove('hidden');
+                    btnDownload.href = url;
+                    btnDownload.download = outputName;
+
+                    if (format === 'gif') {
+                        outputPreview.innerHTML = `<img src="${url}" class="max-w-full rounded shadow">`;
+                    } else if (format === 'mp4') {
+                        outputPreview.innerHTML = `<video src="${url}" controls class="max-w-full rounded shadow"></video>`;
+                    } else {
+                        outputPreview.innerHTML = `<audio src="${url}" controls class="w-full"></audio>`;
+                    }
+
+                } catch (e) {
+                    log("Error: " + e.message);
+                    console.error(e);
+                    alert("Processing failed. Check logs.");
+                } finally {
+                    btnProcess.disabled = false;
+                    progressContainer.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

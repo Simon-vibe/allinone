@@ -114,19 +114,39 @@
             </div>
 
             <!-- Right: Text Area -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full flex flex-col">
+            <div class="lg:col-span-2 space-y-4">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                    <label class="text-sm font-bold text-gray-700 mb-2" data-i18n="token.label.input">Input Text
+                        (Prompt)</label>
                     <textarea id="text-input"
-                        class="flex-grow w-full border border-gray-200 rounded-lg p-6 font-mono text-base focus:ring-2 focus:ring-blue-500 outline-none resize-none min-h-[400px]"
-                        placeholder="Paste your text here to calculate tokens..."></textarea>
+                        class="flex-grow w-full border border-gray-200 rounded-lg p-4 font-mono text-base focus:ring-2 focus:ring-blue-500 outline-none resize-none min-h-[300px]"
+                        placeholder="Paste your prompt here..."></textarea>
 
-                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-                        <button id="btn-clear" class="text-red-500 hover:text-red-700 text-sm font-medium">
-                            <i class="fa-solid fa-trash mr-1"></i> <span data-i18n="json.action.clear">Clear</span>
-                        </button>
-                        <button id="btn-copy" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                            <i class="fa-regular fa-copy mr-1"></i> <span data-i18n="json.action.copy">Copy Text</span>
-                        </button>
+                    <div class="flex justify-between items-center mt-3">
+                        <span class="text-xs text-gray-500"><span id="input-token-count">0</span> tokens</span>
+                        <div class="space-x-2">
+                            <button id="btn-clear"
+                                class="text-red-500 hover:text-red-700 text-xs font-medium uppercase">
+                                <i class="fa-solid fa-trash mr-1"></i> <span data-i18n="json.action.clear">Clear</span>
+                            </button>
+                            <button id="btn-copy"
+                                class="text-blue-600 hover:text-blue-800 text-xs font-medium uppercase">
+                                <i class="fa-regular fa-copy mr-1"></i> <span data-i18n="json.action.copy">Copy</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <label class="text-sm font-bold text-gray-700 mb-2 flex justify-between">
+                        <span data-i18n="token.label.output">Estimated Output Tokens (Completion)</span>
+                        <span class="text-gray-400 font-normal text-xs">Max: 128k</span>
+                    </label>
+                    <input type="range" id="output-slider" min="0" max="4096" value="1000" class="w-full mb-2">
+                    <div class="flex justify-between items-center">
+                        <input type="number" id="output-input" value="1000"
+                            class="border border-gray-300 rounded p-1 text-sm w-24 text-center">
+                        <span class="text-xs text-gray-400">Adjust to estimate completion cost</span>
                     </div>
                 </div>
             </div>
@@ -162,8 +182,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const textInput = document.getElementById('text-input');
-            const tokenCount = document.getElementById('token-count');
+            const totalTokenCount = document.getElementById('token-count');
+            const inputTokenCountDisplay = document.getElementById('input-token-count');
             const charCount = document.getElementById('char-count');
+
+            const outputSlider = document.getElementById('output-slider');
+            const outputInput = document.getElementById('output-input');
+
             const btnClear = document.getElementById('btn-clear');
             const btnCopy = document.getElementById('btn-copy');
 
@@ -171,45 +196,63 @@
             const costGpt35 = document.getElementById('cost-gpt35');
             const costClaude = document.getElementById('cost-claude');
 
-            // Pricing per 1K tokens (Input)
+            // Pricing per 1K tokens (Input, Output) - Aug 2024 Est.
             const PRICING = {
-                gpt4o: 0.005, // $5.00 / 1M tokens -> $0.005 / 1K
-                gpt35: 0.0005, // $0.50 / 1M tokens -> $0.0005 / 1K
-                claude: 0.003  // $3.00 / 1M tokens -> $0.003 / 1K
+                gpt4o: { in: 0.005, out: 0.015 },      // $5.00 / $15.00 per 1M
+                gpt4o_mini: { in: 0.00015, out: 0.0006 }, // $0.15 / $0.60 per 1M
+                claude35: { in: 0.003, out: 0.015 },   // $3.00 / $15.00 per 1M
+                gpt35: { in: 0.0005, out: 0.0015 }     // $0.50 / $1.50 per 1M
             };
+
+            let currentInputTokens = 0;
 
             function updateStats() {
                 const text = textInput.value;
                 charCount.textContent = text.length.toLocaleString();
 
                 if (!text) {
-                    tokenCount.textContent = '0';
-                    updateCosts(0);
-                    return;
+                    currentInputTokens = 0;
+                } else {
+                    try {
+                        const encoded = gpt3Encoder.encode(text);
+                        currentInputTokens = encoded.length;
+                    } catch (e) {
+                        currentInputTokens = Math.ceil(text.length / 4);
+                    }
                 }
 
-                try {
-                    // Try using the encoder
-                    const encoded = gpt3Encoder.encode(text);
-                    const tokens = encoded.length;
-                    tokenCount.textContent = tokens.toLocaleString();
-                    updateCosts(tokens);
-                } catch (e) {
-                    // Fallback approximation: ~4 chars per token
-                    console.warn("Encoder error, using approximation", e);
-                    const tokens = Math.ceil(text.length / 4);
-                    tokenCount.textContent = "~" + tokens.toLocaleString();
-                    updateCosts(tokens);
-                }
+                inputTokenCountDisplay.textContent = currentInputTokens.toLocaleString();
+                updateTotalAndCosts();
             }
 
-            function updateCosts(tokens) {
-                costGpt4o.textContent = '$' + (tokens / 1000 * PRICING.gpt4o).toFixed(4);
-                costGpt35.textContent = '$' + (tokens / 1000 * PRICING.gpt35).toFixed(4);
-                costClaude.textContent = '$' + (tokens / 1000 * PRICING.claude).toFixed(4);
+            function updateTotalAndCosts() {
+                const outputTokens = parseInt(outputInput.value) || 0;
+                const total = currentInputTokens + outputTokens;
+                totalTokenCount.textContent = total.toLocaleString();
+
+                // Calculate Costs: (In * PriceIn) + (Out * PriceOut)
+                const calc = (model) => {
+                    const cost = (currentInputTokens / 1000 * model.in) + (outputTokens / 1000 * model.out);
+                    return '$' + cost.toFixed(4); // Show 4 decimals
+                };
+
+                costGpt4o.textContent = calc(PRICING.gpt4o);
+                costGpt35.textContent = calc(PRICING.gpt4o_mini); // Using 4o-mini as "Cheaper" slot
+                costClaude.textContent = calc(PRICING.claude35);
             }
 
+            // Listeners
             textInput.addEventListener('input', updateStats);
+
+            outputSlider.addEventListener('input', (e) => {
+                outputInput.value = e.target.value;
+                updateTotalAndCosts();
+            });
+
+            outputInput.addEventListener('input', (e) => {
+                outputSlider.value = e.target.value;
+                updateTotalAndCosts();
+            });
 
             btnClear.addEventListener('click', () => {
                 textInput.value = '';
@@ -219,12 +262,8 @@
             btnCopy.addEventListener('click', () => {
                 textInput.select();
                 document.execCommand('copy');
-                const originalHtml = btnCopy.innerHTML;
-                btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${i18n.t('common.copied')}`;
-                setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
             });
 
-            // Initial call if there's pre-filled text (e.g. from cache)
             updateStats();
         });
     </script>

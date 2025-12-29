@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="crypto.meta.title">Secure File Encryption - Bank Grade AES-GCM Online</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
+    <meta name="description"
+        content="Encrypt files and text securely in your browser using AES-GCM 256-bit encryption. No data is sent to any server."
+        data-i18n="crypto.meta.desc">
+    <meta name="keywords" content="file encryption, encrypt online, aes-gcm, browser encryption, secure file transfer"
+        data-i18n="crypto.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/secure-encryption/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/secure-encryption/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/secure-encryption/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/secure-encryption/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/secure-encryption/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Secure File Encryption">
+    <meta property="og:description" content="Encrypt files locally with AES-GCM. 100% Private.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.crypto.title">Secure File Encryption</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.crypto.desc">Encrypt and decrypt files locally
+                using bank-grade AES-GCM technology. Your data never leaves your device.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- Encrypt Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="flex items-center mb-6">
+                    <div
+                        class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-4 shadow-sm">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="crypto.label.encrypt">Encrypt</h2>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- File Input -->
+                    <div id="encrypt-drop"
+                        class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 hover:bg-gray-100 transition cursor-pointer">
+                        <input type="file" id="encrypt-input" class="hidden">
+                        <i class="fa-solid fa-file-shield text-3xl text-gray-400 mb-2"></i>
+                        <p class="text-sm font-medium text-gray-600" data-i18n="crypto.msg.drop_enc">Drop file here to
+                            Encrypt</p>
+                        <p class="text-xs text-gray-400 mt-1" id="encrypt-filename"></p>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2"
+                            data-i18n="crypto.label.pass">Password</label>
+                        <input type="password" id="encrypt-pass"
+                            class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                            placeholder="Enter a strong password">
+                    </div>
+
+                    <button id="btn-encrypt"
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span data-i18n="crypto.action.encrypt">Encrypt File</span>
+                    </button>
+
+                    <!-- Result -->
+                    <div id="encrypt-result"
+                        class="hidden text-center p-4 bg-green-50 rounded-lg border border-green-100">
+                        <i class="fa-solid fa-circle-check text-green-500 text-xl mb-2"></i>
+                        <p class="text-sm text-green-800 font-medium mb-3" data-i18n="crypto.msg.enc_success">Encryption
+                            Successful!</p>
+                        <a id="btn-download-enc"
+                            class="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-green-700 transition">
+                            <i class="fa-solid fa-download mr-1"></i> <span data-i18n="common.download">Download
+                                .enc</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Decrypt Section -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+                <div class="flex items-center mb-6">
+                    <div
+                        class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-4 shadow-sm">
+                        <i class="fa-solid fa-lock-open"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="crypto.label.decrypt">Decrypt</h2>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- File Input -->
+                    <div id="decrypt-drop"
+                        class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 hover:bg-gray-100 transition cursor-pointer">
+                        <input type="file" id="decrypt-input" class="hidden"> <!-- .enc or .allinone-enc -->
+                        <i class="fa-brands fa-expeditedssl text-3xl text-gray-400 mb-2"></i>
+                        <p class="text-sm font-medium text-gray-600" data-i18n="crypto.msg.drop_dec">Drop .enc file here
+                            to Decrypt</p>
+                        <p class="text-xs text-gray-400 mt-1" id="decrypt-filename"></p>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2"
+                            data-i18n="crypto.label.pass">Password</label>
+                        <input type="password" id="decrypt-pass"
+                            class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
+                            placeholder="Enter the password">
+                    </div>
+
+                    <button id="btn-decrypt"
+                        class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span data-i18n="crypto.action.decrypt">Decrypt File</span>
+                    </button>
+
+                    <!-- Result -->
+                    <div id="decrypt-result"
+                        class="hidden text-center p-4 bg-blue-50 rounded-lg border border-blue-100">
+                        <i class="fa-solid fa-unlock text-blue-500 text-xl mb-2"></i>
+                        <p class="text-sm text-blue-800 font-medium mb-3" data-i18n="crypto.msg.dec_success">Decryption
+                            Successful!</p>
+                        <a id="btn-download-dec"
+                            class="inline-block bg-blue-600 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-700 transition">
+                            <i class="fa-solid fa-download mr-1"></i> <span data-i18n="common.download">Download
+                                File</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="crypto.faq.title">Secure Encryption FAQ</h2>
+            <p class="mb-4" data-i18n="crypto.faq.desc">We use the Web Crypto API, which is built into your browser, to
+                perform military-grade AES-GCM encryption without ever sending data to a server.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">How it works</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="crypto.feat.1"><strong>PBKDF2:</strong> Your password is salted and hashed 100,000 times
+                    to generate a secure encryption key.</li>
+                <li data-i18n="crypto.feat.2"><strong>AES-GCM:</strong> We use Authenticated Encryption (AES-GCM
+                    256-bit) to ensure both confidentiality and integrity.</li>
+                <li data-i18n="crypto.feat.3"><strong>Client-Side Only:</strong> Since it runs in your browser, even we
+                    cannot see your files or passwords.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Helper: Read file as ArrayBuffer
+            const readFile = (file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsArrayBuffer(file);
+                });
+            };
+
+            // Derive Key from Password (PBKDF2)
+            async function deriveKey(password, salt) {
+                const encoder = new TextEncoder();
+                const keyMaterial = await window.crypto.subtle.importKey(
+                    "raw",
+                    encoder.encode(password),
+                    "PBKDF2",
+                    false,
+                    ["deriveKey"]
+                );
+
+                return window.crypto.subtle.deriveKey(
+                    {
+                        name: "PBKDF2",
+                        salt: salt,
+                        iterations: 100000,
+                        hash: "SHA-256"
+                    },
+                    keyMaterial,
+                    { name: "AES-GCM", length: 256 },
+                    false,
+                    ["encrypt", "decrypt"]
+                );
+            }
+
+            // --- Encryption ---
+            const encryptDrop = document.getElementById('encrypt-drop');
+            const encryptInput = document.getElementById('encrypt-input');
+            const encryptFilename = document.getElementById('encrypt-filename');
+            const encryptPass = document.getElementById('encrypt-pass');
+            const btnEncrypt = document.getElementById('btn-encrypt');
+            const encryptResult = document.getElementById('encrypt-result');
+            const btnDownloadEnc = document.getElementById('btn-download-enc');
+
+            let fileToEncrypt = null;
+
+            encryptDrop.addEventListener('click', () => encryptInput.click());
+            encryptInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    fileToEncrypt = e.target.files[0];
+                    encryptFilename.textContent = fileToEncrypt.name;
+                }
+            });
+
+            btnEncrypt.addEventListener('click', async () => {
+                if (!fileToEncrypt || !encryptPass.value) {
+                    alert(i18n.t("Please select a file and enter a password."));
+                    return;
+                }
+
+                try {
+                    btnEncrypt.disabled = true;
+                    btnEncrypt.textContent = "Encrypting...";
+
+                    const salt = window.crypto.getRandomValues(new Uint8Array(16));
+                    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+                    const key = await deriveKey(encryptPass.value, salt);
+                    const fileData = await readFile(fileToEncrypt);
+
+                    const encryptedContent = await window.crypto.subtle.encrypt(
+                        { name: "AES-GCM", iv: iv },
+                        key,
+                        fileData
+                    );
+
+                    // Output Format: Salt (16) + IV (12) + Content
+                    const combinedData = new Uint8Array(salt.length + iv.length + encryptedContent.byteLength);
+                    combinedData.set(salt, 0);
+                    combinedData.set(iv, salt.length);
+                    combinedData.set(new Uint8Array(encryptedContent), salt.length + iv.length);
+
+                    const blob = new Blob([combinedData], { type: "application/octet-stream" });
+                    const url = URL.createObjectURL(blob);
+
+                    btnDownloadEnc.href = url;
+                    btnDownloadEnc.download = fileToEncrypt.name + ".enc";
+                    encryptResult.classList.remove('hidden');
+
+                } catch (e) {
+                    console.error(e);
+                    alert("Encryption failed.");
+                } finally {
+                    btnEncrypt.disabled = false;
+                    btnEncrypt.textContent = i18n.t("crypto.action.encrypt");
+                }
+            });
+
+            // --- Decryption ---
+            const decryptDrop = document.getElementById('decrypt-drop');
+            const decryptInput = document.getElementById('decrypt-input');
+            const decryptFilename = document.getElementById('decrypt-filename');
+            const decryptPass = document.getElementById('decrypt-pass');
+            const btnDecrypt = document.getElementById('btn-decrypt');
+            const decryptResult = document.getElementById('decrypt-result');
+            const btnDownloadDec = document.getElementById('btn-download-dec');
+
+            let fileToDecrypt = null;
+
+            decryptDrop.addEventListener('click', () => decryptInput.click());
+            decryptInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    fileToDecrypt = e.target.files[0];
+                    decryptFilename.textContent = fileToDecrypt.name;
+                }
+            });
+
+            btnDecrypt.addEventListener('click', async () => {
+                if (!fileToDecrypt || !decryptPass.value) {
+                    alert("Please select a file and enter a password.");
+                    return;
+                }
+
+                try {
+                    btnDecrypt.disabled = true;
+                    btnDecrypt.textContent = "Decrypting...";
+
+                    const fileData = await readFile(fileToDecrypt);
+                    const dataView = new Uint8Array(fileData);
+
+                    // Extract Salt and IV
+                    const salt = dataView.slice(0, 16);
+                    const iv = dataView.slice(16, 28);
+                    const encryptedContent = dataView.slice(28);
+
+                    const key = await deriveKey(decryptPass.value, salt);
+
+                    const decryptedContent = await window.crypto.subtle.decrypt(
+                        { name: "AES-GCM", iv: iv },
+                        key,
+                        encryptedContent
+                    );
+
+                    // Recover original filename (remove .enc)
+                    let originalName = fileToDecrypt.name.replace(/\.enc$/, '');
+                    if (originalName === fileToDecrypt.name) originalName = "decrypted_" + originalName;
+
+                    const blob = new Blob([decryptedContent]);
+                    const url = URL.createObjectURL(blob);
+
+                    btnDownloadDec.href = url;
+                    btnDownloadDec.download = originalName;
+                    decryptResult.classList.remove('hidden');
+
+                } catch (e) {
+                    console.error(e);
+                    alert("Decryption failed. Wrong password?");
+                } finally {
+                    btnDecrypt.disabled = false;
+                    btnDecrypt.textContent = i18n.t("crypto.action.decrypt");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
