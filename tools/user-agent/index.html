@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="ua.meta.title">What is my User Agent? - Browser Info Tool</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌐</text></svg>">
+    <meta name="description"
+        content="Instantly check your User Agent string, browser version, operating system, and screen resolution."
+        data-i18n="ua.meta.desc">
+    <meta name="keywords"
+        content="user agent, what is my user agent, browser info, screen resolution, my ip, system info"
+        data-i18n="ua.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/user-agent/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/user-agent/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/user-agent/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/user-agent/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/user-agent/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="What is my User Agent?">
+    <meta property="og:description" content="Check your browser and system information instantly.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .info-value {
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.ua.title">What is my User Agent?</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.ua.desc">Instantly check your browser, OS, and
+                system information.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+
+            <!-- User Agent String -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 md:col-span-2 text-center">
+                <div class="text-sm font-bold text-gray-400 uppercase tracking-wide mb-4" data-i18n="ua.label.ua">Your
+                    User Agent String</div>
+                <div id="ua-string"
+                    class="text-xl md:text-2xl font-mono text-blue-600 bg-blue-50 p-6 rounded-lg break-all">
+                    Loading...
+                </div>
+                <button id="btn-copy" class="mt-4 text-sm text-gray-500 hover:text-blue-600 font-medium transition">
+                    <i class="fa-regular fa-copy mr-1"></i> <span data-i18n="json.action.copy">Copy to clipboard</span>
+                </button>
+            </div>
+
+            <!-- Detailed Info -->
+            <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Browser -->
+                <div
+                    class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center hover:shadow-md transition">
+                    <div
+                        class="w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mb-3 text-2xl">
+                        <i class="fa-brands fa-chrome"></i>
+                    </div>
+                    <div class="text-xs text-gray-400 font-bold uppercase mb-1" data-i18n="ua.label.browser">Browser
+                    </div>
+                    <div id="info-browser" class="text-lg font-bold text-gray-800">...</div>
+                </div>
+
+                <!-- OS -->
+                <div
+                    class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center hover:shadow-md transition">
+                    <div
+                        class="w-12 h-12 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center mb-3 text-2xl">
+                        <i class="fa-solid fa-desktop"></i>
+                    </div>
+                    <div class="text-xs text-gray-400 font-bold uppercase mb-1" data-i18n="ua.label.os">OS</div>
+                    <div id="info-os" class="text-lg font-bold text-gray-800">...</div>
+                </div>
+
+                <!-- Screen -->
+                <div
+                    class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center hover:shadow-md transition">
+                    <div
+                        class="w-12 h-12 bg-green-100 text-green-500 rounded-full flex items-center justify-center mb-3 text-2xl">
+                        <i class="fa-solid fa-display"></i>
+                    </div>
+                    <div class="text-xs text-gray-400 font-bold uppercase mb-1" data-i18n="ua.label.screen">Screen
+                        Resolution</div>
+                    <div id="info-screen" class="text-lg font-bold text-gray-800">...</div>
+                </div>
+
+                <!-- IP (Optional fetch) -->
+                <div
+                    class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center text-center hover:shadow-md transition">
+                    <div
+                        class="w-12 h-12 bg-purple-100 text-purple-500 rounded-full flex items-center justify-center mb-3 text-2xl">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <div class="text-xs text-gray-400 font-bold uppercase mb-1" data-i18n="ua.label.ip">IP Address</div>
+                    <div id="info-ip" class="text-lg font-bold text-gray-800">...</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="ua.faq.title">User Agent FAQ</h2>
+            <p class="mb-4" data-i18n="ua.faq.desc">A User Agent is a string of text that your browser sends to websites
+                to identify itself.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Why do need this?</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="ua.feat.1"><strong>Troubleshooting:</strong> Support teams often ask for this to diagnose
+                    issues.</li>
+                <li data-i18n="ua.feat.2"><strong>Content Delivery:</strong> Websites use it to serve mobile or desktop
+                    versions.</li>
+                <li data-i18n="ua.feat.3"><strong>Analytics:</strong> Helps webmasters understand their audience's
+                    devices.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uaString = document.getElementById('ua-string');
+            const infoBrowser = document.getElementById('info-browser');
+            const infoOs = document.getElementById('info-os');
+            const infoScreen = document.getElementById('info-screen');
+            const infoIp = document.getElementById('info-ip');
+            const btnCopy = document.getElementById('btn-copy');
+
+            // 1. User Agent
+            const ua = navigator.userAgent;
+            uaString.textContent = ua;
+
+            // 2. Simple Parsing (Basic)
+            const getBrowser = () => {
+                if (ua.includes("Firefox")) return "Mozilla Firefox";
+                if (ua.includes("SamsungBrowser")) return "Samsung Internet";
+                if (ua.includes("Opera") || ua.includes("OPR")) return "Opera";
+                if (ua.includes("Edg")) return "Microsoft Edge";
+                if (ua.includes("Chrome")) return "Google Chrome";
+                if (ua.includes("Safari")) return "Apple Safari";
+                return "Unknown Browser";
+            };
+
+            const getOS = () => {
+                if (ua.includes("Win")) return "Windows";
+                if (ua.includes("Mac")) return "macOS";
+                if (ua.includes("Linux")) return "Linux";
+                if (ua.includes("Android")) return "Android";
+                if (ua.includes("iOS") || ua.includes("iPhone") || ua.includes("iPad")) return "iOS";
+                return "Unknown OS";
+            };
+
+            infoBrowser.textContent = getBrowser();
+            infoOs.textContent = getOS();
+
+            // 3. Screen
+            const width = window.screen.width;
+            const height = window.screen.height;
+            const dpr = window.devicePixelRatio || 1;
+            infoScreen.innerHTML = `${width} x ${height} <span class="text-sm font-normal text-gray-500">(@${dpr}x)</span>`;
+
+            // 4. IP (Fetch from API)
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    infoIp.textContent = data.ip;
+                })
+                .catch(err => {
+                    infoIp.textContent = "-";
+                    console.error("IP Fetch failed", err);
+                });
+
+            // Copy
+            btnCopy.addEventListener('click', () => {
+                navigator.clipboard.writeText(ua).then(() => {
+                    const originalHtml = btnCopy.innerHTML;
+                    btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${i18n.t('common.copied')}`;
+                    setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="md.meta.title">URL to Markdown Converter - Extract Content for AI</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+    <meta name="description"
+        content="Convert any webpage to clean Markdown for ChatGPT and Claude. Extract main content and remove clutter."
+        data-i18n="md.meta.desc">
+    <meta name="keywords" content="url to markdown, html to markdown, web scraper, content extractor, ai prompt tool"
+        data-i18n="md.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/url-to-markdown/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/url-to-markdown/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/url-to-markdown/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/url-to-markdown/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/url-to-markdown/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="URL to Markdown Converter">
+    <meta property="og:description" content="Prepare web content for AI. Convert HTML to clean Markdown.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-area {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.md.title">URL to Markdown</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.md.desc">Extract content from webpages and
+                convert to Markdown for LLMs.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+            <div class="space-y-4">
+
+                <!-- Input Type -->
+                <div class="flex space-x-6 border-b border-gray-100 pb-4">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="input-type" value="html" checked class="mr-2 text-blue-600">
+                        <span class="font-medium">Paste HTML Source</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer text-gray-400" title="Coming soon">
+                        <input type="radio" name="input-type" value="url" disabled class="mr-2">
+                        <span>Fetch URL (Coming Soon)</span>
+                    </label>
+                </div>
+
+                <div id="html-input-container">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="md.label.html">Paste HTML
+                        Source Code Here:</label>
+                    <textarea id="input-html" rows="6"
+                        class="code-area w-full border border-gray-200 rounded-lg p-4 text-xs bg-gray-50 outline-none resize-y focus:ring-2 focus:ring-blue-500"
+                        placeholder="<html>...</html>"></textarea>
+                    <p class="text-xs text-gray-500 mt-2">
+                        <i class="fa-solid fa-circle-info mr-1"></i>
+                        <span data-i18n="md.tip">Tip: Right-click page -> 'View Page Source' -> Copy All -> Paste here.
+                            This ensures 100% accuracy.</span>
+                    </p>
+                </div>
+
+                <div class="flex justify-center pt-2">
+                    <button id="btn-convert"
+                        class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center shadow-md hover:shadow-lg">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+                        <span data-i18n="md.action.convert">Convert to Markdown</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div id="result-container" class="hidden bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-gray-900" data-i18n="md.label.result">Markdown Result</h3>
+                <div class="space-x-2">
+                    <button id="btn-copy" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                        <i class="fa-regular fa-copy mr-1"></i> <span data-i18n="json.action.copy">Copy</span>
+                    </button>
+                    <button id="btn-download" class="text-green-600 hover:text-green-800 text-sm font-medium">
+                        <i class="fa-solid fa-download mr-1"></i> <span data-i18n="common.download">Download .md</span>
+                    </button>
+                </div>
+            </div>
+            <textarea id="output-md" readonly
+                class="code-area w-full min-h-[500px] border border-gray-200 rounded-lg p-4 text-sm bg-gray-50 outline-none resize-y"></textarea>
+        </div>
+
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="md.faq.title">URL to Markdown FAQ</h2>
+            <p class="mb-4" data-i18n="md.faq.desc">Why use Markdown? It's the cleanest text format for Large Language
+                Models. Pasting HTML directly into ChatGPT often confuses it with scripts and styles.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">How it works</h3>
+            <ul class="list-disc pl-5 space-y-2 mb-6">
+                <li data-i18n="md.feat.1"><strong>Readability:</strong> We utilize Mozilla's Readability engine to
+                    isolate the main article content.</li>
+                <li data-i18n="md.feat.2"><strong>Turndown:</strong> Converts the cleaned HTML into standard Markdown.
+                </li>
+                <li data-i18n="md.feat.3"><strong>Privacy:</strong> Conversion happens entirely in your browser.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@mozilla/readability@0.4.4/Readability.js"></script>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputHtml = document.getElementById('input-html');
+            const btnConvert = document.getElementById('btn-convert');
+            const resultContainer = document.getElementById('result-container');
+            const outputMd = document.getElementById('output-md');
+            const btnCopy = document.getElementById('btn-copy');
+            const btnDownload = document.getElementById('btn-download');
+
+            const turndownService = new TurndownService({
+                headingStyle: 'atx',
+                codeBlockStyle: 'fenced'
+            });
+
+            btnConvert.addEventListener('click', () => {
+                const html = inputHtml.value;
+                if (!html.trim()) return;
+
+                try {
+                    // 1. Parse HTML string to DOM
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, "text/html");
+
+                    // 2. Use Readability to extract main content
+                    // Check if Readability exists and if the doc looks valid
+                    let article;
+                    try {
+                        const reader = new Readability(doc);
+                        article = reader.parse();
+                    } catch (e) {
+                        console.warn("Readability failed, falling back to full body", e);
+                    }
+
+                    let contentToConvert = "";
+                    let title = "";
+
+                    if (article && article.content) {
+                        contentToConvert = article.content;
+                        title = article.title;
+                        // Add title as H1
+                        contentToConvert = `<h1>${title}</h1>\n\n` + contentToConvert;
+                    } else {
+                        // Fallback: convert body
+                        contentToConvert = doc.body.innerHTML;
+                    }
+
+                    // 3. Convert to Markdown
+                    const markdown = turndownService.turndown(contentToConvert);
+
+                    outputMd.value = markdown;
+                    resultContainer.classList.remove('hidden');
+
+                    // Scroll to result
+                    resultContainer.scrollIntoView({ behavior: 'smooth' });
+
+                } catch (error) {
+                    console.error(error);
+                    alert('Conversion failed. Please ensure the HTML is valid.');
+                }
+            });
+
+            btnCopy.addEventListener('click', () => {
+                outputMd.select();
+                document.execCommand('copy');
+                const originalHtml = btnCopy.innerHTML;
+                btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${i18n.t('common.copied')}`;
+                setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
+            });
+
+            btnDownload.addEventListener('click', () => {
+                const text = outputMd.value;
+                if (!text) return;
+
+                const blob = new Blob([text], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'article.md';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+</body>
+
+</html>

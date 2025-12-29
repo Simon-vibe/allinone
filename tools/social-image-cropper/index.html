@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="crop.meta.title">Social Media Image Cropper - Resize for Insta, Twitter, YT</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>">
+    <meta name="description"
+        content="Crop and resize images for social media instantly. Presets for Instagram, Twitter/X, YouTube, LinkedIn, and more."
+        data-i18n="crop.meta.desc">
+    <meta name="keywords"
+        content="image cropper, social media resizer, instagram crop, twitter header size, youtube thumbnail maker"
+        data-i18n="crop.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/social-image-cropper/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/social-image-cropper/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/social-image-cropper/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/social-image-cropper/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/social-image-cropper/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Social Media Image Cropper">
+    <meta property="og:description" content="Perfectly crop images for every social platform.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cropper-container {
+            max-height: 500px;
+        }
+
+        /* Custom scrollbar for presets */
+        .presets-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .presets-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .presets-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.crop.title">Social Media Image Cropper</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.crop.desc">Crop images perfectly for Instagram,
+                Twitter, YouTube, and LinkedIn.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <!-- File Upload Area -->
+        <div id="upload-area"
+            class="border-2 border-dashed border-blue-200 rounded-xl p-12 text-center bg-blue-50 hover:bg-blue-100 transition cursor-pointer mb-8">
+            <input type="file" id="file-input" class="hidden" accept="image/*">
+            <i class="fa-solid fa-cloud-arrow-up text-5xl text-blue-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-gray-700 mb-2" data-i18n="ocr.drop.title">Drag & Drop Image Here</h3>
+            <p class="text-gray-500" data-i18n="ocr.drop.desc">or click to upload (JPG, PNG, WebP)</p>
+        </div>
+
+        <!-- Editor Area (Hidden initially) -->
+        <div id="editor-area" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Left: Cropper -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <div
+                    class="h-[400px] lg:h-[500px] bg-gray-900 rounded-lg overflow-hidden flex items-center justify-center">
+                    <img id="image-to-crop" src="" alt="Source Image" class="max-w-full max-h-full">
+                </div>
+
+                <!-- Rotation Controls -->
+                <div class="flex justify-center space-x-4 mt-6">
+                    <button id="btn-rotate-left"
+                        class="bg-gray-100 hover:bg-gray-200 p-3 rounded-full text-gray-600 transition"
+                        title="Rotate Left">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                    <button id="btn-rotate-right"
+                        class="bg-gray-100 hover:bg-gray-200 p-3 rounded-full text-gray-600 transition"
+                        title="Rotate Right">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                    <button id="btn-flip-h"
+                        class="bg-gray-100 hover:bg-gray-200 p-3 rounded-full text-gray-600 transition"
+                        title="Flip Horizontal">
+                        <i class="fa-solid fa-left-right"></i>
+                    </button>
+                    <button id="btn-reset" class="bg-red-50 hover:bg-red-100 text-red-500 p-3 rounded-full transition"
+                        title="Reset">
+                        <i class="fa-solid fa-history"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Controls & Download -->
+            <div class="lg:col-span-1 space-y-6">
+
+                <!-- Presets -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="crop.label.presets">Crop Presets</h3>
+
+                    <div class="space-y-4">
+                        <!-- Instagram -->
+                        <div>
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">Instagram</div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button
+                                    class="preset-btn bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 px-3 rounded text-xs font-medium transition"
+                                    data-ratio="1" data-label="Square (1:1)">
+                                    Square
+                                </button>
+                                <button
+                                    class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
+                                    data-ratio="0.8" data-label="Portrait (4:5)">
+                                    Portrait
+                                </button>
+                                <button
+                                    class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
+                                    data-ratio="1.91" data-label="Landscape (1.91:1)">
+                                    Landscape
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Twitter/X -->
+                        <div>
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">Twitter / X</div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button
+                                    class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
+                                    data-ratio="3" data-label="Header (3:1)">
+                                    Header
+                                </button>
+                                <button
+                                    class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
+                                    data-ratio="1.7778" data-label="Post (16:9)">
+                                    Post
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- YouTube -->
+                        <div>
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">YouTube</div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button
+                                    class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
+                                    data-ratio="1.7778" data-label="Thumbnail (16:9)">
+                                    Thumbnail
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Free -->
+                        <div>
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">Custom</div>
+                            <button
+                                class="preset-btn w-full bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
+                                data-ratio="NaN" data-label="Free Form">
+                                Free Form
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <button id="btn-download"
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center justify-center shadow-md hover:shadow-lg">
+                        <i class="fa-solid fa-download mr-2"></i>
+                        <span data-i18n="common.download">Download Image</span>
+                    </button>
+                    <button id="btn-new" class="w-full mt-3 text-gray-500 hover:text-gray-700 py-2 text-sm font-medium">
+                        <span data-i18n="crop.action.new">Upload New Image</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="crop.faq.title">Image Cropper FAQ</h2>
+            <p class="mb-4" data-i18n="crop.faq.desc">Correct image sizes are key to increasing engagement on social
+                media platforms.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="crop.size.title">Common Social Media Sizes
+                (2025)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 not-prose">
+                <div class="bg-white p-4 rounded-lg border border-gray-100 text-sm">
+                    <strong class="block text-gray-900 mb-1">Instagram</strong>
+                    <ul class="list-disc pl-4 text-gray-500 space-y-1">
+                        <li>Square: 1080 x 1080 px (1:1)</li>
+                        <li>Portrait: 1080 x 1350 px (4:5)</li>
+                        <li>Story: 1080 x 1920 px (9:16)</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-gray-100 text-sm">
+                    <strong class="block text-gray-900 mb-1">Twitter / X</strong>
+                    <ul class="list-disc pl-4 text-gray-500 space-y-1">
+                        <li>Header: 1500 x 500 px (3:1)</li>
+                        <li>In-Stream: 1600 x 900 px (16:9)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2026 allinone.page. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input');
+            const editorArea = document.getElementById('editor-area');
+            const imageElement = document.getElementById('image-to-crop');
+            const btnDownload = document.getElementById('btn-download');
+            const btnNew = document.getElementById('btn-new');
+            const presetBtns = document.querySelectorAll('.preset-btn');
+
+            let cropper = null;
+
+            // File Upload Logic
+            uploadArea.addEventListener('click', () => fileInput.click());
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('border-blue-500', 'bg-blue-100');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('border-blue-500', 'bg-blue-100');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('border-blue-500', 'bg-blue-100');
+                if (e.dataTransfer.files.length > 0) {
+                    handleFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+
+            function handleFile(file) {
+                if (!file.type.startsWith('image/')) {
+                    alert('Please upload an image file.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imageElement.src = e.target.result;
+                    uploadArea.classList.add('hidden');
+                    editorArea.classList.remove('hidden');
+                    initCropper();
+                };
+                reader.readAsDataURL(file);
+            }
+
+            function initCropper() {
+                if (cropper) cropper.destroy();
+
+                cropper = new Cropper(imageElement, {
+                    aspectRatio: 1, // Default to square
+                    viewMode: 1,
+                    autoCropArea: 0.9,
+                    responsive: true,
+                    background: false, // Checkboard via CSS parent is better
+                    ready() {
+                        // Activate first preset (Square)
+                        setActivePreset(0);
+                    }
+                });
+            }
+
+            // Preset Buttons
+            presetBtns.forEach((btn, index) => {
+                btn.addEventListener('click', () => {
+                    const ratio = parseFloat(btn.dataset.ratio);
+                    cropper.setAspectRatio(ratio);
+
+                    // Update UI
+                    presetBtns.forEach(b => {
+                        b.classList.remove('bg-blue-50', 'text-blue-700', 'ring-2', 'ring-blue-200');
+                        b.classList.add('bg-gray-50', 'text-gray-700');
+                    });
+                    btn.classList.remove('bg-gray-50', 'text-gray-700');
+                    btn.classList.add('bg-blue-50', 'text-blue-700', 'ring-2', 'ring-blue-200');
+                });
+            });
+
+            function setActivePreset(index) {
+                if (presetBtns[index]) presetBtns[index].click();
+            }
+
+            // Controls
+            document.getElementById('btn-rotate-left').addEventListener('click', () => cropper.rotate(-90));
+            document.getElementById('btn-rotate-right').addEventListener('click', () => cropper.rotate(90));
+
+            let scaleX = 1;
+            let scaleY = 1;
+            document.getElementById('btn-flip-h').addEventListener('click', () => {
+                scaleX = -scaleX;
+                cropper.scaleX(scaleX);
+            });
+
+            document.getElementById('btn-reset').addEventListener('click', () => {
+                cropper.reset();
+                scaleX = 1; scaleY = 1;
+                setActivePreset(0); // Reset to Square
+            });
+
+            // Download
+            btnDownload.addEventListener('click', () => {
+                const canvas = cropper.getCroppedCanvas({
+                    maxWidth: 4096,
+                    maxHeight: 4096,
+                    fillColor: '#fff', // White background for JPEGs if transparent
+                });
+
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'cropped-image.png'; // Saves as PNG
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            });
+
+            btnNew.addEventListener('click', () => {
+                if (cropper) cropper.destroy();
+                editorArea.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+                fileInput.value = '';
+            });
+        });
+    </script>
+</body>
+
+</html>
