@@ -46,6 +46,14 @@ function adjustRelativePaths(content) {
             return match;
         }
         if (url.startsWith('/')) return match;
+
+        // 关键修复：除了 .html 链接外，其他资源（css, js, images）都需要加 ../
+        // 如果链接以 .html 结尾，或者直接是目录（以 / 结尾），则认为是内部跳转，保持相对路径不变（因为 /en/ 和 /zh/ 目录结构是对称的）
+        if (url.endsWith('.html') || url.endsWith('/')) {
+            return match;
+        }
+
+        // 其他情况（css, js, assets...）加 ../
         return `${attr}="../${url}"`;
     });
 }
