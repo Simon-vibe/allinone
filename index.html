@@ -92,7 +92,28 @@
         </div>
 
         <!-- Featured Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            <!-- Card 0: PDF Converter (New) -->
+            <div
+                class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group">
+                <div
+                    class="absolute top-6 right-6 bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded uppercase">
+                    NEW</div>
+                <div
+                    class="bg-indigo-50 w-14 h-14 rounded-xl flex items-center justify-center text-indigo-600 text-2xl mb-6">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.pdf.title">Bank Statement Converter
+                </h3>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.pdf.desc">
+                    Convert PDF bank statements to Excel securely in your browser.
+                </p>
+                <a href="./tools/pdf-to-excel/index.html"
+                    class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition"
+                    data-i18n="tool.launch">
+                    Launch Tool
+                </a>
+            </div>
             <!-- Card 1: Image Resizer -->
             <div
                 class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group">
@@ -221,6 +242,19 @@
                 <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.base64.desc">Encode and
                     decode data.</p>
                 <a href="./tools/base64-converter/index.html"
+                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                    data-i18n="tool.launch">Open</a>
+            </div>
+
+            <!-- Tile: PDF Converter -->
+            <div class="bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition">
+                <div class="w-10 h-10 bg-indigo-100 rounded text-indigo-500 flex items-center justify-center mb-4">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf.title">Bank Statement Converter</h4>
+                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pdf.desc">Convert PDF to
+                    Excel.</p>
+                <a href="./tools/pdf-to-excel/index.html"
                     class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
                     data-i18n="tool.launch">Open</a>
             </div>

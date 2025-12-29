@@ -23,6 +23,8 @@ const translations = {
         "tool.imgcomp.desc": "Resize images instantly without quality loss. Supports PNG, JPG, and WebP.",
         "tool.md.title": "Markdown Editor",
         "tool.md.desc": "WYSIWYG Markdown editor with real-time preview.",
+        "tool.pdf.title": "Bank Statement Converter",
+        "tool.pdf.desc": "Convert PDF bank statements to Excel securely in your browser. No data upload.",
         "tool.more.title": "More tools coming soon...",
         "tool.more.desc": "Stay tuned.",
         "footer.rights": "© 2023 Tool Directory. All rights reserved.",
@@ -47,7 +49,79 @@ const translations = {
         "about.form.email": "Email",
         "about.form.subject": "Subject",
         "about.form.message": "Message",
-        "about.form.send": "Send Message"
+        "about.form.send": "Send Message",
+
+        "about.form.send": "Send Message",
+
+        // PDF Converter
+        "pdf.drag.title": "Drop PDF Statement Here",
+        "pdf.drag.subtitle": "or click to select file",
+        "pdf.status.processing": "Processing PDF...",
+        "pdf.status.ready": "Ready to Download",
+        "pdf.status.error": "Error processing file",
+        "pdf.preview.title": "Preview Extracted Data",
+        "pdf.action.download_excel": "Download Excel (.xlsx)",
+        "pdf.action.download_csv": "Download CSV",
+        "pdf.note.privacy": "🔒 Processed locally. Your data never leaves this browser.",
+        "pdf.password.title": "Password Required",
+        "pdf.password.desc": "This PDF is encrypted. Please enter the password to proceed.",
+        "pdf.password.placeholder": "Enter password",
+        "pdf.password.incorrect": "Incorrect password. Please try again.",
+        "common.cancel": "Cancel",
+        "common.submit": "Submit",
+
+        // JSON Formatter
+        "json.input.title": "Input JSON",
+        "json.input.placeholder": "Paste your JSON here...",
+        "json.action.format": "Format",
+        "json.action.minify": "Minify",
+        "json.action.clear": "Clear",
+        "json.output.title": "Output (Pretty Print)",
+        "json.action.copy": "Copy Output",
+
+        // Image Compressor
+        "img.drag.title": "Drag & Drop Image Here",
+        "img.drag.subtitle": "or click to upload",
+        "img.settings.title": "Compression Settings",
+        "img.quality": "Quality",
+        "img.width": "Max Width (px)",
+        "img.height": "Max Height (px)",
+        "img.format": "Format",
+        "img.original": "Original",
+        "img.compressed": "Compressed",
+        "img.action.download": "Download",
+        "img.action.compress": "Compress Image",
+
+        // Base64
+        "base64.input.label": "Input Text / Base64",
+        "base64.input.placeholder": "Enter text to encode or Base64 string to decode...",
+        "base64.action.encode": "Encode to Base64",
+        "base64.action.decode": "Decode from Base64",
+        "base64.output.label": "Result",
+        "base64.output.placeholder": "Result will appear here...",
+
+        // Markdown Editor
+        "md.input.title": "Markdown Input",
+        "md.input.placeholder": "Type your markdown here...",
+        "md.preview.title": "Live Preview",
+        "md.action.copy_html": "Copy HTML",
+        "md.action.download": "Download .md",
+        "md.word_count": "words",
+
+        // Timestamp
+        "ts.current.title": "Current Unix Timestamp",
+        "ts.pause": "Pause Update",
+        "ts.resume": "Resume Update",
+        "ts.to_date.title": "Timestamp to Date",
+        "ts.input_ts.label": "Unix Timestamp",
+        "ts.unit.s": "Seconds",
+        "ts.unit.ms": "Milliseconds",
+        "ts.action.convert": "Convert",
+        "ts.output.local": "Local Time",
+        "ts.output.utc": "UTC Time",
+        "ts.to_ts.title": "Date to Timestamp",
+        "ts.input_date.label": "Select Date & Time",
+        "ts.output.ts": "Timestamp (Seconds)"
     },
     zh: {
         "nav.home": "首页",
@@ -73,6 +147,8 @@ const translations = {
         "tool.imgcomp.desc": "即时调整图片大小，无损画质。支持 PNG, JPG, WebP。",
         "tool.md.title": "Markdown 编辑器",
         "tool.md.desc": "所见即所得的 Markdown 编辑器，支持实时预览。",
+        "tool.pdf.title": "银行对账单转换",
+        "tool.pdf.desc": "安全地将 PDF 银行对账单转为 Excel。无需上传数据，浏览器本地处理。",
         "tool.more.title": "更多工具即将推出...",
         "tool.more.desc": "敬请期待。",
         "footer.rights": "© 2023 Tool Directory. 保留所有权利。",
@@ -97,7 +173,79 @@ const translations = {
         "about.form.email": "电子邮箱",
         "about.form.subject": "主题",
         "about.form.message": "留言内容",
-        "about.form.send": "发送留言"
+        "about.form.send": "发送留言",
+
+        "about.form.send": "发送留言",
+
+        // PDF Converter
+        "pdf.drag.title": "将 PDF 对账单拖放到此处",
+        "pdf.drag.subtitle": "或点击选择文件",
+        "pdf.status.processing": "正在处理 PDF...",
+        "pdf.status.ready": "准备下载",
+        "pdf.status.error": "处理文件出错",
+        "pdf.preview.title": "预览提取的数据",
+        "pdf.action.download_excel": "下载 Excel (.xlsx)",
+        "pdf.action.download_csv": "下载 CSV",
+        "pdf.note.privacy": "🔒 本地处理。您的数据从未离开此浏览器。",
+        "pdf.password.title": "需要密码",
+        "pdf.password.desc": "此 PDF 已加密。请输入密码以继续。",
+        "pdf.password.placeholder": "请输入密码",
+        "pdf.password.incorrect": "密码错误，请重试。",
+        "common.cancel": "取消",
+        "common.submit": "提交",
+
+        // JSON Formatter
+        "json.input.title": "输入 JSON",
+        "json.input.placeholder": "在这里粘贴您的 JSON...",
+        "json.action.format": "格式化",
+        "json.action.minify": "压缩",
+        "json.action.clear": "清空",
+        "json.output.title": "输出 (美化)",
+        "json.action.copy": "复制结果",
+
+        // Image Compressor
+        "img.drag.title": "拖放图片到这里",
+        "img.drag.subtitle": "或点击上传",
+        "img.settings.title": "压缩设置",
+        "img.quality": "质量",
+        "img.width": "最大宽度 (px)",
+        "img.height": "最大高度 (px)",
+        "img.format": "格式",
+        "img.original": "原始",
+        "img.compressed": "压缩后",
+        "img.action.download": "下载",
+        "img.action.compress": "压缩图片",
+
+        // Base64
+        "base64.input.label": "输入文本 / Base64",
+        "base64.input.placeholder": "输入要编码的文本或解码的 Base64 字符串...",
+        "base64.action.encode": "编码为 Base64",
+        "base64.action.decode": "Base64 解码",
+        "base64.output.label": "结果",
+        "base64.output.placeholder": "结果将显示在这里...",
+
+        // Markdown Editor
+        "md.input.title": "Markdown 输入",
+        "md.input.placeholder": "在这里输入 Markdown...",
+        "md.preview.title": "实时预览",
+        "md.action.copy_html": "复制 HTML",
+        "md.action.download": "下载 .md",
+        "md.word_count": "字",
+
+        // Timestamp
+        "ts.current.title": "当前 Unix 时间戳",
+        "ts.pause": "暂停更新",
+        "ts.resume": "继续更新",
+        "ts.to_date.title": "时间戳转日期",
+        "ts.input_ts.label": "Unix 时间戳",
+        "ts.unit.s": "秒",
+        "ts.unit.ms": "毫秒",
+        "ts.action.convert": "转换",
+        "ts.output.local": "本地时间",
+        "ts.output.utc": "UTC 时间",
+        "ts.to_ts.title": "日期转时间戳",
+        "ts.input_date.label": "选择日期和时间",
+        "ts.output.ts": "时间戳 (秒)"
     }
 };
 
@@ -140,12 +288,14 @@ class I18nManager {
 
             if (el.tagName === 'INPUT' && el.getAttribute('placeholder')) {
                 el.placeholder = translation;
+            } else if (el.tagName === 'TEXTAREA' && el.getAttribute('placeholder')) {
+                el.placeholder = translation;
             } else {
                 el.textContent = translation;
             }
         });
 
-        // Update active state in switcher if exists
+        // Global Nav Language Switcher State
         const btnEn = document.getElementById('lang-en');
         const btnZh = document.getElementById('lang-zh');
         if (btnEn && btnZh) {
@@ -160,14 +310,12 @@ class I18nManager {
     }
 
     updateDirection() {
-        // Future proofing for RTL if needed, currently no-op
+        // Future proofing for RTL
     }
 }
 
-// Initialize on load
 window.i18n = new I18nManager();
 
-// Global function for switcher
 window.changeLanguage = (lang) => {
     window.i18n.setLanguage(lang);
 };

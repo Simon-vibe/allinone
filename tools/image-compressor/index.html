@@ -12,6 +12,12 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+
+        .bg-checkered {
+            background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f0f0f0 75%), linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
     </style>
 </head>
 
@@ -36,8 +42,9 @@
     <!-- Tool Header -->
     <div class="bg-blue-600 text-white py-12 mb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-3xl font-bold mb-4">Image Compressor & Converter</h1>
-            <p class="text-blue-100 max-w-2xl mx-auto">Resize images locally. Privacy focused - no uploads.</p>
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.imgcomp.title">Image Compressor & Converter</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.imgcomp.desc">Resize images locally. Privacy
+                focused - no uploads.</p>
         </div>
     </div>
 
@@ -49,7 +56,7 @@
             <div class="md:col-span-1 space-y-6">
                 <!-- Upload -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <label class="block mb-3 font-bold text-gray-900">1. Select Image</label>
+                    <label class="block mb-3 font-bold text-gray-900" data-i18n="img.drag.title">1. Select Image</label>
                     <input type="file" id="file-input" accept="image/*"
                         class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer transition">
                 </div>
@@ -57,10 +64,12 @@
                 <!-- Controls -->
                 <div id="settings-panel"
                     class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 opacity-50 pointer-events-none transition-opacity duration-300">
-                    <label class="block mb-4 font-bold text-gray-900">2. Compression Settings</label>
+                    <label class="block mb-4 font-bold text-gray-900" data-i18n="img.settings.title">2. Compression
+                        Settings</label>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-600 mb-2">Output Format</label>
+                        <label class="block text-sm font-medium text-gray-600 mb-2" data-i18n="img.format">Output
+                            Format</label>
                         <select id="format-select"
                             class="w-full border-gray-200 rounded-lg shadow-sm p-3 border outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="image/jpeg">JPEG (Recommended)</option>
@@ -71,7 +80,8 @@
 
                     <div class="mb-6">
                         <div class="flex justify-between mb-2">
-                            <label class="block text-sm font-medium text-gray-600">Quality</label>
+                            <label class="block text-sm font-medium text-gray-600"
+                                data-i18n="img.quality">Quality</label>
                             <span id="quality-val" class="text-sm font-bold text-blue-600">0.8</span>
                         </div>
                         <input type="range" id="quality-range" min="0.1" max="1.0" step="0.1" value="0.8"
@@ -79,7 +89,8 @@
                     </div>
 
                     <button id="btn-process"
-                        class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                        class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                        data-i18n="img.action.compress">
                         Apply Changes
                     </button>
                 </div>
@@ -91,7 +102,7 @@
 
                 <div class="text-center text-gray-400" id="placeholder-text">
                     <i class="fa-regular fa-image text-5xl mb-4"></i>
-                    <p class="text-lg">Preview will appear here</p>
+                    <p class="text-lg" data-i18n="base64.output.placeholder">Preview will appear here</p>
                 </div>
 
                 <div id="result-view" class="hidden w-full flex flex-col items-center">
@@ -99,11 +110,13 @@
                     <div
                         class="flex flex-wrap justify-center gap-4 md:gap-12 text-sm mb-6 w-full bg-gray-50 p-4 rounded-xl border border-gray-100">
                         <div class="text-center">
-                            <span class="block text-gray-500 text-xs uppercase tracking-wide">Original</span>
+                            <span class="block text-gray-500 text-xs uppercase tracking-wide"
+                                data-i18n="img.original">Original</span>
                             <span id="original-size" class="font-bold text-gray-900 text-lg">0 KB</span>
                         </div>
                         <div class="text-center">
-                            <span class="block text-gray-500 text-xs uppercase tracking-wide">Compressed</span>
+                            <span class="block text-gray-500 text-xs uppercase tracking-wide"
+                                data-i18n="img.compressed">Compressed</span>
                             <span id="compressed-size" class="font-bold text-green-600 text-lg">0 KB</span>
                         </div>
                         <div class="text-center">
@@ -120,7 +133,8 @@
 
                     <a id="download-link" href="#" download="compressed-image.jpg"
                         class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none transition transform hover:-translate-y-1">
-                        <i class="fa-solid fa-download mr-2"></i> Download Image
+                        <i class="fa-solid fa-download mr-2"></i> <span data-i18n="img.action.download">Download
+                            Image</span>
                     </a>
                 </div>
             </div>
@@ -131,7 +145,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 mt-12 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
-            &copy; 2023 Tool Directory. All rights reserved.
+            <span data-i18n="footer.rights">&copy; 2023 Tool Directory. All rights reserved.</span>
         </div>
     </footer>
 
@@ -143,14 +157,14 @@
             const qualityRange = document.getElementById('quality-range');
             const qualityVal = document.getElementById('quality-val');
             const btnProcess = document.getElementById('btn-process');
-            
+
             const settingsPanel = document.getElementById('settings-panel');
             const previewContainer = document.getElementById('preview-container');
             const placeholderText = document.getElementById('placeholder-text');
             const resultView = document.getElementById('result-view');
             const previewImg = document.getElementById('preview-img');
             const downloadLink = document.getElementById('download-link');
-            
+
             const originalSizeEl = document.getElementById('original-size');
             const compressedSizeEl = document.getElementById('compressed-size');
             const reductionRateEl = document.getElementById('reduction-rate');
@@ -185,9 +199,8 @@
                         settingsPanel.classList.remove('opacity-50', 'pointer-events-none');
                         settingsPanel.classList.add('opacity-100');
                         placeholderText.classList.add('hidden');
-                        previewContainer.classList.remove('border-dashed'); // Visual feedback removal
+                        previewContainer.classList.remove('border-dashed');
                         resultView.classList.remove('hidden');
-                        
                         processImage();
                     };
                 };
@@ -201,29 +214,28 @@
 
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                
+
                 canvas.width = originalImage.width;
                 canvas.height = originalImage.height;
-                
+
                 if (formatSelect.value === 'image/jpeg') {
                     ctx.fillStyle = '#FFFFFF';
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                 }
-                
+
                 ctx.drawImage(originalImage, 0, 0);
 
                 const quality = parseFloat(qualityRange.value);
                 const format = formatSelect.value;
-
                 const dataUrl = canvas.toDataURL(format, quality);
-                
+
                 previewImg.src = dataUrl;
-                
+
                 const head = 'data:' + format + ';base64,';
                 const sizeInBytes = Math.round((dataUrl.length - head.length) * 3 / 4);
-                
+
                 compressedSizeEl.textContent = formatSize(sizeInBytes);
-                
+
                 const reduction = ((originalFileSize - sizeInBytes) / originalFileSize * 100).toFixed(1);
                 reductionRateEl.textContent = reduction + '%';
                 reductionRateEl.className = reduction > 0 ? "font-bold text-green-600 text-lg" : "font-bold text-red-600 text-lg";

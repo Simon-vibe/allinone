@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Statement Converter - Tool Directory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+    <!-- SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+        }
+
+        td {
+            font-size: 0.875rem;
+            color: #374151;
+        }
+
+        tr:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">Tool Directory</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.pdf.title">Bank Statement Converter</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.pdf.desc">Convert PDF bank statements to Excel
+                securely in your browser. No data upload.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <!-- Upload Section -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 text-center transition-all"
+            id="drop-zone">
+            <input type="file" id="file-input" accept=".pdf" class="hidden">
+            <div class="space-y-4 pointer-events-none">
+                <div
+                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-file-invoice-dollar text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900" data-i18n="pdf.drag.title">Drop PDF Statement Here</h3>
+                <p class="text-gray-500" data-i18n="pdf.drag.subtitle">or click to select file</p>
+                <button onclick="document.getElementById('file-input').click()"
+                    class="pointer-events-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-sm">
+                    Select File
+                </button>
+            </div>
+            <p class="mt-6 text-xs text-gray-400 flex items-center justify-center gap-1">
+                <i class="fa-solid fa-lock"></i> <span data-i18n="pdf.note.privacy">Processed locally. Your data never
+                    leaves this browser.</span>
+            </p>
+        </div>
+
+        <!-- Processing State -->
+        <div id="processing-state" class="hidden text-center py-12">
+            <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-600 mb-4"></i>
+            <p class="text-lg font-medium text-gray-600" data-i18n="pdf.status.processing">Processing PDF...</p>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-section" class="hidden">
+
+            <!-- Toolbar -->
+            <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center">
+                    <i class="fa-solid fa-table text-green-600 mr-2"></i> <span data-i18n="pdf.preview.title">Preview
+                        Extracted Data</span>
+                </h2>
+                <div class="flex gap-3">
+                    <button id="btn-download-excel"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition shadow-sm flex items-center text-sm">
+                        <i class="fa-solid fa-file-excel mr-2"></i> <span data-i18n="pdf.action.download_excel">Download
+                            Excel</span>
+                    </button>
+                    <!-- CSV Optional -->
+                    <!-- <button id="btn-download-csv" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition border border-gray-200 flex items-center text-sm">
+                        <i class="fa-solid fa-file-csv mr-2"></i> CSV
+                    </button> -->
+                </div>
+            </div>
+
+            <!-- Table Preview -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-12">
+                <div class="table-responsive max-h-[600px]">
+                    <table id="preview-table">
+                        <!-- JS renders content here -->
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <span data-i18n="footer.rights">&copy; 2023 Tool Directory. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Password Modal -->
+    <div id="password-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md mx-4">
+            <h3 class="text-xl font-bold text-gray-900 mb-4" data-i18n="pdf.password.title">Password Required</h3>
+            <p class="text-gray-600 mb-4" data-i18n="pdf.password.desc">This PDF is encrypted. Please enter the password
+                to proceed.</p>
+
+            <input type="password" id="pdf-password-input"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-2"
+                placeholder="Enter password" data-i18n-placeholder="pdf.password.placeholder">
+
+            <p id="password-error" class="text-red-600 text-sm mb-4 hidden" data-i18n="pdf.password.incorrect">Incorrect
+                password. Please try again.</p>
+
+            <div class="flex justify-end gap-3 mt-4">
+                <button id="btn-password-cancel"
+                    class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition"
+                    data-i18n="common.cancel">Cancel</button>
+                <button id="btn-password-submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition shadow-sm"
+                    data-i18n="common.submit">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/i18n.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const processingState = document.getElementById('processing-state');
+            const resultSection = document.getElementById('result-section');
+            const previewTable = document.getElementById('preview-table');
+            const btnDownloadExcel = document.getElementById('btn-download-excel');
+
+            // Password Modal Elements
+            const passwordModal = document.getElementById('password-modal');
+            const passwordInput = document.getElementById('pdf-password-input');
+            const passwordError = document.getElementById('password-error');
+            const btnPasswordSubmit = document.getElementById('btn-password-submit');
+            const btnPasswordCancel = document.getElementById('btn-password-cancel');
+
+            let globalData = []; // Store 2D array of extracted data
+            let passwordCallback = null; // To store the callback from pdf.js
+
+            // Drag & Drop Handlers
+            function highlight() { dropZone.classList.add('border-blue-500', 'bg-blue-50'); }
+            function unhighlight() { dropZone.classList.remove('border-blue-500', 'bg-blue-50'); }
+
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); highlight(); });
+            dropZone.addEventListener('dragleave', unhighlight);
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                unhighlight();
+                const file = e.dataTransfer.files[0];
+                if (file && file.type === 'application/pdf') processFile(file);
+                else alert('Please upload a valid PDF file.');
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files[0]) processFile(e.target.files[0]);
+            });
+
+            btnDownloadExcel.addEventListener('click', () => {
+                if (globalData.length === 0) return;
+                const ws = XLSX.utils.aoa_to_sheet(globalData);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+                XLSX.writeFile(wb, "bank_statement.xlsx");
+            });
+
+            // Password Modal Event Listeners
+            btnPasswordSubmit.addEventListener('click', submitPassword);
+            btnPasswordCancel.addEventListener('click', cancelPassword);
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitPassword();
+            });
+
+            function submitPassword() {
+                const password = passwordInput.value;
+                if (passwordCallback) {
+                    passwordCallback(password);
+                    // Do not hide modal immediately, wait for next callback or success
+                }
+            }
+
+            function cancelPassword() {
+                passwordModal.classList.add('hidden');
+                passwordInput.value = '';
+                passwordError.classList.add('hidden');
+
+                // Reset UI
+                dropZone.classList.remove('hidden');
+                processingState.classList.add('hidden');
+
+                if (passwordCallback) {
+                    // There isn't a direct way to "cancel" the password request synchronously via callback
+                    // without throwing, but we can just reset state.
+                    // Effectively we abandon the current loading task.
+                    // Ideally we should have kept reference to loadingTask to cancel it, 
+                    // but for now resizing the UI is enough.
+                    passwordCallback = null;
+                }
+            }
+
+            async function processFile(file) {
+                // UI Update
+                dropZone.classList.add('hidden');
+                processingState.classList.remove('hidden');
+                resultSection.classList.add('hidden');
+
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+
+                    // We need to use the full API to handle passwords
+                    const loadingTask = pdfjsLib.getDocument({
+                        data: arrayBuffer,
+                        onPassword: function (updatePassword, reason) {
+                            passwordCallback = updatePassword;
+
+                            // Show modal
+                            passwordModal.classList.remove('hidden');
+                            passwordInput.focus();
+
+                            if (reason === pdfjsLib.PasswordResponses.INCORRECT_PASSWORD) {
+                                passwordError.classList.remove('hidden');
+                            } else {
+                                passwordError.classList.add('hidden');
+                                passwordInput.value = ''; // Clear for new attempt (or first attempt)
+                            }
+                        }
+                    });
+
+                    const pdf = await loadingTask.promise;
+
+                    // If we reach here, password was correct or not needed
+                    passwordModal.classList.add('hidden');
+                    passwordInput.value = '';
+                    passwordError.classList.add('hidden');
+                    passwordCallback = null;
+
+                    let allRows = [];
+
+                    // Iterate Pages
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+
+                        // Extract text items with coordinates
+                        // item.transform -> [scaleX, skewY, skewX, scaleY, x, y]
+                        const items = textContent.items.map(item => ({
+                            str: item.str,
+                            x: item.transform[4],
+                            // PDF coordinates start from bottom-left. We want top-down. 
+                            // Using standard Y is fine for sorting if we reverse sort.
+                            y: item.transform[5],
+                            w: item.width,
+                            h: item.height
+                        }));
+
+                        // Filter empty strings
+                        const validItems = items.filter(it => it.str.trim() !== '');
+
+                        // Group by Rows (Y-axis clustering)
+                        // Tolerance: 5 units
+                        const tolerance = 5;
+                        const rowGroups = [];
+
+                        // Sort by Y (descending - top of page first)
+                        validItems.sort((a, b) => b.y - a.y);
+
+                        if (validItems.length > 0) {
+                            let currentRow = [validItems[0]];
+
+                            for (let j = 1; j < validItems.length; j++) {
+                                const item = validItems[j];
+                                const prev = currentRow[0]; // representative
+
+                                if (Math.abs(item.y - prev.y) < tolerance) {
+                                    currentRow.push(item);
+                                } else {
+                                    rowGroups.push(currentRow);
+                                    currentRow = [item];
+                                }
+                            }
+                            rowGroups.push(currentRow);
+                        }
+
+                        // Process Row Groups into Data Rows
+                        const pageRows = rowGroups.map(group => {
+                            // Sort items in row by X (left to right)
+                            group.sort((a, b) => a.x - b.x);
+
+                            // Simple strategy: Just join columns that are very close? 
+                            // Or better: Let's just output distinct cells for now.
+                            // To map to columns precisely aligns is hard without visual understanding.
+                            // We will simply push the text parts.
+
+                            // Advanced Heuristic: Merge text parts that are very close (prob same word/sentence)
+                            // Distance limit: 10 units?
+                            const mergedGroup = [];
+                            if (group.length > 0) {
+                                let currentStr = group[0].str;
+                                let lastXEnd = group[0].x + group[0].w; // Approx end
+
+                                for (let k = 1; k < group.length; k++) {
+                                    const it = group[k];
+                                    // If spacing is small (e.g., < 15), treat as same cell content
+                                    // Note: width calculation in PDF.js can be tricky.
+                                    // Just treating as separate cells is safer for "Excel" feel,
+                                    // users can merge later. But splitting "Description" is annoying.
+                                    // Let's use a "gap" threshold.
+                                    const gap = it.x - lastXEnd;
+
+                                    // This gap logic is flaky because `item.width` isn't always accurate text width.
+                                    // Let's rely on simple X-distance.
+
+                                    // Simple Array for now.
+                                    mergedGroup.push(it.str);
+                                    lastXEnd = it.x + it.w; // update
+                                }
+
+                                // Actually, let's just map the raw separated strings.
+                                return group.map(g => g.str);
+                            }
+                            return [];
+                        });
+
+                        allRows = allRows.concat(pageRows);
+                    }
+
+                    globalData = allRows;
+                    renderTable(allRows);
+
+                    processingState.classList.add('hidden');
+                    resultSection.classList.remove('hidden');
+
+                } catch (err) {
+                    console.error(err);
+                    if (err.name === 'PasswordException') {
+                        // This might happen if cancelled or max attempts
+                        // Already handled by UI usually, but good to catch
+                    }
+                    alert('Error processing PDF: ' + err.message);
+                    dropZone.classList.remove('hidden');
+                    processingState.classList.add('hidden');
+                    passwordModal.classList.add('hidden'); // Ensure modal is gone
+                }
+            }
+
+            function renderTable(data) {
+                previewTable.innerHTML = '';
+
+                // Max 100 rows for preview performance
+                const rowsToShow = data.slice(0, 100);
+
+                rowsToShow.forEach((row, idx) => {
+                    const tr = document.createElement('tr');
+
+                    // Add row number? Maybe not.
+                    row.forEach(cellText => {
+                        const cell = idx === 0 ? document.createElement('th') : document.createElement('td');
+                        cell.textContent = cellText;
+                        tr.appendChild(cell);
+                    });
+
+                    // Fill empty if row is short? No, standard table behavior is fine.
+                    previewTable.appendChild(tr);
+                });
+
+                if (data.length > 100) {
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 10;
+                    td.textContent = `... and ${data.length - 100} more rows. Download to see full data.`;
+                    td.classList.add('text-center', 'italic', 'text-gray-400');
+                    tr.appendChild(td);
+                    previewTable.appendChild(tr);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
