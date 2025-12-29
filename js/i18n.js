@@ -192,6 +192,7 @@ const translations = {
         "diff.faq.desc": "Quickly find differences between two blocks of text. Supports character, word, and line comparison.",
         "diff.feat.1": "<strong>Visual Diff:</strong> Clearly highlights additions (green) and removals (red).",
         "diff.feat.2": "<strong>Multiple Modes:</strong> Compare by characters, words, or lines.",
+        "diff.action.upload": "Upload File",
 
         // SQL Formatter
         "tool.sql.title": "SQL Formatter",
@@ -623,6 +624,7 @@ const translations = {
         "diff.faq.desc": "快速找出两段文本之间的区别。支持按字符、单词或行进行比较。",
         "diff.feat.1": "<strong>可视化差异：</strong>清晰标记增加（绿色）和删除（红色）的内容。",
         "diff.feat.2": "<strong>多种模式：</strong>支持字符、单词或是行级对比。",
+        "diff.action.upload": "上传文件",
 
         // SQL Formatter
         "tool.sql.title": "SQL 格式化",
