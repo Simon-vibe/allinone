@@ -391,8 +391,10 @@ const translations = {
 
 class I18nManager {
     constructor() {
-        this.currentLang = this.getInitialLanguage();
-        this.init();
+        if (typeof window !== 'undefined') {
+            this.currentLang = this.getInitialLanguage();
+            this.init();
+        }
     }
 
     getInitialLanguage() {
@@ -482,8 +484,16 @@ class I18nManager {
     }
 }
 
-window.i18n = new I18nManager();
+if (typeof window !== 'undefined') {
 
-window.changeLanguage = (lang) => {
-    window.i18n.setLanguage(lang);
-};
+    window.i18n = new I18nManager();
+
+    window.changeLanguage = (lang) => {
+        window.i18n.setLanguage(lang);
+    };
+}
+
+// Node.js support for build script
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { translations };
+}
