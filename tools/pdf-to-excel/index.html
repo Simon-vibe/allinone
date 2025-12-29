@@ -73,6 +73,15 @@
                 <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
                     data-i18n="nav.categories">Categories</a>
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -183,7 +192,7 @@
         </div>
     </div>
 
-    <script src="../../js/i18n.js"></script>
+    <script src="../../js/i18n.js?v=2"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const dropZone = document.getElementById('drop-zone');
@@ -202,6 +211,7 @@
 
             let globalData = []; // Store 2D array of extracted data
             let passwordCallback = null; // To store the callback from pdf.js
+            let currentFile = null; // Store file for retry
 
             // Drag & Drop Handlers
             function highlight() { dropZone.classList.add('border-blue-500', 'bg-blue-50'); }
@@ -213,12 +223,18 @@
                 e.preventDefault();
                 unhighlight();
                 const file = e.dataTransfer.files[0];
-                if (file && file.type === 'application/pdf') processFile(file);
+                if (file && file.type === 'application/pdf') {
+                    currentFile = file;
+                    processFile(file);
+                }
                 else alert('Please upload a valid PDF file.');
             });
 
             fileInput.addEventListener('change', (e) => {
-                if (e.target.files[0]) processFile(e.target.files[0]);
+                if (e.target.files[0]) {
+                    currentFile = e.target.files[0];
+                    processFile(e.target.files[0]);
+                }
             });
 
             btnDownloadExcel.addEventListener('click', () => {
@@ -240,7 +256,11 @@
                 const password = passwordInput.value;
                 if (passwordCallback) {
                     passwordCallback(password);
-                    // Do not hide modal immediately, wait for next callback or success
+                    // Legacy path: pdf.js callback deals with the rest
+                } else if (currentFile) {
+                    // Fallback path: restart process with password
+                    passwordModal.classList.add('hidden'); // Hide temporarily so processFile controls it
+                    processFile(currentFile, password);
                 }
             }
 
@@ -253,28 +273,25 @@
                 dropZone.classList.remove('hidden');
                 processingState.classList.add('hidden');
 
-                if (passwordCallback) {
-                    // There isn't a direct way to "cancel" the password request synchronously via callback
-                    // without throwing, but we can just reset state.
-                    // Effectively we abandon the current loading task.
-                    // Ideally we should have kept reference to loadingTask to cancel it, 
-                    // but for now resizing the UI is enough.
-                    passwordCallback = null;
-                }
+                passwordCallback = null;
+                currentFile = null;
             }
 
-            async function processFile(file) {
+            async function processFile(file, password = null) {
                 // UI Update
                 dropZone.classList.add('hidden');
                 processingState.classList.remove('hidden');
                 resultSection.classList.add('hidden');
 
+                // If this is a retry with password, hide modal if it's still open
+                // (though logic above hides it)
+
                 try {
                     const arrayBuffer = await file.arrayBuffer();
 
-                    // We need to use the full API to handle passwords
-                    const loadingTask = pdfjsLib.getDocument({
-                        data: arrayBuffer,
+                    // Options for getDocument
+                    const params = {
+                        data: new Uint8Array(arrayBuffer), // Use Uint8Array for better compatibility
                         onPassword: function (updatePassword, reason) {
                             passwordCallback = updatePassword;
 
@@ -286,11 +303,16 @@
                                 passwordError.classList.remove('hidden');
                             } else {
                                 passwordError.classList.add('hidden');
-                                passwordInput.value = ''; // Clear for new attempt (or first attempt)
+                                passwordInput.value = '';
                             }
                         }
-                    });
+                    };
 
+                    if (password) {
+                        params.password = password;
+                    }
+
+                    const loadingTask = pdfjsLib.getDocument(params);
                     const pdf = await loadingTask.promise;
 
                     // If we reach here, password was correct or not needed
@@ -307,12 +329,9 @@
                         const textContent = await page.getTextContent();
 
                         // Extract text items with coordinates
-                        // item.transform -> [scaleX, skewY, skewX, scaleY, x, y]
                         const items = textContent.items.map(item => ({
                             str: item.str,
                             x: item.transform[4],
-                            // PDF coordinates start from bottom-left. We want top-down. 
-                            // Using standard Y is fine for sorting if we reverse sort.
                             y: item.transform[5],
                             w: item.width,
                             h: item.height
@@ -322,7 +341,6 @@
                         const validItems = items.filter(it => it.str.trim() !== '');
 
                         // Group by Rows (Y-axis clustering)
-                        // Tolerance: 5 units
                         const tolerance = 5;
                         const rowGroups = [];
 
@@ -334,7 +352,7 @@
 
                             for (let j = 1; j < validItems.length; j++) {
                                 const item = validItems[j];
-                                const prev = currentRow[0]; // representative
+                                const prev = currentRow[0];
 
                                 if (Math.abs(item.y - prev.y) < tolerance) {
                                     currentRow.push(item);
@@ -348,42 +366,8 @@
 
                         // Process Row Groups into Data Rows
                         const pageRows = rowGroups.map(group => {
-                            // Sort items in row by X (left to right)
                             group.sort((a, b) => a.x - b.x);
-
-                            // Simple strategy: Just join columns that are very close? 
-                            // Or better: Let's just output distinct cells for now.
-                            // To map to columns precisely aligns is hard without visual understanding.
-                            // We will simply push the text parts.
-
-                            // Advanced Heuristic: Merge text parts that are very close (prob same word/sentence)
-                            // Distance limit: 10 units?
-                            const mergedGroup = [];
-                            if (group.length > 0) {
-                                let currentStr = group[0].str;
-                                let lastXEnd = group[0].x + group[0].w; // Approx end
-
-                                for (let k = 1; k < group.length; k++) {
-                                    const it = group[k];
-                                    // If spacing is small (e.g., < 15), treat as same cell content
-                                    // Note: width calculation in PDF.js can be tricky.
-                                    // Just treating as separate cells is safer for "Excel" feel,
-                                    // users can merge later. But splitting "Description" is annoying.
-                                    // Let's use a "gap" threshold.
-                                    const gap = it.x - lastXEnd;
-
-                                    // This gap logic is flaky because `item.width` isn't always accurate text width.
-                                    // Let's rely on simple X-distance.
-
-                                    // Simple Array for now.
-                                    mergedGroup.push(it.str);
-                                    lastXEnd = it.x + it.w; // update
-                                }
-
-                                // Actually, let's just map the raw separated strings.
-                                return group.map(g => g.str);
-                            }
-                            return [];
+                            return group.map(g => g.str);
                         });
 
                         allRows = allRows.concat(pageRows);
@@ -397,34 +381,43 @@
 
                 } catch (err) {
                     console.error(err);
-                    if (err.name === 'PasswordException') {
-                        // This might happen if cancelled or max attempts
-                        // Already handled by UI usually, but good to catch
+
+                    // Handle "No password given" or PasswordException
+                    // The error message "No password given" means pdf.js gave up
+                    if (err.name === 'PasswordException' || err.message.includes('No password given')) {
+                        // Activate Fallback Logic
+                        passwordCallback = null; // No callback available since it died
+
+                        passwordModal.classList.remove('hidden');
+                        passwordInput.focus();
+
+                        // If we provided a password and it failed:
+                        if (password) {
+                            passwordError.classList.remove('hidden');
+                        } else {
+                            passwordError.classList.add('hidden');
+                            passwordInput.value = '';
+                        }
+                        return; // Wait for user interaction
                     }
+
                     alert('Error processing PDF: ' + err.message);
                     dropZone.classList.remove('hidden');
                     processingState.classList.add('hidden');
-                    passwordModal.classList.add('hidden'); // Ensure modal is gone
+                    passwordModal.classList.add('hidden');
                 }
             }
 
             function renderTable(data) {
                 previewTable.innerHTML = '';
-
-                // Max 100 rows for preview performance
                 const rowsToShow = data.slice(0, 100);
-
                 rowsToShow.forEach((row, idx) => {
                     const tr = document.createElement('tr');
-
-                    // Add row number? Maybe not.
                     row.forEach(cellText => {
                         const cell = idx === 0 ? document.createElement('th') : document.createElement('td');
                         cell.textContent = cellText;
                         tr.appendChild(cell);
                     });
-
-                    // Fill empty if row is short? No, standard table behavior is fine.
                     previewTable.appendChild(tr);
                 });
 
