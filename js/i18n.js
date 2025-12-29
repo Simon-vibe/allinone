@@ -51,8 +51,6 @@ const translations = {
         "about.form.message": "Message",
         "about.form.send": "Send Message",
 
-        "about.form.send": "Send Message",
-
         // PDF Converter
         "pdf.drag.title": "Drop PDF Statement Here",
         "pdf.drag.subtitle": "or click to select file",
