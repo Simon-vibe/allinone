@@ -40,15 +40,13 @@ function copyDir(src, dest) {
 }
 
 // 修正资源路径：因为所有页面都下沉了一级（/en/ 或 /zh/），所以资源引用要加 ../
-// 修正资源路径：因为所有页面都下沉了一级（/en/ 或 /zh/），所以资源引用要加 ../
 function adjustRelativePaths(content) {
     return content.replace(/(href|src|action)=["']([^"']+)["']/g, (match, attr, url) => {
         if (url.startsWith('http') || url.startsWith('//') || url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('data:')) {
             return match;
         }
         if (url.startsWith('/')) return match;
-
-        // Remove anchor/query for extension check
+        // Strip query params and fragments for extension check
         const cleanUrl = url.split('#')[0].split('?')[0];
 
         // 关键修复：除了 .html 链接外，其他资源（css, js, images）都需要加 ../
@@ -56,28 +54,44 @@ function adjustRelativePaths(content) {
         if (cleanUrl.endsWith('.html') || cleanUrl.endsWith('/')) {
             return match;
         }
-
-        // 其他情况（css, js, assets...）加 ../
         return `${attr}="../${url}"`;
     });
 }
 
-async function build() {
-    console.log('Starting build...');
+// 新增：注入 JSON-LD 结构化数据
+function injectJsonLd(content, lang, url) {
+    const isToolPage = url.includes('/tools/');
+    // 基础 WebSite 数据
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": isToolPage ? "WebApplication" : "WebSite",
+        "name": lang === 'zh' ? "AllInOne 开发者工具箱" : "AllInOne Developer Tools",
+        "url": url,
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    };
 
-    // 1. 清理 Dist
+    const scriptTag = `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>`;
+    return content.replace('</head>', `${scriptTag}\n</head>`);
+}
+
+async function build() {
+    console.log('Starting SEO Optimized build...');
+
     if (fs.existsSync(DIST_DIR)) {
         fs.rmSync(DIST_DIR, { recursive: true, force: true });
     }
     fs.mkdirSync(DIST_DIR);
 
-    // 2. 复制静态资源到 dist 根目录 (dist/css, dist/js)
-    // 移除 sitemap.xml，因为我们要动态生成它
     const assetsToCopy = ['css', 'js', 'assets', 'CNAME', 'robots.txt'];
     assetsToCopy.forEach(asset => {
         const srcPath = path.join(SRC_DIR, asset);
         if (fs.existsSync(srcPath)) {
-            console.log(`Copying ${asset}...`);
             const stat = fs.statSync(srcPath);
             if (stat.isDirectory()) {
                 copyDir(srcPath, path.join(DIST_DIR, asset));
@@ -87,8 +101,6 @@ async function build() {
         }
     });
 
-    // 3. 生成根目录跳转页 (dist/index.html)
-    // 作用：访问域名根目录时，自动分流到 /en/ 或 /zh/
     const redirectHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,8 +117,6 @@ async function build() {
 </html>`;
     fs.writeFileSync(path.join(DIST_DIR, 'index.html'), redirectHtml);
 
-
-    // 4. 处理多语言页面 并 收集 Sitemap 数据
     const htmlFiles = findHtmlFiles(SRC_DIR);
     const languages = ['en', 'zh'];
     let sitemapUrls = [];
@@ -115,25 +125,17 @@ async function build() {
     for (const file of htmlFiles) {
         const template = fs.readFileSync(file, 'utf-8');
         const relativePath = path.relative(SRC_DIR, file);
-
         console.log(`Processing ${relativePath}...`);
 
-        // 计算 URL 路径后缀
         let pathSuffix = relativePath.replace(/\\/g, '/');
-        // 如果是 index.html，去掉文件名，变成目录形式 (e.g. tools/pdf/index.html -> tools/pdf/)
-        // 如果是跟目录 index.html -> ""
         if (pathSuffix.endsWith('index.html')) {
             pathSuffix = pathSuffix.substring(0, pathSuffix.length - 'index.html'.length);
         }
 
         const enUrl = `https://allinone.page/en/${pathSuffix}`;
         const zhUrl = `https://allinone.page/zh/${pathSuffix}`;
-
-        // 计算 Priority
-        // 根目录 1.0，工具页 0.8
         const priority = pathSuffix === '' ? '1.0' : '0.8';
 
-        // Add both EN and ZH entries
         [enUrl, zhUrl].forEach(loc => {
             sitemapUrls.push(`
   <url>
@@ -151,28 +153,55 @@ async function build() {
             const t = translations[lang];
             let content = template;
 
-            // 4.1 替换 HTML lang 属性
+            // 1. HTML Lang
             content = content.replace(/<html lang="[^"]*">/, `<html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">`);
 
-            // 4.2 静态替换 data-i18n 内容 (彻底的 SSG)
-            content = content.replace(/(<[^>]+)data-i18n="([^"]+)"([^>]*>)([^<]*)(<\/[^>]+>)/g, (match, start, key, end, oldText, closeTag) => {
-                const text = t[key];
-                if (text) return `${start}${end}${text}${closeTag}`;
-                return match;
-            });
-            content = content.replace(/(<input[^>]+)data-i18n="([^"]+)"([^>]*)/g, (match, start, key, end) => {
+            // 2. 增强版替换逻辑 (支持 Meta, Title, Alt, Placeholder, 和普通文本)
+
+            // 2.1 替换具有 content 属性的标签 (Meta tags)
+            // 匹配 <meta ... data-i18n="key" ... content="..."> 或 content="..." ... data-i18n="key"
+            content = content.replace(/(<meta[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, key) => {
                 const text = t[key];
                 if (text) {
-                    if (start.includes('placeholder=')) return start.replace(/placeholder="[^"]*"/, `placeholder="${text}"`) + end;
-                    if (end.includes('placeholder=')) return start + end.replace(/placeholder="[^"]*"/, `placeholder="${text}"`);
+                    // 如果已经有 content 属性，替换它；否则不处理
+                    if (match.includes('content=')) {
+                        return match.replace(/content="[^"]*"/, `content="${text}"`);
+                    }
                 }
                 return match;
             });
 
-            // 4.3 修正路径
+            // 2.2 替换具有 alt 属性的标签 (Images)
+            content = content.replace(/(<img[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, key) => {
+                const text = t[key];
+                if (text && match.includes('alt=')) {
+                    return match.replace(/alt="[^"]*"/, `alt="${text}"`);
+                }
+                return match;
+            });
+
+            // 2.3 替换具有 placeholder 的标签 (Inputs)
+            content = content.replace(/(<input[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, key) => {
+                const text = t[key];
+                if (text && match.includes('placeholder=')) {
+                    return match.replace(/placeholder="[^"]*"/, `placeholder="${text}"`);
+                }
+                return match;
+            });
+
+            // 2.4 替换普通标签文本 (Title, H1, P, Button...)
+            // 匹配 <tag data-i18n="key">OldText</tag>
+            // 注意：正则需要非贪婪匹配，且不能匹配到自闭合标签
+            content = content.replace(/(<[^/>]+data-i18n="([^"]+)"[^>]*>)([^<]*)(<\/[^>]+>)/g, (match, start, key, oldText, closeTag) => {
+                const text = t[key];
+                if (text) return `${start}${text}${closeTag}`;
+                return match;
+            });
+
+            // 3. 路径修正
             content = adjustRelativePaths(content);
 
-            // 4.4 修正 Canonical 和 Hreflang
+            // 4. Canonical & Hreflang
             const currentCanonical = lang === 'en' ? enUrl : zhUrl;
             content = content.replace(/<link rel="canonical" href="[^"]+">/, `<link rel="canonical" href="${currentCanonical}">`);
 
@@ -180,21 +209,20 @@ async function build() {
     <link rel="alternate" hreflang="en" href="${enUrl}" />
     <link rel="alternate" hreflang="zh" href="${zhUrl}" />
     <link rel="alternate" hreflang="x-default" href="${enUrl}" />`;
-
             content = content.replace(/<link rel="alternate" hreflang="en"[\s\S]*?x-default"[\s\S]*?\/>/, hreflangBlock.trim());
 
-            // 4.5 写入文件
+            // 5. 注入 JSON-LD
+            content = injectJsonLd(content, lang, currentCanonical);
+
+            // 6. 写入文件
             const outSubDir = path.join(lang, path.dirname(relativePath));
             const outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
-
             const outDir = path.dirname(outPath);
             if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-
             fs.writeFileSync(outPath, content);
         }
     }
 
-    // 5. 生成 Sitemap.xml
     const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${sitemapUrls.join('')}
@@ -202,7 +230,6 @@ ${sitemapUrls.join('')}
 
     fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapContent);
     console.log('Sitemap generated.');
-
     console.log('Build complete.');
 }
 

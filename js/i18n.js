@@ -1,6 +1,9 @@
 const translations = {
     en: {
         "nav.home": "Home",
+        "meta.title": "Tool Directory - Free Developer Tools & Converters",
+        "meta.desc": "Free online developer tools including PDF to Excel converter, JSON formatter, Image compressor. Secure, client-side processing.",
+        "meta.keywords": "developer tools, pdf converter, json formatter, image resizer, base64 encoder",
         "nav.categories": "Categories",
         "nav.about": "About",
         "nav.login": "Login",
@@ -194,6 +197,9 @@ const translations = {
     },
     zh: {
         "nav.home": "首页",
+        "meta.title": "开发者在线工具箱 - PDF转Excel, JSON格式化, 图片压缩 | AllInOne",
+        "meta.desc": "免费、安全的在线开发者工具集合。支持PDF转Excel（本地处理）、JSON格式化校验、图片无损压缩。无需下载，保护隐私。",
+        "meta.keywords": "PDF转Excel, JSON格式化, 在线工具, 开发者工具, 图片压缩, Base64解码",
         "nav.categories": "分类",
         "nav.about": "关于我们",
         "nav.login": "登录",
