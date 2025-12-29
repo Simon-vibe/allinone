@@ -159,14 +159,10 @@ async function build() {
             // 2. 增强版替换逻辑 (支持 Meta, Title, Alt, Placeholder, 和普通文本)
 
             // 2.1 替换具有 content 属性的标签 (Meta tags)
-            // 匹配 <meta ... data-i18n="key" ... content="..."> 或 content="..." ... data-i18n="key"
             content = content.replace(/(<meta[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, key) => {
                 const text = t[key];
-                if (text) {
-                    // 如果已经有 content 属性，替换它；否则不处理
-                    if (match.includes('content=')) {
-                        return match.replace(/content="[^"]*"/, `content="${text}"`);
-                    }
+                if (text && match.includes('content=')) {
+                    return match.replace(/content="[^"]*"/, `content="${text}"`);
                 }
                 return match;
             });
@@ -189,14 +185,86 @@ async function build() {
                 return match;
             });
 
-            // 2.4 替换普通标签文本 (Title, H1, P, Button...)
-            // 匹配 <tag data-i18n="key">OldText</tag>
-            // 注意：正则需要非贪婪匹配，且不能匹配到自闭合标签
-            content = content.replace(/(<[^/>]+data-i18n="([^"]+)"[^>]*>)([^<]*)(<\/[^>]+>)/g, (match, start, key, oldText, closeTag) => {
-                const text = t[key];
-                if (text) return `${start}${text}${closeTag}`;
-                return match;
-            });
+            // 2.4 Content Translation - Robust Loop (Replaces Regex)
+            let cursor = 0;
+            const maxIterations = 2000;
+            let itr = 0;
+
+            while (itr++ < maxIterations) {
+                // Find next data-i18n
+                const matchIndex = content.indexOf('data-i18n="', cursor);
+                if (matchIndex === -1) break;
+
+                // Find start of this tag (looking backwards for '<')
+                const tagStart = content.lastIndexOf('<', matchIndex);
+                if (tagStart === -1 || tagStart < cursor) {
+                    cursor = matchIndex + 1;
+                    continue;
+                }
+
+                // Verify we are not inside another tag or string by checking for '>' between tagStart and matchIndex (simplified)
+                const intermediateContent = content.substring(tagStart, matchIndex);
+                if (intermediateContent.includes('>')) {
+                    cursor = matchIndex + 1;
+                    continue;
+                }
+
+                // Get Tag Name
+                const tagNameMatch = content.substring(tagStart).match(/^<([a-zA-Z0-9]+)/);
+                if (!tagNameMatch) { cursor = matchIndex + 1; continue; }
+                const tagName = tagNameMatch[1].toLowerCase();
+
+                // Get Translation Key
+                const quoteStart = matchIndex + 11; // len('data-i18n="')
+                const quoteEnd = content.indexOf('"', quoteStart);
+                if (quoteEnd === -1) { cursor = matchIndex + 1; continue; }
+                const key = content.substring(quoteStart, quoteEnd);
+
+                // Find Tag End '>'
+                const tagEnd = content.indexOf('>', quoteEnd);
+                if (tagEnd === -1) { cursor = quoteEnd + 1; continue; }
+
+                // Check Void Tags
+                const isVoid = ['img', 'meta', 'input', 'link', 'hr', 'br'].includes(tagName);
+                if (isVoid) {
+                    cursor = tagEnd + 1;
+                    continue;
+                }
+
+                // Find Matching Closing Tag
+                let depth = 1;
+                let scanPos = tagEnd + 1;
+                let closingTagIndex = -1;
+
+                while (depth > 0 && scanPos < content.length) {
+                    const nextOpen = content.indexOf('<' + tagName, scanPos);
+                    const nextClose = content.indexOf('</' + tagName + '>', scanPos);
+
+                    if (nextClose === -1) break; // Error: No closing tag
+
+                    if (nextOpen !== -1 && nextOpen < nextClose) {
+                        depth++;
+                        scanPos = nextOpen + 1;
+                    } else {
+                        depth--;
+                        if (depth === 0) {
+                            closingTagIndex = nextClose;
+                        }
+                        scanPos = nextClose + 1;
+                    }
+                }
+
+                if (closingTagIndex !== -1 && t[key]) {
+                    const before = content.substring(0, tagEnd + 1);
+                    const after = content.substring(closingTagIndex);
+                    // Replace INNER content
+                    content = before + t[key] + after;
+                    // Move cursor past the NEW content end to avoid re-processing nested items or the same item
+                    cursor = tagEnd + 1 + t[key].length;
+                } else {
+                    cursor = tagEnd + 1;
+                }
+            }
 
             // 3. 路径修正
             content = adjustRelativePaths(content);
