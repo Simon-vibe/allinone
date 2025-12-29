@@ -4,9 +4,8 @@ const { translations } = require('./js/i18n.js');
 
 const DIST_DIR = './dist';
 const SRC_DIR = '.';
-const IGNORE_DIRS = ['dist', 'node_modules', '.git', '.vscode', '.gemini', 'zh']; // Ignore the manual 'zh' folder
+const IGNORE_DIRS = ['dist', 'node_modules', '.git', '.vscode', '.gemini', 'zh', 'en'];
 
-// Helper to recursively finding HTML files
 function findHtmlFiles(dir, fileList = []) {
     const files = fs.readdirSync(dir);
     files.forEach(file => {
@@ -25,7 +24,6 @@ function findHtmlFiles(dir, fileList = []) {
     return fileList;
 }
 
-// Helper to copy directory recursively
 function copyDir(src, dest) {
     if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
     const entries = fs.readdirSync(src, { withFileTypes: true });
@@ -41,39 +39,29 @@ function copyDir(src, dest) {
     }
 }
 
-// Helper to adjust relative paths for /zh/ subdirectory
+// 修正资源路径：因为所有页面都下沉了一级（/en/ 或 /zh/），所以资源引用要加 ../
 function adjustRelativePaths(content) {
-    // Regex to match href, src, or content that starts with . or .. or word characters (relative)
-    // We only want to adjust paths that relate to local files
-    // Matches: src="./js/foo.js", href="../css/style.css", href="style.css"
-    // Ignores: href="https://...", href="/...", href="#...", href="mailto:..."
-
     return content.replace(/(href|src|action)=["']([^"']+)["']/g, (match, attr, url) => {
         if (url.startsWith('http') || url.startsWith('//') || url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('data:')) {
             return match;
         }
-
-        // If it starts with / (root relative), we don't change it (assuming site root is same)
-        // ideally we shouldn't use root relative in this project based on analysis, but if so, leave it.
         if (url.startsWith('/')) return match;
-
-        // Add one level up
         return `${attr}="../${url}"`;
     });
 }
 
-// Main Build Function
 async function build() {
     console.log('Starting build...');
 
-    // 1. Clean and Create Dist
+    // 1. 清理 Dist
     if (fs.existsSync(DIST_DIR)) {
         fs.rmSync(DIST_DIR, { recursive: true, force: true });
     }
     fs.mkdirSync(DIST_DIR);
 
-    // 2. Copy Static Assets (css, js, assets, CNAME, etc)
-    const assetsToCopy = ['css', 'js', 'assets', 'CNAME', 'robots.txt', 'sitemap.xml'];
+    // 2. 复制静态资源到 dist 根目录 (dist/css, dist/js)
+    // 移除 sitemap.xml，因为我们要动态生成它
+    const assetsToCopy = ['css', 'js', 'assets', 'CNAME', 'robots.txt'];
     assetsToCopy.forEach(asset => {
         const srcPath = path.join(SRC_DIR, asset);
         if (fs.existsSync(srcPath)) {
@@ -87,170 +75,104 @@ async function build() {
         }
     });
 
-    // 3. Process HTML Files
-    const htmlFiles = findHtmlFiles(SRC_DIR);
+    // 3. 生成根目录跳转页 (dist/index.html)
+    // 作用：访问域名根目录时，自动分流到 /en/ 或 /zh/
+    const redirectHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="0;url=/en/">
+<script>
+  var lang = navigator.language || navigator.userLanguage;
+  if (lang.startsWith('zh')) { window.location.href = '/zh/'; }
+  else { window.location.href = '/en/'; }
+</script>
+<title>Redirecting...</title>
+</head>
+<body></body>
+</html>`;
+    fs.writeFileSync(path.join(DIST_DIR, 'index.html'), redirectHtml);
 
+
+    // 4. 处理多语言页面 并 收集 Sitemap 数据
+    const htmlFiles = findHtmlFiles(SRC_DIR);
     const languages = ['en', 'zh'];
+    let sitemapUrls = [];
+    const today = new Date().toISOString().split('T')[0];
 
     for (const file of htmlFiles) {
         const template = fs.readFileSync(file, 'utf-8');
-        const relativePath = path.relative(SRC_DIR, file); // e.g., index.html or tools/pdf/index.html
+        const relativePath = path.relative(SRC_DIR, file);
 
         console.log(`Processing ${relativePath}...`);
 
-        for (const lang of languages) {
-            const isZh = lang === 'zh';
-            const t = translations[lang];
+        // 计算 URL 路径后缀
+        let pathSuffix = relativePath.replace(/\\/g, '/');
+        // 如果是 index.html，去掉文件名，变成目录形式 (e.g. tools/pdf/index.html -> tools/pdf/)
+        // 如果是跟目录 index.html -> ""
+        if (pathSuffix.endsWith('index.html')) {
+            pathSuffix = pathSuffix.substring(0, pathSuffix.length - 'index.html'.length);
+        }
 
+        const enUrl = `https://allinone.page/en/${pathSuffix}`;
+        const zhUrl = `https://allinone.page/zh/${pathSuffix}`;
+
+        // 计算 Priority
+        // 根目录 1.0，工具页 0.8
+        const priority = pathSuffix === '' ? '1.0' : '0.8';
+
+        // Add both EN and ZH entries
+        [enUrl, zhUrl].forEach(loc => {
+            sitemapUrls.push(`
+  <url>
+    <loc>${loc}</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>
+    <xhtml:link rel="alternate" hreflang="zh" href="${zhUrl}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${enUrl}"/>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${priority}</priority>
+  </url>`);
+        });
+
+        for (const lang of languages) {
+            const t = translations[lang];
             let content = template;
 
-            // A. Replace HTML Lang
-            content = content.replace(/<html lang="[^"]*">/, `<html lang="${isZh ? 'zh-CN' : 'en'}">`);
+            // 4.1 替换 HTML lang 属性
+            content = content.replace(/<html lang="[^"]*">/, `<html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">`);
 
-            // B. Replace Text Content (data-i18n)
-            // Match data-i18n="key">Default Text<
-            content = content.replace(/data-i18n="([^"]+)">([^<]*)<|data-i18n="([^"]+)"\s*>([^<]*)<|data-i18n='([^']+)'\s*>([^<]*)</g, (match, key1, val1, key2, val2, key3, val3) => {
-                const key = key1 || key2 || key3;
-                const val = t[key] || val1 || val2 || val3 || ''; // Fallback to existing text if key missing
-                // Keep the tag open/close logic? 
-                // Using regex for HTML is fragile, let's use a simpler replace for the attribute, then innerText?
-                // Actually, the previous regex approach assumes we replace the whole inner content.
-                // Better approach: Replace only the text content if the structure is simple.
-                // BUT, replacing the whole string `data-i18n="key">...<` is robust enough for simple tags.
-                // We must preserve the opening tag attributes if any? No, the regex matches `data-i18n="key">Content<`.
-                // It misses the opening tag name. 
-                // Let's use a specialized replacer for DOM modification string-based?
-                return match;
-            });
-
-            // Improved Replacement Strategy:
-            // 1. Replace attributes (placeholder, title, etc)
-            //    We strictly look for patterns like: placeholder="..." data-i18n="key"
-            //    This is hard with regex.
-
-            // Simpler Strategy: 
-            // 1. Replace all simple key lookups first? No, context matters.
-
-            // Let's iterate all keys in translation and try to find references? No, too slow.
-
-            // Let's use Cheerio? No external deps requested if possible ("simple script").
-            // Let's stick to Regex but be careful.
-
-            // Replace innerHTML: <tag ... data-i18n="key">OLD</tag> -> <tag ...>NEW</tag>
-            // We strip data-i18n after replacement to clean up.
+            // 4.2 静态替换 data-i18n 内容 (彻底的 SSG)
             content = content.replace(/(<[^>]+)data-i18n="([^"]+)"([^>]*>)([^<]*)(<\/[^>]+>)/g, (match, start, key, end, oldText, closeTag) => {
                 const text = t[key];
-                // Check if it's an input with placeholder? 
-                // This regex assumes an opening tag, data-i18n, other attrs, closing bracket, content, closing tag.
-                // It won't match self-closing tags (inputs).
                 if (text) return `${start}${end}${text}${closeTag}`;
                 return match;
             });
-
-            // Handle Placeholders: <input data-i18n="key" placeholder="...">
-            // We just replace the attribute value.
             content = content.replace(/(<input[^>]+)data-i18n="([^"]+)"([^>]*)/g, (match, start, key, end) => {
                 const text = t[key];
                 if (text) {
-                    // Replace placeholder="..." with placeholder="text"
-                    const newStart = start.replace(/placeholder="[^"]*"/, `placeholder="${text}"`);
-                    const newEnd = end.replace(/placeholder="[^"]*"/, `placeholder="${text}"`);
-                    // If placeholder wasn't in start/end, we might have missed it, but usually standard format.
-                    // Let's just rebuild the tag? Too complex.
-                    // Simple replacement:
-                    if (start.includes('placeholder=')) return start.replace(/placeholder="[^"]*"/, `placeholder="${text}"`) + ` data-processed="true"` + end;
+                    if (start.includes('placeholder=')) return start.replace(/placeholder="[^"]*"/, `placeholder="${text}"`) + end;
                     if (end.includes('placeholder=')) return start + end.replace(/placeholder="[^"]*"/, `placeholder="${text}"`);
                 }
                 return match;
             });
 
-            // C. SEO & Links
-            // Correct HrefLang loop
-            // English pages should point to / and /zh/
-            // Chinese pages should point to / and /zh/
-            // The template already has:
-            // <link rel="alternate" hreflang="en" href="https://allinone.page/" />
-            // <link rel="alternate" hreflang="zh" href="https://allinone.page/zh/" />
-            // For tool pages, we need to append the path.
+            // 4.3 修正路径
+            content = adjustRelativePaths(content);
 
-            // Detect if this is a tool page (not root index)
-            const isTool = relativePath.includes('/');
-            const pathSuffix = isTool ? relativePath.replace('index.html', '') : ''; // e.g. tools/pdf-to-excel/
-
-            // Update Canonical
-            const baseUrl = `https://allinone.page/${isZh ? 'zh/' : ''}${pathSuffix}`;
-            content = content.replace(/<link rel="canonical" href="[^"]+">/, `<link rel="canonical" href="${baseUrl}">`);
-
-            // Update Hreflang
-            const enUrl = `https://allinone.page/${pathSuffix}`;
-            const zhUrl = `https://allinone.page/zh/${pathSuffix}`;
-
-            content = content.replace(/href="https:\/\/allinone\.page\/"/g, `href="${enUrl}"`); // Update x-default too if needed
-            // Actually, we should be precise.
+            // 4.4 修正 Canonical 和 Hreflang
+            const currentCanonical = lang === 'en' ? enUrl : zhUrl;
+            content = content.replace(/<link rel="canonical" href="[^"]+">/, `<link rel="canonical" href="${currentCanonical}">`);
 
             const hreflangBlock = `
     <link rel="alternate" hreflang="en" href="${enUrl}" />
     <link rel="alternate" hreflang="zh" href="${zhUrl}" />
     <link rel="alternate" hreflang="x-default" href="${enUrl}" />`;
 
-            // Replace existing hreflang block (heuristic: find the first hreflang line and adjacent ones)
-            // Easier: Replace the whole block if we can mark it in HTML.
-            // Or just replace individual lines.
-            content = content.replace(/<link rel="alternate" hreflang="en" href="[^"]+" \/>/, `<link rel="alternate" hreflang="en" href="${enUrl}" />`);
-            content = content.replace(/<link rel="alternate" hreflang="zh" href="[^"]+" \/>/, `<link rel="alternate" hreflang="zh" href="${zhUrl}" />`);
-            content = content.replace(/<link rel="alternate" hreflang="x-default" href="[^"]+" \/>/, `<link rel="alternate" hreflang="x-default" href="${enUrl}" />`);
+            content = content.replace(/<link rel="alternate" hreflang="en"[\s\S]*?x-default"[\s\S]*?\/>/, hreflangBlock.trim());
 
-            // D. Path Adjustments for /zh/
-            if (isZh) {
-                // Adjust relative paths because we are moving into specific /zh/ directory (1 level deeper than EN counterpart)
-                // EN: dist/index.html
-                // ZH: dist/zh/index.html (one level deeper? No, dist/zh/ is parallel to dist/tools/?)
-                // Wait.
-                // EN: dist/index.html
-                // ZH: dist/zh/index.html (Depth: +1)
-
-                // EN: dist/tools/pdf/index.html (Depth: 2 from root)
-                // ZH: dist/zh/tools/pdf/index.html (Depth: 3 from root)
-
-                // So yes, ZH is always 1 level deeper relative to the *asset root* than the EN version.
-                // So we prepend "../" to every relative link.
-                content = adjustRelativePaths(content);
-
-                // Special case: Language Switcher Links
-                // EN Page: Link to ZH version.
-                // ZH Page: Link to EN version.
-                // We need to fix the specific ID links or hrefs for the switcher if they exist.
-                // In my code I hardcoded them in previous steps, but in template they might be static or dynamic.
-                // The template usually has:
-                // <button onclick="changeLanguage('en')"> or <a href="...">
-
-                // We should replace javascript switchers with direct links for SEO and No-JS support.
-                // Find <button ... id="lang-en"> ... </button> -> <a href="${enUrl}" ... > ... </a>
-                // This might be tricky with regex. 
-                // Let's assume the user accepts the JS switcher for now, but we want direct links if possible.
-                // In Phase 1 I added direct links: <a href="./index.html"> and <a href="../zh/index.html">.
-
-                // Let's just trust the recursive path adjustment handles standard links.
-                // But for the language switcher specifically, we might want to ensure it points to the correct sibling.
-                // on ZH page: Link to EN should be `../../${pathSuffix}` (go up 1 for 'zh', then normal path?)
-                // No, EN is at `ROOT/${pathSuffix}`. ZH is at `ROOT/zh/${pathSuffix}`.
-                // So from ZH to EN: `../../${pathSuffix}` (if depth is 2 like tools).
-                // From ZH index to EN index: `../index.html`.
-
-                // This is calculated by `adjustRelativePaths` automatically IF the link in template was correct relative link.
-                // Template (EN) links to `zh/index.html` (for home).
-                // If we copy that to ZH: `../zh/index.html` -> points to self? No.
-
-                // Correct logic:
-                // EN Template needs to have logic to point to "current page but other lang".
-                // Since this is hard to generalize with Regex, we'll suggest manual fixes or rely on the `href` replacements we did above if they were absolute.
-
-                // Replace absolute links to ensure they stay absolute?
-                // `adjustRelativePaths` ignores absolute.
-            }
-
-            // Write File
-            const outSubDir = isZh ? path.join('zh', path.dirname(relativePath)) : path.dirname(relativePath);
+            // 4.5 写入文件
+            const outSubDir = path.join(lang, path.dirname(relativePath));
             const outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
 
             const outDir = path.dirname(outPath);
@@ -259,6 +181,15 @@ async function build() {
             fs.writeFileSync(outPath, content);
         }
     }
+
+    // 5. 生成 Sitemap.xml
+    const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${sitemapUrls.join('')}
+</urlset>`;
+
+    fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemapContent);
+    console.log('Sitemap generated.');
 
     console.log('Build complete.');
 }

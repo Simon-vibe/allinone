@@ -392,108 +392,76 @@ const translations = {
 class I18nManager {
     constructor() {
         if (typeof window !== 'undefined') {
-            this.currentLang = this.getInitialLanguage();
+            // 根据当前 URL 路径判断语言 (/zh/ vs /en/)
+            this.currentLang = window.location.pathname.includes('/zh/') ? 'zh' : 'en';
             this.init();
         }
     }
 
-    getInitialLanguage() {
-        // 1. Check URL parameter (Priority for SEO)
-        const urlParams = new URLSearchParams(window.location.search);
-        const langParam = urlParams.get('lang');
-        if (langParam && translations[langParam]) {
-            return langParam;
-        }
-
-        // 2. Check localStorage
-        const savedLang = localStorage.getItem('app_lang');
-        if (savedLang && translations[savedLang]) return savedLang;
-
-        // 3. Browser default
-        const browserLang = navigator.language.toLowerCase();
-        return browserLang.startsWith('zh') ? 'zh' : 'en';
-    }
-
     init() {
-        this.updateDOM();
-        this.updateDirection();
+        this.updateUIState();
     }
 
+    // 核心修改：只负责跳转 URL，不再修改 DOM 文字
     setLanguage(lang) {
-        if (!translations[lang]) return;
         if (this.currentLang === lang) return;
 
-        // Save preference
+        // 保存偏好（可选，主要用于下次访问根目录时的跳转判断，但不影响当前页）
         localStorage.setItem('app_lang', lang);
 
-        // Update URL to trigger reload (SEO requirement)
-        const url = new URL(window.location);
-        url.searchParams.set('lang', lang);
-        window.location.href = url.toString();
+        const currentPath = window.location.pathname;
+        let newPath;
+
+        // 简单的路径替换逻辑
+        if (lang === 'zh') {
+            // 从 /en/ 切换到 /zh/
+            newPath = currentPath.replace('/en/', '/zh/');
+            // 如果原本不在 /en/ 下（比如根目录跳转来的），强制加 /zh/
+            if (newPath === currentPath) newPath = '/zh/' + currentPath.replace(/^\//, '');
+        } else {
+            // 从 /zh/ 切换到 /en/
+            newPath = currentPath.replace('/zh/', '/en/');
+        }
+
+        // 简单的容错：避免 //
+        newPath = newPath.replace('//', '/');
+
+        window.location.href = newPath;
     }
 
-    t(key) {
-        return translations[this.currentLang][key] || key;
-    }
-
-    updateDOM() {
-        document.documentElement.lang = this.currentLang;
-        const elements = document.querySelectorAll('[data-i18n]');
-        elements.forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            const translation = this.t(key);
-
-            if (el.tagName === 'INPUT' && el.getAttribute('placeholder')) {
-                el.placeholder = translation;
-            } else if (el.tagName === 'TEXTAREA' && el.getAttribute('placeholder')) {
-                el.placeholder = translation;
-                el.innerHTML = translation;
-            } else {
-                el.innerHTML = translation;
-            }
-        });
-
-        // Global Nav Language Switcher State
+    updateUIState() {
+        // 只更新导航栏按钮的激活状态
         const btnEn = document.getElementById('lang-en');
         const btnZh = document.getElementById('lang-zh');
+
         if (btnEn && btnZh) {
+            // 重置样式
+            btnEn.classList.remove('font-bold', 'text-blue-600');
+            btnZh.classList.remove('font-bold', 'text-blue-600');
+
             if (this.currentLang === 'en') {
                 btnEn.classList.add('font-bold', 'text-blue-600');
-                btnZh.classList.remove('font-bold', 'text-blue-600');
             } else {
                 btnZh.classList.add('font-bold', 'text-blue-600');
-                btnEn.classList.remove('font-bold', 'text-blue-600');
             }
-        }
-
-        // Dynamic Canonical Update (SEO)
-        const canonicalLink = document.querySelector("link[rel='canonical']");
-        if (canonicalLink) {
-            const url = new URL(window.location);
-            if (this.currentLang === 'en') {
-                url.searchParams.delete('lang');
-            } else {
-                url.searchParams.set('lang', this.currentLang);
-            }
-            canonicalLink.href = url.toString();
         }
     }
 
-    updateDirection() {
-        // Future proofing for RTL
+    // 保留 t() 函数以防 JS 动态生成的组件（如搜索结果）需要用到
+    t(key) {
+        if (!translations[this.currentLang]) return key;
+        return translations[this.currentLang][key] || key;
     }
 }
 
 if (typeof window !== 'undefined') {
-
     window.i18n = new I18nManager();
-
     window.changeLanguage = (lang) => {
         window.i18n.setLanguage(lang);
     };
 }
 
-// Node.js support for build script
+// 供 generate.js 使用
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { translations };
 }
