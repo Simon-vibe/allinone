@@ -193,7 +193,48 @@ const translations = {
         "terms.h2": "2. Use License",
         "terms.p2": "Permission is granted to temporarily download one copy of the materials (information or software) on Tool Directory's website for personal, non-commercial transitory viewing only.",
         "terms.h3": "3. Disclaimer",
-        "terms.p3": "The materials on allinone.page's website are provided on an 'as is' basis. allinone.page makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights."
+        // Meta - PDF
+        "pdf.meta.title": "Bank Statement Converter - PDF to Excel (Secure & Local)",
+        "pdf.meta.desc": "Convert PDF bank statements to Excel (XLSX) instantly in your browser. Privacy-first: no file upload, 100% client-side processing.",
+        "pdf.meta.keywords": "pdf to excel, bank statement converter, pdf to xlsx, secure pdf converter, client side pdf tool",
+
+        // Meta - JSON
+        "json.meta.title": "JSON Formatter & Validator - Minify, Beautify Online",
+        "json.meta.desc": "Free online JSON formatter. Validate, beautify, and minify JSON data. Clear syntax highlighting and error detection. Secure local processing.",
+        "json.meta.keywords": "json formatter, json validator, json beautifier, json minify, online json tool",
+
+        // Meta - Image
+        "img.meta.title": "Image Compressor - Optimize PNG, JPG, WebP Online",
+        "img.meta.desc": "Compress images online without losing quality. Reduce file size for PNG, JPEG, and WebP. Private client-side compression, no uploads.",
+        "img.meta.keywords": "image compressor, online image optimizer, reduce image size, png compressor, jpg compressor",
+
+        // Meta - Base64
+        "base64.meta.title": "Base64 Encoder / Decoder - Online String Converter",
+        "base64.meta.desc": "Fast Base64 encode and decode tool. Convert text to Base64 or decode Base64 strings. Developer friendly, handle large strings securely.",
+        "base64.meta.keywords": "base64 encoder, base64 decoder, base64 converter, string to base64, base64 to text",
+
+        // Meta - Markdown
+        "md.meta.title": "Markdown Editor - Live Preview & HTML Export",
+        "md.meta.desc": "Online Markdown editor with real-time preview. Write Markdown and export to HTML instantly. Features split-view and local storage saving.",
+        "md.meta.keywords": "markdown editor, online markdown, markdown preview, markdown to html, writing tool",
+
+        // Meta - Timestamp
+        "ts.meta.title": "Unix Timestamp Converter - Epoch to Date / Date to Epoch",
+        "ts.meta.desc": "Convert Unix timestamps to human-readable dates and vice versa. Supports seconds and milliseconds. Real-time current epoch time.",
+        "ts.meta.keywords": "unix timestamp converter, epoch converter, timestamp to date, date to timestamp, unix time",
+
+        // Meta - Pages
+        "about.meta.title": "About AllInOne - Free Developer Tools",
+        "about.meta.desc": "Learn more about AllInOne.page. We build free, privacy-focused developer tools that run entirely in your browser.",
+        "about.meta.keywords": "about allinone, developer tools team, privacy focus, client side tools",
+
+        "privacy.meta.title": "Privacy Policy - AllInOne",
+        "privacy.meta.desc": "Our privacy commitment: zero data collection. All tools run client-side. Read our full privacy policy.",
+        "privacy.meta.keywords": "privacy policy, no data collection, secure tools",
+
+        "terms.meta.title": "Terms of Service - AllInOne",
+        "terms.meta.desc": "Terms and conditions for using AllInOne.page developer tools.",
+        "terms.meta.keywords": "terms of service, usage terms, legal"
     },
     zh: {
         "nav.home": "首页",
@@ -391,7 +432,50 @@ const translations = {
         "terms.h2": "2. 使用许可",
         "terms.p2": "允许暂时下载 Tool Directory 网站上的一份材料（信息或软件）副本，仅供个人、非商业性暂时查看。",
         "terms.h3": "3. 免责声明",
-        "terms.p3": "allinone.page 网站上的材料按“原样”提供。allinone.page 不作任何明示或暗示的保证，特此声明并否认所有其他保证，包括但不限于适销性、特定用途适用性或不侵犯知识产权或其他侵犯权利的暗示保证或条件。"
+        "terms.p3": "allinone.page 网站上的材料按“原样”提供。allinone.page 不作任何明示或暗示的保证，特此声明并否认所有其他保证，包括但不限于适销性、特定用途适用性或不侵犯知识产权或其他侵犯权利的暗示保证或条件。",
+
+        // Meta - PDF
+        "pdf.meta.title": "银行流水转Excel - 免费在线PDF转表格工具 (安全·本地)",
+        "pdf.meta.desc": "浏览器本地将PDF银行流水转换为Excel (.xlsx)。保护隐私：无文件上传，100%客户端处理。支持各大银行。",
+        "pdf.meta.keywords": "PDF转Excel, 银行流水转换, PDF转表格, 在线工具, 本地处理, 数据隐私",
+
+        // Meta - JSON
+        "json.meta.title": "JSON格式化校验工具 - 在线美化/压缩 | AllInOne",
+        "json.meta.desc": "免费在线JSON格式化工具。支持语法验证、美化（Beautify）和压缩（Minify）。提供清晰的语法高亮和错误检测。安全本地处理。",
+        "json.meta.keywords": "JSON格式化, JSON验证, JSON美化, JSON压缩, 在线JSON工具, 开发者工具",
+
+        // Meta - Image
+        "img.meta.title": "在线图片压缩 - 压缩PNG/JPG/WebP无损画质 | AllInOne",
+        "img.meta.desc": "在线压缩图片而不损失画质。支持JPG, PNG, WebP。本地压缩，无上传，保护隐私。支持批量处理。",
+        "img.meta.keywords": "图片压缩, 在线压缩图片, 压缩PNG, 压缩JPG, 图片瘦身, 无损压缩",
+
+        // Meta - Base64
+        "base64.meta.title": "Base64编码/解码工具 - 在线字符串转换 | AllInOne",
+        "base64.meta.desc": "快速Base64编码和解码工具。将文本转换为Base64或将Base64解码为可读文本。开发者友好，安全处理长字符串。",
+        "base64.meta.keywords": "Base64编码, Base64解码, Base64在线转换, 文本转Base64, 开发者工具",
+
+        // Meta - Markdown
+        "md.meta.title": "Markdown编辑器 - 在线预览 & HTML导出 | AllInOne",
+        "md.meta.desc": "支持实时预览的在线Markdown编辑器。所见即所得，一键导出HTML。支持分屏查看及本地自动保存。",
+        "md.meta.keywords": "Markdown编辑器, 在线Markdown, Markdown转HTML, 实时预览, 写作工具",
+
+        // Meta - Timestamp
+        "ts.meta.title": "Unix时间戳转换 - 时间戳转日期/日期转时间戳 | AllInOne",
+        "ts.meta.desc": "在线Unix时间戳转换工具。支持时间戳与北京时间/UTC时间互转。精确到秒和毫秒。实时显示当前时间戳。",
+        "ts.meta.keywords": "时间戳转换, Unix时间戳, 时间戳转日期, 日期转时间戳, Unix Time, 在线工具",
+
+        // Meta - Pages
+        "about.meta.title": "关于我们 - AllInOne 开发者工具箱",
+        "about.meta.desc": "了解更多关于AllInOne.page的信息。我们致力于构建免费、隐私优先、完全在浏览器中运行的开发者工具。",
+        "about.meta.keywords": "关于AllInOne, 开发者工具团队, 隐私保护, 客户端工具",
+
+        "privacy.meta.title": "隐私政策 - AllInOne",
+        "privacy.meta.desc": "我们的隐私承诺：零数据收集。所有工具均在客户端运行。阅读我们完整的隐私政策。",
+        "privacy.meta.keywords": "隐私政策, 无数据收集, 安全工具, 数据隐私",
+
+        "terms.meta.title": "服务条款 - AllInOne",
+        "terms.meta.desc": "AllInOne.page 开发者工具箱的使用条款和条件。",
+        "terms.meta.keywords": "服务条款, 使用协议, 免责声明"
     }
 };
 
