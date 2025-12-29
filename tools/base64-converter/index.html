@@ -26,7 +26,7 @@
     <meta property="og:title" content="Base64 Encoder & Decoder - Online Converter">
     <meta property="og:description" content="Encode text to Base64 or decode Base64 strings. Fast and secure.">
     <meta property="og:image" content="https://allinone.page/assets/og-image.png">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -54,6 +54,15 @@
                 <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
                     data-i18n="nav.categories">Categories</a>
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -112,16 +121,18 @@
 
         <!-- Rich Content / FAQ -->
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Fast Base64 Encoder/Decoder</h2>
-            <p class="mb-4">Easily translate text to Base64 strings or decode Base64 back to readable text with our
-                <strong>Base64 Converter</strong>. Essential for developers working with data transmission.
-            </p>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">How it works:</h3>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="base64.faq.title">Fast Base64 Encoder/Decoder
+            </h2>
+            <p class="mb-4" data-i18n="base64.faq.desc">Easily translate text to Base64 strings or decode Base64 back to
+                readable text with our <strong>Base64 Converter</strong>. Essential for developers working with data
+                transmission.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="base64.faq.feat.title">How it works:</h3>
             <ul class="list-disc pl-5 space-y-2 mb-6">
-                <li><strong>Encode:</strong> Turns plain text (e.g., "Hello") into Base64 format (e.g., "SGVsbG8=").
-                </li>
-                <li><strong>Decode:</strong> Converts Base64 strings back to their original text.</li>
-                <li><strong>Safe:</strong> No data leaves your browser.</li>
+                <li data-i18n="base64.faq.feat.enc"><strong>Encode:</strong> Turns plain text (e.g., "Hello") into
+                    Base64 format (e.g., "SGVsbG8=").</li>
+                <li data-i18n="base64.faq.feat.dec"><strong>Decode:</strong> Converts Base64 strings back to their
+                    original text.</li>
+                <li data-i18n="base64.faq.feat.safe"><strong>Safe:</strong> No data leaves your browser.</li>
             </ul>
         </section>
 

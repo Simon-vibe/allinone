@@ -26,7 +26,7 @@
     <meta property="og:title" content="Markdown Editor - Online Preview & HTML Export">
     <meta property="og:description" content="Write and preview Markdown content instantly. Export to HTML.">
     <meta property="og:image" content="https://allinone.page/assets/og-image.png">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -129,6 +129,15 @@
             </a>
             <div class="h-6 w-px bg-gray-300 mr-6 hidden md:block"></div>
             <h1 class="font-bold text-gray-700 text-lg hidden md:block" data-i18n="tool.md.title">Markdown Editor</h1>
+
+            <!-- Language Switcher in Header for this specific layout -->
+            <div class="flex items-center space-x-2 border-l pl-4 ml-4 border-gray-300">
+                <button onclick="changeLanguage('en')" id="lang-en"
+                    class="text-xs hover:text-blue-800 transition font-bold">EN</button>
+                <span class="text-gray-300 text-xs">/</span>
+                <button onclick="changeLanguage('zh')" id="lang-zh"
+                    class="text-xs hover:text-blue-800 transition">中文</button>
+            </div>
         </div>
         <div class="flex gap-3">
             <button id="btn-copy-html"
@@ -171,17 +180,17 @@
 
         <!-- Rich Content / FAQ -->
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Real-time Markdown Editor</h2>
-            <p class="mb-4">Write, edit, and preview Markdown content instantly with our <strong>Markdown
-                    Editor</strong>.
-                It's perfect for writing documentation, README files, or blog posts.</p>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Capabilities:</h3>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="md.faq.title">Real-time Markdown Editor</h2>
+            <p class="mb-4" data-i18n="md.faq.desc">Write, edit, and preview Markdown content instantly with our
+                <strong>Markdown Editor</strong>. It's perfect for writing documentation, README files, or blog posts.
+            </p>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="md.faq.feat.title">Capabilities:</h3>
             <ul class="list-disc pl-5 space-y-2 mb-6">
-                <li><strong>Live Preview:</strong> See changes as you type.</li>
-                <li><strong>HTML Export:</strong> Copy the generated HTML code with one click.</li>
-                <li><strong>Local Storage:</strong> Your text is saved in your browser, so you won't lose work on
-                    refresh.
-                </li>
+                <li data-i18n="md.faq.feat.live"><strong>Live Preview:</strong> See changes as you type.</li>
+                <li data-i18n="md.faq.feat.html"><strong>HTML Export:</strong> Copy the generated HTML code with one
+                    click.</li>
+                <li data-i18n="md.faq.feat.local"><strong>Local Storage:</strong> Your text is saved in your browser, so
+                    you won't lose work on refresh.</li>
             </ul>
         </section>
 

@@ -70,6 +70,19 @@ const translations = {
         "common.cancel": "Cancel",
         "common.submit": "Submit",
 
+        // FAQ - PDF Converter
+        "pdf.faq.title": "How to Convert PDF Bank Statements to Excel?",
+        "pdf.faq.desc": "Our <strong>PDF to Excel Converter</strong> is designed for privacy and speed. Unlike other tools that upload your sensitive financial documents to a server, this tool processes everything locally in your browser using WebAssembly technology.",
+        "pdf.faq.feat.title": "Key Features:",
+        "pdf.faq.feat.priv": "<strong>100% Private:</strong> Your files never leave your device.",
+        "pdf.faq.feat.fast": "<strong>Fast:</strong> Instant conversion without queuing.",
+        "pdf.faq.feat.free": "<strong>Free:</strong> No limits, no sign-up required.",
+        "pdf.faq.feat.sec": "<strong>Secure:</strong> Handles password-protected PDFs locally.",
+        "pdf.faq.q1.title": "Is my data safe?",
+        "pdf.faq.q1.desc": "Yes, absolutely. All processing happens in your browser using JavaScript. No file is ever uploaded to any server.",
+        "pdf.faq.q2.title": "Can I convert encrypted PDFs?",
+        "pdf.faq.q2.desc": "Yes, if you have the password, you can decrypt and convert them directly in the browser.",
+
         // JSON Formatter
         "json.input.title": "Input JSON",
         "json.input.placeholder": "Paste your JSON here...",
@@ -121,7 +134,47 @@ const translations = {
         "ts.output.utc": "UTC Time",
         "ts.to_ts.title": "Date to Timestamp",
         "ts.input_date.label": "Select Date & Time",
-        "ts.output.ts": "Timestamp (Seconds)"
+        "ts.output.ts": "Timestamp (Seconds)",
+
+        // FAQ - Image Compressor
+        "img.faq.title": "Compress Images Online Without Uploading",
+        "img.faq.desc": "Our <strong>Image Compressor</strong> provides a fast and secure way to optimize your photos and graphics. All compression happens directly on your device, ensuring your private photos are never sent to a cloud server.",
+        "img.faq.feat.title": "Features:",
+        "img.faq.feat.privacy": "<strong>Privacy First:</strong> Browser-based processing means 100% data security.",
+        "img.faq.feat.format": "<strong>Format Support:</strong> Compatible with PNG, JPEG, and WebP.",
+        "img.faq.feat.control": "<strong>Custom Controls:</strong> Adjust quality and max dimensions easily.",
+
+        // FAQ - JSON Formatter
+        "json.faq.title": "Best Online JSON Formatter",
+        "json.faq.desc": "Debug and beautify your JSON configuration files and API responses with our free <strong>JSON Formatter</strong>. It helps developers read complex JSON trees by adding proper indentation and newlines.",
+        "json.faq.feat.title": "Why use this tool?",
+        "json.faq.feat.val": "<strong>Validation:</strong> Instantly check if your JSON syntax is correct.",
+        "json.faq.feat.min": "<strong>Minification:</strong> Reduce file size for production usage.",
+        "json.faq.feat.sec": "<strong>Secure:</strong> We do not store or send your data to any server.",
+
+        // FAQ - Base64
+        "base64.faq.title": "Fast Base64 Encoder/Decoder",
+        "base64.faq.desc": "Easily translate text to Base64 strings or decode Base64 back to readable text with our <strong>Base64 Converter</strong>. Essential for developers working with data transmission.",
+        "base64.faq.feat.title": "How it works:",
+        "base64.faq.feat.enc": "<strong>Encode:</strong> Turns plain text (e.g., \"Hello\") into Base64 format (e.g., \"SGVsbG8=\").",
+        "base64.faq.feat.dec": "<strong>Decode:</strong> Converts Base64 strings back to their original text.",
+        "base64.faq.feat.safe": "<strong>Safe:</strong> No data leaves your browser.",
+
+        // FAQ - Markdown
+        "md.faq.title": "Real-time Markdown Editor",
+        "md.faq.desc": "Write, edit, and preview Markdown content instantly with our <strong>Markdown Editor</strong>. It's perfect for writing documentation, README files, or blog posts.",
+        "md.faq.feat.title": "Capabilities:",
+        "md.faq.feat.live": "<strong>Live Preview:</strong> See changes as you type.",
+        "md.faq.feat.html": "<strong>HTML Export:</strong> Copy the generated HTML code with one click.",
+        "md.faq.feat.local": "<strong>Local Storage:</strong> Your text is saved in your browser, so you won't lose work on refresh.",
+
+        // FAQ - Timestamp
+        "ts.faq.title": "Unix Timestamp Converter",
+        "ts.faq.desc": "Convert between Unix Epoch timestamps and human-readable dates instantly. Supports both seconds and milliseconds formats used in programming.",
+        "ts.faq.sub.title": "What is Unix Time?",
+        "ts.faq.sub.desc": "Unix time (also known as Epoch time) is the number of seconds that have elapsed since January 1, 1970 (UTC). It is widely used in computing to track time.",
+        "ts.faq.feat.curr": "<strong>Current Time:</strong> Displays the live, ticking Unix timestamp.",
+        "ts.faq.feat.conv": "<strong>Two-way Conversion:</strong> Convert Date -> Timestamp or Timestamp -> Date."
     },
     zh: {
         "nav.home": "首页",
@@ -194,6 +247,19 @@ const translations = {
         "common.cancel": "取消",
         "common.submit": "提交",
 
+        // FAQ - PDF Converter
+        "pdf.faq.title": "如何将 PDF 银行对账单转换为 Excel？",
+        "pdf.faq.desc": "我们的<strong>PDF 转 Excel 转换器</strong>专为隐私和速度而设计。与其他将敏感财务文档上传到服务器的工具不同，此工具使用 WebAssembly 技术在您的浏览器中本地处理所有内容。",
+        "pdf.faq.feat.title": "主要功能：",
+        "pdf.faq.feat.priv": "<strong>100% 私密：</strong>您的文件通过从不离开您的设备。",
+        "pdf.faq.feat.fast": "<strong>快速：</strong>无需排队的即时转换。",
+        "pdf.faq.feat.free": "<strong>免费：</strong>无限制，无需注册。",
+        "pdf.faq.feat.sec": "<strong>安全：</strong>在本地处理受密码保护的 PDF。",
+        "pdf.faq.q1.title": "我的数据安全吗？",
+        "pdf.faq.q1.desc": "是的，绝对安全。所有处理都使用 JavaScript 在您的浏览器中进行。没有文件会被上传到任何服务器。",
+        "pdf.faq.q2.title": "我可以转换加密的 PDF 吗？",
+        "pdf.faq.q2.desc": "是的，如果您有密码，可以直接在浏览器中解密并转换它们。",
+
         // JSON Formatter
         "json.input.title": "输入 JSON",
         "json.input.placeholder": "在这里粘贴您的 JSON...",
@@ -245,7 +311,47 @@ const translations = {
         "ts.output.utc": "UTC 时间",
         "ts.to_ts.title": "日期转时间戳",
         "ts.input_date.label": "选择日期和时间",
-        "ts.output.ts": "时间戳 (秒)"
+        "ts.output.ts": "时间戳 (秒)",
+
+        // FAQ - Image Compressor
+        "img.faq.title": "无需上传的在线图片压缩工具",
+        "img.faq.desc": "我们的<strong>图片压缩器</strong>提供了一种快速安全的方式来优化您的照片和图形。所有压缩都在您的设备上直接进行，确保您的私人照片永远不会发送到云端服务器。",
+        "img.faq.feat.title": "功能特点：",
+        "img.faq.feat.privacy": "<strong>隐私至上：</strong>基于浏览器的处理意味着 100% 的数据安全。",
+        "img.faq.feat.format": "<strong>多格式支持：</strong>兼容 PNG, JPEG 和 WebP。",
+        "img.faq.feat.control": "<strong>自定义控制：</strong>轻松调整质量和最大尺寸。",
+
+        // FAQ - JSON Formatter
+        "json.faq.title": "优秀的在线 JSON 格式化工具",
+        "json.faq.desc": "使用我们免费的<strong>JSON 格式化工具</strong>调试和美化您的 JSON 配置文件及 API 响应。通过添加适当的缩进和换行，帮助开发者阅读复杂的 JSON 树。",
+        "json.faq.feat.title": "为什么使用此工具？",
+        "json.faq.feat.val": "<strong>验证：</strong>即时检查您的 JSON 语法是否正确。",
+        "json.faq.feat.min": "<strong>压缩：</strong>减小文件大小以便在生产环境中使用。",
+        "json.faq.feat.sec": "<strong>安全：</strong>我们不会存储或发送您的数据到任何服务器。",
+
+        // FAQ - Base64
+        "base64.faq.title": "快速 Base64 编码/解码器",
+        "base64.faq.desc": "使用我们的<strong>Base64 转换器</strong>轻松将文本转换为 Base64 字符串，或将 Base64 解码回可读文本。数据传输开发者的必备工具。",
+        "base64.faq.feat.title": "工作原理：",
+        "base64.faq.feat.enc": "<strong>编码：</strong>将纯文本（如 \"Hello\"）转换为 Base64 格式（如 \"SGVsbG8=\"）。",
+        "base64.faq.feat.dec": "<strong>解码：</strong>将 Base64 字符串转换回原始文本。",
+        "base64.faq.feat.safe": "<strong>安全：</strong>没有数据离开您的浏览器。",
+
+        // FAQ - Markdown
+        "md.faq.title": "实时 Markdown 编辑器",
+        "md.faq.desc": "使用我们的<strong>Markdown 编辑器</strong>即时编写、编辑和预览 Markdown 内容。非常适合编写文档、README 文件或博客文章。",
+        "md.faq.feat.title": "功能：",
+        "md.faq.feat.live": "<strong>实时预览：</strong>随打随看。",
+        "md.faq.feat.html": "<strong>HTML 导出：</strong>一键复制生成的 HTML 代码。",
+        "md.faq.feat.local": "<strong>本地存储：</strong>您的文本保存在浏览器中，刷新页面不会丢失。",
+
+        // FAQ - Timestamp
+        "ts.faq.title": "Unix 时间戳转换器",
+        "ts.faq.desc": "即时在 Unix Epoch 时间戳和人类可读日期之间转换。支持编程中使用的秒和毫秒格式。",
+        "ts.faq.sub.title": "什么是 Unix 时间？",
+        "ts.faq.sub.desc": "Unix 时间（也称为 Epoch 时间）是自 1970 年 1 月 1 日（UTC）以来经过的秒数。它广泛用于计算中以跟踪时间。",
+        "ts.faq.feat.curr": "<strong>当前时间：</strong>显示实时跳动的 Unix 时间戳。",
+        "ts.faq.feat.conv": "<strong>双向转换：</strong>将日期转换为时间戳或将时间戳转换为日期。"
     }
 };
 
@@ -305,8 +411,7 @@ class I18nManager {
                 el.placeholder = translation;
             } else if (el.tagName === 'TEXTAREA' && el.getAttribute('placeholder')) {
                 el.placeholder = translation;
-            } else {
-                el.textContent = translation;
+                el.innerHTML = translation;
             }
         });
 
@@ -321,6 +426,18 @@ class I18nManager {
                 btnZh.classList.add('font-bold', 'text-blue-600');
                 btnEn.classList.remove('font-bold', 'text-blue-600');
             }
+        }
+
+        // Dynamic Canonical Update (SEO)
+        const canonicalLink = document.querySelector("link[rel='canonical']");
+        if (canonicalLink) {
+            const url = new URL(window.location);
+            if (this.currentLang === 'en') {
+                url.searchParams.delete('lang');
+            } else {
+                url.searchParams.set('lang', this.currentLang);
+            }
+            canonicalLink.href = url.toString();
         }
     }
 

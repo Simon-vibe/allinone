@@ -28,7 +28,7 @@
         content="Convert PDF bank statements to Excel securely in your browser. No data upload needed.">
     <meta property="og:image" content="https://allinone.page/assets/og-image.png">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../css/style.css">
     <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
@@ -183,28 +183,30 @@
 
         <!-- Rich Content / FAQ -->
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">How to Convert PDF Bank Statements to Excel?</h2>
-            <p class="mb-4">Our <strong>PDF to Excel Converter</strong> is designed for privacy and speed. Unlike other
-                tools that upload your sensitive financial documents to a server, this tool processes everything locally
-                in your browser using WebAssembly technology.</p>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Key Features:</h3>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="pdf.faq.title">How to Convert PDF Bank
+                Statements to Excel?</h2>
+            <p class="mb-4" data-i18n="pdf.faq.desc">Our <strong>PDF to Excel Converter</strong> is designed for privacy
+                and speed. Unlike other tools that upload your sensitive financial documents to a server, this tool
+                processes everything locally in your browser using WebAssembly technology.</p>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="pdf.faq.feat.title">Key Features:</h3>
             <ul class="list-disc pl-5 space-y-2 mb-6">
-                <li><strong>100% Private:</strong> Your files never leave your device.</li>
-                <li><strong>Fast:</strong> Instant conversion without queuing.</li>
-                <li><strong>Free:</strong> No limits, no sign-up required.</li>
-                <li><strong>Secure:</strong> Handles password-protected PDFs locally.</li>
+                <li data-i18n="pdf.faq.feat.priv"><strong>100% Private:</strong> Your files never leave your device.
+                </li>
+                <li data-i18n="pdf.faq.feat.fast"><strong>Fast:</strong> Instant conversion without queuing.</li>
+                <li data-i18n="pdf.faq.feat.free"><strong>Free:</strong> No limits, no sign-up required.</li>
+                <li data-i18n="pdf.faq.feat.sec"><strong>Secure:</strong> Handles password-protected PDFs locally.</li>
             </ul>
             <h3 class="text-xl font-bold text-gray-900 mb-2">Frequently Asked Questions</h3>
             <div class="space-y-4">
                 <div>
-                    <h4 class="font-bold text-gray-800">Is my data safe?</h4>
-                    <p class="text-sm">Yes, absolutely. All processing happens in your browser using JavaScript. No file
-                        is ever uploaded to any server.</p>
+                    <h4 class="font-bold text-gray-800" data-i18n="pdf.faq.q1.title">Is my data safe?</h4>
+                    <p class="text-sm" data-i18n="pdf.faq.q1.desc">Yes, absolutely. All processing happens in your
+                        browser using JavaScript. No file is ever uploaded to any server.</p>
                 </div>
                 <div>
-                    <h4 class="font-bold text-gray-800">Can I convert encrypted PDFs?</h4>
-                    <p class="text-sm">Yes, if you have the password, you can decrypt and convert them directly in the
-                        browser.</p>
+                    <h4 class="font-bold text-gray-800" data-i18n="pdf.faq.q2.title">Can I convert encrypted PDFs?</h4>
+                    <p class="text-sm" data-i18n="pdf.faq.q2.desc">Yes, if you have the password, you can decrypt and
+                        convert them directly in the browser.</p>
                 </div>
             </div>
         </section>
