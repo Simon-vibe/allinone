@@ -123,7 +123,23 @@
             </p>
         </div>
 
-        <!-- Processing State -->
+        <!-- Mode Switching Tabs (Visible after upload) -->
+        <div id="mode-tabs" class="hidden max-w-4xl mx-auto mb-6">
+            <div class="flex border-b border-gray-200">
+                <button id="tab-ai"
+                    class="px-6 py-3 text-blue-600 border-b-2 border-blue-600 font-bold focus:outline-none transition"
+                    data-i18n="bgrem.tab.ai">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>AI Auto
+                </button>
+                <button id="tab-manual"
+                    class="px-6 py-3 text-gray-500 hover:text-blue-600 font-medium focus:outline-none transition"
+                    data-i18n="bgrem.tab.manual">
+                    <i class="fa-solid fa-eye-dropper mr-2"></i>Magic Wand (Manual)
+                </button>
+            </div>
+        </div>
+
+        <!-- AI Processing State -->
         <div id="processing-state" class="hidden text-center py-12">
             <i class="fa-solid fa-circle-notch fa-spin text-4xl text-blue-600 mb-4"></i>
             <p class="text-lg font-medium text-gray-600" data-i18n="bgrem.status.processing">Removing background...
@@ -132,7 +148,7 @@
                 model (~50MB).</p>
         </div>
 
-        <!-- Result Section -->
+        <!-- AI Result Section -->
         <div id="result-section" class="hidden text-center py-8">
             <div class="flex flex-col md:flex-row gap-8 justify-center items-start mb-12">
                 <!-- Original -->
@@ -158,6 +174,39 @@
                     class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-4 py-3 rounded-lg font-medium transition">
                     <span data-i18n="common.reset">Convert Another</span>
                 </button>
+            </div>
+        </div>
+
+        <!-- Manual Mode Section -->
+        <div id="manual-section" class="hidden text-center py-8 max-w-4xl mx-auto">
+            <p class="text-sm text-gray-500 mb-4" data-i18n="bgrem.manual.desc">Click on the image to remove that color.
+                Adjust tolerance to control range.</p>
+
+            <div class="relative overflow-auto max-h-[600px] border rounded-lg shadow-sm checkered-bg inline-block">
+                <canvas id="manual-canvas" class="cursor-crosshair block"></canvas>
+            </div>
+
+            <div class="mt-6 max-w-md mx-auto space-y-4">
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <label class="text-sm font-medium text-gray-700"
+                            data-i18n="bgrem.manual.tolerance">Tolerance</label>
+                        <span id="tolerance-val" class="text-sm text-gray-500">32</span>
+                    </div>
+                    <input type="range" id="tolerance-slider" min="0" max="100" value="32"
+                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <div class="flex gap-3 justify-center">
+                    <button id="btn-undo"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium transition">
+                        <i class="fa-solid fa-rotate-left mr-2"></i> <span data-i18n="common.undo">Undo</span>
+                    </button>
+                    <button id="btn-download-manual"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition shadow-sm">
+                        <i class="fa-solid fa-download mr-2"></i> <span data-i18n="common.download">Download PNG</span>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -196,8 +245,22 @@
             const imgResult = document.getElementById('img-result');
             const btnDownload = document.getElementById('btn-download');
 
+            // Tabs & Manual Mode Elements
+            const modeTabs = document.getElementById('mode-tabs');
+            const tabAi = document.getElementById('tab-ai');
+            const tabManual = document.getElementById('tab-manual');
+            const manualSection = document.getElementById('manual-section');
+            const manualCanvas = document.getElementById('manual-canvas');
+            const toleranceSlider = document.getElementById('tolerance-slider');
+            const toleranceVal = document.getElementById('tolerance-val');
+            const btnUndo = document.getElementById('btn-undo');
+            const btnDownloadManual = document.getElementById('btn-download-manual');
+            const ctx = manualCanvas.getContext('2d', { willReadFrequently: true });
+
             let resultBlob = null;
             let currentFileName = 'transparent.png';
+            let originalManualData = null; // For Undo
+            let currentFile = null;
 
             // Drag & Drop
             dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500', 'bg-blue-50'); });
@@ -218,17 +281,134 @@
                 }
             });
 
+            // Tabs Logic
+            function switchTab(mode) {
+                if (mode === 'ai') {
+                    tabAi.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+                    tabAi.classList.remove('text-gray-500');
+                    tabManual.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+                    tabManual.classList.add('text-gray-500');
+
+                    // Show AI result (or processing), hide Manual
+                    if (!processingState.classList.contains('hidden') || imgResult.src) {
+                        if (!processingState.classList.contains('hidden')) {
+                            // Still processing, do nothing visible change other than hiding manual
+                        } else {
+                            resultSection.classList.remove('hidden');
+                        }
+                    }
+                    manualSection.classList.add('hidden');
+                } else {
+                    tabManual.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+                    tabManual.classList.remove('text-gray-500');
+                    tabAi.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+                    tabAi.classList.add('text-gray-500');
+
+                    // Show Manual, hide AI
+                    resultSection.classList.add('hidden');
+                    manualSection.classList.remove('hidden');
+                    // Ensure manual mode is init
+                    if (!originalManualData && currentFile) {
+                        initManualMode(currentFile);
+                    }
+                }
+            }
+
+            tabAi.addEventListener('click', () => switchTab('ai'));
+            tabManual.addEventListener('click', () => switchTab('manual'));
+
+            // Manual Mode Logic
+            function initManualMode(file) {
+                const img = new Image();
+                img.onload = () => {
+                    // Resize if too big to prevent performance kill?
+                    // For now, keep original size for quality
+                    manualCanvas.width = img.width;
+                    manualCanvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    originalManualData = ctx.getImageData(0, 0, manualCanvas.width, manualCanvas.height);
+                };
+                img.src = URL.createObjectURL(file);
+            }
+
+            toleranceSlider.addEventListener('input', (e) => {
+                toleranceVal.textContent = e.target.value;
+            });
+
+            btnUndo.addEventListener('click', () => {
+                if (originalManualData) {
+                    ctx.putImageData(originalManualData, 0, 0);
+                }
+            });
+
+            manualCanvas.addEventListener('click', (e) => {
+                if (!originalManualData) return;
+
+                const rect = manualCanvas.getBoundingClientRect();
+                const scaleX = manualCanvas.width / rect.width;
+                const scaleY = manualCanvas.height / rect.height;
+
+                const x = Math.floor((e.clientX - rect.left) * scaleX);
+                const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+                const pixel = ctx.getImageData(x, y, 1, 1).data;
+                const targetR = pixel[0];
+                const targetG = pixel[1];
+                const targetB = pixel[2];
+
+                // Execute global color removal
+                const tolerance = parseInt(toleranceSlider.value);
+                const imageData = ctx.getImageData(0, 0, manualCanvas.width, manualCanvas.height);
+                const data = imageData.data;
+
+                // Optimized loop
+                for (let i = 0; i < data.length; i += 4) {
+                    // Skip already transparent
+                    if (data[i + 3] === 0) continue;
+
+                    // Euclidean distance or Manhattan?
+                    // User snippet used Manhattan (sum of abs diffs) which is fast
+                    const diff = Math.abs(data[i] - targetR) +
+                        Math.abs(data[i + 1] - targetG) +
+                        Math.abs(data[i + 2] - targetB);
+
+                    // Tolerance scaling: slider 0-100. Max diff is 255*3 = 765.
+                    // User snippet: `if (diff <= tolerance * 3)`
+                    if (diff <= tolerance * 3) {
+                        data[i + 3] = 0; // Transparent
+                    }
+                }
+                ctx.putImageData(imageData, 0, 0);
+            });
+
+            btnDownloadManual.addEventListener('click', () => {
+                manualCanvas.toBlob((blob) => {
+                    saveAs(blob, currentFileName);
+                });
+            });
+
             async function processFile(file) {
                 if (!file.type.startsWith('image/')) {
                     alert('Please select an image file.');
                     return;
                 }
 
+                currentFile = file;
+                currentFileName = file.name.replace(/\.[^/.]+$/, "") + "-transparent.png";
+
+                // UI Reset
                 dropZone.classList.add('hidden');
+                modeTabs.classList.remove('hidden');
+
+                // Init Manual Mode immediately just in case
+                initManualMode(file);
+
+                // Default to AI tab
+                switchTab('ai');
                 processingState.classList.remove('hidden');
                 resultSection.classList.add('hidden');
 
-                // Show original
+                // Show original in AI section
                 imgOriginal.src = URL.createObjectURL(file);
 
                 try {
@@ -238,15 +418,17 @@
                     resultBlob = blob;
                     imgResult.src = URL.createObjectURL(blob);
 
-                    currentFileName = file.name.replace(/\.[^/.]+$/, "") + "-transparent.png";
-
                     processingState.classList.add('hidden');
-                    resultSection.classList.remove('hidden');
+                    // Only show result if we are still on AI tab
+                    if (!tabAi.classList.contains('text-gray-500')) {
+                        resultSection.classList.remove('hidden');
+                    }
 
                 } catch (err) {
                     console.error(err);
                     alert('Error removing background: ' + err.message);
-                    dropZone.classList.remove('hidden');
+                    // If AI fails, maybe stay on Manual?
+                    switchTab('manual');
                     processingState.classList.add('hidden');
                 }
             }

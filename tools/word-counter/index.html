@@ -191,10 +191,24 @@
                 speakingTime.textContent = sTime + (sTime === 1 ? ' min' : ' mins');
             }
 
-            textInput.addEventListener('input', updateStats);
+            // Auto-Save Logic
+            const STORAGE_KEY = 'word_counter_text';
+
+            // Restore from localStorage
+            const savedText = localStorage.getItem(STORAGE_KEY);
+            if (savedText) {
+                textInput.value = savedText;
+                updateStats();
+            }
+
+            textInput.addEventListener('input', () => {
+                updateStats();
+                localStorage.setItem(STORAGE_KEY, textInput.value);
+            });
 
             btnClear.addEventListener('click', () => {
                 textInput.value = '';
+                localStorage.removeItem(STORAGE_KEY);
                 updateStats();
             });
 
@@ -205,9 +219,6 @@
                 btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${i18n.t('common.copied')}`;
                 setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
             });
-
-            // Initial call if cached text exists
-            updateStats();
         });
     </script>
 </body>

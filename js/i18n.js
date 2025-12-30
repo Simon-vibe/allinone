@@ -668,7 +668,52 @@ const translations = {
 
         "terms.meta.title": "Terms of Service - AllInOne",
         "terms.meta.desc": "Terms and conditions for using AllInOne.page developer tools.",
-        "terms.meta.keywords": "terms of service, usage terms, legal"
+        "terms.meta.keywords": "terms of service, usage terms, legal",
+
+        // New Tool Keys (OCR)
+        "ocr.lang": "Language",
+        "ocr.status.processing": "Processing Image...",
+        "ocr.status.error": "Error during OCR processing",
+
+        // SQL
+        "sql.label.keywordCase": "Keyword Case",
+        "sql.label.indent": "Indentation",
+        "sql.opt.preserve": "Preserve",
+        "sql.opt.upper": "Upper Case",
+        "sql.opt.lower": "Lower Case",
+        "sql.opt.space2": "2 Spaces",
+        "sql.opt.space4": "4 Spaces",
+        "sql.opt.tab": "Tab",
+
+        // Cropper
+        "crop.label.bg": "Background Color",
+        "crop.bg.desc": "Fill transparent areas when fitting image",
+
+        // QR
+        "qr.tab.generate": "Generate",
+        "qr.tab.scan": "Scan / Decode",
+        "qr.scan.upload": "Upload QR Image",
+        "qr.scan.result": "Decoded Result",
+
+        // YAML
+        "yaml.style.label": "Output Style",
+        "yaml.style.block": "Block (Default)",
+        "yaml.style.flow": "Flow (JSON-like)",
+        // Video
+        "video.crop.enable": "Enable Crop",
+        "video.crop.desc": "Drag to adjust area. Re-encoding required.",
+
+        // BgRemover
+        "bgrem.tab.ai": "AI Auto",
+        "bgrem.tab.manual": "Magic Wand",
+        "bgrem.manual.desc": "Click on image to remove color. Adjust tolerance.",
+        "bgrem.manual.tolerance": "Tolerance",
+        "common.undo": "Undo",
+
+        // Token
+        "token.img.title": "Image Cost (Multimodal)",
+        "token.img.tokens": "Image Tokens:",
+        "token.img.desc": "Based on GPT-4 Vision high-res calculation."
     },
     zh: {
         "nav.home": "首页",
@@ -678,6 +723,21 @@ const translations = {
         "nav.categories": "分类",
         "nav.about": "关于我们",
         "nav.login": "登录",
+        // Video
+        "video.crop.enable": "启用裁剪",
+        "video.crop.desc": "拖动调整区域。需要重新编码。",
+
+        // BgRemover
+        "bgrem.tab.ai": "AI 自动",
+        "bgrem.tab.manual": "魔术棒",
+        "bgrem.manual.desc": "点击图片移除颜色。调整容差。",
+        "bgrem.manual.tolerance": "容差",
+        "common.undo": "撤销",
+
+        // Token
+        "token.img.title": "图片成本 (多模态)",
+        "token.img.tokens": "图片 Token:",
+        "token.img.desc": "基于 GPT-4 Vision 高分辨率计算。",
         "hero.title": "您需要的所有工具，尽在于此。",
         "hero.subtitle": "开发者实用程序、转换器和生产力工具的分类集合。",
         "search.placeholder": "搜索工具 (例如: JSON 格式化)...",
@@ -1329,7 +1389,37 @@ const translations = {
 
         "terms.meta.title": "服务条款 - AllInOne",
         "terms.meta.desc": "AllInOne.page 开发者工具箱的使用条款和条件。",
-        "terms.meta.keywords": "服务条款, 使用协议, 免责声明"
+        "terms.meta.keywords": "服务条款, 使用协议, 免责声明",
+
+        // New Tool Keys (OCR)
+        "ocr.lang": "语言",
+        "ocr.status.processing": "正在识别图片...",
+        "ocr.status.error": "识别过程中出错",
+
+        // SQL
+        "sql.label.keywordCase": "关键字大小写",
+        "sql.label.indent": "缩进风格",
+        "sql.opt.preserve": "保持原样",
+        "sql.opt.upper": "大写",
+        "sql.opt.lower": "小写",
+        "sql.opt.space2": "2个空格",
+        "sql.opt.space4": "4个空格",
+        "sql.opt.tab": "制表符 (Tab)",
+
+        // Cropper
+        "crop.label.bg": "背景颜色",
+        "crop.bg.desc": "当图片适应尺寸时填充透明区域",
+
+        // QR
+        "qr.tab.generate": "生成二维码",
+        "qr.tab.scan": "扫描 / 解码",
+        "qr.scan.upload": "上传二维码图片",
+        "qr.scan.result": "解码结果",
+
+        // YAML
+        "yaml.style.label": "输出风格",
+        "yaml.style.block": "块级 (默认)",
+        "yaml.style.flow": "流式 (类 JSON)"
     }
 };
 
@@ -1408,4 +1498,136 @@ if (typeof window !== 'undefined') {
 // 供 generate.js 使用
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { translations };
+}
+
+/**
+ * 全局反馈按钮注入逻辑
+ * 自动在页面右下角添加一个"反馈"按钮，点击跳转 GitHub Issues
+ */
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        // 确保页面加载完成后注入
+        injectFeedbackButton();
+    });
+}
+/**
+ * 全局反馈组件 (Cloudflare D1 版本)
+ * 点击展开悬浮窗，直接提交到 Worker
+ */
+function injectFeedbackButton() {
+    if (document.getElementById('vibe-feedback-root')) return;
+
+    // !!! 请替换为你部署后的 Worker URL !!!
+    const API_URL = "https://feedback-api.simonvibe.workers.dev/";
+
+    // 1. 创建容器
+    const root = document.createElement('div');
+    root.id = 'vibe-feedback-root';
+    Object.assign(root.style, {
+        position: 'fixed', bottom: '20px', right: '20px', zIndex: '10000',
+        fontFamily: "'Inter', sans-serif", display: 'flex', flexDirection: 'column', alignItems: 'flex-end'
+    });
+
+    // 2. 创建表单面板 (默认隐藏)
+    const panel = document.createElement('div');
+    Object.assign(panel.style, {
+        backgroundColor: 'white', width: '300px', padding: '16px', borderRadius: '12px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.15)', marginBottom: '12px',
+        display: 'none', flexDirection: 'column', gap: '10px',
+        border: '1px solid #e5e7eb', transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+        transformOrigin: 'bottom right', transform: 'scale(0.9)', opacity: '0'
+    });
+
+    panel.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <h3 style="margin:0; font-size:14px; font-weight:600; color:#1f2937;">Send Feedback</h3>
+            <button id="fb-close" style="background:none; border:none; color:#9ca3af; cursor:pointer; padding:4px;">&times;</button>
+        </div>
+        <textarea id="fb-message" placeholder="What's on your mind? Bug? Feature?" rows="3" 
+            style="width:100%; padding:8px; border:1px solid #d1d5db; borderRadius:6px; font-size:13px; resize:none; outline:none; box-sizing:border-box;"></textarea>
+        <button id="fb-submit" style="background:#2563eb; color:white; border:none; padding:8px; borderRadius:6px; font-size:13px; font-weight:500; cursor:pointer; transition:background 0.2s;">
+            Send Feedback
+        </button>
+        <div id="fb-status" style="font-size:12px; color:#6b7280; text-align:center; height:16px;"></div>
+    `;
+
+    // 3. 创建悬浮按钮
+    const btn = document.createElement('button');
+    btn.innerHTML = `<i class="fa-regular fa-comment-dots" style="font-size:1.2em;"></i>`;
+    Object.assign(btn.style, {
+        width: '48px', height: '48px', borderRadius: '50%', backgroundColor: '#2563eb', color: 'white',
+        border: 'none', boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)', cursor: 'pointer',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'transform 0.2s'
+    });
+
+    // --- 交互逻辑 ---
+
+    // 切换面板显示/隐藏
+    let isOpen = false;
+    const togglePanel = () => {
+        isOpen = !isOpen;
+        if (isOpen) {
+            panel.style.display = 'flex';
+            // 强制重绘以触发动画
+            requestAnimationFrame(() => {
+                panel.style.transform = 'scale(1)';
+                panel.style.opacity = '1';
+            });
+            setTimeout(() => document.getElementById('fb-message').focus(), 100);
+        } else {
+            panel.style.transform = 'scale(0.9)';
+            panel.style.opacity = '0';
+            setTimeout(() => panel.style.display = 'none', 200);
+        }
+    };
+
+    btn.onclick = togglePanel;
+    panel.querySelector('#fb-close').onclick = togglePanel;
+
+    // 提交逻辑
+    const submitBtn = panel.querySelector('#fb-submit');
+    const textarea = panel.querySelector('#fb-message');
+    const statusMsg = panel.querySelector('#fb-status');
+
+    submitBtn.onclick = async () => {
+        const msg = textarea.value.trim();
+        if (!msg) return;
+
+        // UI Loading 状态
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.style.backgroundColor = '#93c5fd';
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    page: window.location.pathname, // 当前页面路径
+                    message: msg
+                })
+            });
+
+            if (res.ok) {
+                statusMsg.textContent = "Thanks! We got it.";
+                statusMsg.style.color = "#059669"; // Green
+                textarea.value = '';
+                setTimeout(() => { togglePanel(); statusMsg.textContent = ''; }, 2000);
+            } else {
+                throw new Error('Failed');
+            }
+        } catch (e) {
+            statusMsg.textContent = "Error sending feedback.";
+            statusMsg.style.color = "#dc2626"; // Red
+            console.error(e);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Feedback';
+            submitBtn.style.backgroundColor = '#2563eb';
+        }
+    };
+
+    root.appendChild(panel);
+    root.appendChild(btn);
+    document.body.appendChild(root);
 }

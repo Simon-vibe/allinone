@@ -99,9 +99,45 @@
             <!-- Left: Player & Controls -->
             <div class="lg:col-span-2 space-y-6">
 
-                <!-- Video Player -->
-                <div class="bg-black rounded-xl overflow-hidden shadow-lg">
-                    <video id="video-preview" controls class="w-full max-h-[500px] mx-auto"></video>
+                <!-- Video Player Container with Crop Overlay -->
+                <div class="relative bg-black rounded-xl overflow-hidden shadow-lg group select-none"
+                    id="video-container">
+                    <video id="video-preview" controls class="w-full max-h-[500px] mx-auto block"></video>
+
+                    <!-- Crop Overlay -->
+                    <div id="crop-overlay" class="hidden absolute inset-0 pointer-events-none z-10 overflow-hidden">
+                        <div id="crop-box"
+                            class="absolute border-2 border-green-500 bg-green-500/20 pointer-events-auto cursor-move touch-none"
+                            style="left: 25%; top: 25%; width: 50%; height: 50%;">
+
+                            <!-- Handles -->
+                            <div class="crop-handle nw absolute -top-1.5 -left-1.5 w-3 h-3 bg-green-500 border border-white rounded-full cursor-nw-resize"
+                                data-pos="nw"></div>
+                            <div class="crop-handle ne absolute -top-1.5 -right-1.5 w-3 h-3 bg-green-500 border border-white rounded-full cursor-ne-resize"
+                                data-pos="ne"></div>
+                            <div class="crop-handle sw absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-green-500 border border-white rounded-full cursor-sw-resize"
+                                data-pos="sw"></div>
+                            <div class="crop-handle se absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-green-500 border border-white rounded-full cursor-se-resize"
+                                data-pos="se"></div>
+
+                            <!-- Size Display -->
+                            <div id="crop-size-display"
+                                class="absolute -top-8 left-0 bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                                1280 x 720
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Toggle -->
+                <div class="flex items-center space-x-4 px-1">
+                    <label class="flex items-center space-x-2 cursor-pointer select-none">
+                        <input type="checkbox" id="enable-crop"
+                            class="form-checkbox w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                        <span class="text-sm font-bold text-gray-700" data-i18n="video.crop.enable">Enable Crop</span>
+                    </label>
+                    <p class="text-xs text-gray-400" data-i18n="video.crop.desc">Drag to adjust area. Note: Cropping
+                        requires re-encoding (slower).</p>
                 </div>
 
                 <!-- Trimming Controls -->
@@ -304,12 +340,152 @@
                 uploadArea.classList.add('hidden');
                 resultArea.classList.add('hidden');
 
+                // Reset crop
+                enableCropCheckbox.checked = false;
+                cropOverlay.classList.add('hidden');
+
                 // Get duration
                 videoPreview.onloadedmetadata = () => {
                     endTimeInput.value = videoPreview.duration.toFixed(1);
                     log(`Loaded video: ${file.name} (${videoPreview.duration.toFixed(1)}s)`);
                 };
             }
+
+            // --- Crop Logic ---
+            const enableCropCheckbox = document.getElementById('enable-crop');
+            const cropOverlay = document.getElementById('crop-overlay');
+            const cropBox = document.getElementById('crop-box');
+            const videoContainer = document.getElementById('video-container');
+            const cropSizeDisplay = document.getElementById('crop-size-display');
+
+            enableCropCheckbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    cropOverlay.classList.remove('hidden');
+                    updateCropDisplay(); // Initial update
+                } else {
+                    cropOverlay.classList.add('hidden');
+                }
+            });
+
+            // Crop Box Drag & Resize
+            let isDragging = false;
+            let isResizing = false;
+            let currentHandle = null;
+            let startX, startY;
+            let startLeft, startTop, startWidth, startHeight;
+
+            const handles = document.querySelectorAll('.crop-handle');
+            handles.forEach(handle => {
+                handle.addEventListener('mousedown', (e) => {
+                    e.stopPropagation(); // Prevent drag
+                    isResizing = true;
+                    currentHandle = handle.dataset.pos;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startLeft = cropBox.offsetLeft;
+                    startTop = cropBox.offsetTop;
+                    startWidth = cropBox.offsetWidth;
+                    startHeight = cropBox.offsetHeight;
+                    document.addEventListener('mousemove', onResize);
+                    document.addEventListener('mouseup', stopResize);
+                });
+            });
+
+            cropBox.addEventListener('mousedown', (e) => {
+                if (e.target.classList.contains('crop-handle')) return;
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                startLeft = cropBox.offsetLeft;
+                startTop = cropBox.offsetTop;
+                document.addEventListener('mousemove', onDrag);
+                document.addEventListener('mouseup', stopDrag);
+            });
+
+            function onDrag(e) {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                let newLeft = startLeft + dx;
+                let newTop = startTop + dy;
+
+                // Constraints
+                const maxLeft = videoContainer.offsetWidth - cropBox.offsetWidth;
+                const maxTop = videoContainer.offsetHeight - cropBox.offsetHeight;
+
+                newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+                newTop = Math.max(0, Math.min(newTop, maxTop));
+
+                cropBox.style.left = px(newLeft);
+                cropBox.style.top = px(newTop);
+                updateCropDisplay();
+            }
+
+            function stopDrag() {
+                isDragging = false;
+                document.removeEventListener('mousemove', onDrag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+
+            function onResize(e) {
+                if (!isResizing) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                let newWidth = startWidth;
+                let newHeight = startHeight;
+                let newLeft = startLeft;
+                let newTop = startTop;
+
+                if (currentHandle.includes('e')) newWidth = Math.max(20, startWidth + dx);
+                if (currentHandle.includes('s')) newHeight = Math.max(20, startHeight + dy);
+                if (currentHandle.includes('w')) {
+                    newWidth = Math.max(20, startWidth - dx);
+                    newLeft = startLeft + (startWidth - newWidth);
+                }
+                if (currentHandle.includes('n')) {
+                    newHeight = Math.max(20, startHeight - dy);
+                    newTop = startTop + (startHeight - newHeight);
+                }
+
+                // Boundary checks (simplified)
+                if (newLeft < 0) { newWidth += newLeft; newLeft = 0; }
+                if (newTop < 0) { newHeight += newTop; newTop = 0; }
+                if (newLeft + newWidth > videoContainer.offsetWidth) newWidth = videoContainer.offsetWidth - newLeft;
+                if (newTop + newHeight > videoContainer.offsetHeight) newHeight = videoContainer.offsetHeight - newTop;
+
+                cropBox.style.width = px(newWidth);
+                cropBox.style.height = px(newHeight);
+                cropBox.style.left = px(newLeft);
+                cropBox.style.top = px(newTop);
+                updateCropDisplay();
+            }
+
+            function stopResize() {
+                isResizing = false;
+                document.removeEventListener('mousemove', onResize);
+                document.removeEventListener('mouseup', stopResize);
+            }
+
+            function px(v) { return v + 'px'; }
+
+            function updateCropDisplay() {
+                const rect = videoPreview.getBoundingClientRect();
+                if (rect.width === 0) return;
+
+                const scaleX = videoPreview.videoWidth / rect.width;
+                const scaleY = videoPreview.videoHeight / rect.height;
+
+                const w = Math.round(cropBox.offsetWidth * scaleX);
+                const h = Math.round(cropBox.offsetHeight * scaleY);
+
+                cropSizeDisplay.textContent = `${w} x ${h}`;
+            }
+
+            // Sync video resize
+            new ResizeObserver(updateCropDisplay).observe(videoPreview);
+
 
             // Processing Logic
             btnProcess.addEventListener('click', async () => {
@@ -347,10 +523,71 @@
                         args.push('-c:v', 'libx264', '-preset', 'ultrafast');
                     } else if (format === 'gif') {
                         // Optimize GIF palette
-                        args.push('-vf', 'fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse');
+                        // Note: If cropping, we need to apply crop filter BEFORE split
+                        // But to simplify, we build a filter chain
                     } else if (format === 'mp3') {
                         // Extract audio
                         args.push('-vn', '-acodec', 'libmp3lame');
+                    }
+
+                    // --- Crop logic ---
+                    if (enableCropCheckbox.checked && format !== 'mp3') { // MP3 has no video
+                        const rect = videoPreview.getBoundingClientRect();
+                        const scaleX = videoPreview.videoWidth / rect.width;
+                        const scaleY = videoPreview.videoHeight / rect.height;
+
+                        // Calculate relative to video container overlay
+                        // The cropBox is within videoContainer, which matches videoPreview size (if object-fit contain/cover handled right)
+                        // Actually videoContainer wraps videoPreview. videoPreview might be smaller if aspect ratio differs?
+                        // The CSS says video-preview is w-full. 
+                        // To be precise, we need relative pos of cropbox to crop-overlay (which is inset-0 of container)
+                        // and container matches video size? NO.
+                        // Wait, video might have black bars if object-fit isn't fill.
+                        // BUT standard <video> tag without object-fit matches the video aspect ratio if width is set?
+                        // Video css is `w-full max-h-[500px]`.
+                        // The container is `relative bg-black`.
+                        // If video is letterboxed, the crop box might be over black bars.
+                        // We must assume the user crops the valid area.
+
+                        // We calculated scale based on displayed video rect.
+                        // CropBox offsets are relative to container.
+                        // We need offset of video within container? 
+                        // The video is `block mx-auto`. It's likely centered or taking full width.
+
+                        // Let's rely on getBoundingClientRect comparisons for robustness
+                        const boxRect = cropBox.getBoundingClientRect();
+                        const vidRect = videoPreview.getBoundingClientRect();
+
+                        const cropX = Math.round((boxRect.left - vidRect.left) * scaleX);
+                        const cropY = Math.round((boxRect.top - vidRect.top) * scaleY);
+                        const cropW = Math.round(boxRect.width * scaleX);
+                        const cropH = Math.round(boxRect.height * scaleY);
+
+                        // Ensure valid crop
+                        const finalX = Math.max(0, cropX);
+                        const finalY = Math.max(0, cropY);
+                        // Prevent out of bounds
+                        const finalW = Math.min(cropW, videoPreview.videoWidth - finalX);
+                        const finalH = Math.min(cropH, videoPreview.videoHeight - finalY);
+
+                        const cropFilter = `crop=${finalW}:${finalH}:${finalX}:${finalY}`;
+
+                        if (format === 'gif') {
+                            // Prepend crop to existing filter
+                            // Current GIF filter: fps=10,scale=320:-1:flags=lanczos,split...
+                            // We should crop FIRST, then scale.
+                            // Complex filter syntax: [0:v]crop=...[cropped];[cropped]fps=10...
+                            // But easy way: just comma separate if linear?
+                            // Yes: crop=...,fps=10...
+                            const gifFilter = `fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse`;
+                            args.push('-vf', `${cropFilter},${gifFilter}`);
+                        } else {
+                            // MP4
+                            args.push('-vf', cropFilter);
+                        }
+                    } else if (format === 'gif') {
+                        // Default GIF filter if no crop
+                        args.push('-vf', 'fps=10,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse');
                     }
 
                     args.push(outputName);

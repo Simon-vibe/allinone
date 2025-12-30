@@ -103,13 +103,28 @@
                             <span class="font-mono font-medium" id="cost-gpt4o">$0.0000</span>
                         </div>
                         <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-600">GPT-3.5 Turbo</span>
+                            <span class="text-gray-600">GPT-4o Mini</span>
                             <span class="font-mono font-medium" id="cost-gpt35">$0.0000</span>
                         </div>
                         <div class="flex justify-between items-center text-sm">
                             <span class="text-gray-600">Claude 3.5 Sonnet</span>
                             <span class="font-mono font-medium" id="cost-claude">$0.0000</span>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Image Cost Estimator -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="token.img.title">Image Cost (Multimodal)</h3>
+                    <div class="space-y-4">
+                        <input type="file" id="img-input" accept="image/*"
+                            class="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600" data-i18n="token.img.tokens">Image Tokens:</span>
+                            <span class="font-bold text-blue-600" id="img-token-count">0</span>
+                        </div>
+                        <p class="text-xs text-gray-400" data-i18n="token.img.desc">Based on GPT-4 Vision high-res
+                            calculation (Tiles + Base).</p>
                     </div>
                 </div>
             </div>
@@ -199,6 +214,11 @@
             const costGpt35 = document.getElementById('cost-gpt35');
             const costClaude = document.getElementById('cost-claude');
 
+            // Image support
+            const imgInput = document.getElementById('img-input');
+            const imgTokenCountDisplay = document.getElementById('img-token-count');
+            let currentImageTokens = 0;
+
             // Initialize Tokenizer (cl100k_base is used by GPT-4, GPT-3.5 Turbo, text-embedding-ada-002)
             let enc = null;
             try {
@@ -245,18 +265,69 @@
 
             function updateTotalAndCosts() {
                 const outputTokens = parseInt(outputInput.value) || 0;
-                const total = currentInputTokens + outputTokens;
+                // Total Input = Text + Image
+                const totalInput = currentInputTokens + currentImageTokens;
+                const total = totalInput + outputTokens;
+
                 totalTokenCount.textContent = total.toLocaleString();
 
-                // Calculate Costs: (In * PriceIn) + (Out * PriceOut)
+                // Calculate Costs: (TotalInput * PriceIn) + (Out * PriceOut)
+                // Note: Image tokens are input tokens.
                 const calc = (model) => {
-                    const cost = (currentInputTokens / 1000 * model.in) + (outputTokens / 1000 * model.out);
+                    const cost = (totalInput / 1000 * model.in) + (outputTokens / 1000 * model.out);
                     return '$' + cost.toFixed(4); // Show 4 decimals
                 };
 
                 costGpt4o.textContent = calc(PRICING.gpt4o);
                 costGpt35.textContent = calc(PRICING.gpt4o_mini);
                 costClaude.textContent = calc(PRICING.claude35);
+            }
+
+            // Image Token Logic (GPT-4 Vision High Res approximation)
+            imgInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) {
+                    currentImageTokens = 0;
+                    imgTokenCountDisplay.textContent = '0';
+                    updateTotalAndCosts();
+                    return;
+                }
+
+                const img = new Image();
+                img.onload = () => {
+                    currentImageTokens = calculateImageTokens(img.width, img.height);
+                    imgTokenCountDisplay.textContent = currentImageTokens;
+                    updateTotalAndCosts();
+                };
+                img.src = URL.createObjectURL(file);
+            });
+
+            function calculateImageTokens(width, height) {
+                // Base cost
+                let tokens = 85;
+
+                // 1. Scale to fit within 2048x2048
+                if (width > 2048 || height > 2048) {
+                    const ratio = Math.min(2048 / width, 2048 / height);
+                    width *= ratio;
+                    height *= ratio;
+                }
+
+                // 2. Scale shortest side to 768px
+                const shortest = Math.min(width, height);
+                if (shortest > 768) {
+                    const ratio = 768 / shortest;
+                    width *= ratio;
+                    height *= ratio;
+                }
+
+                // 3. Count 512px tiles
+                const hTiles = Math.ceil(width / 512);
+                const vTiles = Math.ceil(height / 512);
+                const tiles = hTiles * vTiles;
+
+                tokens += tiles * 170;
+                return tokens;
             }
 
             // Listeners

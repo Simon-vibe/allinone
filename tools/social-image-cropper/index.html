@@ -226,8 +226,19 @@
                     </div>
                 </div>
 
+                <!-- Background Color -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mt-6">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="crop.label.bg">Background Color</h3>
+                    <div class="flex items-center space-x-4">
+                        <input type="color" id="bg-color" value="#ffffff"
+                            class="h-10 w-10 border rounded cursor-pointer">
+                        <span class="text-sm text-gray-500" data-i18n="crop.bg.desc">Fill color for transparent
+                            areas</span>
+                    </div>
+                </div>
+
                 <!-- Download -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mt-6">
                     <button id="btn-download"
                         class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition flex items-center justify-center shadow-md hover:shadow-lg">
                         <i class="fa-solid fa-download mr-2"></i>
@@ -237,7 +248,6 @@
                         <span data-i18n="crop.action.new">Upload New Image</span>
                     </button>
                 </div>
-
             </div>
         </div>
 
@@ -289,6 +299,7 @@
             const btnDownload = document.getElementById('btn-download');
             const btnNew = document.getElementById('btn-new');
             const presetBtns = document.querySelectorAll('.preset-btn');
+            const bgColorInput = document.getElementById('bg-color');
 
             let cropper = null;
 
@@ -345,16 +356,15 @@
 
                 cropper = new Cropper(imageElement, {
                     aspectRatio: 1, // Default to square
-                    viewMode: 1,
-                    autoCropArea: 0.9,
+                    viewMode: 0, // Free mode to allow zooming out (image smaller than crop box)
+                    dragMode: 'move',
+                    autoCropArea: 0.8,
                     responsive: true,
-                    background: false, // Checkboard via CSS parent is better
+                    background: true,
                     ready() {
-                        // Activate first preset (Square)
                         setActivePreset(0);
                     },
                     crop(event) {
-                        // Update inputs if they are not focused (avoid fighting user input)
                         if (!isUpdatingInputs && document.activeElement !== customW && document.activeElement !== customH) {
                             customW.value = Math.round(event.detail.width);
                             customH.value = Math.round(event.detail.height);
@@ -427,10 +437,11 @@
 
             // Download
             btnDownload.addEventListener('click', () => {
+                const bgColor = bgColorInput.value;
                 const canvas = cropper.getCroppedCanvas({
                     maxWidth: 4096,
                     maxHeight: 4096,
-                    fillColor: '#fff', // White background for JPEGs if transparent
+                    fillColor: bgColor,
                 });
 
                 canvas.toBlob((blob) => {

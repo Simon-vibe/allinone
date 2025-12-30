@@ -92,8 +92,10 @@
                         class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
                         <input type="file" id="file-input" class="hidden" accept="image/*">
                         <div class="text-6xl mb-4">🖼️</div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2" data-i18n="ocr.drag.title">Drop Image Here</h3>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2" data-i18n="ocr.drag.title">Drop Image or PDF
+                            Here</h3>
                         <p class="text-gray-500 text-sm mb-4" data-i18n="ocr.drag.subtitle">or click to select file</p>
+                        <p class="text-xs text-blue-500 font-medium">Supports JPG, PNG, PDF</p>
                         <button
                             class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
                             data-i18n="common.open">Select Image</button>
@@ -175,6 +177,11 @@
 
     <!-- Scripts -->
     <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        // Set worker for pdf.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
     <script src="../../js/i18n.js?v=2"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -189,6 +196,9 @@
             const btnCopy = document.getElementById('btn-copy');
             const imagePreview = document.getElementById('image-preview');
             const previewContainer = document.getElementById('preview-container');
+
+            // Allow PDF selection
+            fileInput.accept = "image/*,application/pdf";
 
             // Handle file selection
             dropZone.addEventListener('click', () => fileInput.click());
@@ -214,6 +224,25 @@
             });
 
             async function processFile(file) {
+                const lang = langSelect.value;
+                statusContainer.classList.remove('hidden');
+                resultText.value = '';
+                previewContainer.classList.add('hidden'); // Hide preview initially
+
+                try {
+                    if (file.type === 'application/pdf') {
+                        await processPDF(file, lang);
+                    } else {
+                        await processImage(file, lang);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    statusText.innerText = 'Error: ' + error.message;
+                    statusContainer.classList.remove('hidden');
+                }
+            }
+
+            async function processImage(file, lang) {
                 // Show preview
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -222,42 +251,78 @@
                 };
                 reader.readAsDataURL(file);
 
-                const lang = langSelect.value;
-                statusContainer.classList.remove('hidden');
-                resultText.value = '';
+                statusText.innerText = 'Initializing Tesseract...';
+                progressBar.style.width = '0%';
+                progressPercent.innerText = '0%';
 
-                try {
-                    const { data: { text } } = await Tesseract.recognize(
-                        file,
-                        lang,
-                        {
-                            logger: m => {
-                                if (m.status === 'recognizing text') {
-                                    const pct = Math.round(m.progress * 100);
-                                    statusText.innerText = `Recognizing text... ${pct}%`;
-                                    progressBar.style.width = `${pct}%`;
-                                    progressPercent.innerText = `${pct}%`;
-                                } else {
-                                    statusText.innerText = m.status;
-                                }
+                const { data: { text } } = await Tesseract.recognize(
+                    file,
+                    lang,
+                    {
+                        logger: m => {
+                            if (m.status === 'recognizing text') {
+                                const pct = Math.round(m.progress * 100);
+                                statusText.innerText = `Recognizing text... ${pct}%`;
+                                progressBar.style.width = `${pct}%`;
+                                progressPercent.innerText = `${pct}%`;
+                            } else {
+                                statusText.innerText = m.status;
                             }
                         }
-                    );
+                    }
+                );
 
-                    resultText.value = text;
-                    statusText.innerText = 'Done!';
-                    progressBar.style.width = '100%';
-                    progressPercent.innerText = '100%';
+                resultText.value = text;
+                finishProcessing();
+            }
 
-                    setTimeout(() => {
-                        statusContainer.classList.add('hidden');
-                    }, 2000);
+            async function processPDF(file, lang) {
+                statusText.innerText = 'Loading PDF...';
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                const totalPages = pdf.numPages;
+                let fullText = '';
 
-                } catch (error) {
-                    console.error(error);
-                    statusText.innerText = 'Error: ' + error.message;
-                    statusContainer.classList.remove('hidden'); // Keep visible on error
+                statusText.innerText = `Processing PDF (0/${totalPages})...`;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({ scale: 2.0 }); // Scale up for better OCR
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+                    // Convert canvas to blob for Tesseract
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+                    // Show valid preview for first page
+                    if (i === 1) {
+                        imagePreview.src = URL.createObjectURL(blob);
+                        previewContainer.classList.remove('hidden');
+                    }
+
+                    statusText.innerText = `Processing Page ${i}/${totalPages}...`;
+                    progressBar.style.width = `${Math.round((i / totalPages) * 100)}%`;
+                    progressPercent.innerText = `${Math.round((i / totalPages) * 100)}%`;
+
+                    const { data: { text } } = await Tesseract.recognize(blob, lang);
+                    fullText += `--- Page ${i} ---\n${text}\n\n`;
                 }
+
+                resultText.value = fullText;
+                finishProcessing();
+            }
+
+            function finishProcessing() {
+                statusText.innerText = 'Done!';
+                progressBar.style.width = '100%';
+                progressPercent.innerText = '100%';
+                setTimeout(() => {
+                    statusContainer.classList.add('hidden');
+                }, 2000);
             }
 
             // Copy functionality
