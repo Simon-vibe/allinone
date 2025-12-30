@@ -7,6 +7,13 @@ const translations = {
         "nav.categories": "Categories",
         "nav.about": "About",
 
+        // Sidebar Categories
+        "cat.featured": "Featured Tools",
+        "cat.format": "Formatting & Conversion",
+        "cat.media": "Images & Media",
+        "cat.doc": "Documents & PDF",
+        "cat.dev": "Coding & Security",
+
         // Feedback
         "feedback.title": "Send Feedback",
         "feedback.placeholder": "What's on your mind? Bug? Feature?",
@@ -29,13 +36,13 @@ const translations = {
         "key.faq.which.a": "It is non-standard and inconsistent. Use event.key or event.code instead.",
         "nav.login": "Login",
         "hero.title": "All the tools you need, in one place.",
-        "hero.subtitle": "A categorized collection of developer utilities, converters, and productivity tools.",
+        "hero.subtitle": "A categorized collection of utilities, converters, and productivity tools.",
         "search.placeholder": "Search for a tool (e.g., JSON Formatter)...",
         "search.btn": "Search",
         "featured.title": "Featured Tools",
         "featured.viewAll": "View all",
         "tool.launch": "Launch Tool",
-        "cat.dev": "Developer Tools",
+        "cat.dev": "Tools",
         "cat.media": "Content & Media",
         "tool.json.title": "JSON Formatter",
         "tool.json.desc": "Beautify and validate JSON data instantly.",
@@ -68,12 +75,8 @@ const translations = {
         "about.val.fast.desc": "Optimized algorithms ensure your tasks are completed in seconds.",
         "about.team.title": "Meet the Team",
         "about.contact.title": "Get in Touch",
-        "about.contact.desc": "Have a question or spotted a bug? Send us a message.",
-        "about.form.name": "Name",
-        "about.form.email": "Email",
-        "about.form.subject": "Subject",
-        "about.form.message": "Message",
-        "about.form.send": "Send Message",
+        "about.contact.hint": "Have a question, feedback, or found a bug? Please use the feedback button in the bottom right corner to send us a message directly.",
+
 
         // PDF Converter
         "pdf.drag.title": "Drop PDF File Here",
@@ -721,6 +724,14 @@ const translations = {
         "meta.keywords": "PDF转Excel, JSON格式化, 在线工具, 开发者工具, 图片压缩, Base64解码",
         "nav.categories": "分类",
         "nav.about": "关于我们",
+
+        // Sidebar Categories
+        "cat.featured": "精选工具",
+        "cat.format": "格式化与转换",
+        "cat.media": "图片与媒体",
+        "cat.doc": "文档与PDF",
+        "cat.dev": "代码与安全",
+
         "nav.login": "登录",
 
         // Feedback
@@ -744,13 +755,13 @@ const translations = {
         "token.img.tokens": "图片 Token:",
         "token.img.desc": "基于 GPT-4 Vision 高分辨率计算。",
         "hero.title": "您需要的所有工具，尽在于此。",
-        "hero.subtitle": "开发者实用程序、转换器和生产力工具的分类集合。",
+        "hero.subtitle": "实用程序、转换器和生产力工具的分类集合。",
         "search.placeholder": "搜索工具 (例如: JSON 格式化)...",
         "search.btn": "搜索",
         "featured.title": "精选工具",
         "featured.viewAll": "查看全部",
         "tool.launch": "打开工具",
-        "cat.dev": "开发者工具",
+        "cat.dev": "工具",
         "cat.media": "内容与媒体",
         "tool.json.title": "JSON 格式化",
         "tool.json.desc": "即时美化和验证 JSON 数据。",
@@ -783,14 +794,8 @@ const translations = {
         "about.val.fast.desc": "优化算法确您的任务在几秒钟内完成。",
         "about.team.title": "遇见团队",
         "about.contact.title": "联系我们",
-        "about.contact.desc": "有问题或发现Bug？给我们留言。",
-        "about.form.name": "姓名",
-        "about.form.email": "电子邮箱",
-        "about.form.subject": "主题",
-        "about.form.message": "留言内容",
-        "about.form.send": "发送留言",
+        "about.contact.hint": "有疑问、反馈或发现了 Bug？请使用右下角的反馈按钮直接给我们留言。",
 
-        "about.form.send": "发送留言",
 
         // PDF Converter
         "pdf.drag.title": "将 PDF 文件拖放到此处",

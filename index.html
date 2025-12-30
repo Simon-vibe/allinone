@@ -104,517 +104,572 @@
         </div>
     </div>
 
-    <!-- Featured Tools -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 w-full">
-        <div class="flex justify-between items-end mb-8">
-            <h2 class="text-3xl font-bold text-gray-900" data-i18n="featured.title">Featured Tools</h2>
-            <!-- View all link removed -->
-        </div>
+    <!-- Main Content Container (Sidebar + Content) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col md:flex-row gap-12 pb-20 relative">
 
-        <!-- Featured Grid -->
-        <div id="featured-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 items-stretch">
-            <!-- Card 0: PDF Converter (New) -->
-            <div
-                class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full">
-                <div class="absolute top-6 right-6 bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded uppercase"
-                    data-i18n="common.new">
-                    NEW</div>
-                <div
-                    class="bg-indigo-50 w-14 h-14 rounded-xl flex items-center justify-center text-indigo-600 text-2xl mb-6">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.pdf.title">Bank Statement Converter
-                </h3>
-                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.pdf.desc">
-                    Convert PDF bank statements to Excel securely in your browser.
-                </p>
-                <a href="./tools/pdf-to-excel/index.html"
-                    class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition mt-auto"
-                    data-i18n="tool.launch">
-                    Launch Tool
-                </a>
+        <!-- Sidebar Navigation (Desktop) -->
+        <aside class="md:w-64 flex-shrink-0 hidden md:block relative">
+            <div class="sticky top-8">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 px-3"
+                    data-i18n="nav.categories">
+                    Categories</h3>
+                <nav class="space-y-1">
+                    <a href="#featured"
+                        class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-blue-600 hover:bg-blue-50 transition">
+                        <i class="fa-solid fa-star w-6 text-yellow-400 text-center mr-2"></i>
+                        <span data-i18n="cat.featured">Featured</span>
+                    </a>
+                    <a href="#format"
+                        class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-blue-600 hover:bg-blue-50 transition">
+                        <span class="w-6 text-center mr-2"><i class="fa-solid fa-code"></i></span>
+                        <span data-i18n="cat.format">Formatting</span>
+                    </a>
+                    <a href="#media"
+                        class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-blue-600 hover:bg-blue-50 transition">
+                        <span class="w-6 text-center mr-2"><i class="fa-regular fa-image"></i></span>
+                        <span data-i18n="cat.media">Images</span>
+                    </a>
+                    <a href="#doc"
+                        class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-blue-600 hover:bg-blue-50 transition">
+                        <span class="w-6 text-center mr-2"><i class="fa-solid fa-file-lines"></i></span>
+                        <span data-i18n="cat.doc">Documents</span>
+                    </a>
+                    <a href="#dev"
+                        class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-blue-600 hover:bg-blue-50 transition">
+                        <span class="w-6 text-center mr-2"><i class="fa-solid fa-lock"></i></span>
+                        <span data-i18n="cat.dev">Security</span>
+                    </a>
+                </nav>
             </div>
-            <!-- Card 1: Image Resizer -->
-            <div
-                class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full">
-                <div class="absolute top-6 right-6 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase"
-                    data-i18n="common.popular">POPULAR</div>
-                <div
-                    class="bg-blue-50 w-14 h-14 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6">
-                    <i class="fa-regular fa-image"></i>
+        </aside>
+
+        <!-- Right Content -->
+        <main class="flex-1 min-w-0 space-y-16">
+
+            <!-- Featured Tools -->
+            <section id="featured" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span
+                        class="w-10 h-10 rounded-lg bg-yellow-100 flex items-center justify-center text-yellow-500 text-lg">
+                        <i class="fa-solid fa-star"></i>
+                    </span>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="cat.featured">Featured Tools</h2>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.imgcomp.title">Image Resizer</h3>
-                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.imgcomp.desc">
-                    Resize images instantly without quality loss. Supports PNG, JPG, and WebP.
-                </p>
-                <a href="./tools/image-compressor/index.html"
-                    class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition mt-auto"
-                    data-i18n="tool.launch">
-                    Launch Tool
-                </a>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                    <!-- Card: PDF Converter (New) -->
+                    <div class="tool-card bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full"
+                        data-title="Bank Statement Converter" data-keywords="pdf excel">
+                        <div class="absolute top-4 right-4 bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase"
+                            data-i18n="common.new">NEW</div>
+                        <div
+                            class="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600 text-xl mb-4">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2" data-i18n="tool.pdf.title">Bank Statement
+                            Converter</h3>
+                        <p class="text-sm text-gray-500 mb-4 flex-1 leading-relaxed" data-i18n="tool.pdf.desc">Convert
+                            PDF bank statements to Excel securely.</p>
+                        <a href="./tools/pdf-to-excel/index.html"
+                            class="block w-full py-2.5 bg-blue-600 text-center text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+                            data-i18n="tool.launch">Launch</a>
+                    </div>
 
-            <!-- Card 2: PDF to Word (New) -->
-            <div
-                class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full">
-                <div class="absolute top-6 right-6 bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded uppercase"
-                    data-i18n="common.new">
-                    NEW</div>
-                <div
-                    class="bg-blue-50 w-14 h-14 rounded-xl flex items-center justify-center text-blue-600 text-2xl mb-6">
-                    <i class="fa-solid fa-file-word"></i>
+                    <!-- Card: Image Resizer -->
+                    <div class="tool-card bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full"
+                        data-title="Image Resizer" data-keywords="photo picture compress">
+                        <div class="absolute top-4 right-4 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase"
+                            data-i18n="common.popular">POPULAR</div>
+                        <div
+                            class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600 text-xl mb-4">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2" data-i18n="tool.imgcomp.title">Image Resizer
+                        </h3>
+                        <p class="text-sm text-gray-500 mb-4 flex-1 leading-relaxed" data-i18n="tool.imgcomp.desc">
+                            Resize images instantly without quality loss.</p>
+                        <a href="./tools/image-compressor/index.html"
+                            class="block w-full py-2.5 bg-blue-600 text-center text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+                            data-i18n="tool.launch">Launch</a>
+                    </div>
+
+                    <!-- Card: JSON Formatter -->
+                    <div class="tool-card bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full"
+                        data-title="JSON Formatter" data-keywords="beautify validate">
+                        <div class="absolute top-4 right-4 bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase"
+                            data-i18n="common.popular">POPULAR</div>
+                        <div
+                            class="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center text-orange-600 text-xl mb-4">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2" data-i18n="tool.json.title">JSON Formatter</h3>
+                        <p class="text-sm text-gray-500 mb-4 flex-1 leading-relaxed" data-i18n="tool.json.desc">Beautify
+                            and validate JSON data instantly.</p>
+                        <a href="./tools/json-formatter/index.html"
+                            class="block w-full py-2.5 bg-blue-600 text-center text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
+                            data-i18n="tool.launch">Launch</a>
+                    </div>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.pdf2word.title">PDF to Word</h3>
-                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.pdf2word.desc">
-                    Convert PDF files to editable Word documents (.docx) instantly.
-                </p>
-                <a href="./tools/pdf-to-word/index.html"
-                    class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition mt-auto"
-                    data-i18n="tool.launch">
-                    Launch Tool
-                </a>
-            </div>
+            </section>
 
-            <!-- Card 3: JSON Formatter -->
-            <div
-                class="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full">
-                <div class="absolute top-6 right-6 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded uppercase"
-                    data-i18n="common.popular">POPULAR</div>
-                <div
-                    class="bg-orange-50 w-14 h-14 rounded-xl flex items-center justify-center text-orange-600 text-2xl mb-6">
-                    <i class="fa-solid fa-code"></i>
+            <!-- Formatting & Conversion -->
+            <section id="format" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span
+                        class="w-10 h-10 rounded-lg bg-orange-100/50 flex items-center justify-center text-orange-600 text-lg">
+                        <i class="fa-solid fa-code"></i>
+                    </span>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="cat.format">Formatting & Conversion</h2>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3" data-i18n="tool.json.title">JSON Formatter</h3>
-                <p class="text-gray-500 text-sm mb-6 leading-relaxed" data-i18n="tool.json.desc">
-                    Beautify and validate JSON data instantly.
-                </p>
-                <a href="./tools/json-formatter/index.html"
-                    class="block w-full py-3 bg-blue-600 text-center text-white rounded-lg font-medium hover:bg-blue-700 transition mt-auto"
-                    data-i18n="tool.launch">
-                    Launch Tool
-                </a>
-            </div>
-        </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 items-stretch">
+                    <!-- Include: JSON, YAML, SQL, Markdown, URL2MD, Timestamp, Diff -->
 
-        <!-- All Tools Section -->
-        <h2 id="all-tools" class="text-2xl font-bold text-gray-900 mb-6" data-i18n="cat.dev">All Tools</h2>
-        <div id="all-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                    <!-- JSON Formatter -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="JSON Formatter" data-keywords="beautify validate">
+                        <div
+                            class="w-10 h-10 bg-green-100 rounded text-green-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.json.title">JSON Formatter</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.json.desc">Beautify JSON data.</p>
+                        <a href="./tools/json-formatter/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
 
-            <!-- Tile: Unix Timestamp -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Unix Timestamp" data-keywords="time date">
-                <div class="w-10 h-10 bg-red-100 rounded text-red-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-clock"></i>
+                    <!-- JSON <> YAML -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="JSON YAML Converter" data-keywords="json yaml convert">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.yaml.title">JSON &lt;&gt; YAML</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.yaml.desc">Convert between JSON and
+                            YAML.</p>
+                        <a href="./tools/json-yaml/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- SQL Formatter -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="SQL Formatter" data-keywords="sql format beautify">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.sql.title">SQL Formatter</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.sql.desc">Beautify SQL code.</p>
+                        <a href="./tools/sql-formatter/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Markdown Editor -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Markdown Editor" data-keywords="md text write">
+                        <div
+                            class="w-10 h-10 bg-orange-100 rounded text-orange-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.md.title">Markdown Editor</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.md.desc">WYSIWYG Markdown editor.
+                        </p>
+                        <a href="./tools/markdown-editor/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- URL to Markdown -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="URL to Markdown" data-keywords="url markdown convert webpage llm ai">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.url2md.title">URL to Markdown</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.url2md.desc">Extract webpage
+                            content to Markdown.</p>
+                        <a href="./tools/url-to-markdown/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Unix Timestamp -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Unix Timestamp" data-keywords="time date">
+                        <div class="w-10 h-10 bg-red-100 rounded text-red-500 flex items-center justify-center mb-4"><i
+                                class="fa-solid fa-clock"></i></div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.timestamp.title">Unix Timestamp</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.timestamp.desc">Convert between
+                            dates and Unix timestamps.</p>
+                        <a href="./tools/timestamp-converter/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Diff Checker -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Diff Checker" data-keywords="diff compare text">
+                        <div
+                            class="w-10 h-10 bg-orange-100 rounded text-orange-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.diff.title">Diff Checker</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.diff.desc">Compare two texts.</p>
+                        <a href="./tools/diff-checker/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
                 </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.timestamp.title">Unix Timestamp</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.timestamp.desc">Convert
-                    between dates and Unix timestamps.</p>
-                <a href="./tools/timestamp-converter/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
+            </section>
 
-            <!-- Tile: Markdown Editor -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Markdown Editor" data-keywords="md text write">
-                <div class="w-10 h-10 bg-orange-100 rounded text-orange-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-pen-to-square"></i>
+            <!-- Images & Media -->
+            <section id="media" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span
+                        class="w-10 h-10 rounded-lg bg-blue-100/50 flex items-center justify-center text-blue-600 text-lg">
+                        <i class="fa-regular fa-image"></i>
+                    </span>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="cat.media">Images & Media</h2>
                 </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.md.title">Markdown Editor</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.md.desc">WYSIWYG Markdown
-                    editor.</p>
-                <a href="./tools/markdown-editor/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 items-stretch">
+                    <!-- Image Resizer -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Image Resizer" data-keywords="photo picture compress">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.imgcomp.title">Image Resizer</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.imgcomp.desc">Resize and compress
+                            images.</p>
+                        <a href="./tools/image-compressor/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
 
-            <!-- Tile: Image Resizer -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Image Resizer" data-keywords="photo picture compress">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-regular fa-image"></i>
+                    <!-- Image Converter -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Image Converter" data-keywords="image webp jpg png converter">
+                        <div class="w-10 h-10 bg-pink-100 rounded text-pink-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-camera-rotate"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.imgconv.title">Image Converter</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.imgconv.desc">Convert WebP to JPG,
+                            PNG, etc.</p>
+                        <a href="./tools/image-converter/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Social Image Cropper -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Social Image Cropper" data-keywords="crop resize social media">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-crop-simple"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.crop.title">Social Image Cropper</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.crop.desc">Crop images for social
+                            media.</p>
+                        <a href="./tools/social-image-cropper/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Background Remover -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Background Remover" data-keywords="image background remove ai">
+                        <div class="w-10 h-10 bg-gray-100 rounded text-gray-600 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.bgrem.title">Background Remover</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.bgrem.desc">Remove image
+                            backgrounds.</p>
+                        <a href="./tools/background-remover/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- EXIF Viewer -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="EXIF Viewer" data-keywords="exif metadata camera gps">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.exif.title">EXIF Viewer</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.exif.desc">View hidden image
+                            metadata.</p>
+                        <a href="./tools/exif-viewer/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- SVG Sandbox -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="SVG Sandbox" data-keywords="svg editor preview vector">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.svg.title">SVG Sandbox</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.svg.desc">Code, edit, and preview
+                            SVG.</p>
+                        <a href="./tools/svg-editor/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- OCR -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Image OCR" data-keywords="ocr image text ai browser">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-file-image"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.ocr.title">Image OCR</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.ocr.desc">Convert images to text
+                            using AI.</p>
+                        <a href="./tools/ocr/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
                 </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.imgcomp.title">Image Resizer</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.imgcomp.desc">Resize images
-                    instantly.</p>
-                <a href="./tools/image-compressor/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
+            </section>
 
-            <!-- Tile: JSON Formatter -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="JSON Formatter" data-keywords="beautify validate">
-                <div class="w-10 h-10 bg-green-100 rounded text-green-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-code"></i>
+            <!-- Documents & PDF -->
+            <section id="doc" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span
+                        class="w-10 h-10 rounded-lg bg-indigo-100/50 flex items-center justify-center text-indigo-600 text-lg">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </span>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="cat.doc">Documents & PDF</h2>
                 </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.json.title">JSON Formatter</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.json.desc">Beautify JSON
-                    data.</p>
-                <a href="./tools/json-formatter/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 items-stretch">
+                    <!-- PDF to Excel -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Bank Statement Converter" data-keywords="pdf excel">
+                        <div
+                            class="w-10 h-10 bg-indigo-100 rounded text-indigo-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf.title">Bank Statement Converter
+                        </h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.pdf.desc">Convert PDF to Excel.</p>
+                        <a href="./tools/pdf-to-excel/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
 
-            <!-- Tile: JSON <> YAML -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="JSON YAML Converter" data-keywords="json yaml convert">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <!-- PDF to Word -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="PDF to Word" data-keywords="pdf word docx converter">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-file-word"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf2word.title">PDF to Word</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.pdf2word.desc">Convert PDF to Word.
+                        </p>
+                        <a href="./tools/pdf-to-word/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- PDF to JPG -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="PDF to JPG" data-keywords="pdf image jpg converter">
+                        <div
+                            class="w-10 h-10 bg-yellow-100 rounded text-yellow-500 flex items-center justify-center mb-4">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf2jpg.title">PDF to JPG</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.pdf2jpg.desc">Convert PDF pages to
+                            Images.</p>
+                        <a href="./tools/pdf-to-jpg/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Merge PDF -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Merge PDF" data-keywords="pdf merge combine">
+                        <div class="w-10 h-10 bg-red-100 rounded text-red-500 flex items-center justify-center mb-4"><i
+                                class="fa-solid fa-copy"></i></div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.merge.title">Merge PDF</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.merge.desc">Combine multiple PDFs.
+                        </p>
+                        <a href="./tools/merge-pdf/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Word Counter -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Word Counter" data-keywords="word counter">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.word.title">Word Counter</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.word.desc">Count words and
+                            characters.</p>
+                        <a href="./tools/word-counter/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
                 </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.yaml.title">JSON &lt;&gt; YAML</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.yaml.desc">Convert between
-                    JSON and YAML formats instantly.</p>
-                <a href="./tools/json-yaml/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
+            </section>
 
-            <!-- Tile: Base64 Encoder -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Base64 Encoder" data-keywords="decode encode string">
-                <div class="w-10 h-10 bg-purple-100 rounded text-purple-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            <!-- Coding & Security -->
+            <section id="dev" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span
+                        class="w-10 h-10 rounded-lg bg-teal-100/50 flex items-center justify-center text-teal-600 text-lg">
+                        <i class="fa-solid fa-lock"></i>
+                    </span>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="cat.dev">Coding & Security</h2>
                 </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.base64.title">Base64 Encoder</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.base64.desc">Encode and
-                    decode data.</p>
-                <a href="./tools/base64-converter/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 items-stretch">
+                    <!-- Base64 -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Base64 Encoder" data-keywords="decode encode string">
+                        <div
+                            class="w-10 h-10 bg-purple-100 rounded text-purple-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.base64.title">Base64 Encoder</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.base64.desc">Encode and decode
+                            data.</p>
+                        <a href="./tools/base64-converter/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
 
-            <!-- Tile: PDF Converter -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Bank Statement Converter" data-keywords="pdf excel">
-                <div class="w-10 h-10 bg-indigo-100 rounded text-indigo-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <!-- UUID Generator -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="UUID Generator" data-keywords="uuid guid generator random">
+                        <div
+                            class="w-10 h-10 bg-indigo-100 rounded text-indigo-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-fingerprint"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.uuid.title">UUID Generator</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.uuid.desc">Generate random UUIDs.
+                        </p>
+                        <a href="./tools/uuid-generator/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Password Generator -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Password Generator" data-keywords="password secure generator">
+                        <div
+                            class="w-10 h-10 bg-green-100 rounded text-green-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pwd.title">Password Generator</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.pwd.desc">Create strong passwords.
+                        </p>
+                        <a href="./tools/password-generator/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Secure Encryption -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Secure Encryption" data-keywords="encrypt decrypt aes file">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.crypto.title">Secure File Encryption
+                        </h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.crypto.desc">Encrypt and decrypt
+                            files.</p>
+                        <a href="./tools/secure-encryption/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Token Counter -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="LLM Token Counter" data-keywords="llm token counter gpt-4 claude gemini ai">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.token.title">LLM Token Counter</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.token.desc">Count tokens for LLMs.
+                        </p>
+                        <a href="./tools/token-counter/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- User Agent -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="User Agent Info" data-keywords="user agent browser os ip system">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.ua.title">What is my User Agent?</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.ua.desc">Check browser info.</p>
+                        <a href="./tools/user-agent/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Key Code Viewer -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Key Code Viewer" data-keywords="key code javascript event keyboard">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-keyboard"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.key.title">Key Code Viewer</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.key.desc">Get JS key codes.</p>
+                        <a href="./tools/key-code/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- CORS Tester -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="CORS Tester" data-keywords="cors fetch request debug api">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.cors.title">CORS Fetch Tester</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.cors.desc">Debug CORS issues.</p>
+                        <a href="./tools/cors-tester/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- QR Code -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="QR Code Generator" data-keywords="qr code generator">
+                        <div
+                            class="w-10 h-10 bg-purple-100 rounded text-purple-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-qrcode"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.qr.title">QR Code Generator</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.qr.desc">Make custom QR codes.</p>
+                        <a href="./tools/qr-generator/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Text to Speech -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Text to Speech" data-keywords="tts text speech audio voice">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.tts.title">Text to Speech</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.tts.desc">Convert text to speech.
+                        </p>
+                        <a href="./tools/text-to-speech/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
                 </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf.title">Bank Statement Converter</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pdf.desc">Convert PDF to
-                    Excel.</p>
-                <a href="./tools/pdf-to-excel/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
+            </section>
 
-            <!-- Tile: PDF to Word -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="PDF to Word" data-keywords="pdf word docx converter">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-file-word"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf2word.title">PDF to Word</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pdf2word.desc">Convert PDF to
-                    Word.</p>
-                <a href="./tools/pdf-to-word/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Merge PDF -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Merge PDF" data-keywords="pdf merge combine">
-                <div class="w-10 h-10 bg-red-100 rounded text-red-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-copy"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.merge.title">Merge PDF</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.merge.desc">Combine multiple
-                    PDFs.</p>
-                <a href="./tools/merge-pdf/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: PDF to JPG -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="PDF to JPG" data-keywords="pdf image jpg converter">
-                <div class="w-10 h-10 bg-yellow-100 rounded text-yellow-500 flex items-center justify-center mb-4">
-                    <i class="fa-regular fa-image"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pdf2jpg.title">PDF to JPG</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pdf2jpg.desc">Convert PDF
-                    pages to Images.</p>
-                <a href="./tools/pdf-to-jpg/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Social Image Cropper -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Social Image Cropper" data-keywords="crop resize social media instagram twitter youtube">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-crop-simple"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.crop.title">Social Image Cropper</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.crop.desc">Crop images
-                    perfectly for Instagram, Twitter, YouTube, and LinkedIn.</p>
-                <a href="./tools/social-image-cropper/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-
-
-            <!-- Tile: Secure File Encryption -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Secure Encryption" data-keywords="encrypt decrypt aes file">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.crypto.title">Secure File Encryption</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.crypto.desc">Encrypt and
-                    decrypt files locally using bank-grade AES-GCM technology. Your data never leaves your device.</p>
-                <a href="./tools/secure-encryption/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: CORS Fetch Tester -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="CORS Tester" data-keywords="cors fetch request debug api">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.cors.title">CORS Fetch Tester</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.cors.desc">Debugging
-                    Cross-Origin policies is hard. This tool makes it easy by testing APIs directly from your browser.
-                </p>
-                <a href="./tools/cors-tester/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Image Converter -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Image Converter" data-keywords="image webp jpg png converter">
-                <div class="w-10 h-10 bg-pink-100 rounded text-pink-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-camera-rotate"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.imgconv.title">Image Converter</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.imgconv.desc">Convert WebP to
-                    JPG etc.</p>
-                <a href="./tools/image-converter/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Background Remover -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Background Remover" data-keywords="image background remove ai">
-                <div class="w-10 h-10 bg-gray-100 rounded text-gray-600 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.bgrem.title">Background Remover</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.bgrem.desc">Remove image
-                    backgrounds.</p>
-                <a href="./tools/background-remover/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: QR Code Generator -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="QR Code Generator" data-keywords="qr code generator">
-                <div class="w-10 h-10 bg-purple-100 rounded text-purple-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-qrcode"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.qr.title">QR Code Generator</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.qr.desc">Make custom QR
-                    codes.</p>
-                <a href="./tools/qr-generator/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: UUID Generator -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="UUID Generator" data-keywords="uuid guid generator random">
-                <div class="w-10 h-10 bg-indigo-100 rounded text-indigo-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-fingerprint"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.uuid.title">UUID Generator</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.uuid.desc">Generate random
-                    UUIDs.</p>
-                <a href="./tools/uuid-generator/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Token Counter -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="LLM Token Counter" data-keywords="llm token counter gpt-4 claude gemini ai">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.token.title">LLM Token Counter</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.token.desc">Count tokens and
-                    estimate costs for GPT-4, Claude, and Gemini.</p>
-                <a href="./tools/token-counter/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: URL to Markdown -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="URL to Markdown" data-keywords="url markdown convert webpage llm ai">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.url2md.title">URL to Markdown</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.url2md.desc">Extract content
-                    from webpages and convert to Markdown for LLMs.</p>
-                <a href="./tools/url-to-markdown/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Password Generator -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Password Generator" data-keywords="password secure generator">
-                <div class="w-10 h-10 bg-green-100 rounded text-green-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.pwd.title">Password Generator</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.pwd.desc">Create strong
-                    passwords.</p>
-                <a href="./tools/password-generator/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Text to Speech -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Text to Speech" data-keywords="tts text speech audio voice">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-volume-high"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.tts.title">Text to Speech</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.tts.desc">Convert text to
-                    lifelike speech using your browser's built-in voices.</p>
-                <a href="./tools/text-to-speech/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: OCR -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Image OCR" data-keywords="ocr image text ai browser">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-file-image"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.ocr.title">Image OCR</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.ocr.desc">Convert images
-                    to
-                    text using AI. Runs 100% in your browser.</p>
-                <a href="./tools/ocr/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: EXIF Viewer -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="EXIF Viewer" data-keywords="exif metadata camera gps">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-camera"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.exif.title">EXIF Viewer</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.exif.desc">View hidden
-                    metadata in your images. Camera model, settings, GPS, and more.</p>
-                <a href="./tools/exif-viewer/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Diff Checker -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Diff Checker" data-keywords="diff compare text">
-                <div class="w-10 h-10 bg-orange-100 rounded text-orange-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-scale-balanced"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.diff.title">Diff Checker</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.diff.desc">Compare two
-                    texts.
-                </p>
-                <a href="./tools/diff-checker/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Word Counter -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Word Counter" data-keywords="word counter character sentence paragraph reading time">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.word.title">Word Counter</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.word.desc">Count words,
-                    characters, sentences, and paragraphs. Estimate reading time.</p>
-                <a href="./tools/word-counter/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: SVG Sandbox -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="SVG Sandbox" data-keywords="svg editor preview vector">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-palette"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.svg.title">SVG Sandbox</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.svg.desc">Code, edit, and
-                    preview SVG graphics in real-time.</p>
-                <a href="./tools/svg-editor/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: User Agent Info -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="User Agent Info" data-keywords="user agent browser os ip system">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-globe"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.ua.title">What is my User Agent?</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.ua.desc">Instantly check your
-                    browser, OS, and system information.</p>
-                <a href="./tools/user-agent/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: Key Code Viewer -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="Key Code Viewer" data-keywords="key code javascript event keyboard">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-keyboard"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.key.title">Key Code Viewer</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.key.desc">Press any key to
-                    get the JavaScript event key code.</p>
-                <a href="./tools/key-code/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-            <!-- Tile: SQL Formatter -->
-            <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
-                data-title="SQL Formatter" data-keywords="sql format beautify">
-                <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-database"></i>
-                </div>
-                <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.sql.title">SQL Formatter</h4>
-                <p class="text-xs text-gray-500 mb-4 h-10 overflow-hidden" data-i18n="tool.sql.desc">Beautify SQL
-                    code.
-                </p>
-                <a href="./tools/sql-formatter/index.html"
-                    class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition mt-auto"
-                    data-i18n="common.open">Open</a>
-            </div>
-
-        </div>
-
-    </main>
+        </main>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
@@ -634,7 +689,7 @@
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
-                © 2026 Tool Directory. All rights reserved.
+                © 2026 allinone.page. All rights reserved.
             </div>
         </div>
     </footer>
@@ -644,27 +699,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('search-input');
             const searchBtn = document.getElementById('search-btn');
-            const allToolsGrid = document.getElementById('all-tools-grid');
-            const featuredGrid = document.getElementById('featured-grid');
-            const featuredTitle = document.querySelector('[data-i18n="featured.title"]');
-
-            // Get values from i18n if possible, but search depends on text content which changes.
-            // Best to simple filter based on current text content in the DOM.
 
             function performSearch() {
                 const term = searchInput.value.toLowerCase().trim();
-                const toolCards = allToolsGrid.querySelectorAll('.tool-card');
+                const toolCards = document.querySelectorAll('.tool-card');
+                const sections = document.querySelectorAll('main section');
 
                 if (term.length > 0) {
-                    // Hide Featured Section
-                    if (featuredGrid) featuredGrid.classList.add('hidden');
-                    if (featuredTitle) featuredTitle.parentElement.classList.add('hidden'); // Container of title
-
-                    // Filter All Tools
+                    // Filter Cards
                     toolCards.forEach(card => {
-                        // Search in visible text content
                         const text = card.textContent.toLowerCase();
-                        // Also check custom data attributes if any (I added them in HTML)
                         const meta = (card.getAttribute('data-keywords') || '') + ' ' + (card.getAttribute('data-title') || '');
 
                         if (text.includes(term) || meta.toLowerCase().includes(term)) {
@@ -673,24 +717,31 @@
                             card.classList.add('hidden');
                         }
                     });
+
+                    // Hide empty sections
+                    sections.forEach(section => {
+                        const visibleCards = section.querySelectorAll('.tool-card:not(.hidden)');
+                        if (visibleCards.length === 0) {
+                            section.classList.add('hidden');
+                        } else {
+                            section.classList.remove('hidden');
+                        }
+                    });
+
                 } else {
                     // Show everything
-                    if (featuredGrid) featuredGrid.classList.remove('hidden');
-                    if (featuredTitle) featuredTitle.parentElement.classList.remove('hidden');
-
                     toolCards.forEach(card => card.classList.remove('hidden'));
+                    sections.forEach(section => section.classList.remove('hidden'));
                 }
             }
 
             if (searchInput) {
                 searchInput.addEventListener('input', performSearch);
-
-                // Handle enter key
                 searchInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         performSearch();
-                        // Scroll to results
-                        allToolsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        const firstVisible = document.querySelector('.tool-card:not(.hidden)');
+                        if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 });
             }
@@ -698,10 +749,13 @@
             if (searchBtn) {
                 searchBtn.addEventListener('click', () => {
                     performSearch();
-                    allToolsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const firstVisible = document.querySelector('.tool-card:not(.hidden)');
+                    if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 });
             }
         });
     </script>
+
+</body>
 
 </html>
