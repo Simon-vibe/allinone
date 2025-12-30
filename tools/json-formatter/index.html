@@ -143,21 +143,35 @@
                 <span data-i18n="json.seo.keywords">json formatter, json validator, beautify json</span>
             </p>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Debugging API responses or configuration files is easier with a clean view. Paste your
-                    minified JSON to instantly beautify it with proper indentation.</p>
+                <p class="mb-4" data-i18n="json.seo.p1">Debugging API responses or configuration files is easier with a
+                    clean view. Paste your minified JSON to instantly beautify it with proper indentation.</p>
 
-                <!-- Features (Moved from manual section) -->
+                <!-- Features -->
                 <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="json.faq.feat.title">Why use this tool?</h3>
-                <ul class="list-disc pl-5 space-y-2 mb-6">
+                <ul class="list-disc pl-5 space-y-2 mb-8">
                     <li data-i18n="json.faq.feat.val"><strong>Validation:</strong> Instantly check if your JSON syntax
-                        is
-                        correct.</li>
+                        is correct.</li>
                     <li data-i18n="json.faq.feat.min"><strong>Minification:</strong> Reduce file size for production
-                        usage.
-                    </li>
+                        usage.</li>
                     <li data-i18n="json.faq.feat.sec"><strong>Secure:</strong> We do not store or send your data to any
                         server.</li>
                 </ul>
+
+                <!-- FAQ -->
+                <h3 class="text-xl font-bold text-gray-900 mb-4" data-i18n="json.faq.title">JSON Formatter FAQ</h3>
+                <div class="space-y-4">
+                    <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
+                        <summary class="font-bold text-gray-800" data-i18n="json.faq.q1">Is my data private?</summary>
+                        <p class="mt-2 text-sm text-gray-600" data-i18n="json.faq.a1">Yes, 100%. All processing happens
+                            locally in your browser using JavaScript. No data is sent to our servers.</p>
+                    </details>
+                    <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
+                        <summary class="font-bold text-gray-800" data-i18n="json.faq.q2">Why is my JSON invalid?
+                        </summary>
+                        <p class="mt-2 text-sm text-gray-600" data-i18n="json.faq.a2">Common errors include trailing
+                            commas, missing quotes around keys, or using single quotes instead of double quotes.</p>
+                    </details>
+                </div>
             </div>
 
         </div>

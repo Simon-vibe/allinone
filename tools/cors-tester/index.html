@@ -55,7 +55,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -181,14 +182,39 @@
         <!-- FAQ -->
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
             <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="cors.faq.title">CORS Tester FAQ</h2>
-            <p class="mb-4" data-i18n="cors.faq.desc">CORS (Cross-Origin Resource Sharing) is a security mechanism that
+            <p class="mb-6" data-i18n="cors.faq.desc">CORS (Cross-Origin Resource Sharing) is a security mechanism that
                 allows a web page from one domain to request resources from another domain.</p>
+
+            <div class="space-y-4">
+                <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
+                    <summary class="font-bold text-gray-800" data-i18n="cors.faq.q1">Why is my request blocked?
+                    </summary>
+                    <p class="mt-2 text-sm text-gray-600" data-i18n="cors.faq.a1">Modern browsers block cross-origin
+                        requests by default unless the server explicitly allows them via the Access-Control-Allow-Origin
+                        header.</p>
+                </details>
+
+                <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
+                    <summary class="font-bold text-gray-800" data-i18n="cors.faq.q2">What is a Preflight Request?
+                    </summary>
+                    <p class="mt-2 text-sm text-gray-600" data-i18n="cors.faq.a2">For non-simple requests (like those
+                        with custom headers or JSON data), the browser sends an OPTIONS request first to ask for
+                        permission.</p>
+                </details>
+
+                <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
+                    <summary class="font-bold text-gray-800" data-i18n="cors.faq.q3">How do I fix CORS errors?</summary>
+                    <p class="mt-2 text-sm text-gray-600" data-i18n="cors.faq.a3">You must configure your backend server
+                        (Node.js, Python, Flask, etc.) to set the Access-Control-Allow-Origin header to * or your
+                        specific domain.</p>
+                </details>
+            </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -197,9 +223,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
