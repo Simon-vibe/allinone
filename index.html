@@ -798,16 +798,13 @@
     <script>
         // Auto-Redirect Language Logic
         (function () {
-            // Only run on root path or basic index
             const path = window.location.pathname;
-            const isRoot = path === '/' || path.endsWith('/index.html') || path.endsWith('/allinone/');
+            const supportedLangs = ['zh', 'es', 'pt', 'id', 'hi', 'ar'];
 
-            // Check if we are already in a localized path (simple check: if path contains /zh/, /es/, etc.)
-            // Actually, we should rely on isRoot. If isRoot is true, we are likely at the English/Default version.
-            // But be careful with local dev paths like .../allinone/index.html
+            // Check if we are already in a localized path
+            const isLocalized = supportedLangs.some(lang => path.includes('/' + lang + '/'));
 
-            if (isRoot) {
-                const supportedLangs = ['zh', 'es', 'pt', 'id', 'hi', 'ar'];
+            if (!isLocalized) {
                 const storedLang = localStorage.getItem('language');
                 const browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0];
 
@@ -820,21 +817,15 @@
                 }
 
                 if (targetLang) {
-                    // Redirect
-                    // If local dev: .../allinone/index.html -> .../allinone/zh/index.html
-                    // If prod: https://allinone.page/ -> https://allinone.page/zh/
-
                     let newUrl = '';
                     if (path.endsWith('index.html')) {
                         newUrl = path.replace('index.html', targetLang + '/index.html');
                     } else if (path.endsWith('/')) {
                         newUrl = path + targetLang + '/';
                     } else {
-                        // Edge case .../allinone -> .../allinone/zh/
                         newUrl = path + '/' + targetLang + '/';
                     }
 
-                    // console.log('Auto-redirecting to:', newUrl);
                     window.location.replace(newUrl);
                 }
             }
