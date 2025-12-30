@@ -376,27 +376,6 @@ const translations = {
         "ua.feat.2": "<strong>Content Delivery:</strong> Websites use it to serve mobile or desktop versions.",
         "ua.feat.3": "<strong>Analytics:</strong> Helps webmasters understand their audience's devices.",
 
-        // Video Editor
-        "tool.video.title": "Browser Video Editor",
-        "tool.video.desc": "Trim, cut, and convert videos locally using FFmpeg WASM. No upload required.",
-        "video.meta.title": "Browser Video Editor - Trim, Cut & Convert Locally",
-        "video.meta.desc": "Edit videos directly in your browser without uploading. Trim, cut, and convert format (MP4/GIF) locally using FFmpeg WASM.",
-        "video.meta.keywords": "video editor, trim video online, ffmpeg wasm, convert video to gif, cut video browser",
-        "video.drop.title": "Drag & Drop Video Here",
-        "video.drop.desc": "or click to upload (MP4, WEBM, MOV)",
-        "video.label.trim": "Trim Video",
-        "video.label.start": "Start Time",
-        "video.label.end": "End Time",
-        "video.tip.time": "Enter start/end times in seconds. Play video to find correct timestamps.",
-        "video.label.opt": "Output Options",
-        "video.label.format": "Format",
-        "video.action.process": "Process Video",
-        "video.label.result": "Result",
-        "video.faq.title": "Browser Video Editor FAQ",
-        "video.faq.desc": "Editing video traditionally requires powerful local software or uploading large files to a server. We use WebAssembly to solve this.",
-        "video.feat.1": "<strong>Local Processing:</strong> Your video never leaves your browser. Zero privacy risk.",
-        "video.feat.2": "<strong>FFmpeg WASM:</strong> Powered by the industry-standard video processing engine, ported to the web.",
-        "video.feat.3": "<strong>Cross-Platform:</strong> Works on Windows, Mac, and Linux browsers (Chrome/Edge/Firefox recommended).",
 
         // Secure Encryption
         "tool.crypto.title": "Secure File Encryption",
@@ -700,8 +679,7 @@ const translations = {
         "yaml.style.block": "Block (Default)",
         "yaml.style.flow": "Flow (JSON-like)",
         // Video
-        "video.crop.enable": "Enable Crop",
-        "video.crop.desc": "Drag to adjust area. Re-encoding required.",
+
 
         // BgRemover
         "bgrem.tab.ai": "AI Auto",
@@ -723,9 +701,7 @@ const translations = {
         "nav.categories": "分类",
         "nav.about": "关于我们",
         "nav.login": "登录",
-        // Video
-        "video.crop.enable": "启用裁剪",
-        "video.crop.desc": "拖动调整区域。需要重新编码。",
+
 
         // BgRemover
         "bgrem.tab.ai": "AI 自动",
@@ -1097,25 +1073,7 @@ const translations = {
 
         // Video Editor
         "tool.video.title": "浏览器本地视频剪辑",
-        "tool.video.desc": "使用 FFmpeg WASM 本地裁剪、剪辑和转换视频。无需上传。",
-        "video.meta.title": "在线视频剪辑工具 - 浏览器本地处理",
-        "video.meta.desc": "直接在浏览器中编辑视频，无需上传到服务器。使用 FFmpeg WASM 本地进行裁剪、剪切和格式转换（MP4/GIF）。",
-        "video.meta.keywords": "视频剪辑, 在线视频裁剪, ffmpeg wasm, 视频转gif, 本地视频编辑器",
-        "video.drop.title": "拖放视频到此处",
-        "video.drop.desc": "或点击上传 (MP4, WEBM, MOV)",
-        "video.label.trim": "视频裁剪",
-        "video.label.start": "开始时间 (秒)",
-        "video.label.end": "结束时间 (秒)",
-        "video.tip.time": "输入秒数。您可以播放视频来确认具体时间点。",
-        "video.label.opt": "输出选项",
-        "video.label.format": "格式",
-        "video.action.process": "开始处理",
-        "video.label.result": "处理结果",
-        "video.faq.title": "本地视频剪辑常见问题",
-        "video.faq.desc": "传统的视频编辑需要安装大型软件或上传大文件到服务器。我们利用 WebAssembly 技术解决了这个问题。",
-        "video.feat.1": "<strong>本地处理：</strong>您的视频从未离开浏览器。零隐私风险。",
-        "video.feat.2": "<strong>FFmpeg WASM：</strong>由业界标准的视频处理引擎驱动，移植到了 Web 端。",
-        "video.feat.3": "<strong>跨平台：</strong>支持 Windows, Mac, Linux 浏览器（推荐 Chrome/Edge）。",
+
 
         // Secure Encryption
         "tool.crypto.title": "安全文件加密",
