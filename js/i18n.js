@@ -2641,28 +2641,20 @@ class I18nManager {
         let pathParts = currentPath.split('/').filter(p => p);
 
         // 语言列表
-        // 注意：根目录即为英文(en)，所以路径中不会出现 'en' 文件夹
-        const localizedLangs = ['zh', 'es', 'pt', 'id', 'hi', 'ar'];
+        // 更新：现在所有语言（包括en）都有独立的目录
+        const localizedLangs = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
 
         // 检查当前路径的第一部分是否是已知的本地化语言代码
         const isLocalized = localizedLangs.includes(pathParts[0]);
 
         if (isLocalized) {
-            // 当前是本地化路径 (e.g. /zh/index.html 或 /zh)
-            if (lang === 'en') {
-                // 切换到英文：移除语言前缀
-                pathParts.shift();
-            } else {
-                // 切换到其他本地化语言：替换前缀
-                pathParts[0] = lang;
-            }
+            // 当前路径已有语言前缀 (e.g. /en/..., /zh/...)
+            // 直接替换前缀
+            pathParts[0] = lang;
         } else {
-            // 当前是根路径 (英文/默认)
-            if (lang !== 'en') {
-                // 切换到非英文：添加前缀
-                pathParts.unshift(lang);
-            }
-            // 如果是切换到英文，且当前已经是根路径，实际上不需要做任何事，但上面已经 return 了
+            // 当前是根路径或其他未识别路径
+            // 添加新语言前缀
+            pathParts.unshift(lang);
         }
 
         // 重组路径

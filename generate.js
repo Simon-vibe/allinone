@@ -64,15 +64,29 @@ function adjustRelativePaths(content) {
             return match;
         }
         if (url.startsWith('/')) return match;
+
         // Strip query params and fragments for extension check
         const cleanUrl = url.split('#')[0].split('?')[0];
 
-        // 关键修复：除了 .html 链接外，其他资源（css, js, images）都需要加 ../
-        // 如果链接以 .html 结尾，或者直接是目录（以 / 结尾），则认为是内部跳转，保持相对路径不变（因为 /en/ 和 /zh/ 目录结构是对称的）
+        // 如果是 HTML 页面跳转，保持原样（会在其他地方被处理或保持相对结构）
         if (cleanUrl.endsWith('.html') || cleanUrl.endsWith('/')) {
             return match;
         }
-        return `${attr}="../${url}"`;
+
+        // 核心修复：
+        // 1. 如果引用的是上级目录 (../)，说明是访问全局资源 -> 需要修正为 ../../ (加一个 ../)
+        // 2. 如果引用的是根目录下的全局资源文件夹 (css/, js/, assets/) -> 需要修正为 ../css/... (加一个 ../)
+        // 3. 其他情况视为“同级/子级资源” (如 tools/xxx/script.js)，这些资源会被拷贝到 /zh/tools/xxx/ 下，所以路径保持不变！
+
+        const isGlobalDir = url.startsWith('css/') || url.startsWith('js/') || url.startsWith('assets/');
+        const isUpward = url.startsWith('../');
+
+        if (isGlobalDir || isUpward) {
+            return `${attr}="../${url}"`;
+        }
+
+        // 默认为本地资源，不修改路径
+        return match;
     });
 }
 
