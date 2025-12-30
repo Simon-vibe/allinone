@@ -125,9 +125,24 @@ async function build() {
 <meta charset="UTF-8">
 <meta http-equiv="refresh" content="0;url=/en/">
 <script>
-  var lang = navigator.language || navigator.userLanguage;
-  if (lang.startsWith('zh')) { window.location.href = '/zh/'; }
-  else { window.location.href = '/en/'; }
+  try {
+      var supported = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
+      var userLang = navigator.language || navigator.userLanguage;
+      var storedLang = localStorage.getItem('app_lang');
+      var targetLang = 'en';
+
+      if (storedLang && supported.includes(storedLang)) {
+          targetLang = storedLang;
+      } else {
+          var shortLang = userLang.substring(0, 2);
+          if (supported.includes(shortLang)) {
+              targetLang = shortLang;
+          }
+      }
+      window.location.href = '/' + targetLang + '/';
+  } catch (e) {
+      window.location.href = '/en/';
+  }
 </script>
 <title>Redirecting...</title>
 </head>
