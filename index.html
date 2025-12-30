@@ -143,6 +143,18 @@
                     </a>
                 </nav>
             </div>
+            <!-- AI Lab Category (Main Sidebar) -->
+            <div class="mt-8">
+                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 px-3" data-i18n="cat.ai">AI Lab
+                </h3>
+                <nav class="space-y-1">
+                    <a href="#ai-lab"
+                        class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-blue-600 hover:bg-blue-50 transition">
+                        <span class="w-6 text-center mr-2"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                        <span data-i18n="cat.ai">AI Lab</span>
+                    </a>
+                </nav>
+            </div>
         </aside>
 
         <!-- Right Content -->
@@ -158,7 +170,8 @@
                     <h2 class="text-2xl font-bold text-gray-900" data-i18n="cat.featured">Featured Tools</h2>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-                    <!-- Card: PDF Converter (New) -->
+                    <!-- Cards will be here -->
+
                     <div class="tool-card bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full"
                         data-title="Bank Statement Converter" data-keywords="pdf excel">
                         <div class="absolute top-4 right-4 bg-red-100 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded uppercase"
@@ -209,6 +222,92 @@
                         <a href="./tools/json-formatter/index.html"
                             class="block w-full py-2.5 bg-blue-600 text-center text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition"
                             data-i18n="tool.launch">Launch</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Lab -->
+            <section id="ai-lab" class="scroll-mt-24">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span
+                        class="w-10 h-10 rounded-lg bg-purple-100/50 flex items-center justify-center text-purple-600 text-lg">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </span>
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="cat.ai">AI Lab</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 items-stretch">
+                    <!-- Tool 1: Prompt Builder -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Prompt Structure Builder" data-keywords="ai prompt builder claude chatgpt">
+                        <div
+                            class="w-10 h-10 bg-indigo-100 rounded text-indigo-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.prompt.title">Prompt Builder</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.prompt.desc">Build structured
+                            prompts
+                            for Claude & ChatGPT.</p>
+                        <a href="./tools/prompt-builder/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Tool 2: Cost Estimator -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="AI Cost Estimator" data-keywords="ai cost token price gpt4 claude">
+                        <div
+                            class="w-10 h-10 bg-green-100 rounded text-green-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.aicost.title">AI Cost Estimator</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.aicost.desc">Calculate API costs
+                            for different models.</p>
+                        <a href="./tools/ai-cost-estimator/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Tool 3: Image Prompt Gen -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Image Prompt Gen" data-keywords="midjourney flux image prompt ai">
+                        <div class="w-10 h-10 bg-pink-100 rounded text-pink-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.imgprompt.title">Image Prompt Gen</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.imgprompt.desc">Generate style
+                            prompts for Midjourney & Flux.</p>
+                        <a href="./tools/image-prompt-gen/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Tool 4: Model Arena -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="AI Model Arena" data-keywords="ai model compare leaderboard">
+                        <div class="w-10 h-10 bg-blue-100 rounded text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.arena.title">Model Arena</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.arena.desc">Compare LLM
+                            capabilities
+                            and prices.</p>
+                        <a href="./tools/model-arena/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
+                    </div>
+
+                    <!-- Tool 5: Local LLM Runner -->
+                    <div class="tool-card bg-white p-6 rounded-xl border border-gray-100 hover:shadow-lg transition flex flex-col h-full"
+                        data-title="Local LLM Runner" data-keywords="local llm webgpu privacy offline">
+                        <div class="w-10 h-10 bg-gray-100 rounded text-gray-600 flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-2" data-i18n="tool.local.title">Local LLM Runner</h4>
+                        <p class="text-xs text-gray-500 mb-4 flex-1" data-i18n="tool.local.desc">Run AI models privately
+                            in your browser.</p>
+                        <a href="./tools/local-llm/index.html"
+                            class="w-full block text-center bg-gray-50 py-2 rounded text-sm font-medium hover:bg-gray-100 transition"
+                            data-i18n="common.open">Open</a>
                     </div>
                 </div>
             </section>

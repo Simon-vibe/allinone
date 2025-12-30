@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tool.local.title">Local LLM Runner - Private AI in Browser</title>
+    <meta name="description"
+        content="Run LLMs like Llama 3 and TinyLlama directly in your browser using WebGPU. 100% private, offline-capable AI chat."
+        data-i18n="tool.local.desc">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .chat-msg {
+            max-width: 80%;
+        }
+
+        .chat-user {
+            background-color: #3b82f6;
+            color: white;
+            align-self: flex-end;
+            border-radius: 12px 12px 0 12px;
+        }
+
+        .chat-bot {
+            background-color: #f3f4f6;
+            color: #1f2937;
+            align-self: flex-start;
+            border-radius: 12px 12px 12px 0;
+        }
+
+        .typing-dot {
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#featured" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-gray-900 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.local.title">Local LLM Runner</h1>
+            <p class="text-gray-400 max-w-2xl mx-auto" data-i18n="tool.local.desc">Run AI models privately in your
+                browser using WebGPU.</p>
+            <div
+                class="mt-4 inline-flex items-center bg-gray-800 rounded-full px-4 py-1 text-xs text-green-400 border border-gray-700">
+                <i class="fa-solid fa-lock mr-2"></i> 100% Private (No Server Uploads)
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-12 flex flex-col h-[600px]">
+
+        <!-- Model Selector & Status -->
+        <div class="bg-white p-4 rounded-t-xl border border-gray-200 border-b-0 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-sm font-bold text-gray-700">Model:</span>
+                <select id="model-select"
+                    class="text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                    <option value="Llama-3-8B-Instruct-q4f32_1-MLC-1k">Llama 3 (8B) - High Quality (Requires ~6GB VRAM)
+                    </option>
+                    <option value="TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC" selected>TinyLlama (1.1B) - Fast (Low VRAM)
+                    </option>
+                    <option value="Gemma-2b-it-q4f32_1-MLC">Google Gemma (2B) - Balanced</option>
+                </select>
+            </div>
+            <div id="status-badge" class="px-2 py-1 rounded text-xs font-bold bg-gray-100 text-gray-500">
+                Initializing...
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-container" class="flex-1 bg-white border border-gray-200 overflow-y-auto p-4 space-y-4">
+            <!-- Messages go here -->
+            <div class="chat-msg chat-bot p-3 text-sm">
+                👋 Hi! I'm a local AI running entirely in your browser. Select a model and start chatting!
+                <br><br>
+                <em class="text-xs text-gray-500">Note: First load requires downloading model weights (1-4GB). Please be
+                    patient.</em>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="bg-white p-4 rounded-b-xl border border-gray-200 border-t-0">
+            <div class="relative">
+                <input type="text" id="user-input"
+                    class="w-full p-4 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+                    placeholder="Type a message..." disabled>
+                <button id="send-btn"
+                    class="absolute right-2 top-2 bottom-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+            <div id="download-progress" class="mt-2 text-xs text-center text-blue-600 hidden">
+                Downloading... 0%
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                    <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
+                </div>
+                <div class="flex space-x-8 text-sm text-gray-500">
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
+                © 2026 allinone.page. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- WebLLM Module -->
+    <script type="module">
+        import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+
+        const modelSelect = document.getElementById('model-select');
+        const statusBadge = document.getElementById('status-badge');
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const progressDiv = document.getElementById('download-progress');
+
+        let engine = null;
+        let isLoading = false;
+
+        // Init WebLLM
+        async function init() {
+            try {
+                // Check WebGPU support
+                if (!navigator.gpu) {
+                    throw new Error("WebGPU is not supported in this browser.");
+                }
+
+                statusBadge.textContent = "Ready to Load";
+                statusBadge.className = "px-2 py-1 rounded text-xs font-bold bg-yellow-100 text-yellow-700";
+
+                sendBtn.disabled = false;
+                userInput.disabled = false;
+            } catch (err) {
+                statusBadge.textContent = "WebGPU Not Supported";
+                statusBadge.className = "px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700";
+                appendMessage("system", "Error: WebGPU is not supported by your browser. Please use Chrome 113+ or Edge.");
+            }
+        }
+
+        async function loadModel() {
+            if (isLoading) return;
+            isLoading = true;
+
+            const selectedModel = modelSelect.value;
+
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+            progressDiv.classList.remove('hidden');
+
+            statusBadge.textContent = "Loading Model...";
+            statusBadge.className = "px-2 py-1 rounded text-xs font-bold bg-blue-100 text-blue-700";
+
+            try {
+                // Initialize engine if not already done or if switching models (simplified: re-init for now)
+                engine = new webllm.MLCEngine();
+                engine.setInitProgressCallback((report) => {
+                    progressDiv.textContent = report.text;
+                });
+
+                await engine.reload(selectedModel);
+
+                statusBadge.textContent = "Model Loaded";
+                statusBadge.className = "px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700";
+                progressDiv.classList.add('hidden');
+
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+
+            } catch (err) {
+                console.error(err);
+                statusBadge.textContent = "Load Failed";
+                statusBadge.className = "px-2 py-1 rounded text-xs font-bold bg-red-100 text-red-700";
+                appendMessage("system", "Error loading model: " + err.message);
+                progressDiv.textContent = "Error: " + err.message;
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = `chat-msg p-3 text-sm ${role === 'user' ? 'chat-user' : 'chat-bot'}`;
+            div.innerHTML = text; // Allow HTML for system messages
+            chatContainer.appendChild(div);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function handleSend() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            // Load model on first send if not loaded
+            if (!engine || !engine.currentModelId) {
+                appendMessage("system", "Initializing model engine... (This happens only once)");
+                await loadModel();
+            }
+
+            // Display User Message
+            appendMessage("user", text);
+            userInput.value = "";
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // Placeholder for AI reply
+            const botMsgDiv = document.createElement('div');
+            botMsgDiv.className = "chat-msg chat-bot p-3 text-sm";
+            botMsgDiv.innerHTML = '<div class="flex space-x-1"><div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div><div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div><div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div></div>';
+            chatContainer.appendChild(botMsgDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            try {
+                // Generate
+                const reply = await engine.chat.completions.create({
+                    messages: [{ role: "user", content: text }],
+                    temperature: 0.7,
+                    max_tokens: 256, // Limit for speed
+                });
+
+                const replyText = reply.choices[0].message.content;
+                botMsgDiv.innerText = replyText;
+
+            } catch (err) {
+                botMsgDiv.innerHTML = `<span class="text-red-500">Error: ${err.message}</span>`;
+            } finally {
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+            }
+        });
+
+        modelSelect.addEventListener('change', () => {
+            // Reset engine if model checks
+            appendMessage("system", `Switched target model to: ${modelSelect.options[modelSelect.selectedIndex].text}. Will load on next message.`);
+            engine = null; // Force reload
+            statusBadge.textContent = "Ready to Load";
+            statusBadge.className = "px-2 py-1 rounded text-xs font-bold bg-yellow-100 text-yellow-700";
+        });
+
+        // Run Init
+        init();
+    </script>
+</body>
+
+</html>

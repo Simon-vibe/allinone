@@ -9,10 +9,23 @@ const translations = {
 
         // Sidebar Categories
         "cat.featured": "Featured Tools",
+        "cat.ai": "AI Lab",
         "cat.format": "Formatting & Conversion",
         "cat.media": "Images & Media",
         "cat.doc": "Documents & PDF",
         "cat.dev": "Coding & Security",
+
+        // AI Lab Tools
+        "tool.prompt.title": "Prompt Structure Builder",
+        "tool.prompt.desc": "Build structured prompts for Claude & ChatGPT.",
+        "tool.aicost.title": "AI Cost Estimator",
+        "tool.aicost.desc": "Calculate API costs for OpenAI, Claude, and Gemini.",
+        "tool.imgprompt.title": "Image Prompt Generator",
+        "tool.imgprompt.desc": "Generate style prompts for Midjourney & Flux.",
+        "tool.arena.title": "AI Model Arena",
+        "tool.arena.desc": "Compare LLM capabilities, prices, and specs.",
+        "tool.local.title": "Local LLM Runner",
+        "tool.local.desc": "Run AI models privately in your browser using WebGPU.",
 
         // Feedback
         "feedback.title": "Send Feedback",
