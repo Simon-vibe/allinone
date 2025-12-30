@@ -152,17 +152,17 @@
                             <div class="grid grid-cols-3 gap-2">
                                 <button
                                     class="preset-btn bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 px-3 rounded text-xs font-medium transition"
-                                    data-ratio="1" data-label="Square (1:1)">
+                                    data-ratio="1" data-label="Square (1:1)" data-i18n="crop.preset.square">
                                     Square
                                 </button>
                                 <button
                                     class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
-                                    data-ratio="0.8" data-label="Portrait (4:5)">
+                                    data-ratio="0.8" data-label="Portrait (4:5)" data-i18n="crop.preset.portrait">
                                     Portrait
                                 </button>
                                 <button
                                     class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
-                                    data-ratio="1.91" data-label="Landscape (1.91:1)">
+                                    data-ratio="1.91" data-label="Landscape (1.91:1)" data-i18n="crop.preset.landscape">
                                     Landscape
                                 </button>
                             </div>
@@ -174,12 +174,12 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <button
                                     class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
-                                    data-ratio="3" data-label="Header (3:1)">
+                                    data-ratio="3" data-label="Header (3:1)" data-i18n="crop.preset.header">
                                     Header
                                 </button>
                                 <button
                                     class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
-                                    data-ratio="1.7778" data-label="Post (16:9)">
+                                    data-ratio="1.7778" data-label="Post (16:9)" data-i18n="crop.preset.post">
                                     Post
                                 </button>
                             </div>
@@ -191,20 +191,37 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <button
                                     class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
-                                    data-ratio="1.7778" data-label="Thumbnail (16:9)">
+                                    data-ratio="1.7778" data-label="Thumbnail (16:9)" data-i18n="crop.preset.thumbnail">
                                     Thumbnail
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Free -->
+                        <!-- Free / Custom -->
                         <div>
-                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">Custom</div>
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2" data-i18n="crop.preset.custom">
+                                Custom</div>
                             <button
-                                class="preset-btn w-full bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
-                                data-ratio="NaN" data-label="Free Form">
+                                class="preset-btn w-full bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition mb-2"
+                                data-ratio="NaN" data-label="Free Form" data-i18n="crop.preset.free">
                                 Free Form
                             </button>
+
+                            <!-- Custom Dimensions Inputs -->
+                            <div id="custom-dims" class="hidden mt-2 grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-[10px] uppercase text-gray-400 font-bold mb-1"
+                                        data-i18n="crop.label.width">Width</label>
+                                    <input type="number" id="custom-w"
+                                        class="w-full border border-gray-300 rounded p-1 text-sm" placeholder="px">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] uppercase text-gray-400 font-bold mb-1"
+                                        data-i18n="crop.label.height">Height</label>
+                                    <input type="number" id="custom-h"
+                                        class="w-full border border-gray-300 rounded p-1 text-sm" placeholder="px">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -317,6 +334,12 @@
                 reader.readAsDataURL(file);
             }
 
+            const customDims = document.getElementById('custom-dims');
+            const customW = document.getElementById('custom-w');
+            const customH = document.getElementById('custom-h');
+
+            let isUpdatingInputs = false;
+
             function initCropper() {
                 if (cropper) cropper.destroy();
 
@@ -329,15 +352,47 @@
                     ready() {
                         // Activate first preset (Square)
                         setActivePreset(0);
+                    },
+                    crop(event) {
+                        // Update inputs if they are not focused (avoid fighting user input)
+                        if (!isUpdatingInputs && document.activeElement !== customW && document.activeElement !== customH) {
+                            customW.value = Math.round(event.detail.width);
+                            customH.value = Math.round(event.detail.height);
+                        }
                     }
                 });
             }
+
+            // Custom Dimensions Input Logic
+            function updateCustomCrop() {
+                if (!cropper) return;
+                const w = parseInt(customW.value);
+                const h = parseInt(customH.value);
+
+                if (w && h) {
+                    isUpdatingInputs = true;
+                    cropper.setData({ width: w, height: h });
+                    isUpdatingInputs = false;
+                }
+            }
+
+            customW.addEventListener('input', updateCustomCrop);
+            customH.addEventListener('input', updateCustomCrop);
 
             // Preset Buttons
             presetBtns.forEach((btn, index) => {
                 btn.addEventListener('click', () => {
                     const ratio = parseFloat(btn.dataset.ratio);
-                    cropper.setAspectRatio(ratio);
+
+                    if (isNaN(ratio)) {
+                        // Free Form / Custom
+                        cropper.setAspectRatio(NaN);
+                        customDims.classList.remove('hidden');
+                    } else {
+                        // Fixed Ratio
+                        cropper.setAspectRatio(ratio);
+                        customDims.classList.add('hidden');
+                    }
 
                     // Update UI
                     presetBtns.forEach(b => {

@@ -178,10 +178,12 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gpt-3-encoder/1.1.0/gpt-3-encoder.min.js"></script>
+    <!-- Scripts -->
     <script src="../../js/i18n.js?v=2"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+    <script type="module">
+        import { getEncoding } from "https://cdn.jsdelivr.net/npm/js-tiktoken@1.0.18/+esm";
+
+        document.addEventListener('DOMContentLoaded', async () => {
             const textInput = document.getElementById('text-input');
             const totalTokenCount = document.getElementById('token-count');
             const inputTokenCountDisplay = document.getElementById('input-token-count');
@@ -196,6 +198,15 @@
             const costGpt4o = document.getElementById('cost-gpt4o');
             const costGpt35 = document.getElementById('cost-gpt35');
             const costClaude = document.getElementById('cost-claude');
+
+            // Initialize Tokenizer (cl100k_base is used by GPT-4, GPT-3.5 Turbo, text-embedding-ada-002)
+            let enc = null;
+            try {
+                enc = getEncoding("cl100k_base");
+                console.log("Tokenizer loaded: cl100k_base");
+            } catch (e) {
+                console.error("Failed to load tokenizer:", e);
+            }
 
             // Pricing per 1K tokens (Input, Output) - Aug 2024 Est.
             const PRICING = {
@@ -214,28 +225,17 @@
                 if (!text) {
                     currentInputTokens = 0;
                 } else {
-                    // Try to use encoder if available, otherwise heuristic (4 chars ~= 1 token)
-                    // Try to use encoder if available, otherwise heuristic
-                    if (typeof gpt3Encoder !== 'undefined' && gpt3Encoder.encode) {
+                    if (enc) {
                         try {
-                            const encoded = gpt3Encoder.encode(text);
+                            const encoded = enc.encode(text);
                             currentInputTokens = encoded.length;
                         } catch (e) {
                             console.error("Token encoding failed:", e);
-                            currentInputTokens = Math.ceil(text.length / 3.5); // Fallback estimate
-                        }
-                    } else if (window.gpt3Encoder && window.gpt3Encoder.encode) {
-                        // Some CDNs attach to window
-                        try {
-                            const encoded = window.gpt3Encoder.encode(text);
-                            currentInputTokens = encoded.length;
-                        } catch (e) {
-                            console.error("Token encoding (window) failed:", e);
-                            currentInputTokens = Math.ceil(text.length / 3.5);
+                            currentInputTokens = Math.ceil(text.length / 3.5); // Fallback
                         }
                     } else {
-                        console.warn("gpt3Encoder not found, using fallback");
-                        currentInputTokens = Math.ceil(text.length / 3.5); // Fallback estimate
+                        // Fallback if WASM/JS init failed
+                        currentInputTokens = Math.ceil(text.length / 3.5);
                     }
                 }
 
@@ -255,7 +255,7 @@
                 };
 
                 costGpt4o.textContent = calc(PRICING.gpt4o);
-                costGpt35.textContent = calc(PRICING.gpt4o_mini); // Using 4o-mini as "Cheaper" slot
+                costGpt35.textContent = calc(PRICING.gpt4o_mini);
                 costClaude.textContent = calc(PRICING.claude35);
             }
 
@@ -282,6 +282,7 @@
                 document.execCommand('copy');
             });
 
+            // Initial calc
             updateStats();
         });
     </script>

@@ -24,6 +24,24 @@ function findHtmlFiles(dir, fileList = []) {
     return fileList;
 }
 
+function findToolAssets(dir, fileList = []) {
+    if (!fs.existsSync(dir)) return fileList;
+    const files = fs.readdirSync(dir);
+    files.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+        if (stat.isDirectory()) {
+            findToolAssets(filePath, fileList);
+        } else {
+            // Include everything that is NOT .html, because .html is handled by findHtmlFiles
+            if (path.extname(file) !== '.html') {
+                fileList.push(filePath);
+            }
+        }
+    });
+    return fileList;
+}
+
 function copyDir(src, dest) {
     if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
     const entries = fs.readdirSync(src, { withFileTypes: true });
@@ -288,6 +306,21 @@ async function build() {
             const outDir = path.dirname(outPath);
             if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
             fs.writeFileSync(outPath, content);
+        }
+    }
+
+    // New Step: Copy non-HTML assets from tools/
+    console.log('Copying tool assets...');
+    const toolAssets = findToolAssets(path.join(SRC_DIR, 'tools'));
+    for (const asset of toolAssets) {
+        const relativePath = path.relative(SRC_DIR, asset);
+        // Copy to both en/ and zh/ structure
+        for (const lang of languages) {
+            const outSubDir = path.join(lang, path.dirname(relativePath));
+            const outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
+            const outDir = path.dirname(outPath);
+            if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+            fs.copyFileSync(asset, outPath);
         }
     }
 
