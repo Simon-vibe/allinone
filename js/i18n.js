@@ -1505,10 +1505,15 @@ if (typeof module !== 'undefined' && module.exports) {
  * 自动在页面右下角添加一个"反馈"按钮，点击跳转 GitHub Issues
  */
 if (typeof document !== 'undefined') {
-    document.addEventListener('DOMContentLoaded', () => {
-        // 确保页面加载完成后注入
-        injectFeedbackButton();
-    });
+    // Retry robustly to ensure injection
+    const initFeedback = () => {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', injectFeedbackButton);
+        } else {
+            injectFeedbackButton();
+        }
+    };
+    initFeedback();
 }
 /**
  * 全局反馈组件 (Cloudflare D1 版本)

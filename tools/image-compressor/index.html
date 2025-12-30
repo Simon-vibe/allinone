@@ -103,11 +103,11 @@
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-600 mb-2" data-i18n="img.format">Output
                             Format</label>
-                        class="w-full border-gray-200 rounded-lg shadow-sm p-3 border outline-none focus:ring-2
-                        focus:ring-blue-500">
-                        <option value="image/jpeg" data-i18n="img.opt.jpeg">JPEG (Recommended)</option>
-                        <option value="image/png" data-i18n="img.opt.png">PNG (Lossless/Transparent)</option>
-                        <option value="image/webp" data-i18n="img.opt.webp">WebP (Modern)</option>
+                        <select id="format-select"
+                            class="w-full border-gray-200 rounded-lg shadow-sm p-3 border outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="image/jpeg" data-i18n="img.opt.jpeg">JPEG (Recommended)</option>
+                            <option value="image/png" data-i18n="img.opt.png">PNG (Lossless/Transparent)</option>
+                            <option value="image/webp" data-i18n="img.opt.webp">WebP (Modern)</option>
                         </select>
                     </div>
 
@@ -165,11 +165,10 @@
                             src="" alt="Preview">
                     </div>
 
-                    class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl
-                    shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none transition transform
-                    hover:-translate-y-1">
-                    <i class="fa-solid fa-download mr-2"></i> <span data-i18n="img.action.download_image">Download
-                        Image</span>
+                    <a id="download-link" href="#"
+                        class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none transition transform hover:-translate-y-1">
+                        <i class="fa-solid fa-download mr-2"></i> <span data-i18n="img.action.download_image">Download
+                            Image</span>
                     </a>
                 </div>
             </div>
