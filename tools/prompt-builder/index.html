@@ -71,23 +71,25 @@
         <!-- Controls & Presets -->
         <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
             <div class="flex items-center space-x-4 bg-white p-2 rounded-lg shadow-sm border border-gray-100">
-                <span class="text-sm font-bold text-gray-500 px-2">Mode:</span>
+                <span class="text-sm font-bold text-gray-500 px-2" data-i18n="prompt.label.mode">Mode:</span>
                 <button id="mode-claude"
-                    class="px-4 py-1.5 rounded-md text-sm font-medium transition bg-indigo-100 text-indigo-700">Claude
+                    class="px-4 py-1.5 rounded-md text-sm font-medium transition bg-indigo-100 text-indigo-700"
+                    data-i18n="prompt.mode.claude">Claude
                     (XML)</button>
                 <button id="mode-gpt"
-                    class="px-4 py-1.5 rounded-md text-sm font-medium transition text-gray-600 hover:bg-gray-50">ChatGPT
+                    class="px-4 py-1.5 rounded-md text-sm font-medium transition text-gray-600 hover:bg-gray-50"
+                    data-i18n="prompt.mode.chatgpt">ChatGPT
                     (Markdown)</button>
             </div>
 
             <div class="flex items-center space-x-2">
-                <span class="text-sm text-gray-500">Load Preset:</span>
+                <span class="text-sm text-gray-500" data-i18n="prompt.label.preset">Load Preset:</span>
                 <select id="preset-select"
                     class="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2">
-                    <option value="">Custom...</option>
-                    <option value="coding">Code Refactoring</option>
-                    <option value="writing">Article Polishing</option>
-                    <option value="data">Data Analysis</option>
+                    <option value="" data-i18n="prompt.preset.custom">Custom...</option>
+                    <option value="coding" data-i18n="prompt.preset.refactor">Code Refactoring</option>
+                    <option value="writing" data-i18n="prompt.preset.polish">Article Polishing</option>
+                    <option value="data" data-i18n="prompt.preset.analyze">Data Analysis</option>
                 </select>
             </div>
         </div>
@@ -98,42 +100,50 @@
             <div class="space-y-6">
                 <!-- Role -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Role (Who is the AI?)</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="prompt.label.role">Role (Who is
+                        the AI?)</label>
                     <input type="text" id="input-role"
                         class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                        placeholder="e.g. Expert Python Developer">
+                        placeholder="e.g. Expert Python Developer" data-i18n="prompt.ph.role">
                 </div>
 
                 <!-- Context -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Context (Background Info)</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="prompt.label.context">Context
+                        (Background Info)</label>
                     <textarea id="input-context" rows="3"
                         class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                        placeholder="e.g. Working on a legacy Django project..."></textarea>
+                        placeholder="e.g. Working on a legacy Django project..."
+                        data-i18n="prompt.ph.context"></textarea>
                 </div>
 
                 <!-- Task -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-indigo-500">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Task (What to do?)</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="prompt.label.task">Task (What
+                        to do?)</label>
                     <textarea id="input-task" rows="4"
                         class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                        placeholder="e.g. Refactor the following function to handle edge cases..."></textarea>
+                        placeholder="e.g. Refactor the following function to handle edge cases..."
+                        data-i18n="prompt.ph.task"></textarea>
                 </div>
 
                 <!-- Constraints -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Constraints (Rules & Guidelines)</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2"
+                        data-i18n="prompt.label.constraints">Constraints (Rules & Guidelines)</label>
                     <textarea id="input-constraints" rows="3"
                         class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                        placeholder="e.g. Do not use external libraries. Keep comments minimal."></textarea>
+                        placeholder="e.g. Do not use external libraries. Keep comments minimal."
+                        data-i18n="prompt.ph.constraints"></textarea>
                 </div>
 
                 <!-- Output Format -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Output Format</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="prompt.label.format">Output
+                        Format</label>
                     <input type="text" id="input-format"
                         class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                        placeholder="e.g. JSON only, or Single Python function">
+                        placeholder="e.g. JSON only, or Single Python function" data-i18n="prompt.ph.format">
                 </div>
             </div>
 
@@ -142,10 +152,12 @@
                 <div
                     class="bg-gray-900 rounded-xl shadow-lg border border-gray-800 overflow-hidden flex flex-col h-full min-h-[600px]">
                     <div class="bg-gray-800 px-4 py-3 flex justify-between items-center border-b border-gray-700">
-                        <span class="text-gray-400 text-xs font-mono">PROMPT PREVIEW</span>
+                        <span class="text-gray-400 text-xs font-mono" data-i18n="prompt.preview.title">PROMPT
+                            PREVIEW</span>
                         <button id="btn-copy"
                             class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded transition flex items-center">
-                            <i class="fa-regular fa-copy mr-1.5"></i> Copy Prompt
+                            <i class="fa-regular fa-copy mr-1.5"></i> <span data-i18n="prompt.btn.copy">Copy
+                                Prompt</span>
                         </button>
                     </div>
                     <div class="flex-grow relative">

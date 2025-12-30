@@ -796,6 +796,50 @@
 
     <script src="./js/i18n.js?v=2"></script>
     <script>
+        // Auto-Redirect Language Logic
+        (function () {
+            // Only run on root path or basic index
+            const path = window.location.pathname;
+            const isRoot = path === '/' || path.endsWith('/index.html') || path.endsWith('/allinone/');
+
+            // Check if we are already in a localized path (simple check: if path contains /zh/, /es/, etc.)
+            // Actually, we should rely on isRoot. If isRoot is true, we are likely at the English/Default version.
+            // But be careful with local dev paths like .../allinone/index.html
+
+            if (isRoot) {
+                const supportedLangs = ['zh', 'es', 'pt', 'id', 'hi', 'ar'];
+                const storedLang = localStorage.getItem('language');
+                const browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0];
+
+                let targetLang = null;
+
+                if (storedLang && supportedLangs.includes(storedLang)) {
+                    targetLang = storedLang;
+                } else if (!storedLang && supportedLangs.includes(browserLang)) {
+                    targetLang = browserLang;
+                }
+
+                if (targetLang) {
+                    // Redirect
+                    // If local dev: .../allinone/index.html -> .../allinone/zh/index.html
+                    // If prod: https://allinone.page/ -> https://allinone.page/zh/
+
+                    let newUrl = '';
+                    if (path.endsWith('index.html')) {
+                        newUrl = path.replace('index.html', targetLang + '/index.html');
+                    } else if (path.endsWith('/')) {
+                        newUrl = path + targetLang + '/';
+                    } else {
+                        // Edge case .../allinone -> .../allinone/zh/
+                        newUrl = path + '/' + targetLang + '/';
+                    }
+
+                    // console.log('Auto-redirecting to:', newUrl);
+                    window.location.replace(newUrl);
+                }
+            }
+        })();
+
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('search-input');
             const searchBtn = document.getElementById('search-btn');

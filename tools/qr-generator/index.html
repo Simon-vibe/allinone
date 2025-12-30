@@ -31,7 +31,8 @@
     <link rel="stylesheet" href="../../css/style.css">
 
     <!-- QRCode.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- QRCode Styling -->
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -105,7 +106,7 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-gray-700 font-bold mb-2" data-i18n="qr.label.text">Content</label>
-                            <textarea id="qr-text" rows="4"
+                            <textarea id="qr-text" rows="3"
                                 class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none"
                                 placeholder="https://example.com or any text"
                                 data-i18n-placeholder="qr.placeholder.text"></textarea>
@@ -117,10 +118,45 @@
                             <div class="text-right text-sm text-gray-500"><span id="size-val">300</span>px</div>
                         </div>
 
+                        <!-- Colors -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-bold mb-2 text-sm"
+                                    data-i18n="qr.label.fg_color">Dots Color</label>
+                                <input type="color" id="qr-color-dots" value="#000000"
+                                    class="w-full h-10 border rounded cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-bold mb-2 text-sm"
+                                    data-i18n="qr.label.bg_color">Background</label>
+                                <input type="color" id="qr-color-bg" value="#ffffff"
+                                    class="w-full h-10 border rounded cursor-pointer">
+                            </div>
+                        </div>
+
+                        <!-- Style & Logo -->
                         <div>
-                            <label class="block text-gray-700 font-bold mb-2" data-i18n="qr.label.color">Color</label>
-                            <input type="color" id="qr-color" value="#000000"
-                                class="w-full h-10 border rounded cursor-pointer">
+                            <label class="block text-gray-700 font-bold mb-2 text-sm" data-i18n="qr.label.style">Dot
+                                Style</label>
+                            <select id="qr-style"
+                                class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500">
+                                <option value="square" data-i18n="qr.style.square">Square</option>
+                                <option value="rounded" data-i18n="qr.style.rounded">Rounded</option>
+                                <option value="dots" data-i18n="qr.style.dots">Dots</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-bold mb-2 text-sm" data-i18n="qr.label.logo">Logo
+                                (Optional)</label>
+                            <input type="file" id="qr-logo" accept="image/*" class="w-full text-sm text-gray-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-blue-50 file:text-blue-700
+                                hover:file:bg-blue-100
+                            ">
+                            <p class="text-xs text-gray-400 mt-1" data-i18n="qr.logo.hint">Center logo for branding</p>
                         </div>
 
                         <button id="btn-generate"
@@ -236,78 +272,140 @@
         document.addEventListener('DOMContentLoaded', () => {
             const qrText = document.getElementById('qr-text');
             const qrSize = document.getElementById('qr-size');
-            const qrColor = document.getElementById('qr-color');
+            const sizeVal = document.getElementById('size-val');
+
+            const qrColorDots = document.getElementById('qr-color-dots');
+            const qrColorBg = document.getElementById('qr-color-bg');
+            const qrStyle = document.getElementById('qr-style');
+            const qrLogoInput = document.getElementById('qr-logo');
+
             const btnGenerate = document.getElementById('btn-generate');
             const btnDownload = document.getElementById('btn-download');
             const qrContainer = document.getElementById('qr-container');
-            const qrPlaceholder = document.getElementById('qr-placeholder');
 
-            // Initial render
-            setTimeout(() => {
-                if (qrText.value.trim() === '') qrText.value = 'https://allinone.page';
-                generateQR();
-            }, 100);
+            // Tabs
+            const tabGenerate = document.getElementById('tab-generate');
+            const tabScan = document.getElementById('tab-scan');
+            const controlsGenerate = document.getElementById('controls-generate');
+            const controlsScan = document.getElementById('controls-scan');
+            const previewGenerate = document.getElementById('preview-generate');
+            const previewScan = document.getElementById('preview-scan');
 
-            btnGenerate.addEventListener('click', generateQR);
+            // Tab Logic
+            tabGenerate.addEventListener('click', () => {
+                switchTab('generate');
+            });
 
-            // Auto generate on change with debounce if wanted, but button is safer for large changes
+            tabScan.addEventListener('click', () => {
+                switchTab('scan');
+            });
 
-            function generateQR() {
-                const text = qrText.value.trim();
-                const size = parseInt(qrSize.value) || 300;
-                const color = qrColor.value;
-
-                if (!text) {
-                    alert('Please enter some text or URL.');
-                    return;
-                }
-
-                qrContainer.innerHTML = ''; // Clear previous
-
-                // qrcodejs renders canvas or img depending on browser support, usually canvas first then img for legacy?
-                // Actually it renders a canvas AND an img (hidden sometimes).
-                // Let's see what it produces.
-
-                try {
-                    new QRCode(qrContainer, {
-                        text: text,
-                        width: size,
-                        height: size,
-                        colorDark: color,
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.M
-                    });
-
-                    // Wait a bit for render
-                    setTimeout(() => {
-                        const img = qrContainer.querySelector('img');
-                        if (img) {
-                            btnDownload.disabled = false;
-
-                            // Adjust container size to fit if possible, or scroll
-                            // But usually we just let it overflow or scale? 
-                            // Here we just center it.
-                        }
-                    }, 50);
-
-                } catch (e) {
-                    console.error(e);
-                    qrContainer.innerHTML = 'Error generating QR';
+            function switchTab(mode) {
+                if (mode === 'generate') {
+                    tabGenerate.className = 'flex-1 py-2 text-sm font-bold text-blue-600 bg-blue-50 rounded-lg transition';
+                    tabScan.className = 'flex-1 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 rounded-lg transition';
+                    controlsGenerate.classList.remove('hidden');
+                    controlsScan.classList.add('hidden');
+                    previewGenerate.classList.remove('hidden');
+                    previewScan.classList.add('hidden');
+                } else {
+                    tabGenerate.className = 'flex-1 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 rounded-lg transition';
+                    tabScan.className = 'flex-1 py-2 text-sm font-bold text-blue-600 bg-blue-50 rounded-lg transition';
+                    controlsGenerate.classList.add('hidden');
+                    controlsScan.classList.remove('hidden');
+                    previewGenerate.classList.add('hidden');
+                    previewScan.classList.remove('hidden');
                 }
             }
 
-            btnDownload.addEventListener('click', () => {
-                const img = qrContainer.querySelector('img');
-                if (img && img.src) {
-                    // Create a link
-                    const link = document.createElement('a');
-                    link.download = 'qrcode.png';
-                    link.href = img.src;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+            // QR Code Styling Instance
+            let qrCode = new QRCodeStyling({
+                width: 300,
+                height: 300,
+                type: "svg",
+                data: "https://allinone.page",
+                image: "",
+                dotsOptions: {
+                    color: "#000000",
+                    type: "square"
+                },
+                backgroundOptions: {
+                    color: "#ffffff",
+                },
+                imageOptions: {
+                    crossOrigin: "anonymous",
+                    margin: 10
                 }
             });
+
+            // Initial Append
+            qrCode.append(qrContainer);
+
+            // Update Logic
+            qrSize.addEventListener('input', (e) => {
+                sizeVal.textContent = e.target.value;
+            });
+
+            let logoBase64 = "";
+
+            qrLogoInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        logoBase64 = ev.target.result;
+                        generateQR();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    logoBase64 = "";
+                    generateQR();
+                }
+            });
+
+            btnGenerate.addEventListener('click', generateQR);
+
+            function generateQR() {
+                const text = qrText.value.trim() || "https://allinone.page";
+                const size = parseInt(qrSize.value) || 300;
+                const dotsColor = qrColorDots.value;
+                const bgColor = qrColorBg.value;
+                const style = qrStyle.value; // square, rounded, dots
+
+                qrCode.update({
+                    width: size,
+                    height: size,
+                    data: text,
+                    image: logoBase64,
+                    dotsOptions: {
+                        color: dotsColor,
+                        type: style
+                    },
+                    backgroundOptions: {
+                        color: bgColor,
+                    },
+                    imageOptions: {
+                        margin: 10
+                    }
+                });
+
+                btnDownload.disabled = false;
+            }
+
+            btnDownload.addEventListener('click', () => {
+                qrCode.download({ name: "qrcode", extension: "png" });
+            });
+
+            // Initial generate
+            setTimeout(() => {
+                const initialText = qrText.value.trim();
+                if (initialText) {
+                    generateQR();
+                } else {
+                    qrText.value = 'https://allinone.page';
+                    generateQR();
+                }
+            }, 100);
         });
     </script>
 </body>

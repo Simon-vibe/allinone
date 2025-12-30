@@ -203,8 +203,8 @@ ${hreflangLinks}
                 return match;
             });
 
-            // 2.3 替换具有 placeholder 的标签 (Inputs)
-            content = content.replace(/(<input[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, key) => {
+            // 2.3 替换具有 placeholder 的标签 (Inputs & Textareas)
+            content = content.replace(/(<(input|textarea)[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, tagName, key) => {
                 const text = t[key];
                 if (text && match.includes('placeholder=')) {
                     return match.replace(/placeholder="[^"]*"/, `placeholder="${text}"`);

@@ -284,7 +284,7 @@
                         previewGrid.appendChild(imgEl);
                     }
 
-                    resultInfo.textContent = `Converted ${numPages} pages successfully.`;
+                    resultInfo.textContent = `${window.i18n.t('pdf2jpg.msg.success')} ${numPages}`;
                     processingState.classList.add('hidden');
                     resultSection.classList.remove('hidden');
 
