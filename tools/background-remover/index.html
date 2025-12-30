@@ -33,11 +33,17 @@
     <link rel="stylesheet" href="../../css/style.css">
 
     <!-- imgly background removal -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.2.1/dist/imgly-background-removal.js"></script>
+    <!-- imgly background removal (ESM) -->
+    <script type="module">
+        import imglyRemoveBackground from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.2.1/+esm';
+        window.removeBackground = imglyRemoveBackground;
+    </script>
     <script>
-        // Ensure global access if module extraction fails (fallback)
-        window.imglyRemoveBackground = window.imglyRemoveBackground || window["@imgly/background-removal"];
+        // Fallback or loading check
+        window.imglyRemoveBackground = async (blob) => {
+            if (window.removeBackground) return window.removeBackground(blob);
+            throw new Error("Library not loaded yet.");
+        };
     </script>
     <!-- FileSaver.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
