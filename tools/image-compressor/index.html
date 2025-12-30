@@ -236,6 +236,10 @@
                 qualityVal.textContent = e.target.value;
             });
 
+            // Trigger processing when slider is released or format changes
+            qualityRange.addEventListener('change', processImage);
+            formatSelect.addEventListener('change', processImage);
+
             fileInput.addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;

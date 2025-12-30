@@ -125,6 +125,30 @@
 
         </div>
 
+        <!-- FAQ Section -->
+        <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12 w-full px-4">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center" data-i18n="key.faq.title">Common Questions
+                (FAQ)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <div>
+                    <h3 class="font-bold text-gray-900 mb-2" data-i18n="key.faq.key.q">What is event.key?</h3>
+                    <p class="text-sm" data-i18n="key.faq.key.a">The value of the key pressed, accounting for modifiers
+                        (e.g. Shift) and keyboard layout.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gray-900 mb-2" data-i18n="key.faq.code.q">What is event.code?</h3>
+                    <p class="text-sm" data-i18n="key.faq.code.a">Represents the physical key on the keyboard. It
+                        ignores layout language.</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gray-900 mb-2" data-i18n="key.faq.which.q">Why is event.which deprecated?
+                    </h3>
+                    <p class="text-sm" data-i18n="key.faq.which.a">It is non-standard and inconsistent. Use event.key or
+                        event.code instead.</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <div class="fixed bottom-4 right-4 text-xs text-gray-300">

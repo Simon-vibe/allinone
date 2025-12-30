@@ -6,6 +6,27 @@ const translations = {
         "meta.keywords": "developer tools, pdf converter, json formatter, image resizer, base64 encoder",
         "nav.categories": "Categories",
         "nav.about": "About",
+
+        // Feedback
+        "feedback.title": "Send Feedback",
+        "feedback.placeholder": "What's on your mind? Bug? Feature?",
+        "feedback.button": "Send Feedback",
+        "feedback.sending": "Sending...",
+        "feedback.success": "Thanks! We got it.",
+        "feedback.error": "Error sending feedback.",
+
+        // Key Code
+        "key.meta.title": "JavaScript Key Code Viewer - Event.key & Event.code",
+        "key.meta.desc": "Press any key to get the JavaScript event key code, event code, and legacy which properties.",
+        "key.meta.keywords": "javascript key code, keycode viewer, event.key, event.code, keyboard tester",
+        "key.msg.press": "Press any key on your keyboard",
+        "key.faq.title": "Common Questions (FAQ)",
+        "key.faq.key.q": "What is event.key?",
+        "key.faq.key.a": "The value of the key pressed, accounting for modifiers (e.g. Shift) and keyboard layout.",
+        "key.faq.code.q": "What is event.code?",
+        "key.faq.code.a": "Represents the physical key on the keyboard. It ignores layout language.",
+        "key.faq.which.q": "Why is event.which deprecated?",
+        "key.faq.which.a": "It is non-standard and inconsistent. Use event.key or event.code instead.",
         "nav.login": "Login",
         "hero.title": "All the tools you need, in one place.",
         "hero.subtitle": "A categorized collection of developer utilities, converters, and productivity tools.",
@@ -702,8 +723,16 @@ const translations = {
         "nav.about": "关于我们",
         "nav.login": "登录",
 
+        // Feedback
+        "feedback.title": "发送反馈",
+        "feedback.placeholder": "有什么想法？Bug？功能建议？",
+        "feedback.button": "发送反馈",
+        "feedback.sending": "发送中...",
+        "feedback.success": "谢谢！我们已收到。",
+        "feedback.error": "发送失败，请稍后重试。",
 
         // BgRemover
+
         "bgrem.tab.ai": "AI 自动",
         "bgrem.tab.manual": "魔术棒",
         "bgrem.manual.desc": "点击图片移除颜色。调整容差。",
@@ -1041,6 +1070,13 @@ const translations = {
         "key.meta.desc": "按任意键即可获取 JavaScript event.key, event.code 和 keycode。前端开发者的必备工具。",
         "key.meta.keywords": "键盘测试, 键值查询, js keycode, event code viewer",
         "key.msg.press": "请按下键盘上的任意键",
+        "key.faq.title": "常见问题 (FAQ)",
+        "key.faq.key.q": "什么是 event.key?",
+        "key.faq.key.a": "表示按下的键的值，会考虑修饰键（如Shift）和键盘布局。",
+        "key.faq.code.q": "什么是 event.code?",
+        "key.faq.code.a": "表示键盘上的物理按键位置。它不受键盘语言布局影响。",
+        "key.faq.which.q": "为什么 event.which 被弃用?",
+        "key.faq.which.a": "它是非标准的并且在不同浏览器中表现不一致。请使用 key 或 code。",
 
         // Social Image Cropper
         "tool.crop.title": "社媒图片裁剪",
@@ -1503,13 +1539,13 @@ function injectFeedbackButton() {
 
     panel.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <h3 style="margin:0; font-size:14px; font-weight:600; color:#1f2937;">Send Feedback</h3>
+            <h3 style="margin:0; font-size:14px; font-weight:600; color:#1f2937;">${window.i18n.t('feedback.title')}</h3>
             <button id="fb-close" style="background:none; border:none; color:#9ca3af; cursor:pointer; padding:4px;">&times;</button>
         </div>
-        <textarea id="fb-message" placeholder="What's on your mind? Bug? Feature?" rows="3" 
+        <textarea id="fb-message" placeholder="${window.i18n.t('feedback.placeholder')}" rows="3" 
             style="width:100%; padding:8px; border:1px solid #d1d5db; borderRadius:6px; font-size:13px; resize:none; outline:none; box-sizing:border-box;"></textarea>
         <button id="fb-submit" style="background:#2563eb; color:white; border:none; padding:8px; borderRadius:6px; font-size:13px; font-weight:500; cursor:pointer; transition:background 0.2s;">
-            Send Feedback
+            ${window.i18n.t('feedback.button')}
         </button>
         <div id="fb-status" style="font-size:12px; color:#6b7280; text-align:center; height:16px;"></div>
     `;
@@ -1558,7 +1594,7 @@ function injectFeedbackButton() {
 
         // UI Loading 状态
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
+        submitBtn.textContent = window.i18n.t('feedback.sending');
         submitBtn.style.backgroundColor = '#93c5fd';
 
         try {
@@ -1572,7 +1608,7 @@ function injectFeedbackButton() {
             });
 
             if (res.ok) {
-                statusMsg.textContent = "Thanks! We got it.";
+                statusMsg.textContent = window.i18n.t('feedback.success');
                 statusMsg.style.color = "#059669"; // Green
                 textarea.value = '';
                 setTimeout(() => { togglePanel(); statusMsg.textContent = ''; }, 2000);
@@ -1580,12 +1616,12 @@ function injectFeedbackButton() {
                 throw new Error('Failed');
             }
         } catch (e) {
-            statusMsg.textContent = "Error sending feedback.";
+            statusMsg.textContent = window.i18n.t('feedback.error');
             statusMsg.style.color = "#dc2626"; // Red
             console.error(e);
         } finally {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Feedback';
+            submitBtn.textContent = window.i18n.t('feedback.button');
             submitBtn.style.backgroundColor = '#2563eb';
         }
     };
