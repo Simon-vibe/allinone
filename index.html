@@ -805,7 +805,8 @@
             const isLocalized = supportedLangs.some(lang => path.includes('/' + lang + '/'));
 
             if (!isLocalized) {
-                const storedLang = localStorage.getItem('language');
+                // Use 'app_lang' to match js/i18n.js
+                const storedLang = localStorage.getItem('app_lang');
                 const browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0];
 
                 let targetLang = null;
