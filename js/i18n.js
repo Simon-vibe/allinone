@@ -1698,7 +1698,110 @@ const translations = {
         "hero.title": "Todas las herramientas que necesitas, en una página.",
         "hero.subtitle": "Una colección categorizada de utilidades para desarrolladores, convertidores y herramientas de productividad.",
         "search.placeholder": "Buscar una herramienta (ej. Formateador JSON)...",
-        "search.btn": "Buscar"
+        "search.btn": "Buscar",
+
+        // New SEO & Tools
+        "aicost.title.estimated": "Costo Estimado por Colecitud",
+        "aicost.title.understanding": "Entendiendo los Precios de API LLM",
+        "aicost.title.tokens": "Tokens de Entrada vs Salida",
+        "aicost.faq.title": "Preguntas Frecuentes",
+
+        "bgrem.seo.keywords_label": "Palabras clave:",
+        "bgrem.seo.keywords": "eliminar fondo, borrar fondo ai, herramienta online gratis",
+        "bgrem.seo.faq.title": "Preguntas Frecuentes",
+
+        "base64.seo.keywords_label": "Palabras clave:",
+        "base64.seo.keywords": "codificador base64, decodificador base64, convertidor online",
+
+        "diff.seo.keywords_label": "Palabras clave:",
+        "diff.seo.keywords": "diferencia de texto, diff código, comparar texto online",
+        "diff.seo.h2": "Verificador de Diferencias de Texto Online",
+
+        "img.seo.keywords_label": "Palabras clave:",
+        "img.seo.keywords": "compresor de imagen, reducir tamaño imagen, compresión sin pérdida",
+        "img.seo.faq.title": "Preguntas Frecuentes",
+        "img.seo.h2_compress": "Comprimir Imágenes Online Sin Perder Calidad",
+        "img.seo.h2_faq": "Preguntas Frecuentes",
+
+        "imgprompt.seo.h2": "Dominando Prompts de Midjourney",
+
+        "json.seo.keywords_label": "Palabras clave:",
+        "json.seo.keywords": "formateador json, validador json, embellecedor json",
+        "json.seo.h2": "Mejor Validador y Embellecedor JSON Online Gratis",
+
+        "local.seo.h2": "Ejecutar LLMs Localmente con WebGPU",
+
+        "md.seo.keywords_label": "Palabras clave:",
+        "md.seo.keywords": "editor markdown, vista previa online, herramienta de escritura",
+        "md.seo.h2": "Editor Markdown Online con Vista Previa",
+        "md.seo.p1": "Escribe documentación, READMEs o blogs con nuestro editor Markdown de pantalla dividida. Exporta a HTML o .md.",
+
+        "arena.seo.h2": "Eligiendo el LLM Adecuado para tu Tarea",
+
+        "pwd.seo.keywords_label": "Palabras clave:",
+        "pwd.seo.keywords": "generador de contraseñas, contraseña segura, herramienta de seguridad",
+        "pwd.seo.h2": "Generador de Contraseñas Seguras y Aleatorias",
+        "pwd.seo.p1": "Genera contraseñas fuertes directamente en tu navegador. Longitud y caracteres personalizables.",
+
+        "prompt.seo.faq.title": "Preguntas Frecuentes",
+        "prompt.seo.h2": "Cómo Escribir Mejores Prompts de IA",
+        "prompt.seo.h2_faq": "Preguntas Frecuentes",
+        "prompt.seo.p1": "Escribir prompts efectivos es clave para obtener los mejores resultados de LLMs como Claude y ChatGPT.",
+        "prompt.seo.h3_xml": "Prompts Estructurados (XML)",
+        "prompt.seo.p_xml": "Anthropic recomienda usar etiquetas XML para separar claramente las partes del prompt.",
+        "prompt.seo.h3_role": "Rol y Contexto",
+        "prompt.seo.p_role": "Siempre asigna una persona (ej. 'Eres un experto en Python') y provee contexto.",
+        "prompt.faq.q1": "¿Diferencia entre Claude XML y ChatGPT Markdown?",
+        "prompt.faq.a1": "Claude funciona mejor con etiquetas XML explícitas, mientras ChatGPT prefiere encabezados Markdown.",
+        "prompt.faq.q2": "¿Es gratis este constructor de prompts?",
+        "prompt.faq.a2": "Sí, esta herramienta es 100% gratuita y funciona en tu navegador.",
+
+        "qr.seo.keywords_label": "Palabras clave:",
+        "qr.seo.keywords": "generador código qr, qr online, herramienta gratis",
+        "qr.seo.h2": "Generador de Códigos QR Personalizados Gratis",
+        "qr.tab.generate": "Generar",
+        "qr.tab.scan": "Escanear",
+        "qr.scan.upload": "Subir Imagen QR",
+        "qr.scan.result": "Resultado Decodificado",
+
+        "uuid.seo.title": "Generador de UUID/GUID Masivo",
+        "uuid.seo.desc": "Genera UUIDs versión 4 aleatorios instantáneamente. Útil para bases de datos y pruebas.",
+        "uuid.seo.keywords_label": "Palabras clave:",
+        "uuid.seo.keywords": "generador uuid, generador guid, id aleatorio",
+
+        "ts.meta.title": "Convertidor Timestamp Unix",
+        "ts.meta.desc": "Convierte timestamps Unix a fechas legibles y viceversa.",
+        "ts.meta.keywords": "timestamp unix, convertidor epoch, timestamp a fecha",
+
+        "ocr.lang": "Idioma",
+        "ocr.status.processing": "Procesando Imagen...",
+        "ocr.status.error": "Error durante el procesamiento",
+
+        "sql.label.keywordCase": "Mayús/Minús Palabras Clave",
+        "sql.label.indent": "Indentación",
+        "sql.opt.preserve": "Preservar",
+        "sql.opt.upper": "Mayúsculas",
+        "sql.opt.lower": "Minúsculas",
+        "sql.opt.space2": "2 Espacios",
+        "sql.opt.space4": "4 Espacios",
+        "sql.opt.tab": "Tabulador",
+
+        "crop.label.bg": "Color de Fondo",
+        "crop.bg.desc": "Rellenar áreas transparentes al ajustar",
+
+        "yaml.style.label": "Estilo de Salida",
+        "yaml.style.block": "Bloque (Default)",
+        "yaml.style.flow": "Flujo (JSON-like)",
+        "yaml.seo.h2": "Mejor Convertidor JSON / YAML Online",
+        "yaml.seo.keywords_label": "Palabras clave:",
+        "yaml.seo.keywords": "json a yaml, yaml a json, convertidor json",
+
+        "pdf.ocr.title": "OCR PDF Escaneado",
+        "pdf.ocr.desc": "Extraer texto de archivos PDF escaneados.",
+        "pdf2word.seo.h2": "Convertidor PDF a Word Gratis Online",
+        "pdf2word.seo.p1": "Convierte archivos PDF a documentos Word (.docx) editables. Rápido, gratis y seguro.",
+        "pdf2jpg.seo.h2": "Convertidor PDF a JPG Gratis Online",
+        "pdf2jpg.seo.p1": "Convierte páginas PDF a imágenes JPG de alta calidad. Descarga individual o ZIP."
     },
     pt: {
         "nav.home": "Início",
@@ -1731,7 +1834,110 @@ const translations = {
         "tool.local.title": "LLM Local",
         "feedback.title": "Feedback",
         "feedback.placeholder": "Encontrou um bug?",
-        "feedback.button": "Enviar"
+        "feedback.button": "Enviar",
+
+        // New SEO & Tools
+        "aicost.title.estimated": "Custo Estimado por Requisição",
+        "aicost.title.understanding": "Entendendo Preços da API LLM",
+        "aicost.title.tokens": "Tokens de Entrada vs Saída",
+        "aicost.faq.title": "Perguntas Frequentes",
+
+        "bgrem.seo.keywords_label": "Palavras-chave:",
+        "bgrem.seo.keywords": "remover fundo, remover fundo ia, ferramenta online gratis",
+        "bgrem.seo.faq.title": "Perguntas Frequentes",
+
+        "base64.seo.keywords_label": "Palavras-chave:",
+        "base64.seo.keywords": "codificador base64, decodificador base64, conversor online",
+
+        "diff.seo.keywords_label": "Palavras-chave:",
+        "diff.seo.keywords": "diferença texto, diff código, comparar texto online",
+        "diff.seo.h2": "Verificador de Diferença de Texto Online",
+
+        "img.seo.keywords_label": "Palavras-chave:",
+        "img.seo.keywords": "compressor imagem, reduzir tamanho imagem, compressão sem perda",
+        "img.seo.faq.title": "Perguntas Frequentes",
+        "img.seo.h2_compress": "Comprimir Imagens Online Sem Perder Qualidade",
+        "img.seo.h2_faq": "Perguntas Frequentes",
+
+        "imgprompt.seo.h2": "Dominando Prompts do Midjourney",
+
+        "json.seo.keywords_label": "Palavras-chave:",
+        "json.seo.keywords": "formatador json, validador json, embelezador json",
+        "json.seo.h2": "Melhor Validador e Formatador JSON Online Grátis",
+
+        "local.seo.h2": "Executar LLMs Localmente com WebGPU",
+
+        "md.seo.keywords_label": "Palavras-chave:",
+        "md.seo.keywords": "editor markdown, pré-visualização online, ferramenta escrita",
+        "md.seo.h2": "Editor Markdown Online com Pré-visualização",
+        "md.seo.p1": "Escreva documentação, READMEs ou blogs com nosso editor Markdown. Exporte para HTML ou .md.",
+
+        "arena.seo.h2": "Escolhendo o LLM Certo para sua Tarefa",
+
+        "pwd.seo.keywords_label": "Palavras-chave:",
+        "pwd.seo.keywords": "gerador senha, senha forte, ferramenta segurança",
+        "pwd.seo.h2": "Gerador de Senhas Seguras e Aleatórias",
+        "pwd.seo.p1": "Gere senhas fortes diretamente no seu navegador. Comprimento e caracteres personalizáveis.",
+
+        "prompt.seo.faq.title": "Perguntas Frequentes",
+        "prompt.seo.h2": "Como Escrever Melhores Prompts de IA",
+        "prompt.seo.h2_faq": "Perguntas Frequentes",
+        "prompt.seo.p1": "Escrever prompts eficazes é chave para obter melhores resultados de LLMs como Claude e ChatGPT.",
+        "prompt.seo.h3_xml": "Prompts Estruturados (XML)",
+        "prompt.seo.p_xml": "Anthropic recomenda usar tags XML para separar claramente as partes do prompt.",
+        "prompt.seo.h3_role": "Papel e Contexto",
+        "prompt.seo.p_role": "Sempre atribua uma persona (ex. 'Você é um expert em Python') e forneça contexto.",
+        "prompt.faq.q1": "Diferença entre Claude XML e ChatGPT Markdown?",
+        "prompt.faq.a1": "Claude funciona melhor com tags XML explícitas, enquanto ChatGPT prefere cabeçalhos Markdown.",
+        "prompt.faq.q2": "Este construtor de prompts é grátis?",
+        "prompt.faq.a2": "Sim, esta ferramenta é 100% gratuita e roda no seu navegador.",
+
+        "qr.seo.keywords_label": "Palavras-chave:",
+        "qr.seo.keywords": "gerador qr code, qr online, ferramenta gratis",
+        "qr.seo.h2": "Gerador de QR Code Personalizado Grátis",
+        "qr.tab.generate": "Gerar",
+        "qr.tab.scan": "Escanear",
+        "qr.scan.upload": "Upload Imagem QR",
+        "qr.scan.result": "Resultado Decodificado",
+
+        "uuid.seo.title": "Gerador de UUID/GUID em Massa",
+        "uuid.seo.desc": "Gere UUIDs versão 4 aleatórios instantaneamente. Útil para bancos de dados e testes.",
+        "uuid.seo.keywords_label": "Palavras-chave:",
+        "uuid.seo.keywords": "gerador uuid, generador guid, id aleatorio",
+
+        "ts.meta.title": "Conversor Timestamp Unix",
+        "ts.meta.desc": "Converta timestamps Unix para datas legíveis e vice-versa.",
+        "ts.meta.keywords": "timestamp unix, conversor epoch, timestamp para data",
+
+        "ocr.lang": "Idioma",
+        "ocr.status.processing": "Processando Imagem...",
+        "ocr.status.error": "Erro durante processamento",
+
+        "sql.label.keywordCase": "Maiúsc/Minúsc Palavras-chave",
+        "sql.label.indent": "Indentação",
+        "sql.opt.preserve": "Preservar",
+        "sql.opt.upper": "Maiúsculas",
+        "sql.opt.lower": "Minúsculas",
+        "sql.opt.space2": "2 Espaços",
+        "sql.opt.space4": "4 Espaços",
+        "sql.opt.tab": "Tabulação",
+
+        "crop.label.bg": "Cor de Fundo",
+        "crop.bg.desc": "Preencher áreas transparentes ao ajustar",
+
+        "yaml.style.label": "Estilo de Saída",
+        "yaml.style.block": "Bloco (Default)",
+        "yaml.style.flow": "Fluxo (JSON-like)",
+        "yaml.seo.h2": "Melhor Conversor JSON / YAML Online",
+        "yaml.seo.keywords_label": "Palavras-chave:",
+        "yaml.seo.keywords": "json para yaml, yaml para json, conversor json",
+
+        "pdf.ocr.title": "OCR PDF Escaneado",
+        "pdf.ocr.desc": "Extrair texto de arquivos PDF escaneados.",
+        "pdf2word.seo.h2": "Conversor PDF para Word Grátis Online",
+        "pdf2word.seo.p1": "Converta arquivos PDF para documentos Word (.docx) editáveis. Rápido, grátis e seguro.",
+        "pdf2jpg.seo.h2": "Conversor PDF para JPG Grátis Online",
+        "pdf2jpg.seo.p1": "Converta páginas PDF para imagens JPG de alta qualidade. Download individual ou ZIP."
     },
     id: {
         "nav.home": "Beranda",
@@ -1763,7 +1969,110 @@ const translations = {
         "tool.local.title": "Jalankan LLM Lokal",
         "feedback.title": "Kirim Masukan",
         "feedback.placeholder": "Apa yang Anda pikirkan?",
-        "feedback.button": "Kirim"
+        "feedback.button": "Kirim",
+
+        // New SEO & Tools
+        "aicost.title.estimated": "Perkiraan Biaya per Permintaan",
+        "aicost.title.understanding": "Memahami Harga API LLM",
+        "aicost.title.tokens": "Token Input vs Output",
+        "aicost.faq.title": "Pertanyaan Umum",
+
+        "bgrem.seo.keywords_label": "Kata Kunci Terkait:",
+        "bgrem.seo.keywords": "hapus background, hapus latar belakang ai, alat online gratis",
+        "bgrem.seo.faq.title": "Pertanyaan Umum",
+
+        "base64.seo.keywords_label": "Kata Kunci Terkait:",
+        "base64.seo.keywords": "encoder base64, decoder base64, konverter online",
+
+        "diff.seo.keywords_label": "Kata Kunci Terkait:",
+        "diff.seo.keywords": "beda teks, diff kode, bandingkan teks online",
+        "diff.seo.h2": "Pemeriksa Perbedaan Teks Online",
+
+        "img.seo.keywords_label": "Kata Kunci Terkait:",
+        "img.seo.keywords": "kompresor gambar, perkecil ukuran gambar, kompresi lossless",
+        "img.seo.faq.title": "Pertanyaan Umum",
+        "img.seo.h2_compress": "Kompres Gambar Online Tanpa Mengurangi Kualitas",
+        "img.seo.h2_faq": "Pertanyaan Umum",
+
+        "imgprompt.seo.h2": "Menguasai Prompt Midjourney",
+
+        "json.seo.keywords_label": "Kata Kunci Terkait:",
+        "json.seo.keywords": "pemformat json, validator json, pemepercantik json",
+        "json.seo.h2": "Validator dan Pemformat JSON Online Gratis Terbaik",
+
+        "local.seo.h2": "Menjalankan LLM Secara Lokal dengan WebGPU",
+
+        "md.seo.keywords_label": "Kata Kunci Terkait:",
+        "md.seo.keywords": "editor markdown, pratinjau online, alat tulis",
+        "md.seo.h2": "Editor Markdown Online dengan Pratinjau",
+        "md.seo.p1": "Tulis dokumentasi, README, atau blog dengan editor Markdown layar terbagi kami. Ekspor ke HTML atau .md.",
+
+        "arena.seo.h2": "Memilih LLM yang Tepat untuk Tugas Anda",
+
+        "pwd.seo.keywords_label": "Kata Kunci Terkait:",
+        "pwd.seo.keywords": "pembuat kata sandi, kata sandi kuat, alat keamanan",
+        "pwd.seo.h2": "Pembuat Kata Sandi Acak Aman",
+        "pwd.seo.p1": "Buat kata sandi kuat langsung di browser Anda. Panjang dan karakter dapat disesuaikan.",
+
+        "prompt.seo.faq.title": "Pertanyaan Umum",
+        "prompt.seo.h2": "Cara Menulis Prompt AI yang Lebih Baik",
+        "prompt.seo.h2_faq": "Pertanyaan Umum",
+        "prompt.seo.p1": "Menulis prompt yang efektif adalah kunci untuk mendapatkan hasil terbaik dari LLM seperti Claude dan ChatGPT.",
+        "prompt.seo.h3_xml": "Prompt Terstruktur (XML)",
+        "prompt.seo.p_xml": "Anthropic menyarankan penggunaan tag XML untuk memisahkan bagian prompt dengan jelas.",
+        "prompt.seo.h3_role": "Peran & Konteks",
+        "prompt.seo.p_role": "Selalu tetapkan persona (mis. 'Anda adalah ahli Python') dan berikan konteks.",
+        "prompt.faq.q1": "Perbedaan antara Claude XML dan ChatGPT Markdown?",
+        "prompt.faq.a1": "Claude bekerja lebih baik dengan tag XML eksplisit, sementara ChatGPT lebih suka header Markdown.",
+        "prompt.faq.q2": "Apakah pembuat prompt ini gratis?",
+        "prompt.faq.a2": "Ya, alat ini 100% gratis dan berjalan di browser Anda.",
+
+        "qr.seo.keywords_label": "Kata Kunci Terkait:",
+        "qr.seo.keywords": "pembuat kode qr, qr online, alat gratis",
+        "qr.seo.h2": "Pembuat Kode QR Kustom Gratis",
+        "qr.tab.generate": "Buat",
+        "qr.tab.scan": "Pindai",
+        "qr.scan.upload": "Unggah Gambar QR",
+        "qr.scan.result": "Hasil Dekode",
+
+        "uuid.seo.title": "Pembuat UUID/GUID Massal",
+        "uuid.seo.desc": "Buat UUID versi 4 acak secara instan. Berguna untuk database dan pengujian.",
+        "uuid.seo.keywords_label": "Kata Kunci Terkait:",
+        "uuid.seo.keywords": "pembuat uuid, pembuat guid, id acak",
+
+        "ts.meta.title": "Konverter Timestamp Unix",
+        "ts.meta.desc": "Konversi timestamp Unix ke tanggal yang dapat dibaca dan sebaliknya.",
+        "ts.meta.keywords": "timestamp unix, konverter epoch, timestamp ke tanggal",
+
+        "ocr.lang": "Bahasa",
+        "ocr.status.processing": "Memproses Gambar...",
+        "ocr.status.error": "Kesalahan saat memproses",
+
+        "sql.label.keywordCase": "Huruf Besar/Kecil Kata Kunci",
+        "sql.label.indent": "Indentasi",
+        "sql.opt.preserve": "Biarkan",
+        "sql.opt.upper": "Huruf Besar",
+        "sql.opt.lower": "Huruf Kecil",
+        "sql.opt.space2": "2 Spasi",
+        "sql.opt.space4": "4 Spasi",
+        "sql.opt.tab": "Tab",
+
+        "crop.label.bg": "Warna Latar Belakang",
+        "crop.bg.desc": "Isi area transparan saat menyesuaikan gambar",
+
+        "yaml.style.label": "Gaya Output",
+        "yaml.style.block": "Blok (Default)",
+        "yaml.style.flow": "Alir (Mirip JSON)",
+        "yaml.seo.h2": "Konverter JSON / YAML Online Terbaik",
+        "yaml.seo.keywords_label": "Kata Kunci Terkait:",
+        "yaml.seo.keywords": "json ke yaml, yaml ke json, konverter json",
+
+        "pdf.ocr.title": "OCR PDF Terpindai",
+        "pdf.ocr.desc": "Ekstrak teks dari file PDF hasil pindaian.",
+        "pdf2word.seo.h2": "Konverter PDF ke Word Gratis Online",
+        "pdf2word.seo.p1": "Konversi file PDF ke dokumen Word (.docx) yang dapat diedit. Cepat, gratis, dan aman.",
+        "pdf2jpg.seo.h2": "Konverter PDF ke JPG Gratis Online",
+        "pdf2jpg.seo.p1": "Konversi halaman PDF ke gambar JPG berkualitas tinggi. Unduh satu per satu atau ZIP."
     },
     hi: {
         "nav.home": "होम",
@@ -1795,7 +2104,110 @@ const translations = {
         "tool.local.title": "लोकल LLM रनर",
         "feedback.title": "प्रतिक्रिया भेजें",
         "feedback.placeholder": "आपके मन में क्या है?",
-        "feedback.button": "भेजें"
+        "feedback.button": "भेजें",
+
+        // New SEO & Tools
+        "aicost.title.estimated": "प्रति अनुरोध अनुमानित लागत",
+        "aicost.title.understanding": "एलएलएम एपीआई मूल्य निर्धारण को समझना",
+        "aicost.title.tokens": "इनपुट बनाम आउटपुट टोकन",
+        "aicost.faq.title": "अक्सर पूछे जाने वाले प्रश्न",
+
+        "bgrem.seo.keywords_label": "संबंधित कीवर्ड:",
+        "bgrem.seo.keywords": "बैकग्राउंड रिमूवर, एआई बैकग्राउंड हटाना, मुफ्त ऑनलाइन टूल",
+        "bgrem.seo.faq.title": "अक्सर पूछे जाने वाले प्रश्न",
+
+        "base64.seo.keywords_label": "संबंधित कीवर्ड:",
+        "base64.seo.keywords": "base64 एनकोडर, base64 डिकोडर, ऑनलाइन कनवर्टर",
+
+        "diff.seo.keywords_label": "संबंधित कीवर्ड:",
+        "diff.seo.keywords": "टेक्स्ट अंतर, कोड अंतर, ऑनलाइन टेक्स्ट तुलना",
+        "diff.seo.h2": "ऑनलाइन टेक्स्ट अंतर चेकर",
+
+        "img.seo.keywords_label": "संबंधित कीवर्ड:",
+        "img.seo.keywords": "इमेज कंप्रेसर, इमेज का आकार कम करें, लॉसलेस कंप्रेशन",
+        "img.seo.faq.title": "अक्सर पूछे जाने वाले प्रश्न",
+        "img.seo.h2_compress": "गुणवत्ता खोए बिना ऑनलाइन इमेज कंप्रेस करें",
+        "img.seo.h2_faq": "अक्सर पूछे जाने वाले प्रश्न",
+
+        "imgprompt.seo.h2": "Midjourney प्रॉम्प्ट्स में महारत हासिल करना",
+
+        "json.seo.keywords_label": "संबंधित कीवर्ड:",
+        "json.seo.keywords": "json फॉर्मेटर, json वैलिडेटर, json ब्यूटीफायर",
+        "json.seo.h2": "सर्वश्रेष्ठ मुफ्त ऑनलाइन JSON वैलिडेटर और ब्यूटीफायर",
+
+        "local.seo.h2": "WebGPU के साथ स्थानीय रूप से LLM चलाना",
+
+        "md.seo.keywords_label": "संबंधित कीवर्ड:",
+        "md.seo.keywords": "markdown एडिटर, ऑनलाइन पूर्वावलोकन, लेखन उपकरण",
+        "md.seo.h2": "पूर्वावलोकन के साथ ऑनलाइन Markdown एडिटर",
+        "md.seo.p1": "हमारे स्प्लिट-स्क्रीन Markdown एडिटर के साथ दस्तावेज़, README या ब्लॉग लिखें। सीधे HTML या .md में निर्यात करें।",
+
+        "arena.seo.h2": "अपने कार्य के लिए सही LLM चुनना",
+
+        "pwd.seo.keywords_label": "संबंधित कीवर्ड:",
+        "pwd.seo.keywords": "पासवर्ड जनरेटर, मजबूत पासवर्ड, सुरक्षा उपकरण",
+        "pwd.seo.h2": "सुरक्षित यादृच्छिक पासवर्ड जनरेटर",
+        "pwd.seo.p1": "अपने ब्राउज़र में सीधे मजबूत पासवर्ड बनाएं। लंबाई और अक्षर अनुकूलन योग्य।",
+
+        "prompt.seo.faq.title": "अक्सर पूछे जाने वाले प्रश्न",
+        "prompt.seo.h2": "बेहतर AI प्रॉम्प्ट्स कैसे लिखें",
+        "prompt.seo.h2_faq": "अक्सर पूछे जाने वाले प्रश्न",
+        "prompt.seo.p1": "Claude और ChatGPT जैसे LLM से सर्वोत्तम परिणाम प्राप्त करने के लिए प्रभावी प्रॉम्प्ट लिखना महत्वपूर्ण है।",
+        "prompt.seo.h3_xml": "संरचित प्रॉम्प्टिंग (XML)",
+        "prompt.seo.p_xml": "Anthropic प्रॉम्प्ट के विभिन्न भागों को स्पष्ट रूप से अलग करने के लिए XML टैग का उपयोग करने की सलाह देता है।",
+        "prompt.seo.h3_role": "भूमिका और संदर्भ",
+        "prompt.seo.p_role": "हमेशा एक व्यक्तित्व (जैसे 'आप एक पायथन विशेषज्ञ हैं') असाइन करें और संदर्भ प्रदान करें।",
+        "prompt.faq.q1": "Claude XML और ChatGPT Markdown में क्या अंतर है?",
+        "prompt.faq.a1": "Claude स्पष्ट XML टैग के साथ बेहतर काम करता है, जबकि ChatGPT Markdown हेडर पसंद करता है।",
+        "prompt.faq.q2": "क्या यह प्रॉम्प्ट बिल्डर मुफ्त है?",
+        "prompt.faq.a2": "हां, यह टूल 100% मुफ्त है और आपके ब्राउज़र में चलता है।",
+
+        "qr.seo.keywords_label": "संबंधित कीवर्ड:",
+        "qr.seo.keywords": "qr कोड जनरेटर, ऑनलाइन qr, मुफ्त टूल",
+        "qr.seo.h2": "मुफ्त कस्टम QR कोड जनरेटर",
+        "qr.tab.generate": "उत्पन्न करें",
+        "qr.tab.scan": "स्कैन करें",
+        "qr.scan.upload": "QR छवि अपलोड करें",
+        "qr.scan.result": "डिकोड किया गया परिणाम",
+
+        "uuid.seo.title": "बल्क UUID/GUID जनरेटर",
+        "uuid.seo.desc": "तुरंत रैंडम संस्करण 4 UUID उत्पन्न करें। डेटाबेस और परीक्षण के लिए उपयोगी।",
+        "uuid.seo.keywords_label": "संबंधित कीवर्ड:",
+        "uuid.seo.keywords": "uuid जनरेटर, guid जनरेटर, रैंडम आईडी",
+
+        "ts.meta.title": "Unix टाइमस्टैम्प कनवर्टर",
+        "ts.meta.desc": "Unix टाइमस्टैम्प को पठनीय तिथियों में और इसके विपरीत बदलें।",
+        "ts.meta.keywords": "unix टाइमस्टैम्प, epoch कनवर्टर, टाइमस्टैम्प से तिथि",
+
+        "ocr.lang": "भाषा",
+        "ocr.status.processing": "छवि संसाधित की जा रही है...",
+        "ocr.status.error": "प्रसंस्करण के दौरान त्रुटि",
+
+        "sql.label.keywordCase": "कीवर्ड केस",
+        "sql.label.indent": "इंडेंटेशन",
+        "sql.opt.preserve": "संरक्षित करें",
+        "sql.opt.upper": "बड़े अक्षर",
+        "sql.opt.lower": "छोटे अक्षर",
+        "sql.opt.space2": "2 रिक्त स्थान",
+        "sql.opt.space4": "4 रिक्त स्थान",
+        "sql.opt.tab": "टैब",
+
+        "crop.label.bg": "पृष्ठभूमि का रंग",
+        "crop.bg.desc": "छवि फिट करते समय पारदर्शी क्षेत्रों को भरें",
+
+        "yaml.style.label": "आउटपुट शैली",
+        "yaml.style.block": "ब्लॉक (डिफ़ॉल्ट)",
+        "yaml.style.flow": "फ्लो (JSON-जैसा)",
+        "yaml.seo.h2": "सर्वश्रेष्ठ ऑनलाइन JSON / YAML कनवर्टर",
+        "yaml.seo.keywords_label": "संबंधित कीवर्ड:",
+        "yaml.seo.keywords": "json से yaml, yaml से json, json कनवर्टर",
+
+        "pdf.ocr.title": "OCR स्कैन किया गया PDF",
+        "pdf.ocr.desc": "स्कैन की गई PDF फ़ाइलों से टेक्स्ट निकालें।",
+        "pdf2word.seo.h2": "मुफ्त ऑनलाइन PDF से Word कनवर्टर",
+        "pdf2word.seo.p1": "PDF फ़ाइलों को संपादन योग्य Word दस्तावेज़ों (.docx) में बदलें। तेज़, मुफ्त और सुरक्षित।",
+        "pdf2jpg.seo.h2": "मुफ्त ऑनलाइन PDF से JPG कनवर्टर",
+        "pdf2jpg.seo.p1": "PDF पृष्ठों को उच्च गुणवत्ता वाली JPG छवियों में बदलें। एकल या ज़िप डाउनलोड करें।"
     },
     ar: {
         "nav.home": "الرئيسية",
@@ -1827,7 +2239,110 @@ const translations = {
         "tool.local.title": "تشغيل LLM محلي",
         "feedback.title": "إرسال تعليقات",
         "feedback.placeholder": "ما الذي يدور في ذهنك؟",
-        "feedback.button": "إرسال"
+        "feedback.button": "إرسال",
+
+        // New SEO & Tools
+        "aicost.title.estimated": "التكلفة المقدرة لكل طلب",
+        "aicost.title.understanding": "فهم تسعير واجهات برمجة تطبيقات LLM",
+        "aicost.title.tokens": "رموز الإدخال مقابل الإخراج",
+        "aicost.faq.title": "الأسئلة الشائعة",
+
+        "bgrem.seo.keywords_label": "كلمات ذات صلة:",
+        "bgrem.seo.keywords": "إزالة الخلفية, مسح الخلفية بالذكاء الاصطناعي, أداة مجانية عبر الإنترنت",
+        "bgrem.seo.faq.title": "الأسئلة الشائعة",
+
+        "base64.seo.keywords_label": "كلمات ذات صلة:",
+        "base64.seo.keywords": "مشفر base64, مفكك تشفير base64, محول عبر الإنترنت",
+
+        "diff.seo.keywords_label": "كلمات ذات صلة:",
+        "diff.seo.keywords": "فرق النص, فرق الكود, مقارنة النصوص عبر الإنترنت",
+        "diff.seo.h2": "أداة فحص فرق النصوص عبر الإنترنت",
+
+        "img.seo.keywords_label": "كلمات ذات صلة:",
+        "img.seo.keywords": "ضاغط الصور, تقليل حجم الصورة, ضغط بدون فقدان الجودة",
+        "img.seo.faq.title": "الأسئلة الشائعة",
+        "img.seo.h2_compress": "ضغط الصور عبر الإنترنت دون فقدان الجودة",
+        "img.seo.h2_faq": "الأسئلة الشائعة",
+
+        "imgprompt.seo.h2": "إتقان مطالبات Midjourney",
+
+        "json.seo.keywords_label": "كلمات ذات صلة:",
+        "json.seo.keywords": "منسق json, مدقق json, مجمل json",
+        "json.seo.h2": "أفضل مدقق ومنسق JSON مجاني عبر الإنترنت",
+
+        "local.seo.h2": "تشغيل LLMs محليًا باستخدام WebGPU",
+
+        "md.seo.keywords_label": "كلمات ذات صلة:",
+        "md.seo.keywords": "محرر markdown, معاينة مباشرة, أداة كتابة",
+        "md.seo.h2": "محرر Markdown عبر الإنترنت مع معاينة",
+        "md.seo.p1": "اكتب الوثائق أو ملفات README أو المدونات باستخدام محرر Markdown المقسم للشاشة. تصدير إلى HTML أو .md.",
+
+        "arena.seo.h2": "اختيار LLM المناسب لمهمتك",
+
+        "pwd.seo.keywords_label": "كلمات ذات صلة:",
+        "pwd.seo.keywords": "مولد كلمات المرور, كلمة مرور قوية, أداة أمان",
+        "pwd.seo.h2": "مولد كلمات مرور عشوائية آمنة",
+        "pwd.seo.p1": "أنشئ كلمات مرور قوية مباشرة في متصفحك. طول وأحرف قابلة للتخصيص.",
+
+        "prompt.seo.faq.title": "الأسئلة الشائعة",
+        "prompt.seo.h2": "كيفية كتابة مطالبات ذكاء اصطناعي أفضل",
+        "prompt.seo.h2_faq": "الأسئلة الشائعة",
+        "prompt.seo.p1": "كتابة مطالبات فعالة هو مفتاح الحصول على أفضل النتائج من نماذج LLM مثل Claude و ChatGPT.",
+        "prompt.seo.h3_xml": "المطالبات الهيكلية (XML)",
+        "prompt.seo.p_xml": "يوصي Anthropic باستخدام علامات XML لفصل أجزاء المطالبة بوضوح.",
+        "prompt.seo.h3_role": "الدور والسياق",
+        "prompt.seo.p_role": "قم دائمًا بتعيين شخصية (مثلاً 'أنت خبير بايثون') وقدم السياق.",
+        "prompt.faq.q1": "ما الفرق بين Claude XML و ChatGPT Markdown؟",
+        "prompt.faq.a1": "يعمل Claude بشكل أفضل مع علامات XML الصريحة، بينما يفضل ChatGPT عناوين Markdown.",
+        "prompt.faq.q2": "هل منشئ المطالبات هذا مجاني؟",
+        "prompt.faq.a2": "نعم، هذه الأداة مجانية 100% وتعمل في متصفحك.",
+
+        "qr.seo.keywords_label": "كلمات ذات صلة:",
+        "qr.seo.keywords": "مولد رمز الاستجابة السريعة, qr عبر الإنترنت, أداة مجانية",
+        "qr.seo.h2": "مولد رمز استجابة سريعة مخصص مجاني",
+        "qr.tab.generate": "إنشاء",
+        "qr.tab.scan": "مسح",
+        "qr.scan.upload": "تحميل صورة QR",
+        "qr.scan.result": "نتيجة فك التشفير",
+
+        "uuid.seo.title": "مولد UUID/GUID بالجملة",
+        "uuid.seo.desc": "أنشئ UUIDs عشوائية من الإصدار 4 فورًا. مفيد لقواعد البيانات والاختبار.",
+        "uuid.seo.keywords_label": "كلمات ذات صلة:",
+        "uuid.seo.keywords": "مولد uuid, مولد guid, معرف عشوائي",
+
+        "ts.meta.title": "محول الطابع الزمني Unix",
+        "ts.meta.desc": "تحويل طوابع Unix الزمنية إلى تواريخ قابلة للقراءة والعكس.",
+        "ts.meta.keywords": "طابع زمني unix, محول epoch, طابع زمني إلى تاريخ",
+
+        "ocr.lang": "اللغة",
+        "ocr.status.processing": "جارٍ معالجة الصورة...",
+        "ocr.status.error": "خطأ أثناء المعالجة",
+
+        "sql.label.keywordCase": "حالة الكلمات الرئيسية",
+        "sql.label.indent": "مسافة بادئة",
+        "sql.opt.preserve": "حافظ على الأصل",
+        "sql.opt.upper": "أحرف كبيرة",
+        "sql.opt.lower": "أحرف صغيرة",
+        "sql.opt.space2": "مسافتان",
+        "sql.opt.space4": "4 مسافات",
+        "sql.opt.tab": "علامة جدولة",
+
+        "crop.label.bg": "لون الخلفية",
+        "crop.bg.desc": "ملء المناطق الشفافة عند احتواء الصورة",
+
+        "yaml.style.label": "نمط الإخراج",
+        "yaml.style.block": "كتلة (افتراضي)",
+        "yaml.style.flow": "تدفق (يشبه JSON)",
+        "yaml.seo.h2": "أفضل محول JSON / YAML عبر الإنترنت",
+        "yaml.seo.keywords_label": "كلمات ذات صلة:",
+        "yaml.seo.keywords": "json إلى yaml, yaml إلى json, محول json",
+
+        "pdf.ocr.title": "OCR لملفات PDF الممسوحة ضوئيًا",
+        "pdf.ocr.desc": "استخراج النص من ملفات PDF الممسوحة ضوئيًا.",
+        "pdf2word.seo.h2": "محول PDF إلى Word مجاني عبر الإنترنت",
+        "pdf2word.seo.p1": "تحويل ملفات PDF إلى مستندات Word (.docx) قابلة للتحرير. سريع ومجاني وآمن.",
+        "pdf2jpg.seo.h2": "محول PDF إلى JPG مجاني عبر الإنترنت",
+        "pdf2jpg.seo.p1": "تحويل صفحات PDF إلى صور JPG عالية الجودة. تنزيل فردي أو مضغوط."
     }
 };
 
