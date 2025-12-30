@@ -99,13 +99,17 @@
                     data-i18n="nav.categories">Categories</a>
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
 
-                <!-- Language Switcher -->
-                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
-                    <button onclick="changeLanguage('en')" id="lang-en"
-                        class="hover:text-blue-800 transition">EN</button>
-                    <span class="text-gray-300">/</span>
-                    <button onclick="changeLanguage('zh')" id="lang-zh"
-                        class="hover:text-blue-800 transition">中文</button>
+                <!-- Language Switcher Dropdown -->
+                <div class="relative inline-block text-left border-l pl-6 border-gray-300">
+                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                        <option value="en">🇺🇸 EN</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="pt">🇧🇷 PT</option>
+                        <option value="id">🇮🇩 ID</option>
+                        <option value="hi">🇮🇳 HI</option>
+                        <option value="ar">🇸🇦 AR</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -214,7 +218,37 @@
             </div>
         </section>
 
-    </main>
+    
+
+        <!-- SEO Content (Injected) -->
+        <div class="mt-16 border-t border-gray-100 pt-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">How to Convert PDF Bank Statements to Excel for Free</h2>
+            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider">Related Keywords: convert pdf to excel bank statement free online</p>
+            <div class="prose max-w-none text-gray-600">
+                <p class="mb-4">Extracting table data from PDF bank statements or invoices can be tedious. Our <strong>Free PDF to Excel Converter</strong> uses advanced parsing to detect tables and export them directly to .xlsx format, entirely in your browser.</p>
+        <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3">Why convert locally?</h3>
+        <p class="mb-4">Financial documents contain sensitive data. By converting locally (Client-side), you ensure no data is ever sent to a remote server, guaranteeing 100% privacy.</p>
+            </div>
+            <div class="mt-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <div class="space-y-4" itemscope itemtype="https://schema.org/FAQPage">
+                
+                <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <summary class="font-bold text-gray-800" itemprop="name">Does this work with scanned PDFs?</summary>
+                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <p class="mt-2 text-gray-600" itemprop="text">Currently, this tool works best with native text PDFs. For scanned images, try our OCR tool.</p>
+                    </div>
+                </details>
+                <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <summary class="font-bold text-gray-800" itemprop="name">Is there a file size limit?</summary>
+                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <p class="mt-2 text-gray-600" itemprop="text">No, since it processes locally, there are no arbitrary limits on file size.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+        </div>
+</main>
 
     <!-- Footer -->
         <!-- Footer -->

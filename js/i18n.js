@@ -1431,15 +1431,171 @@ const translations = {
         // YAML
         "yaml.style.label": "输出风格",
         "yaml.style.block": "块级 (默认)",
-        "yaml.style.flow": "流式 (类 JSON)"
+        "yaml.style.flow": "流式 (类 JSON)",
+
+        // AI Lab
+        "cat.ai": "AI 实验室",
+        "tool.prompt.title": "Prompt 提示词构建器",
+        "tool.prompt.desc": "为 Claude 和 ChatGPT 构建结构化提示词。",
+        "tool.aicost.title": "AI 成本估算器",
+        "tool.aicost.desc": "计算不同模型的 API 成本（OpenAI, Anthropic 等）。",
+        "tool.imgprompt.title": "绘图提示词生成器",
+        "tool.imgprompt.desc": "生成 Midjourney 和 Flux 的风格提示词。",
+        "tool.arena.title": "模型竞技场",
+        "tool.arena.desc": "比较 LLM 的能力和价格。",
+        "tool.local.title": "本地 LLM 运行器",
+        "tool.local.desc": "在浏览器中私密运行 AI 模型（WebGPU）。"
+    },
+    es: {
+        "nav.home": "Inicio",
+        "nav.categories": "Categorías",
+        "nav.about": "Sobre Nosotros",
+        "cat.featured": "Destacados",
+        "cat.ai": "Laboratorio IA",
+        "cat.format": "Formato y Conversión",
+        "cat.media": "Imágenes y Medios",
+        "cat.doc": "Documentos y PDF",
+        "cat.dev": "Código y Seguridad",
+        "footer.rights": "© 2026 allinone.page. Todos los derechos reservados.",
+        "footer.privacy": "Política de Privacidad",
+        "footer.terms": "Términos de Servicio",
+        "footer.contact": "Contacto",
+        "tool.launch": "Abrir Herramienta",
+        "meta.title": "Directorio de Herramientas para Desarrolladores - PDF a Excel, JSON, Imágenes",
+        "meta.desc": "Herramientas gratuitas para desarrolladores: convertidor PDF a Excel, formateador JSON, compresor de imágenes. Procesamiento seguro en el cliente.",
+        "tool.pdf.title": "Conversor PDF a Excel",
+        "tool.pdf.desc": "Convierte estados de cuenta PDF a Excel. 100% privado.",
+        "tool.json.title": "Formateador JSON",
+        "tool.json.desc": "Embellece y valida JSON instantáneamente.",
+        "tool.prompt.title": "Constructor de Prompts",
+        "tool.aicost.title": "Estimador de Costos IA",
+        "tool.imgprompt.title": "Generador de Prompts de Imagen",
+        "tool.arena.title": "Arena de Modelos IA",
+        "tool.local.title": "Ejecutar LLM Local",
+        "feedback.title": "Enviar Comentarios",
+        "feedback.placeholder": "¿Qué tienes en mente? ¿Error? ¿Sugerencia?",
+        "feedback.button": "Enviar"
+    },
+    pt: {
+        "nav.home": "Início",
+        "nav.categories": "Categorias",
+        "nav.about": "Sobre",
+        "cat.featured": "Destaques",
+        "cat.ai": "Laboratório IA",
+        "cat.format": "Formatação",
+        "cat.media": "Mídia e Imagens",
+        "cat.doc": "Documentos PDF",
+        "cat.dev": "Desenvolvimento",
+        "footer.rights": "© 2026 allinone.page. Todos os direitos reservados.",
+        "footer.privacy": "Privacidade",
+        "footer.terms": "Termos",
+        "footer.contact": "Contato",
+        "tool.launch": "Abrir Ferramenta",
+        "meta.title": "Ferramentas para Desenvolvedores - PDF para Excel, JSON",
+        "meta.desc": "Ferramentas online gratuitas: conversor de PDF, formatador JSON, compressor de imagens. Seguro e no navegador.",
+        "tool.pdf.title": "PDF para Excel",
+        "tool.json.title": "Formatador JSON",
+        "tool.prompt.title": "Construtor de Prompts",
+        "tool.aicost.title": "Estimador de Custo IA",
+        "tool.imgprompt.title": "Gerador de Prompts de Imagem",
+        "tool.local.title": "LLM Local",
+        "feedback.title": "Feedback",
+        "feedback.placeholder": "Encontrou um bug?",
+        "feedback.button": "Enviar"
+    },
+    id: {
+        "nav.home": "Beranda",
+        "nav.categories": "Kategori",
+        "nav.about": "Tentang",
+        "cat.featured": "Unggulan",
+        "cat.ai": "Lab AI",
+        "cat.format": "Format & Konversi",
+        "cat.media": "Media & Gambar",
+        "cat.doc": "Dokumen & PDF",
+        "cat.dev": "Kode & Keamanan",
+        "footer.rights": "© 2026 allinone.page. Hak Cipta Dilindungi.",
+        "footer.privacy": "Kebijakan Privasi",
+        "footer.terms": "Syarat Layanan",
+        "footer.contact": "Kontak",
+        "tool.launch": "Buka Alat",
+        "meta.title": "Direktori Alat Pengembang - PDF ke Excel, JSON, Gambar",
+        "meta.desc": "Alat pengembang online gratis termasuk konverter PDF ke Excel, pemformat JSON, kompresor gambar. Pemrosesan sisi klien yang aman.",
+        "tool.pdf.title": "Konverter PDF ke Excel",
+        "tool.json.title": "Pemformat JSON",
+        "tool.prompt.title": "Pembuat Prompt",
+        "tool.aicost.title": "Estimasi Biaya AI",
+        "tool.local.title": "Jalankan LLM Lokal",
+        "feedback.title": "Kirim Masukan",
+        "feedback.placeholder": "Apa yang Anda pikirkan?",
+        "feedback.button": "Kirim"
+    },
+    hi: {
+        "nav.home": "होम",
+        "nav.categories": "श्रेणियाँ",
+        "nav.about": "हमारे बारे में",
+        "cat.featured": "विशेष रुप से प्रदर्शित",
+        "cat.ai": "एआई लैब",
+        "cat.format": "प्रारूपण और रूपांतरण",
+        "cat.media": "छवियाँ और मीडिया",
+        "cat.doc": "दस्तावेज़ और पीडीएफ",
+        "cat.dev": "कोडिंग और सुरक्षा",
+        "footer.rights": "© 2026 allinone.page. सर्वाधिकार सुरक्षित।",
+        "footer.privacy": "गोपनीयता नीति",
+        "footer.terms": "सेवा की शर्तें",
+        "footer.contact": "संपर्क करें",
+        "tool.launch": "टूल खोलें",
+        "meta.title": "डेवलपर टूल्स डायरेक्टरी - PDF to Excel, JSON, Images",
+        "meta.desc": "मुफ्त ऑनलाइन डेवलपर टूल जिसमें पीडीएफ से एक्सेल कनवर्टर, जेएसओएन फॉर्मेटर शामिल हैं। सुरक्षित, क्लाइंट-साइड प्रोसेसिंग।",
+        "tool.pdf.title": "PDF से Excel कनवर्टर",
+        "tool.json.title": "JSON फॉर्मेटर",
+        "tool.prompt.title": "प्रॉम्प्ट बिल्डर",
+        "tool.aicost.title": "एआई लागत अनुमानक",
+        "tool.local.title": "लोकल LLM रनर",
+        "feedback.title": "प्रतिक्रिया भेजें",
+        "feedback.placeholder": "आपके मन में क्या है?",
+        "feedback.button": "भेजें"
+    },
+    ar: {
+        "nav.home": "الرئيسية",
+        "nav.categories": "الفئات",
+        "nav.about": "من نحن",
+        "cat.featured": "متميز",
+        "cat.ai": "مختبر الذكاء الاصطناعي",
+        "cat.format": "تنسيق وتحويل",
+        "cat.media": "الصور والوسائط",
+        "cat.doc": "المستندات و PDF",
+        "cat.dev": "البرمجة والأمن",
+        "footer.rights": "© 2026 allinone.page. جميع الحقوق محفوظة.",
+        "footer.privacy": "سياسة الخصوصية",
+        "footer.terms": "شروط الخدمة",
+        "footer.contact": "اتصل بنا",
+        "tool.launch": "تشغيل الأداة",
+        "meta.title": "دليل أدوات المطورين - تحويل PDF إلى Excel، JSON",
+        "meta.desc": "أدوات مطورين مجانية عبر الإنترنت بما في ذلك محول PDF إلى Excel، ومنسق JSON. معالجة آمنة من جانب العميل.",
+        "tool.pdf.title": "محول PDF إلى Excel",
+        "tool.json.title": "منسق JSON",
+        "tool.prompt.title": "منشئ المطالبات",
+        "tool.aicost.title": "مقدر تكلفة الذكاء الاصطناعي",
+        "tool.local.title": "تشغيل LLM محلي",
+        "feedback.title": "إرسال تعليقات",
+        "feedback.placeholder": "ما الذي يدور في ذهنك؟",
+        "feedback.button": "إرسال"
     }
 };
 
 class I18nManager {
     constructor() {
         if (typeof window !== 'undefined') {
-            // 根据当前 URL 路径判断语言 (/zh/ vs /en/)
-            this.currentLang = window.location.pathname.includes('/zh/') ? 'zh' : 'en';
+            // 根据当前 URL 路径判断语言
+            const pathLang = window.location.pathname.split('/')[1];
+            const supported = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
+            this.currentLang = supported.includes(pathLang) ? pathLang : 'en';
+
+            // 设置 RTL
+            if (this.currentLang === 'ar') {
+                document.documentElement.dir = 'rtl';
+            }
+
             this.init();
         }
     }
@@ -1452,27 +1608,35 @@ class I18nManager {
     setLanguage(lang) {
         if (this.currentLang === lang) return;
 
-        // 保存偏好（可选，主要用于下次访问根目录时的跳转判断，但不影响当前页）
+        // 保存偏好
         localStorage.setItem('app_lang', lang);
 
         const currentPath = window.location.pathname;
-        let newPath;
+        const currentSearch = window.location.search;
+        const currentHash = window.location.hash;
 
-        // 简单的路径替换逻辑
-        if (lang === 'zh') {
-            // 从 /en/ 切换到 /zh/
-            newPath = currentPath.replace('/en/', '/zh/');
-            // 如果原本不在 /en/ 下（比如根目录跳转来的），强制加 /zh/
-            if (newPath === currentPath) newPath = '/zh/' + currentPath.replace(/^\//, '');
+        // 路径前缀（例如 /en/, /zh/, /es/）
+        const langs = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
+        let pathParts = currentPath.split('/').filter(p => p);
+
+        // 检查第一部分是否是语言代码
+        if (langs.includes(pathParts[0])) {
+            pathParts[0] = lang; // 替换现有语言
         } else {
-            // 从 /zh/ 切换到 /en/
-            newPath = currentPath.replace('/zh/', '/en/');
+            pathParts.unshift(lang); // 这是一个根路径（如 /index.html），添加语言
         }
 
-        // 简单的容错：避免 //
-        newPath = newPath.replace('//', '/');
+        // 重组路径
+        let newPath = '/' + pathParts.join('/');
 
-        window.location.href = newPath;
+        // 处理 RTL (仅用于即时预览，实际由 HTML dir 属性控制)
+        if (lang === 'ar') {
+            document.documentElement.dir = 'rtl';
+        } else {
+            document.documentElement.dir = 'ltr';
+        }
+
+        window.location.href = newPath + currentSearch + currentHash;
     }
 
     updateUIState() {

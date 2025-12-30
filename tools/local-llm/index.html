@@ -78,12 +78,17 @@
                 <a href="../../index.html#featured" class="hover:text-blue-600 transition"
                     data-i18n="nav.categories">Categories</a>
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
-                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
-                    <button onclick="changeLanguage('en')" id="lang-en"
-                        class="hover:text-blue-800 transition">EN</button>
-                    <span class="text-gray-300">/</span>
-                    <button onclick="changeLanguage('zh')" id="lang-zh"
-                        class="hover:text-blue-800 transition">中文</button>
+                <!-- Language Switcher Dropdown -->
+                <div class="relative inline-block text-left border-l pl-6 border-gray-300">
+                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                        <option value="en">🇺🇸 EN</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="pt">🇧🇷 PT</option>
+                        <option value="id">🇮🇩 ID</option>
+                        <option value="hi">🇮🇳 HI</option>
+                        <option value="ar">🇸🇦 AR</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -151,7 +156,33 @@
             </div>
         </div>
 
-    </main>
+    
+
+        <!-- SEO Content -->
+        <div class="mt-16 border-t border-gray-100 pt-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Running LLMs Locally with WebGPU</h2>
+            <div class="prose max-w-none text-gray-600">
+                <p class="mb-4">This tool uses WebAssembly and WebGPU to run AI models directly on your graphics card relative to your browser. No data leaves your device.</p>
+                
+                <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3">System Requirements</h3>
+                <p class="mb-4">You need a modern browser (Chrome/Edge 113+) and a GPU with at least 4GB VRAM for decent performance.</p>
+            </div>
+            <div class="mt-12">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">FAQ</h2>
+                <div class="space-y-4">
+                    <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
+                        <summary class="font-bold text-gray-800">Is this really private?</summary>
+                        <p class="mt-2 text-gray-600">Yes. The model weights are downloaded to your browser cache, and all computation happens on your local hardware.</p>
+                    </details>
+                     <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
+                        <summary class="font-bold text-gray-800">Why is the first load slow?</summary>
+                        <p class="mt-2 text-gray-600">The browser needs to download the model weights (approx 1GB-4GB). Subsequent visits will be instant.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    
+</main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">

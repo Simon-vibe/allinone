@@ -54,13 +54,18 @@
                 <a href="#featured" class="hover:text-blue-600 transition" data-i18n="nav.categories">Categories</a>
                 <a href="./about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
 
-                <!-- Language Switcher -->
-                <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
-                    <button onclick="changeLanguage('en')" id="lang-en"
-                        class="hover:text-blue-800 transition">EN</button>
-                    <span class="text-gray-300">/</span>
-                    <button onclick="changeLanguage('zh')" id="lang-zh"
-                        class="hover:text-blue-800 transition">中文</button>
+                <!-- Language Switcher Dropdown -->
+                <div class="relative inline-block text-left border-l pl-6 border-gray-300">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                        <option value="en">🇺🇸 EN</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="pt">🇧🇷 PT</option>
+                        <option value="id">🇮🇩 ID</option>
+                        <option value="hi">🇮🇳 HI</option>
+                        <option value="ar">🇸🇦 AR</option>
+                    </select>
                 </div>
 
                 <a href="#"
@@ -141,13 +146,6 @@
                         <span class="w-6 text-center mr-2"><i class="fa-solid fa-lock"></i></span>
                         <span data-i18n="cat.dev">Security</span>
                     </a>
-                </nav>
-            </div>
-            <!-- AI Lab Category (Main Sidebar) -->
-            <div class="mt-8">
-                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 px-3" data-i18n="cat.ai">AI Lab
-                </h3>
-                <nav class="space-y-1">
                     <a href="#ai-lab"
                         class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-blue-600 hover:bg-blue-50 transition">
                         <span class="w-6 text-center mr-2"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
@@ -155,6 +153,7 @@
                     </a>
                 </nav>
             </div>
+            <!-- AI Lab Category merged into main list -->
         </aside>
 
         <!-- Right Content -->

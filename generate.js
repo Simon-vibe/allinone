@@ -136,7 +136,7 @@ async function build() {
     fs.writeFileSync(path.join(DIST_DIR, 'index.html'), redirectHtml);
 
     const htmlFiles = findHtmlFiles(SRC_DIR);
-    const languages = ['en', 'zh'];
+    const languages = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
     let sitemapUrls = [];
     const today = new Date().toISOString().split('T')[0];
 
@@ -154,13 +154,22 @@ async function build() {
         const zhUrl = `https://allinone.page/zh/${pathSuffix}`;
         const priority = pathSuffix === '' ? '1.0' : '0.8';
 
-        [enUrl, zhUrl].forEach(loc => {
+        languages.forEach(lang => {
+            const url = `https://allinone.page/${lang}/${pathSuffix}`;
+            // Add self
+
+            // Build Hreflang string for this URL
+            let hreflangLinks = languages.map(l =>
+                `    <xhtml:link rel="alternate" hreflang="${l}" href="https://allinone.page/${l}/${pathSuffix}"/>`
+            ).join('\n');
+
+            // Add x-default (en)
+            hreflangLinks += `\n    <xhtml:link rel="alternate" hreflang="x-default" href="https://allinone.page/en/${pathSuffix}"/>`;
+
             sitemapUrls.push(`
   <url>
-    <loc>${loc}</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="${enUrl}"/>
-    <xhtml:link rel="alternate" hreflang="zh" href="${zhUrl}"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="${enUrl}"/>
+    <loc>${url}</loc>
+${hreflangLinks}
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>${priority}</priority>
@@ -288,19 +297,24 @@ async function build() {
             content = adjustRelativePaths(content);
 
             // 4. Canonical & Hreflang
-            const currentCanonical = lang === 'en' ? enUrl : zhUrl;
+            const currentCanonical = `https://allinone.page/${lang}/${pathSuffix}`;
             content = content.replace(/<link rel="canonical" href="[^"]+">/, `<link rel="canonical" href="${currentCanonical}">`);
 
-            const hreflangBlock = `
-    <link rel="alternate" hreflang="en" href="${enUrl}" />
-    <link rel="alternate" hreflang="zh" href="${zhUrl}" />
-    <link rel="alternate" hreflang="x-default" href="${enUrl}" />`;
+            const hreflangBlock = languages.map(l =>
+                `<link rel="alternate" hreflang="${l}" href="https://allinone.page/${l}/${pathSuffix}" />`
+            ).join('\n    ') + `\n    <link rel="alternate" hreflang="x-default" href="https://allinone.page/en/${pathSuffix}" />`;
+
             content = content.replace(/<link rel="alternate" hreflang="en"[\s\S]*?x-default"[\s\S]*?\/>/, hreflangBlock.trim());
 
             // 5. 注入 JSON-LD
             content = injectJsonLd(content, lang, currentCanonical);
 
-            // 6. 写入文件
+            // 6. RTL Support for Arabic
+            if (lang === 'ar') {
+                content = content.replace(/<html lang="[^"]*">/, `<html lang="ar" dir="rtl">`);
+            }
+
+            // 7. 写入文件
             const outSubDir = path.join(lang, path.dirname(relativePath));
             const outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
             const outDir = path.dirname(outPath);
