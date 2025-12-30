@@ -2632,25 +2632,51 @@ class I18nManager {
         // 保存偏好
         localStorage.setItem('app_lang', lang);
 
-        const currentPath = window.location.pathname;
+        let currentPath = window.location.pathname;
         const currentSearch = window.location.search;
         const currentHash = window.location.hash;
 
-        // 路径前缀（例如 /en/, /zh/, /es/）
-        const langs = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
+        // 规范化路径：去除首尾斜杠以方便分割
+        // Normalize path: split by '/' filtering empty strings
         let pathParts = currentPath.split('/').filter(p => p);
 
-        // 检查第一部分是否是语言代码
-        if (langs.includes(pathParts[0])) {
-            pathParts[0] = lang; // 替换现有语言
+        // 语言列表
+        // 注意：根目录即为英文(en)，所以路径中不会出现 'en' 文件夹
+        const localizedLangs = ['zh', 'es', 'pt', 'id', 'hi', 'ar'];
+
+        // 检查当前路径的第一部分是否是已知的本地化语言代码
+        const isLocalized = localizedLangs.includes(pathParts[0]);
+
+        if (isLocalized) {
+            // 当前是本地化路径 (e.g. /zh/index.html 或 /zh)
+            if (lang === 'en') {
+                // 切换到英文：移除语言前缀
+                pathParts.shift();
+            } else {
+                // 切换到其他本地化语言：替换前缀
+                pathParts[0] = lang;
+            }
         } else {
-            pathParts.unshift(lang); // 这是一个根路径（如 /index.html），添加语言
+            // 当前是根路径 (英文/默认)
+            if (lang !== 'en') {
+                // 切换到非英文：添加前缀
+                pathParts.unshift(lang);
+            }
+            // 如果是切换到英文，且当前已经是根路径，实际上不需要做任何事，但上面已经 return 了
         }
 
         // 重组路径
         let newPath = '/' + pathParts.join('/');
 
-        // 处理 RTL (仅用于即时预览，实际由 HTML dir 属性控制)
+        // 修正：如果结果是空字符串（即根目录），补全为 /
+        if (newPath === '') newPath = '/';
+
+        // 如果原路径以 index.html 结尾，保持它；如果 pathParts 为空但只是 '/'，需要注意
+        // 上面的 logic: currentPath='/index.html' -> parts=['index.html']. isLocalized=false. Switch zh -> parts=['zh', 'index.html'] -> /zh/index.html. Correct.
+        // currentPath='/' -> parts=[]. Switch zh -> parts=['zh']. -> /zh. Correct.
+        // currentPath='/zh/index.html' -> parts=['zh', 'index.html']. Switch en -> parts=['index.html']. -> /index.html. Correct.
+
+        // 处理 RTL
         if (lang === 'ar') {
             document.documentElement.dir = 'rtl';
         } else {
