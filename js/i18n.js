@@ -1088,11 +1088,19 @@ const translations = {
         "ocr.settings": "设置",
         "ocr.lang": "语言",
         "ocr.preview": "图片预览",
+        "pdf.ocr.title": "OCR PDF 扫描",
+        "pdf.ocr.desc": "从扫描的 PDF 文件中提取文本。",
+
+        // PDF Tools SEO
+        "pdf2word.seo.h2": "免费在线 PDF 转 Word 转换器",
+        "pdf2word.seo.p1": "将 PDF 文件转换为可编辑的 Word 文档 (.docx)。快速、免费且安全。",
+        "pdf2jpg.seo.h2": "免费在线 PDF 转 JPG 转换器",
+        "pdf2jpg.seo.p1": "将 PDF 页面转换为高质量的 JPG 图像。支持单个下载或打包下载。",
         "ocr.faq.title": "OCR 工具常见问题",
         "ocr.faq.desc": "自动从图片中提取文本。我们的 OCR 工具使用先进的机器学习技术识别照片中的文字。",
-        "ocr.feat.1": "<strong>多语言支持：</strong>支持中文、英文等多种语言。",
-        "ocr.feat.2": "<strong>隐私至上：</strong>所有处理都在您的浏览器中完成。无需上传图片。",
-        "ocr.feat.3": "<strong>完全免费：</strong>无限制使用。",
+        "ocr.feat.1": "<strong>多语言支持：：</strong>支持中文、英文等多种语言。",
+        "ocr.feat.2": "<strong>隐私至上：：</strong>所有处理都在您的浏览器中完成。无需上传图片。",
+        "ocr.feat.3": "<strong>完全免费：：</strong>无限制使用。",
 
         // EXIF Viewer
         "tool.exif.title": "EXIF 查看器",
@@ -1558,6 +1566,8 @@ const translations = {
         // Markdown
         "md.seo.keywords_label": "相关关键词：",
         "md.seo.keywords": "Markdown编辑器, 在线预览, 写作工具",
+        "md.seo.h2": "带实时预览的在线 Markdown 编辑器",
+        "md.seo.p1": "使用我们的分屏 Markdown 编辑器编写文档、自述文件或博客文章。直接导出为 HTML 或 .md 文件。",
 
         // Model Arena
         "arena.seo.h2": "为您的任务选择合适的 LLM",
@@ -1566,11 +1576,21 @@ const translations = {
         "pwd.seo.keywords_label": "相关关键词：",
         "pwd.seo.keywords": "密码生成器, 强密码, 安全工具",
         "pwd.seo.h2": "安全随机密码生成器",
+        "pwd.seo.p1": "直接在浏览器中生成加密级强度的密码。自定义长度和字符集，确保符合任何安全策略。",
 
         // Prompt Builder
         "prompt.seo.faq.title": "常见问题",
         "prompt.seo.h2": "如何编写更好的 AI 提示词",
         "prompt.seo.h2_faq": "常见问题",
+        "prompt.seo.p1": "编写有效的提示词是获得 Claude 3.5 Sonnet 和 ChatGPT 等 LLM 最佳结果的关键。此工具帮助您使用行业最佳实践构建提示词。",
+        "prompt.seo.h3_xml": "结构化提示词 (XML)",
+        "prompt.seo.p_xml": "Anthropic 建议使用 XML 标签清晰地分隔提示词的不同部分。这有助于模型区分指令、上下文和输入数据。",
+        "prompt.seo.h3_role": "角色与上下文",
+        "prompt.seo.p_role": "始终指定一个角色（例如，“你是一位 Python 专家”）并提供足够的背景信息。这能让模型的回答更具针对性。",
+        "prompt.faq.q1": "Claude XML 和 ChatGPT Markdown 有什么区别？",
+        "prompt.faq.a1": "Claude 使用显式的 XML 标签（如 &lt;context&gt;）效果更好，而 ChatGPT 通常更喜欢标准的 Markdown 标题（# Context）。",
+        "prompt.faq.q2": "这个提示词构建器是免费的吗？",
+        "prompt.faq.a2": "是的，此工具 100% 免费且完全在浏览器中运行。您的数据不会发送到我们的服务器。",
 
         // QR
         "qr.seo.keywords_label": "相关关键词：",
@@ -1628,6 +1648,9 @@ const translations = {
         "yaml.style.label": "输出风格",
         "yaml.style.block": "块级 (默认)",
         "yaml.style.flow": "流式 (类 JSON)",
+        "yaml.seo.h2": "最佳 JSON / YAML 在线转换器",
+        "yaml.seo.keywords_label": "相关关键词：",
+        "yaml.seo.keywords": "json转yaml, yaml转json, json转换器, 开发者工具",
 
         // AI Lab
         "cat.ai": "AI 实验室",
