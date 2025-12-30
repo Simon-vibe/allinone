@@ -309,7 +309,10 @@ ${hreflangLinks}
             // 5. 注入 JSON-LD
             content = injectJsonLd(content, lang, currentCanonical);
 
-            // 6. RTL Support for Arabic
+            // 6. Set Active Language in Dropdown
+            content = content.replace(new RegExp(`<option value="${lang}">`, 'g'), `<option value="${lang}" selected>`);
+
+            // 7. RTL Support for Arabic
             if (lang === 'ar') {
                 content = content.replace(/<html lang="[^"]*">/, `<html lang="ar" dir="rtl">`);
             }

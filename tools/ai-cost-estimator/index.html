@@ -45,7 +45,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -122,7 +123,8 @@
             <div class="md:col-span-2">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                        <h3 class="font-bold text-gray-900">Estimated Cost per Request</h3>
+                        <h2 class="text-xl font-bold text-gray-900 mb-4" data-i18n="aicost.title.estimated">Estimated
+                            Cost per Request</h2>
                         <span class="text-xs text-gray-400">Updates automatically</span>
                     </div>
 
@@ -138,36 +140,44 @@
 
         </div>
 
-    
+
 
         <!-- SEO Content -->
         <div class="mt-16 border-t border-gray-100 pt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Understanding LLM API Pricing</h2>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="aicost.title.understanding">Understanding LLM
+                API Pricing</h2>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">API costs can accumulate quickly. This calculator helps you estimate expenses before you build, comparing major providers like OpenAI, Anthropic, and DeepSeek.</p>
-                
-                <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3">Input vs Output Tokens</h3>
-                <p class="mb-4">Most providers charge differently for Input (what you send) and Output (what the AI writes). Output tokens are typically 3x-10x more expensive.</p>
-                
+                <p class="mb-4">API costs can accumulate quickly. This calculator helps you estimate expenses before you
+                    build, comparing major providers like OpenAI, Anthropic, and DeepSeek.</p>
+
+                <h3 class="text-lg font-bold text-gray-800 mb-2" data-i18n="aicost.title.tokens">Input vs Output Tokens
+                </h3>
+                <p class="mb-4">Most providers charge differently for Input (what you send) and Output (what the AI
+                    writes). Output tokens are typically 3x-10x more expensive.</p>
+
                 <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3">Currency Conversion</h3>
-                <p class="mb-4">We automatically convert prices to CNY (RMB) for developers in China, using a real-time approximate rate of 7.25.</p>
+                <p class="mb-4">We automatically convert prices to CNY (RMB) for developers in China, using a real-time
+                    approximate rate of 7.25.</p>
             </div>
 
             <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="aicost.faq.title">Frequently Asked
+                    Questions</h2>
                 <div class="space-y-4">
                     <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
                         <summary class="font-bold text-gray-800">Are these prices up to date?</summary>
-                        <p class="mt-2 text-gray-600">We update our pricing data weekly. The last update was December 2024.</p>
+                        <p class="mt-2 text-gray-600">We update our pricing data weekly. The last update was December
+                            2024.</p>
                     </details>
                     <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
                         <summary class="font-bold text-gray-800">Which model is the cheapest?</summary>
-                        <p class="mt-2 text-gray-600">Currently, DeepSeek-V3 and GPT-4o-mini offer the most competitive rates for high-performance tasks.</p>
+                        <p class="mt-2 text-gray-600">Currently, DeepSeek-V3 and GPT-4o-mini offer the most competitive
+                            rates for high-performance tasks.</p>
                     </details>
                 </div>
             </div>
         </div>
-</main>
+    </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">

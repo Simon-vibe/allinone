@@ -59,7 +59,8 @@
 
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -153,21 +154,29 @@
             </ul>
         </section>
 
-    
+
 
         <!-- SEO Content (Injected) -->
         <div class="mt-16 border-t border-gray-100 pt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Best Free Online JSON Validator and Beautifier</h2>
-            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider">Related Keywords: json formatter validator beautify online</p>
-            <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Debugging API responses or configuration files is easier with a clean view. Paste your minified JSON to instantly beautify it with proper indentation.</p>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="json.seo.h2">Best Free Online JSON Validator
+                and Beautifier</h2>
+            <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2"
+                data-i18n="json.seo.keywords_label">Related Keywords:</h2>
+            <div class="flex flex-wrap gap-2 text-sm text-gray-600" data-i18n="json.seo.keywords">
+                <span class="bg-gray-100 px-2 py-1 rounded">json formatter</span>
+                <span class="bg-gray-100 px-2 py-1 rounded">json validator</span>
+                <span class="bg-gray-100 px-2 py-1 rounded">beautify json</span>
             </div>
-            
+            <div class="prose max-w-none text-gray-600">
+                <p class="mb-4">Debugging API responses or configuration files is easier with a clean view. Paste your
+                    minified JSON to instantly beautify it with proper indentation.</p>
+            </div>
+
         </div>
-</main>
+    </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -176,15 +185,17 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms
+                        of Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
+                </div>
+                <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
+                    &copy; 2026 allinone.page. All rights reserved.
                 </div>
             </div>
-            <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
-                &copy; 2026 allinone.page. All rights reserved.
-            </div>
-        </div>
     </footer>
 
     <script src="../../js/i18n.js?v=2"></script>

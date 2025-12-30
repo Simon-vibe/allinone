@@ -56,7 +56,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -162,21 +163,29 @@
             </ul>
         </section>
 
-    
+
 
         <!-- SEO Content (Injected) -->
         <div class="mt-16 border-t border-gray-100 pt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Secure Random Password Generator</h2>
-            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider">Related Keywords: secure random password generator strong</p>
-            <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Generate crypto-strong passwords directly in your browser. Customized length and character sets ensure compliance with any security policy.</p>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="pwd.seo.h2">Secure Random Password Generator
+            </h2>
+            <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2" data-i18n="pwd.seo.keywords_label">
+                Related Keywords:</h2>
+            <div class="flex flex-wrap gap-2 text-sm text-gray-600" data-i18n="pwd.seo.keywords">
+                <span class="bg-gray-100 px-2 py-1 rounded">password generator</span>
+                <span class="bg-gray-100 px-2 py-1 rounded">strong password</span>
+                <span class="bg-gray-100 px-2 py-1 rounded">secure password</span>
             </div>
-            
+            <div class="prose max-w-none text-gray-600">
+                <p class="mb-4">Generate crypto-strong passwords directly in your browser. Customized length and
+                    character sets ensure compliance with any security policy.</p>
+            </div>
+
         </div>
-</main>
+    </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -184,10 +193,15 @@
                     <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-xl"></i>
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
-                <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                <div>
+                    <div class="flex space-x-8 text-sm text-gray-500">
+                        <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                            data-i18n="footer.privacy">Privacy Policy</a>
+                        <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms
+                            of Service</a>
+                        <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                            data-i18n="footer.contact">Contact</a>
+                    </div>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">

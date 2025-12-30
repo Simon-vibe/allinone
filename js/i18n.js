@@ -55,7 +55,7 @@ const translations = {
         "featured.title": "Featured Tools",
         "featured.viewAll": "View all",
         "tool.launch": "Launch Tool",
-        "cat.dev": "Tools",
+
         "cat.media": "Content & Media",
         "tool.json.title": "JSON Formatter",
         "tool.json.desc": "Beautify and validate JSON data instantly.",
@@ -395,6 +395,13 @@ const translations = {
         "crop.label.width": "Width (px)",
         "crop.label.height": "Height (px)",
         "crop.action.apply": "Apply Size",
+        "crop.platform.instagram": "Instagram",
+        "crop.platform.twitter": "Twitter / X",
+        "crop.platform.youtube": "YouTube",
+        "crop.faq.insta1": "Square: 1080 x 1080 px (1:1)",
+        "crop.faq.insta2": "Portrait: 1080 x 1350 px (4:5)",
+        "crop.faq.insta3": "Story: 1080 x 1920 px (9:16)",
+        "crop.alert.img_only": "Please upload an image file.",
 
         // User Agent Info
         "tool.ua.title": "What is my User Agent?",
@@ -673,6 +680,72 @@ const translations = {
         "ts.meta.desc": "Convert Unix timestamps to human-readable dates and vice versa. Supports seconds and milliseconds. Real-time current epoch time.",
         "ts.meta.keywords": "unix timestamp converter, epoch converter, timestamp to date, date to timestamp, unix time",
 
+        // Specific Tool Headers (En)
+        "aicost.title.estimated": "Estimated Cost per Request",
+        "aicost.title.understanding": "Understanding LLM API Pricing",
+        "aicost.title.tokens": "Input vs Output Tokens",
+        "aicost.faq.title": "Frequently Asked Questions",
+
+        // Background Remover
+        "bgrem.seo.keywords_label": "Related Keywords:",
+        "bgrem.seo.keywords": "background remover, ai background removal, free online tool",
+        "bgrem.seo.faq.title": "Frequently Asked Questions",
+
+        // Base64
+        "base64.seo.keywords_label": "Related Keywords:",
+        "base64.seo.keywords": "base64 encoder, base64 decoder, online converter",
+
+        // Diff Checker
+        "diff.seo.keywords_label": "Related Keywords:",
+        "diff.seo.keywords": "text diff, code diff, compare text online",
+        "diff.seo.h2": "Online Text Diff Checker",
+
+        // Image Compressor
+        "img.seo.keywords_label": "Related Keywords:",
+        "img.seo.keywords": "image compressor, reduce image size, lossless compression",
+        "img.seo.faq.title": "Frequently Asked Questions",
+        "img.seo.h2_compress": "Compress Images Online Without Losing Quality",
+        "img.seo.h2_faq": "Frequently Asked Questions",
+
+        // Image Prompt Gen
+        "imgprompt.seo.h2": "Mastering Midjourney Prompts",
+
+        // JSON
+        "json.seo.keywords_label": "Related Keywords:",
+        "json.seo.keywords": "json formatter, json validator, json beautifier",
+        "json.seo.h2": "Best Free Online JSON Validator and Beautifier",
+
+        // Local LLM
+        "local.seo.h2": "Running LLMs Locally with WebGPU",
+
+        // Markdown
+        "md.seo.keywords_label": "Related Keywords:",
+        "md.seo.keywords": "markdown editor, online preview, writing tool",
+
+        // Model Arena
+        "arena.seo.h2": "Choosing the Right LLM for Your Task",
+
+        // Password
+        "pwd.seo.keywords_label": "Related Keywords:",
+        "pwd.seo.keywords": "password generator, strong password, security tool",
+        "pwd.seo.h2": "Secure Random Password Generator",
+
+        // Prompt Builder
+        "prompt.seo.faq.title": "Frequently Asked Questions",
+        "prompt.seo.h2": "How to Write Better AI Prompts",
+        "prompt.seo.h2_faq": "Frequently Asked Questions",
+
+        // QR
+        "qr.seo.keywords_label": "Related Keywords:",
+        "qr.seo.keywords": "qr code generator, online qr code, free tool",
+        "qr.seo.h2": "Free Custom QR Code Generator",
+
+        // UUID
+        "uuid.seo.title": "Bulk UUID/GUID Generator",
+        "uuid.seo.desc": "Generate Version 4 UUIDs (Universally Unique Identifiers) instantly. Useful for database keys and testing.",
+        "uuid.seo.keywords_label": "Related Keywords:",
+        "uuid.seo.keywords": "uuid generator, guid generator, random id",
+
         // Meta - Pages
         "about.meta.title": "About AllInOne - Free Developer Tools",
         "about.meta.desc": "Learn more about AllInOne.page. We build free, privacy-focused developer tools that run entirely in your browser.",
@@ -728,7 +801,30 @@ const translations = {
         // Token
         "token.img.title": "Image Cost (Multimodal)",
         "token.img.tokens": "Image Tokens:",
-        "token.img.desc": "Based on GPT-4 Vision high-res calculation."
+        "token.img.desc": "Based on GPT-4 Vision high-res calculation.",
+
+        // New SEO & Dynamic Keys
+        "pdf.seo.h2": "How to Convert PDF Bank Statements to Excel for Free",
+        "pdf.seo.keywords_label": "Related Keywords:",
+        "pdf.seo.keywords": "convert pdf to excel bank statement free online",
+        "pdf.seo.p1": "Extracting table data from PDF bank statements or invoices can be tedious. Our <strong>Free PDF to Excel Converter</strong> uses advanced parsing to detect tables and export them directly to .xlsx format, entirely in your browser.",
+        "pdf.seo.h3_local": "Why convert locally?",
+        "pdf.seo.p2": "Financial documents contain sensitive data. By converting locally (Client-side), you ensure no data is ever sent to a remote server, guaranteeing 100% privacy.",
+        "pdf.seo.faq.title": "Frequently Asked Questions",
+        "pdf.seo.faq.q1": "Does this work with scanned PDFs?",
+        "pdf.seo.faq.a1": "Currently, this tool works best with native text PDFs. For scanned images, try our OCR tool.",
+        "pdf.seo.faq.q2": "Is there a file size limit?",
+        "pdf.seo.faq.a2": "No, since it processes locally, there are no arbitrary limits on file size.",
+
+        "pdf.alert.valid_pdf": "Please upload a valid PDF file.",
+        "pdf.alert.error": "Error processing PDF: ",
+        "pdf.msg.more_rows": "... and {count} more rows. Download to see full data.",
+
+        "pdf2word.alert.select": "Please select a PDF file.",
+        "pdf2word.status.init": "Initializing...",
+        "pdf2word.status.page": "Processing page {current} of {total}...",
+        "pdf2word.status.gen": "Generating Word document...",
+        "pdf2word.alert.error": "Error processing file: "
     },
     zh: {
         "nav.home": "首页",
@@ -774,7 +870,7 @@ const translations = {
         "featured.title": "精选工具",
         "featured.viewAll": "查看全部",
         "tool.launch": "打开工具",
-        "cat.dev": "工具",
+
         "cat.media": "内容与媒体",
         "tool.json.title": "JSON 格式化",
         "tool.json.desc": "即时美化和验证 JSON 数据。",
@@ -798,6 +894,37 @@ const translations = {
         "about.hero.title": "简化您的工作流程",
         "about.hero.desc": "我们提供一套强大且免费的工具，旨在让您的日常数字任务更轻松、更快速、更安全。",
         "about.values.title": "核心价值",
+
+        // New SEO & Dynamic Keys
+        "pdf.seo.h2": "如何免费将 PDF 银行对账单转换为 Excel",
+        "pdf.seo.keywords_label": "相关关键词：",
+        "pdf.seo.keywords": "PDF转Excel, 银行对账单, 免费在线转换",
+        "pdf.seo.p1": "从 PDF 银行对账单或发票中提取表格数据可能很繁琐。我们的**免费 PDF 转 Excel 转换器**使用先进的解析技术检测表格并直接导出为 .xlsx 格式，完全在您的浏览器中完成。",
+        "pdf.seo.h3_local": "为什么要在本地转换？",
+        "pdf.seo.p2": "财务文件包含敏感数据。通过本地转换（客户端），您可以确保没有任何数据被发送到远程服务器，保证百分之百的隐私。",
+        "pdf.seo.faq.title": "常见问题",
+        "pdf.seo.faq.q1": "支持扫描的 PDF 吗？",
+        "pdf.seo.faq.a1": "目前，此工具最适合原生文本 PDF。对于扫描图像，请尝试我们的 OCR 工具。",
+        "pdf.seo.faq.q2": "有文件大小限制吗？",
+        "pdf.seo.faq.a2": "没有，因为是在本地处理，所以没有任意的文件大小限制。",
+
+        "pdf.alert.valid_pdf": "请上传有效的 PDF 文件。",
+        "pdf.alert.error": "处理 PDF 时出错: ",
+        "pdf.msg.more_rows": "... 还有 {count} 行。下载以查看完整数据。",
+
+        "pdf2word.alert.select": "请选择一个 PDF 文件。",
+        "pdf2word.status.init": "正在初始化...",
+        "pdf2word.status.page": "正在处理第 {current} 页，共 {total} 页...",
+        "pdf2word.status.gen": "正在生成 Word 文档...",
+        "pdf2word.alert.error": "处理文件时出错: ",
+
+        "crop.platform.instagram": "Instagram",
+        "crop.platform.twitter": "Twitter / X",
+        "crop.platform.youtube": "YouTube",
+        "crop.faq.insta1": "正方形: 1080 x 1080 px (1:1)",
+        "crop.faq.insta2": "竖屏: 1080 x 1350 px (4:5)",
+        "crop.faq.insta3": "快拍 (Story): 1080 x 1920 px (9:16)",
+        "crop.alert.img_only": "请上传有效的图片文件。",
         "about.values.subtitle": "以用户为中心，我们关注最重要的：速度、隐私和可访问性。",
         "about.val.free.title": "完全免费",
         "about.val.free.desc": "使用所有工具无需隐藏费用，无需信用卡或高级订阅。",
@@ -1386,6 +1513,75 @@ const translations = {
         "md.meta.keywords": "Markdown编辑器, 在线Markdown, Markdown转HTML, 实时预览, 写作工具",
 
         // Meta - Timestamp
+        "ts.meta.title": "Unix时间戳转换 - Epoch时间/日期互转",
+        "ts.meta.desc": "在线将Unix时间戳转换为可读日期，或将日期转换为时间戳。支持秒和毫秒。显示实时当前Epoch时间。",
+        "ts.meta.keywords": "Unix时间戳, 时间戳转换, Epoch时间, 时间戳转日期, 日期转时间戳",
+
+        // Specific Tool Headers (Missing in previous pass)
+        "aicost.title.estimated": "每次请求预估成本",
+        "aicost.title.understanding": "了解 LLM API 定价",
+        "aicost.title.tokens": "输入 vs 输出 Tokens",
+        "aicost.faq.title": "常见问题",
+
+        // Background Remover
+        "bgrem.seo.keywords_label": "相关关键词：",
+        "bgrem.seo.keywords": "背景移除, AI抠图, 免费在线工具",
+        "bgrem.seo.faq.title": "常见问题",
+
+        // Base64
+        "base64.seo.keywords_label": "相关关键词：",
+        "base64.seo.keywords": "Base64编码, Base64解码, 在线转换工具",
+
+        // Diff Checker
+        "diff.seo.keywords_label": "相关关键词：",
+        "diff.seo.keywords": "文本对比, 代码Diff, 在线找不同",
+        "diff.seo.h2": "在线文本差异检查器",
+
+        // Image Compressor
+        "img.seo.keywords_label": "相关关键词：",
+        "img.seo.keywords": "图片压缩, 图像瘦身, 无损压缩",
+        "img.seo.faq.title": "常见问题",
+        "img.seo.h2_compress": "这想保持画质的同时压缩图片",
+        "img.seo.h2_faq": "常见问题",
+
+        // Image Prompt Gen
+        "imgprompt.seo.h2": "掌握 Midjourney 提示词",
+
+        // JSON
+        "json.seo.keywords_label": "相关关键词：",
+        "json.seo.keywords": "JSON格式化, JSON校验, JSON美化",
+        "json.seo.h2": "最佳免费在线 JSON 校验和美化工具",
+
+        // Local LLM
+        "local.seo.h2": "使用 WebGPU 在本地运行 LLM",
+
+        // Markdown
+        "md.seo.keywords_label": "相关关键词：",
+        "md.seo.keywords": "Markdown编辑器, 在线预览, 写作工具",
+
+        // Model Arena
+        "arena.seo.h2": "为您的任务选择合适的 LLM",
+
+        // Password
+        "pwd.seo.keywords_label": "相关关键词：",
+        "pwd.seo.keywords": "密码生成器, 强密码, 安全工具",
+        "pwd.seo.h2": "安全随机密码生成器",
+
+        // Prompt Builder
+        "prompt.seo.faq.title": "常见问题",
+        "prompt.seo.h2": "如何编写更好的 AI 提示词",
+        "prompt.seo.h2_faq": "常见问题",
+
+        // QR
+        "qr.seo.keywords_label": "相关关键词：",
+        "qr.seo.keywords": "二维码生成器, 在线二维码, 免费工具",
+        "qr.seo.h2": "免费自定义二维码生成器",
+
+        // UUID
+        "uuid.seo.title": "批量 UUID/GUID 生成器",
+        "uuid.seo.desc": "即时生成版本 4 UUID（通用唯一标识符）。非常适合数据库主键和测试。",
+        "uuid.seo.keywords_label": "相关关键词：",
+        "uuid.seo.keywords": "UUID生成器, GUID生成器, 随机ID",
         "ts.meta.title": "Unix时间戳转换 - 时间戳转日期/日期转时间戳 | AllInOne",
         "ts.meta.desc": "在线Unix时间戳转换工具。支持时间戳与北京时间/UTC时间互转。精确到秒和毫秒。实时显示当前时间戳。",
         "ts.meta.keywords": "时间戳转换, Unix时间戳, 时间戳转日期, 日期转时间戳, Unix Time, 在线工具",
@@ -1474,10 +1670,21 @@ const translations = {
         "tool.local.title": "Ejecutar LLM Local",
         "feedback.title": "Enviar Comentarios",
         "feedback.placeholder": "¿Qué tienes en mente? ¿Error? ¿Sugerencia?",
-        "feedback.button": "Enviar"
+        "feedback.button": "Enviar",
+        "nav.login": "Iniciar Sesión",
+        "hero.title": "Todas las herramientas que necesitas, en una página.",
+        "hero.subtitle": "Una colección categorizada de utilidades para desarrolladores, convertidores y herramientas de productividad.",
+        "search.placeholder": "Buscar una herramienta (ej. Formateador JSON)...",
+        "search.btn": "Buscar"
     },
     pt: {
         "nav.home": "Início",
+        "nav.login": "Entrar",
+        "hero.title": "Todas as ferramentas que você precisa, em uma página.",
+        "hero.subtitle": "Uma coleção categorizada de utilitários para desenvolvedores, conversores e ferramentas de produtividade.",
+        "search.placeholder": "Buscar ferramenta (ex. Formatador JSON)...",
+        "search.btn": "Buscar",
+
         "nav.categories": "Categorias",
         "nav.about": "Sobre",
         "cat.featured": "Destaques",
@@ -1505,6 +1712,12 @@ const translations = {
     },
     id: {
         "nav.home": "Beranda",
+        "nav.login": "Masuk",
+        "hero.title": "Semua alat yang Anda butuhkan, dalam satu halaman.",
+        "hero.subtitle": "Koleksi utilitas pengembang, konverter, dan alat produktivitas yang dikategorikan.",
+        "search.placeholder": "Cari alat (mis. JSON Formatter)...",
+        "search.btn": "Cari",
+
         "nav.categories": "Kategori",
         "nav.about": "Tentang",
         "cat.featured": "Unggulan",
@@ -1531,6 +1744,12 @@ const translations = {
     },
     hi: {
         "nav.home": "होम",
+        "nav.login": "लॉग इन",
+        "hero.title": "आपको जो भी उपकरण चाहिए, एक ही पृष्ठ में।",
+        "hero.subtitle": "डेवलपर यूटिलिटीज, कन्वर्टर्स और उत्पादकता उपकरणों का एक श्रेणीबद्ध संग्रह।",
+        "search.placeholder": "उपकरण खोजें (उदा. JSON फॉर्बैट)...",
+        "search.btn": "खोजें",
+
         "nav.categories": "श्रेणियाँ",
         "nav.about": "हमारे बारे में",
         "cat.featured": "विशेष रुप से प्रदर्शित",
@@ -1557,6 +1776,12 @@ const translations = {
     },
     ar: {
         "nav.home": "الرئيسية",
+        "nav.login": "تسجيل الدخول",
+        "hero.title": "جميع الأدوات التي تحتاجها، في صفحة واحدة.",
+        "hero.subtitle": "مجموعة مصنفة من أدوات المطورين، والمحولات، وأدوات الإنتاجية.",
+        "search.placeholder": "البحث عن أداة (مثل منسق JSON)...",
+        "search.btn": "بحث",
+
         "nav.categories": "الفئات",
         "nav.about": "من نحن",
         "cat.featured": "متميز",

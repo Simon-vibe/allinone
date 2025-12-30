@@ -74,7 +74,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -153,7 +154,8 @@
                     <div class="space-y-4">
                         <!-- Instagram -->
                         <div>
-                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">Instagram</div>
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2"
+                                data-i18n="crop.platform.instagram">Instagram</div>
                             <div class="grid grid-cols-3 gap-2">
                                 <button
                                     class="preset-btn bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 px-3 rounded text-xs font-medium transition"
@@ -175,7 +177,8 @@
 
                         <!-- Twitter/X -->
                         <div>
-                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">Twitter / X</div>
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2"
+                                data-i18n="crop.platform.twitter">Twitter / X</div>
                             <div class="grid grid-cols-2 gap-2">
                                 <button
                                     class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
@@ -192,7 +195,8 @@
 
                         <!-- YouTube -->
                         <div>
-                            <div class="text-xs font-bold text-gray-400 uppercase mb-2">YouTube</div>
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2"
+                                data-i18n="crop.platform.youtube">YouTube</div>
                             <div class="grid grid-cols-2 gap-2">
                                 <button
                                     class="preset-btn bg-gray-50 hover:bg-gray-100 text-gray-700 py-2 px-3 rounded text-xs font-medium transition"
@@ -268,9 +272,9 @@
                 <div class="bg-white p-4 rounded-lg border border-gray-100 text-sm">
                     <strong class="block text-gray-900 mb-1">Instagram</strong>
                     <ul class="list-disc pl-4 text-gray-500 space-y-1">
-                        <li>Square: 1080 x 1080 px (1:1)</li>
-                        <li>Portrait: 1080 x 1350 px (4:5)</li>
-                        <li>Story: 1080 x 1920 px (9:16)</li>
+                        <li data-i18n="crop.faq.insta1">Square: 1080 x 1080 px (1:1)</li>
+                        <li data-i18n="crop.faq.insta2">Portrait: 1080 x 1350 px (4:5)</li>
+                        <li data-i18n="crop.faq.insta3">Story: 1080 x 1920 px (9:16)</li>
                     </ul>
                 </div>
                 <div class="bg-white p-4 rounded-lg border border-gray-100 text-sm">
@@ -286,7 +290,7 @@
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -295,9 +299,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -350,7 +357,7 @@
 
             function handleFile(file) {
                 if (!file.type.startsWith('image/')) {
-                    alert('Please upload an image file.');
+                    alert(window.i18n.t('crop.alert.img_only'));
                     return;
                 }
 

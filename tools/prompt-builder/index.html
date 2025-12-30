@@ -41,7 +41,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -155,36 +156,44 @@
             </div>
         </div>
 
-    
+
 
         <!-- SEO Content -->
         <div class="mt-16 border-t border-gray-100 pt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">How to Write Better AI Prompts</h2>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="prompt.seo.h2">How to Write Better AI Prompts
+            </h2>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Writing effective prompts is key to getting the best results from LLMs like Claude 3.5 Sonnet and ChatGPT. This tool helps you structure your prompts using industry-best practices.</p>
-                
+                <p class="mb-4">Writing effective prompts is key to getting the best results from LLMs like Claude 3.5
+                    Sonnet and ChatGPT. This tool helps you structure your prompts using industry-best practices.</p>
+
                 <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3">Structured Prompting (xml)</h3>
-                <p class="mb-4">Anthropic recommends using XML tags to clearly separate different parts of your prompt. This helps the model distinguish between instructions, context, and input data.</p>
-                
+                <p class="mb-4">Anthropic recommends using XML tags to clearly separate different parts of your prompt.
+                    This helps the model distinguish between instructions, context, and input data.</p>
+
                 <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3">Role & Context</h3>
-                <p class="mb-4">Always assign a persona (e.g., "You are an expert Python developer") and provide sufficient background context. This grounds the model's response.</p>
+                <p class="mb-4">Always assign a persona (e.g., "You are an expert Python developer") and provide
+                    sufficient background context. This grounds the model's response.</p>
             </div>
 
             <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="prompt.seo.h2_faq">Frequently Asked
+                    Questions</h2>
                 <div class="space-y-4">
                     <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
-                        <summary class="font-bold text-gray-800">What is the difference between Claude XML and ChatGPT Markdown?</summary>
-                        <p class="mt-2 text-gray-600">Claude produces better results with explicit XML tags (like &lt;context&gt;), while ChatGPT typically prefers standard Markdown headers (# Context).</p>
+                        <summary class="font-bold text-gray-800">What is the difference between Claude XML and ChatGPT
+                            Markdown?</summary>
+                        <p class="mt-2 text-gray-600">Claude produces better results with explicit XML tags (like
+                            &lt;context&gt;), while ChatGPT typically prefers standard Markdown headers (# Context).</p>
                     </details>
                     <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
                         <summary class="font-bold text-gray-800">Is this prompt builder free?</summary>
-                        <p class="mt-2 text-gray-600">Yes, this tool is 100% free and runs entirely in your browser. No data is saved to our servers.</p>
+                        <p class="mt-2 text-gray-600">Yes, this tool is 100% free and runs entirely in your browser. No
+                            data is saved to our servers.</p>
                     </details>
                 </div>
             </div>
         </div>
-</main>
+    </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">

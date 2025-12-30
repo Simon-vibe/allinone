@@ -79,7 +79,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -114,6 +115,9 @@
                     class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fa-solid fa-wand-magic-sparkles text-3xl"></i>
                 </div>
+                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2"
+                    data-i18n="bgrem.seo.keywords_label">Related Keywords:</h2>
+                <div class="flex flex-wrap gap-2 text-sm text-gray-600" data-i18n="bgrem.seo.keywords"></div>
                 <h3 class="text-xl font-bold text-gray-900" data-i18n="img.drag.title">Drop Image Here</h3>
                 <p class="text-gray-500" data-i18n="img.drag.subtitle">or click to upload</p>
                 <button onclick="document.getElementById('file-input').click()"
@@ -230,32 +234,37 @@
             </ul>
         </section>
 
-    
+
 
         <!-- SEO Content (Injected) -->
         <div class="mt-16 border-t border-gray-100 pt-12">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Remove Background from Image Free Online (AI)</h2>
-            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider">Related Keywords: remove background ai free unlimited</p>
+            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider" data-i18n="bgrem.seo.keywords_label">Related
+                Keywords: remove background ai free unlimited</p>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Create transparent PNGs for e-commerce or profile pictures instantly. Our AI detects the subject and removes the background with high precision.</p>
+                <p class="mb-4">Create transparent PNGs for e-commerce or profile pictures instantly. Our AI detects the
+                    subject and removes the background with high precision.</p>
             </div>
             <div class="mt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
-            <div class="space-y-4" itemscope itemtype="https://schema.org/FAQPage">
-                
-                <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="font-bold text-gray-800" itemprop="name">Is it really free?</summary>
-                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p class="mt-2 text-gray-600" itemprop="text">Yes, standard resolution downloads are free and unlimited.</p>
-                    </div>
-                </details>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="bgrem.seo.faq.title">Frequently Asked
+                    Questions</h2>
+                <div class="space-y-4" itemscope itemtype="https://schema.org/FAQPage">
+
+                    <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope
+                        itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <summary class="font-bold text-gray-800" itemprop="name">Is it really free?</summary>
+                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="mt-2 text-gray-600" itemprop="text">Yes, standard resolution downloads are free
+                                and unlimited.</p>
+                        </div>
+                    </details>
+                </div>
             </div>
         </div>
-        </div>
-</main>
+    </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -264,9 +273,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">

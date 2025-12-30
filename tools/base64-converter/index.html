@@ -59,7 +59,8 @@
 
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -142,21 +143,29 @@
             </ul>
         </section>
 
-    
+
 
         <!-- SEO Content (Injected) -->
         <div class="mt-16 border-t border-gray-100 pt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Base64 Encode and Decode Online</h2>
-            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider">Related Keywords: base64 encode decode image text</p>
-            <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Convert images or text to Base64 strings for embedding in HTML/CSS, or decode Base64 back to original files.</p>
+            <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2"
+                data-i18n="base64.seo.keywords_label">Related Keywords:</h2>
+            <div class="flex flex-wrap gap-2 text-sm text-gray-600" data-i18n="base64.seo.keywords">
+                <span class="bg-gray-100 px-3 py-1 rounded-full">base64 encode</span>
+                <span class="bg-gray-100 px-3 py-1 rounded-full">base64 decode</span>
+                <span class="bg-gray-100 px-3 py-1 rounded-full">image to base64</span>
+                <span class="bg-gray-100 px-3 py-1 rounded-full">text to base64</span>
+                <span class="bg-gray-100 px-3 py-1 rounded-full">base64 converter</span>
             </div>
-            
+            <div class="prose max-w-none text-gray-600 mt-6">
+                <p class="mb-4">Convert images or text to Base64 strings for embedding in HTML/CSS, or decode Base64
+                    back to original files.</p>
+            </div>
+
         </div>
-</main>
+    </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -165,9 +174,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">

@@ -101,7 +101,8 @@
 
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -203,7 +204,7 @@
                 <li data-i18n="pdf.faq.feat.free"><strong>Free:</strong> No limits, no sign-up required.</li>
                 <li data-i18n="pdf.faq.feat.sec"><strong>Secure:</strong> Handles password-protected PDFs locally.</li>
             </ul>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Frequently Asked Questions</h3>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="pdf.faq.title">Frequently Asked Questions</h3>
             <div class="space-y-4">
                 <div>
                     <h4 class="font-bold text-gray-800" data-i18n="pdf.faq.q1.title">Is my data safe?</h4>
@@ -218,40 +219,54 @@
             </div>
         </section>
 
-    
+
 
         <!-- SEO Content (Injected) -->
         <div class="mt-16 border-t border-gray-100 pt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">How to Convert PDF Bank Statements to Excel for Free</h2>
-            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider">Related Keywords: convert pdf to excel bank statement free online</p>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="pdf.seo.h2">How to Convert PDF Bank Statements
+                to Excel for Free</h2>
+            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider"><span
+                    data-i18n="pdf.seo.keywords_label">Related Keywords:</span> <span
+                    data-i18n="pdf.seo.keywords">convert pdf to excel bank statement free online</span></p>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Extracting table data from PDF bank statements or invoices can be tedious. Our <strong>Free PDF to Excel Converter</strong> uses advanced parsing to detect tables and export them directly to .xlsx format, entirely in your browser.</p>
-        <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3">Why convert locally?</h3>
-        <p class="mb-4">Financial documents contain sensitive data. By converting locally (Client-side), you ensure no data is ever sent to a remote server, guaranteeing 100% privacy.</p>
+                <p class="mb-4" data-i18n="pdf.seo.p1">Extracting table data from PDF bank statements or invoices can be
+                    tedious. Our <strong>Free PDF to Excel Converter</strong> uses advanced parsing to detect tables and
+                    export them directly to .xlsx format, entirely in your browser.</p>
+                <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3" data-i18n="pdf.seo.h3_local">Why convert locally?
+                </h3>
+                <p class="mb-4" data-i18n="pdf.seo.p2">Financial documents contain sensitive data. By converting locally
+                    (Client-side), you ensure no data is ever sent to a remote server, guaranteeing 100% privacy.</p>
             </div>
             <div class="mt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
-            <div class="space-y-4" itemscope itemtype="https://schema.org/FAQPage">
-                
-                <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="font-bold text-gray-800" itemprop="name">Does this work with scanned PDFs?</summary>
-                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p class="mt-2 text-gray-600" itemprop="text">Currently, this tool works best with native text PDFs. For scanned images, try our OCR tool.</p>
-                    </div>
-                </details>
-                <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <summary class="font-bold text-gray-800" itemprop="name">Is there a file size limit?</summary>
-                    <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <p class="mt-2 text-gray-600" itemprop="text">No, since it processes locally, there are no arbitrary limits on file size.</p>
-                    </div>
-                </details>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="pdf.seo.faq.title">Frequently Asked
+                    Questions</h2>
+                <div class="space-y-4" itemscope itemtype="https://schema.org/FAQPage">
+
+                    <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope
+                        itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <summary class="font-bold text-gray-800" itemprop="name" data-i18n="pdf.seo.faq.q1">Does this
+                            work with scanned PDFs?</summary>
+                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="mt-2 text-gray-600" itemprop="text" data-i18n="pdf.seo.faq.a1">Currently, this
+                                tool works best with native text PDFs. For scanned images, try our OCR tool.</p>
+                        </div>
+                    </details>
+                    <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope
+                        itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <summary class="font-bold text-gray-800" itemprop="name" data-i18n="pdf.seo.faq.q2">Is there a
+                            file size limit?</summary>
+                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p class="mt-2 text-gray-600" itemprop="text" data-i18n="pdf.seo.faq.a2">No, since it
+                                processes locally, there are no arbitrary limits on file size.</p>
+                        </div>
+                    </details>
+                </div>
             </div>
         </div>
-        </div>
-</main>
+    </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -260,9 +275,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -331,7 +349,7 @@
                     currentFile = file;
                     processFile(file);
                 }
-                else alert('Please upload a valid PDF file.');
+                else alert(window.i18n.t('pdf.alert.valid_pdf'));
             });
 
             fileInput.addEventListener('change', (e) => {
@@ -505,7 +523,7 @@
                         return; // Wait for user interaction
                     }
 
-                    alert('Error processing PDF: ' + err.message);
+                    alert(window.i18n.t('pdf.alert.error') + err.message);
                     dropZone.classList.remove('hidden');
                     processingState.classList.add('hidden');
                     passwordModal.classList.add('hidden');
@@ -529,7 +547,7 @@
                     const tr = document.createElement('tr');
                     const td = document.createElement('td');
                     td.colSpan = 10;
-                    td.textContent = `... and ${data.length - 100} more rows. Download to see full data.`;
+                    td.textContent = window.i18n.t('pdf.msg.more_rows').replace('{count}', data.length - 100);
                     td.classList.add('text-center', 'italic', 'text-gray-400');
                     tr.appendChild(td);
                     previewTable.appendChild(tr);

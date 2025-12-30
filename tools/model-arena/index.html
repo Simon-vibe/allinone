@@ -37,7 +37,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -172,21 +173,23 @@
             </div>
         </div>
 
-    
 
-         <!-- SEO Content -->
+
+        <!-- SEO Content -->
         <div class="mt-16 border-t border-gray-100 pt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Choosing the Right LLM for Your Task</h2>
+            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="arena.seo.h2">Choosing the Right LLM for Your
+                Task</h2>
             <div class="prose max-w-none text-gray-600">
                 <p class="mb-4">With so many models available, it's hard to choose. Here is a quick guide:</p>
                 <ul class="list-disc pl-5 space-y-2">
                     <li><strong>Coding:</strong> Claude 3.5 Sonnet and DeepSeek-V3 are currently top-tier.</li>
                     <li><strong>Reasoning:</strong> OpenAI o1 and DeepSeek-R1 excel at math and logic.</li>
-                    <li><strong>Context:</strong> Gemini 1.5 Pro has a massive 2 Million token window for analyzing books or codebases.</li>
+                    <li><strong>Context:</strong> Gemini 1.5 Pro has a massive 2 Million token window for analyzing
+                        books or codebases.</li>
                 </ul>
             </div>
         </div>
-</main>
+    </main>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
