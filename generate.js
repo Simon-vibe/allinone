@@ -78,10 +78,15 @@ function adjustRelativePaths(content) {
         // 2. 如果引用的是根目录下的全局资源文件夹 (css/, js/, assets/) -> 需要修正为 ../css/... (加一个 ../)
         // 3. 其他情况视为“同级/子级资源” (如 tools/xxx/script.js)，这些资源会被拷贝到 /zh/tools/xxx/ 下，所以路径保持不变！
 
-        const isGlobalDir = url.startsWith('css/') || url.startsWith('js/') || url.startsWith('assets/');
+        const normalizedUrl = url.replace(/^\.\//, '');
+        const isGlobalDir = normalizedUrl.startsWith('css/') || normalizedUrl.startsWith('js/') || normalizedUrl.startsWith('assets/');
         const isUpward = url.startsWith('../');
 
-        if (isGlobalDir || isUpward) {
+        if (isGlobalDir) {
+            return `${attr}="../${normalizedUrl}"`;
+        }
+
+        if (isUpward) {
             return `${attr}="../${url}"`;
         }
 
