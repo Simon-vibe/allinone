@@ -44,7 +44,7 @@
         }
     </style>
     <!-- COI for SharedArrayBuffer -->
-    <script src="coi-serviceworker.js"></script>
+    <script src="coi-serviceworker.js?v=2"></script>
 </head>
 
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
@@ -247,7 +247,10 @@
 
             // Initialize FFmpeg
             const loadFFmpeg = async () => {
-                log("Loading FFmpeg engine...");
+                log(`Loading FFmpeg engine... (Isolated: ${window.crossOriginIsolated})`);
+                if (!window.crossOriginIsolated) {
+                    log("WARNING: Page is not cross-origin isolated. SharedArrayBuffer may fail.");
+                }
                 ffmpeg = new FFmpeg();
 
                 ffmpeg.on('log', ({ message }) => {

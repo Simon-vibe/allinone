@@ -55,7 +55,7 @@ const translations = {
         "about.form.send": "Send Message",
 
         // PDF Converter
-        "pdf.drag.title": "Drop PDF Statement Here",
+        "pdf.drag.title": "Drop PDF File Here",
         "pdf.drag.subtitle": "or click to select file",
         "pdf.status.processing": "Processing PDF...",
 
@@ -714,7 +714,7 @@ const translations = {
         "about.form.send": "发送留言",
 
         // PDF Converter
-        "pdf.drag.title": "将 PDF 对账单拖放到此处",
+        "pdf.drag.title": "将 PDF 文件拖放到此处",
         "pdf.drag.subtitle": "或点击选择文件",
         "pdf.status.processing": "正在处理 PDF...",
 

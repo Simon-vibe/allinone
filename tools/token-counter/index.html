@@ -214,15 +214,26 @@
                     currentInputTokens = 0;
                 } else {
                     // Try to use encoder if available, otherwise heuristic (4 chars ~= 1 token)
+                    // Try to use encoder if available, otherwise heuristic
                     if (typeof gpt3Encoder !== 'undefined' && gpt3Encoder.encode) {
-                         try {
+                        try {
                             const encoded = gpt3Encoder.encode(text);
                             currentInputTokens = encoded.length;
                         } catch (e) {
                             console.error("Token encoding failed:", e);
                             currentInputTokens = Math.ceil(text.length / 3.5); // Fallback estimate
                         }
+                    } else if (window.gpt3Encoder && window.gpt3Encoder.encode) {
+                        // Some CDNs attach to window
+                        try {
+                            const encoded = window.gpt3Encoder.encode(text);
+                            currentInputTokens = encoded.length;
+                        } catch (e) {
+                            console.error("Token encoding (window) failed:", e);
+                            currentInputTokens = Math.ceil(text.length / 3.5);
+                        }
                     } else {
+                        console.warn("gpt3Encoder not found, using fallback");
                         currentInputTokens = Math.ceil(text.length / 3.5); // Fallback estimate
                     }
                 }

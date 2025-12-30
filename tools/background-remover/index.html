@@ -35,6 +35,10 @@
     <!-- imgly background removal -->
     <script
         src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.2.1/dist/imgly-background-removal.js"></script>
+    <script>
+        // Ensure global access if module extraction fails (fallback)
+        window.imglyRemoveBackground = window.imglyRemoveBackground || window["@imgly/background-removal"];
+    </script>
     <!-- FileSaver.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
