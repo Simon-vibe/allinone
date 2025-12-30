@@ -753,6 +753,43 @@
                     if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 });
             }
+
+            // Sidebar Scroll Spy
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('aside nav a');
+
+            if (sections.length > 0 && navLinks.length > 0) {
+                const onScroll = () => {
+                    let current = '';
+                    const scrollY = window.scrollY;
+
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        // Offset for sticky header (adjustable)
+                        if (scrollY >= (sectionTop - 200)) {
+                            current = section.getAttribute('id');
+                        }
+                    });
+
+                    // If we are at the bottom of the page, highlight the last item
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        current = sections[sections.length - 1].getAttribute('id');
+                    }
+
+                    navLinks.forEach(link => {
+                        link.classList.remove('bg-blue-50', 'text-blue-700');
+                        link.classList.add('text-gray-600');
+                        if (link.getAttribute('href') === `#${current}`) {
+                            link.classList.remove('text-gray-600');
+                            link.classList.add('bg-blue-50', 'text-blue-700');
+                        }
+                    });
+                };
+
+                window.addEventListener('scroll', onScroll);
+                // Initial check
+                onScroll();
+            }
         });
     </script>
 
