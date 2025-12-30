@@ -68,23 +68,26 @@
         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100 mb-10">
             <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
                 <i class="fa-solid fa-wand-magic-sparkles text-purple-600 mr-2"></i>
-                What do you want to do?
+                <span data-i18n="arena.matcher.title">What do you want to do?</span>
             </h2>
             <div class="flex flex-col md:flex-row gap-4 items-center">
                 <select id="scenario-select"
                     class="flex-1 w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3">
-                    <option value="" disabled selected>Select a task...</option>
-                    <option value="coding">Write or Debug Code (Python, JS, etc.)</option>
-                    <option value="reasoning">Math & Complex Logic</option>
-                    <option value="writing">Creative Writing & Storytelling</option>
-                    <option value="context">Analyze Huge Documents (PDFs)</option>
-                    <option value="price">Cheapest for High Volume</option>
+                    <option value="" disabled selected data-i18n="arena.matcher.opt_default">Select a task...</option>
+                    <option value="coding" data-i18n="arena.matcher.opt_coding">Write or Debug Code (Python, JS, etc.)
+                    </option>
+                    <option value="reasoning" data-i18n="arena.matcher.opt_reasoning">Math & Complex Logic</option>
+                    <option value="writing" data-i18n="arena.matcher.opt_writing">Creative Writing & Storytelling
+                    </option>
+                    <option value="context" data-i18n="arena.matcher.opt_context">Analyze Huge Documents (PDFs)</option>
+                    <option value="price" data-i18n="arena.matcher.opt_price">Cheapest for High Volume</option>
                 </select>
                 <div id="recommendation-result"
                     class="hidden flex-1 w-full bg-blue-50 text-blue-800 p-4 rounded-lg border border-blue-200 flex items-center">
                     <i class="fa-solid fa-lightbulb text-yellow-500 text-xl mr-3"></i>
                     <div>
-                        <span class="font-bold text-sm uppercase tracking-wider block mb-1">Recommended:</span>
+                        <span class="font-bold text-sm uppercase tracking-wider block mb-1"
+                            data-i18n="arena.matcher.result_label">Recommended:</span>
                         <span id="rec-text" class="font-bold text-lg">Claude 3.5 Sonnet</span>
                     </div>
                 </div>
@@ -180,11 +183,15 @@
             <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="arena.seo.h2">Choosing the Right LLM for Your
                 Task</h2>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">With so many models available, it's hard to choose. Here is a quick guide:</p>
+                <p class="mb-4" data-i18n="arena.seo.p1">With so many models available, it's hard to choose. Here is a
+                    quick guide:</p>
                 <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>Coding:</strong> Claude 3.5 Sonnet and DeepSeek-V3 are currently top-tier.</li>
-                    <li><strong>Reasoning:</strong> OpenAI o1 and DeepSeek-R1 excel at math and logic.</li>
-                    <li><strong>Context:</strong> Gemini 1.5 Pro has a massive 2 Million token window for analyzing
+                    <li data-i18n="arena.seo.li_coding"><strong>Coding:</strong> Claude 3.5 Sonnet and DeepSeek-V3 are
+                        currently top-tier.</li>
+                    <li data-i18n="arena.seo.li_reasoning"><strong>Reasoning:</strong> OpenAI o1 and DeepSeek-R1 excel
+                        at math and logic.</li>
+                    <li data-i18n="arena.seo.li_context"><strong>Context:</strong> Gemini 1.5 Pro has a massive 2
+                        Million token window for analyzing
                         books or codebases.</li>
                 </ul>
             </div>
