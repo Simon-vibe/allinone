@@ -191,27 +191,56 @@
                 const length = parseInt(lengthInput.value);
                 lengthVal.textContent = length;
 
-                let chars = '';
-                if (chkUpper.checked) chars += CHARS.upper;
-                if (chkLower.checked) chars += CHARS.lower;
-                if (chkNumbers.checked) chars += CHARS.number;
-                if (chkSymbols.checked) chars += CHARS.symbol;
+                let availableChars = '';
+                const guaranteedChars = [];
 
-                if (chars === '') {
+                if (chkUpper.checked) {
+                    availableChars += CHARS.upper;
+                    guaranteedChars.push(CHARS.upper[Math.floor(Math.random() * CHARS.upper.length)]);
+                }
+                if (chkLower.checked) {
+                    availableChars += CHARS.lower;
+                    guaranteedChars.push(CHARS.lower[Math.floor(Math.random() * CHARS.lower.length)]);
+                }
+                if (chkNumbers.checked) {
+                    availableChars += CHARS.number;
+                    guaranteedChars.push(CHARS.number[Math.floor(Math.random() * CHARS.number.length)]);
+                }
+                if (chkSymbols.checked) {
+                    availableChars += CHARS.symbol;
+                    guaranteedChars.push(CHARS.symbol[Math.floor(Math.random() * CHARS.symbol.length)]);
+                }
+
+                if (availableChars === '') {
                     output.value = '';
                     updateStrength(0);
                     return;
                 }
 
-                let password = '';
-                const array = new Uint32Array(length);
-                window.crypto.getRandomValues(array);
+                let passwordArray = [...guaranteedChars];
 
-                for (let i = 0; i < length; i++) {
-                    password += chars[array[i] % chars.length];
+                // Fill the rest
+                const remainingLength = length - guaranteedChars.length;
+                if (remainingLength > 0) {
+                    const array = new Uint32Array(remainingLength);
+                    window.crypto.getRandomValues(array);
+                    for (let i = 0; i < remainingLength; i++) {
+                        passwordArray.push(availableChars[array[i] % availableChars.length]);
+                    }
+                } else if (remainingLength < 0) {
+                    // Length is less than types selected (rare but possible with min=4), truncate
+                    passwordArray = passwordArray.slice(0, length);
                 }
 
+                // Shuffle
+                for (let i = passwordArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [passwordArray[i], passwordArray[j]] = [passwordArray[j], passwordArray[i]];
+                }
+
+                const password = passwordArray.join('');
                 output.value = password;
+
                 updateStrength(password.length, Object.keys(CHARS).filter(k =>
                     (k === 'upper' && chkUpper.checked) ||
                     (k === 'lower' && chkLower.checked) ||

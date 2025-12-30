@@ -302,6 +302,11 @@ const translations = {
         "md.feat.1": "<strong>Readability:</strong> We utilize Mozilla's Readability engine to isolate the main article content.",
         "md.feat.2": "<strong>Turndown:</strong> Converts the cleaned HTML into standard Markdown.",
         "md.feat.3": "<strong>Privacy:</strong> Conversion happens entirely in your browser.",
+        "md.input.paste": "Paste HTML Source",
+        "md.input.url": "Fetch from URL",
+        "md.label.url": "Enter URL:",
+        "md.placeholder.url": "https://example.com/article",
+        "md.cors.note": "Note: Uses a public CORS proxy. Some sites may block this.",
 
         // Text to Speech
         "tool.tts.title": "Text to Speech",
@@ -482,6 +487,7 @@ const translations = {
         "pdf.password.desc": "This PDF is encrypted. Please enter the password to proceed.",
         "pdf.password.placeholder": "Enter password",
         "pdf.password.incorrect": "Incorrect password. Please try again.",
+        "pdf.error.no_text": "No text found. This document might be scanned (images only). Please use our OCR tool instead.",
         "common.cancel": "Cancel",
         "common.submit": "Submit",
 
@@ -955,6 +961,11 @@ const translations = {
         "md.feat.1": "<strong>正文提取：</strong>我们使用 Mozilla Readability 引擎智能识别并提取文章正文。",
         "md.feat.2": "<strong>Turndown：</strong>将清洗后的 HTML 转换为标准的 Markdown 格式。",
         "md.feat.3": "<strong>隐私保护：</strong>转换完全在您的浏览器中进行，不会上传数据。",
+        "md.input.paste": "粘贴 HTML 源码",
+        "md.input.url": "从 URL 获取",
+        "md.label.url": "输入 URL:",
+        "md.placeholder.url": "https://example.com/article",
+        "md.cors.note": "注意：使用公共 CORS 代理。某些网站可能会阻止。",
 
         // Text to Speech
         "tool.tts.title": "在线文字转语音",
@@ -1135,6 +1146,7 @@ const translations = {
         "pdf.password.desc": "此 PDF 已加密。请输入密码以继续。",
         "pdf.password.placeholder": "请输入密码",
         "pdf.password.incorrect": "密码错误，请重试。",
+        "pdf.error.no_text": "未找到文本。此文档可能是扫描件（图片）。请尝试使用 OCR 工具。",
         "common.cancel": "取消",
         "common.submit": "提交",
 

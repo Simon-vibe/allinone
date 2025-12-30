@@ -207,17 +207,23 @@
             let currentInputTokens = 0;
 
             function updateStats() {
-                const text = textInput.value;
+                const text = textInput.value || '';
                 charCount.textContent = text.length.toLocaleString();
 
                 if (!text) {
                     currentInputTokens = 0;
                 } else {
-                    try {
-                        const encoded = gpt3Encoder.encode(text);
-                        currentInputTokens = encoded.length;
-                    } catch (e) {
-                        currentInputTokens = Math.ceil(text.length / 4);
+                    // Try to use encoder if available, otherwise heuristic (4 chars ~= 1 token)
+                    if (typeof gpt3Encoder !== 'undefined' && gpt3Encoder.encode) {
+                         try {
+                            const encoded = gpt3Encoder.encode(text);
+                            currentInputTokens = encoded.length;
+                        } catch (e) {
+                            console.error("Token encoding failed:", e);
+                            currentInputTokens = Math.ceil(text.length / 3.5); // Fallback estimate
+                        }
+                    } else {
+                        currentInputTokens = Math.ceil(text.length / 3.5); // Fallback estimate
                     }
                 }
 

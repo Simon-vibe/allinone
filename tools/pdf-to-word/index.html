@@ -10,8 +10,7 @@
     <meta name="description"
         content="Convert PDF to Word (Docx) documents online for free. Extract text from PDF securely in your browser. No upload required."
         data-i18n="pdf2word.meta.desc">
-    <meta name="keywords"
-        content="pdf to word, pdf to docx, convert pdf to word, online pdf converter, free pdf tool"
+    <meta name="keywords" content="pdf to word, pdf to docx, convert pdf to word, online pdf converter, free pdf tool"
         data-i18n="pdf2word.meta.keywords">
 
     <!-- Canonical -->
@@ -26,18 +25,17 @@
     <meta property="og:url" content="https://allinone.page/tools/pdf-to-word/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="PDF to Word Converter - Free Online Tool">
-    <meta property="og:description"
-        content="Convert PDF files to editable Word documents securely in your browser.">
+    <meta property="og:description" content="Convert PDF files to editable Word documents securely in your browser.">
     <meta property="og:image" content="https://allinone.page/assets/og-image.png">
 
     <link rel="stylesheet" href="../../css/style.css">
-    
+
     <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
-    
+
     <!-- Docx.js -->
     <script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>
     <!-- FileSaver.js -->
@@ -46,7 +44,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
     </style>
 </head>
 
@@ -61,12 +61,15 @@
             </div>
             <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
                 <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
-                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition" data-i18n="nav.categories">Categories</a>
+                <a href="../../index.html#all-tools" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <div class="flex items-center space-x-2 border-l pl-6 border-gray-300">
-                    <button onclick="changeLanguage('en')" id="lang-en" class="hover:text-blue-800 transition">EN</button>
+                    <button onclick="changeLanguage('en')" id="lang-en"
+                        class="hover:text-blue-800 transition">EN</button>
                     <span class="text-gray-300">/</span>
-                    <button onclick="changeLanguage('zh')" id="lang-zh" class="hover:text-blue-800 transition">中文</button>
+                    <button onclick="changeLanguage('zh')" id="lang-zh"
+                        class="hover:text-blue-800 transition">中文</button>
                 </div>
             </div>
         </div>
@@ -76,7 +79,8 @@
     <div class="bg-blue-600 text-white py-12 mb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-3xl font-bold mb-4" data-i18n="tool.pdf2word.title">PDF to Word Converter</h1>
-            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.pdf2word.desc">Extract text from PDF files and save as Word (.docx) documents locally.</p>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.pdf2word.desc">Extract text from PDF files and
+                save as Word (.docx) documents locally.</p>
         </div>
     </div>
 
@@ -84,10 +88,12 @@
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 
         <!-- Upload Section -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 text-center transition-all" id="drop-zone">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 text-center transition-all"
+            id="drop-zone">
             <input type="file" id="file-input" accept=".pdf" class="hidden">
             <div class="space-y-4 pointer-events-none">
-                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div
+                    class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fa-solid fa-file-word text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900" data-i18n="pdf.drag.title">Drop PDF Here</h3>
@@ -99,7 +105,8 @@
                 </button>
             </div>
             <p class="mt-6 text-xs text-gray-400 flex items-center justify-center gap-1">
-                <i class="fa-solid fa-lock"></i> <span data-i18n="pdf.note.privacy">Processed locally. Your data never leaves this browser.</span>
+                <i class="fa-solid fa-lock"></i> <span data-i18n="pdf.note.privacy">Processed locally. Your data never
+                    leaves this browser.</span>
             </p>
         </div>
 
@@ -113,12 +120,13 @@
         <!-- Result Section -->
         <div id="result-section" class="hidden text-center py-8">
             <div class="bg-green-50 rounded-2xl p-8 border border-green-100 max-w-md mx-auto">
-                <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div
+                    class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fa-solid fa-check text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="pdf.status.ready">Ready to Download</h3>
                 <p class="text-gray-600 mb-6" id="result-filename">document.docx</p>
-                
+
                 <div class="flex gap-3 justify-center">
                     <button id="btn-download"
                         class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition shadow-sm flex items-center">
@@ -134,12 +142,15 @@
 
         <!-- FAQ -->
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="pdf2word.faq.title">How to Convert PDF to Word?</h2>
-            <p class="mb-4" data-i18n="pdf2word.faq.desc">Our tool extracts text from your PDF files and creates a new Microsoft Word document (.docx). It's fast, free, and secure.</p>
-            
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="pdf2word.faq.title">How to Convert PDF to Word?
+            </h2>
+            <p class="mb-4" data-i18n="pdf2word.faq.desc">Our tool extracts text from your PDF files and creates a new
+                Microsoft Word document (.docx). It's fast, free, and secure.</p>
+
             <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Features</h3>
             <ul class="list-disc pl-5 space-y-2 mb-6">
-                <li data-i18n="pdf2word.feat.1"><strong>Text Extraction:</strong> Accurately pulls text from standard PDFs.</li>
+                <li data-i18n="pdf2word.feat.1"><strong>Text Extraction:</strong> Accurately pulls text from standard
+                    PDFs.</li>
                 <li data-i18n="common.client_side"><strong>Client-Side:</strong> No server uploads, 100% privacy.</li>
                 <li data-i18n="common.free"><strong>Free:</strong> No limitations or watermarks.</li>
             </ul>
@@ -163,7 +174,7 @@
             const resultSection = document.getElementById('result-section');
             const btnDownload = document.getElementById('btn-download');
             const progressText = document.getElementById('process-progress');
-            
+
             let generatedBlob = null;
             let currentFileName = 'document.docx';
 
@@ -200,7 +211,7 @@
                 try {
                     const arrayBuffer = await file.arrayBuffer();
                     const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
-                    
+
                     const doc = new docx.Document({
                         sections: [{
                             properties: {},
@@ -210,53 +221,67 @@
 
                     const children = [];
                     const numPages = pdf.numPages;
+                    let hasExtractedText = false;
 
                     for (let i = 1; i <= numPages; i++) {
                         progressText.textContent = `Processing page ${i} of ${numPages}...`;
-                        
+
                         const page = await pdf.getPage(i);
                         const textContent = await page.getTextContent();
-                        
-                        // Simple Line sorting and grouping
-                        // This is a basic implementation. Better extraction requires more complex layout logic.
                         const items = textContent.items;
-                        if (items.length === 0) continue;
 
-                        // Sort by Y (desc) then X (asc)
+                        if (items.length === 0) {
+                            children.push(new docx.Paragraph({ children: [new docx.PageBreak()] }));
+                            continue;
+                        }
+
+                        hasExtractedText = true;
+
+                        // Improved sorting: Y (desc), then X (asc)
                         items.sort((a, b) => {
-                            if (Math.abs(a.transform[5] - b.transform[5]) > 5) {
-                                return b.transform[5] - a.transform[5]; // Top to bottom
-                            }
-                            return a.transform[4] - b.transform[4]; // Left to right
+                            const yDiff = b.transform[5] - a.transform[5];
+                            if (Math.abs(yDiff) > 5) return yDiff; // Different lines
+                            return a.transform[4] - b.transform[4]; // Same line, left to right
                         });
 
                         let currentY = items[0].transform[5];
                         let lineText = "";
 
                         items.forEach(item => {
-                            // Check for new line
+                            // Check for new line (threshold 10 units)
                             if (Math.abs(item.transform[5] - currentY) > 10) {
-                                if(lineText.trim()) {
-                                    children.push(new docx.Paragraph({ text: lineText }));
+                                if (lineText.trim()) {
+                                    children.push(new docx.Paragraph({ text: lineText.trim() }));
                                 }
                                 lineText = "";
                                 currentY = item.transform[5];
                             }
-                            lineText += item.str + " "; // Add space between words
+                            // Add space if needed
+                            if (lineText && !lineText.endsWith(" ") && item.str.trim()) {
+                                lineText += " ";
+                            }
+                            lineText += item.str;
                         });
-                        
+
                         // Push last line of page
-                        if(lineText.trim()) {
-                            children.push(new docx.Paragraph({ text: lineText }));
+                        if (lineText.trim()) {
+                            children.push(new docx.Paragraph({ text: lineText.trim() }));
                         }
-                        
+
                         // Add page break if not last page
                         if (i < numPages) {
-                             children.push(new docx.Paragraph({ children: [new docx.PageBreak()] }));
+                            children.push(new docx.Paragraph({ children: [new docx.PageBreak()] }));
                         }
                     }
 
-                    // Create final document
+                    if (!hasExtractedText) {
+                        alert(i18n.t("No text found. This document might be scanned (images only). Please use our OCR tool instead."));
+                        dropZone.classList.remove('hidden');
+                        processingState.classList.add('hidden');
+                        return;
+                    }
+
+                    // Create final document with gathered children
                     const finalDoc = new docx.Document({
                         sections: [{
                             properties: {},
@@ -266,7 +291,7 @@
 
                     progressText.textContent = 'Generating Word document...';
                     generatedBlob = await docx.Packer.toBlob(finalDoc);
-                    
+
                     currentFileName = file.name.replace('.pdf', '') + '.docx';
                     document.getElementById('result-filename').textContent = currentFileName;
 
@@ -283,4 +308,5 @@
         });
     </script>
 </body>
+
 </html>

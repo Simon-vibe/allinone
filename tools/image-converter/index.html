@@ -82,20 +82,6 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 
-        <!-- Controls -->
-        <div
-            class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6 max-w-3xl mx-auto flex flex-col md:flex-row gap-4 items-center justify-center">
-            <div class="flex items-center gap-2">
-                <span class="font-medium text-gray-700" data-i18n="imgconv.label.format">Convert to:</span>
-                <select id="format-select"
-                    class="border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
-                    <option value="image/jpeg">JPG</option>
-                    <option value="image/png">PNG</option>
-                    <option value="image/webp">WebP</option>
-                </select>
-            </div>
-        </div>
-
         <!-- Upload Section -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 text-center transition-all"
             id="drop-zone">
@@ -103,9 +89,9 @@
             <div class="space-y-4 pointer-events-none">
                 <div
                     class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-camera-rotate text-3xl"></i>
+                    <i class="fa-solid fa-cloud-arrow-up text-3xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900" data-i18n="img.drag.title">Drop Image Here</h3>
+                <h3 class="text-xl font-bold text-gray-900" data-i18n="img.drag.title">Drop Images Here</h3>
                 <p class="text-gray-500" data-i18n="img.drag.subtitle">or click to upload</p>
                 <button onclick="document.getElementById('file-input').click()"
                     class="pointer-events-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-sm"
@@ -117,6 +103,40 @@
                 <i class="fa-solid fa-lock"></i> <span data-i18n="pdf.note.privacy">Processed locally. Your data never
                     leaves this browser.</span>
             </p>
+        </div>
+
+        <!-- Staging & Controls (Hidden initially) -->
+        <div id="staging-area" class="hidden">
+
+            <!-- Controls -->
+            <div
+                class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <span class="font-bold text-gray-700" data-i18n="imgconv.label.format">Convert all to:</span>
+                    <select id="format-select"
+                        class="border border-gray-300 rounded-lg px-4 py-2 bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none font-medium">
+                        <option value="image/jpeg">JPG</option>
+                        <option value="image/png">PNG</option>
+                        <option value="image/webp">WebP</option>
+                    </select>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="location.reload()"
+                        class="text-gray-500 hover:text-red-500 px-4 py-2 font-medium transition">
+                        <i class="fa-solid fa-trash mr-1"></i> Clear
+                    </button>
+                    <button id="btn-convert"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg font-bold transition shadow-md flex items-center">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Convert
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preview Grid -->
+            <div id="preview-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
+                <!-- Previews injected here -->
+            </div>
         </div>
 
         <!-- Processing State -->
@@ -147,12 +167,6 @@
                         <span data-i18n="common.reset">Convert Another</span>
                     </button>
                 </div>
-            </div>
-
-            <!-- Previews Grid -->
-            <h3 class="text-xl font-bold text-gray-800 mb-6 text-left" data-i18n="imgconv.preview">Previews</h3>
-            <div id="preview-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Images injected here -->
             </div>
         </div>
 
@@ -185,15 +199,17 @@
         document.addEventListener('DOMContentLoaded', () => {
             const dropZone = document.getElementById('drop-zone');
             const fileInput = document.getElementById('file-input');
+            const stagingArea = document.getElementById('staging-area');
+            const previewGrid = document.getElementById('preview-grid');
+            const btnConvert = document.getElementById('btn-convert');
             const processingState = document.getElementById('processing-state');
             const resultSection = document.getElementById('result-section');
-            const previewGrid = document.getElementById('preview-grid');
             const resultInfo = document.getElementById('result-info');
             const btnDownloadZip = document.getElementById('btn-download-zip');
             const formatSelect = document.getElementById('format-select');
 
             let currentZip = null;
-            let convertedFiles = [];
+            let uploadedFiles = [];
 
             // Drag & Drop
             dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-blue-500', 'bg-blue-50'); });
@@ -201,67 +217,66 @@
             dropZone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropZone.classList.remove('border-blue-500', 'bg-blue-50');
-                if (e.dataTransfer.files.length > 0) processFiles(e.dataTransfer.files);
+                if (e.dataTransfer.files.length > 0) handleFiles(e.dataTransfer.files);
             });
 
             fileInput.addEventListener('change', (e) => {
-                if (e.target.files.length > 0) processFiles(e.target.files);
+                if (e.target.files.length > 0) handleFiles(e.target.files);
             });
 
-            btnDownloadZip.addEventListener('click', () => {
-                if (currentZip) {
-                    currentZip.generateAsync({ type: "blob" }).then(function (content) {
-                        saveAs(content, "converted_images.zip");
-                    });
-                }
-            });
-
-            async function processFiles(files) {
+            function handleFiles(files) {
                 dropZone.classList.add('hidden');
-                processingState.classList.remove('hidden');
-                resultSection.classList.add('hidden');
-                previewGrid.innerHTML = '';
-                currentZip = new JSZip();
-                convertedFiles = [];
-
-                const targetFormat = formatSelect.value; // image/jpeg
-                const fileExt = targetFormat === 'image/jpeg' ? 'jpg' : (targetFormat === 'image/png' ? 'png' : 'webp');
-
-                let count = 0;
+                stagingArea.classList.remove('hidden');
 
                 for (const file of files) {
                     if (!file.type.startsWith('image/')) continue;
+                    uploadedFiles.push(file);
 
-                    try {
-                        const imgData = await convertImage(file, targetFormat);
-
-                        // Add to Zip
-                        const imgDataOnly = imgData.split(',')[1];
-                        const newName = file.name.substring(0, file.name.lastIndexOf('.')) + '.' + fileExt;
-                        currentZip.file(newName, imgDataOnly, { base64: true });
-                        convertedFiles.push({ name: newName, url: imgData });
-
-                        // Add Preview
+                    // Create thumbnail
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
                         const div = document.createElement('div');
-                        div.className = 'relative group';
+                        div.className = 'relative group bg-white p-2 rounded-lg border border-gray-200 shadow-sm';
                         div.innerHTML = `
-                            <img src="${imgData}" class="w-full h-48 object-cover rounded-lg shadow-sm border border-gray-100">
-                            <div class="mt-2 text-xs text-center text-gray-500 truncate">${newName}</div>
-                            <a href="${imgData}" download="${newName}" class="absolute top-2 right-2 bg-white text-blue-600 rounded-lg p-2 shadow-md opacity-0 group-hover:opacity-100 transition">
-                                <i class="fa-solid fa-download"></i>
-                            </a>
+                            <img src="${e.target.result}" class="w-full h-32 object-cover rounded mb-2">
+                            <div class="text-xs text-gray-500 truncate px-1">${file.name}</div>
+                            <div class="text-[10px] text-gray-400 px-1 uppercase">${file.type.split('/')[1]}</div>
                         `;
                         previewGrid.appendChild(div);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            btnConvert.addEventListener('click', async () => {
+                if (uploadedFiles.length === 0) return;
+
+                stagingArea.classList.add('hidden');
+                processingState.classList.remove('hidden');
+
+                currentZip = new JSZip();
+                const targetFormat = formatSelect.value;
+                const fileExt = targetFormat === 'image/jpeg' ? 'jpg' : (targetFormat === 'image/png' ? 'png' : 'webp');
+                let count = 0;
+
+                for (const file of uploadedFiles) {
+                    try {
+                        const imgData = await convertImage(file, targetFormat);
+                        const imgDataOnly = imgData.split(',')[1];
+                        const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+                        const newName = `${baseName}.${fileExt}`;
+
+                        currentZip.file(newName, imgDataOnly, { base64: true });
                         count++;
                     } catch (err) {
                         console.error('Error processing ' + file.name, err);
                     }
                 }
 
-                resultInfo.textContent = `Converted ${count} images successfully.`;
+                resultInfo.textContent = `Successfully converted ${count} images to ${fileExt.toUpperCase()}.`;
                 processingState.classList.add('hidden');
                 resultSection.classList.remove('hidden');
-            }
+            });
 
             function convertImage(file, format) {
                 return new Promise((resolve, reject) => {
@@ -274,7 +289,6 @@
                             canvas.height = img.height;
                             const ctx = canvas.getContext('2d');
 
-                            // Fill white background for JPG if transparency exists
                             if (format === 'image/jpeg') {
                                 ctx.fillStyle = '#FFFFFF';
                                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -290,6 +304,14 @@
                     reader.readAsDataURL(file);
                 });
             }
+
+            btnDownloadZip.addEventListener('click', () => {
+                if (currentZip) {
+                    currentZip.generateAsync({ type: "blob" }).then(function (content) {
+                        saveAs(content, "converted_images.zip");
+                    });
+                }
+            });
         });
     </script>
 </body>

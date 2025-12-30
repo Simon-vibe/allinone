@@ -215,15 +215,10 @@
                 wordCount.textContent = text.length + ' ' + suffix;
             }
 
-            // Hook into i18n
-            const originalUpdateDOM = window.i18n.updateDOM.bind(window.i18n);
-            window.i18n.updateDOM = function () {
-                originalUpdateDOM();
-                render();
-            }
+            // Render initial content
+            render();
 
             editor.addEventListener('input', render);
-            render();
 
             document.getElementById('btn-download').addEventListener('click', () => {
                 const blob = new Blob([editor.value], { type: "text/markdown;charset=utf-8" });

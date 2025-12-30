@@ -245,7 +245,7 @@
                 );
             }
 
-            // --- Encryption ---
+            // UI Elements
             const encryptDrop = document.getElementById('encrypt-drop');
             const encryptInput = document.getElementById('encrypt-input');
             const encryptFilename = document.getElementById('encrypt-filename');
@@ -254,7 +254,46 @@
             const encryptResult = document.getElementById('encrypt-result');
             const btnDownloadEnc = document.getElementById('btn-download-enc');
 
+            const decryptDrop = document.getElementById('decrypt-drop');
+            const decryptInput = document.getElementById('decrypt-input');
+            const decryptFilename = document.getElementById('decrypt-filename');
+            const decryptPass = document.getElementById('decrypt-pass');
+            const btnDecrypt = document.getElementById('btn-decrypt');
+            const decryptResult = document.getElementById('decrypt-result');
+            const btnDownloadDec = document.getElementById('btn-download-dec');
+
             let fileToEncrypt = null;
+            let fileToDecrypt = null;
+
+            // Drag & Drop Helpers
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                encryptDrop.addEventListener(eventName, preventDefaults, false);
+                decryptDrop.addEventListener(eventName, preventDefaults, false);
+            });
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                encryptDrop.addEventListener(eventName, () => encryptDrop.classList.add('bg-blue-50', 'border-blue-500'));
+                decryptDrop.addEventListener(eventName, () => decryptDrop.classList.add('bg-green-50', 'border-green-500'));
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                encryptDrop.addEventListener(eventName, () => encryptDrop.classList.remove('bg-blue-50', 'border-blue-500'));
+                decryptDrop.addEventListener(eventName, () => decryptDrop.classList.remove('bg-green-50', 'border-green-500'));
+            });
+
+            // Encrypt Handlers
+            encryptDrop.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                if (dt.files.length) {
+                    fileToEncrypt = dt.files[0];
+                    encryptFilename.textContent = fileToEncrypt.name;
+                }
+            });
 
             encryptDrop.addEventListener('click', () => encryptInput.click());
             encryptInput.addEventListener('change', (e) => {
@@ -307,16 +346,14 @@
                 }
             });
 
-            // --- Decryption ---
-            const decryptDrop = document.getElementById('decrypt-drop');
-            const decryptInput = document.getElementById('decrypt-input');
-            const decryptFilename = document.getElementById('decrypt-filename');
-            const decryptPass = document.getElementById('decrypt-pass');
-            const btnDecrypt = document.getElementById('btn-decrypt');
-            const decryptResult = document.getElementById('decrypt-result');
-            const btnDownloadDec = document.getElementById('btn-download-dec');
-
-            let fileToDecrypt = null;
+            // Decrypt Handlers
+            decryptDrop.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                if (dt.files.length) {
+                    fileToDecrypt = dt.files[0];
+                    decryptFilename.textContent = fileToDecrypt.name;
+                }
+            });
 
             decryptDrop.addEventListener('click', () => decryptInput.click());
             decryptInput.addEventListener('change', (e) => {

@@ -86,11 +86,11 @@
                 <div class="flex space-x-6 border-b border-gray-100 pb-4">
                     <label class="flex items-center cursor-pointer">
                         <input type="radio" name="input-type" value="html" checked class="mr-2 text-blue-600">
-                        <span class="font-medium">Paste HTML Source</span>
+                        <span class="font-medium" data-i18n="md.input.paste">Paste HTML Source</span>
                     </label>
-                    <label class="flex items-center cursor-pointer text-gray-400" title="Coming soon">
-                        <input type="radio" name="input-type" value="url" disabled class="mr-2">
-                        <span>Fetch URL (Coming Soon)</span>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="radio" name="input-type" value="url" class="mr-2 text-blue-600">
+                        <span class="font-medium" data-i18n="md.input.url">Fetch from URL</span>
                     </label>
                 </div>
 
@@ -104,6 +104,18 @@
                         <i class="fa-solid fa-circle-info mr-1"></i>
                         <span data-i18n="md.tip">Tip: Right-click page -> 'View Page Source' -> Copy All -> Paste here.
                             This ensures 100% accuracy.</span>
+                    </p>
+                </div>
+
+                <div id="url-input-container" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="md.label.url">Enter
+                        URL:</label>
+                    <input type="url" id="input-url"
+                        class="w-full border border-gray-200 rounded-lg p-4 text-sm bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="https://example.com/article">
+                    <p class="text-xs text-gray-500 mt-2">
+                        <i class="fa-solid fa-shield-halved mr-1"></i>
+                        <span data-i18n="md.cors.note">Note: Uses a public CORS proxy. Some sites may block this.</span>
                     </p>
                 </div>
 
@@ -168,34 +180,85 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const inputHtml = document.getElementById('input-html');
+            const inputUrl = document.getElementById('input-url');
             const btnConvert = document.getElementById('btn-convert');
             const resultContainer = document.getElementById('result-container');
             const outputMd = document.getElementById('output-md');
             const btnCopy = document.getElementById('btn-copy');
             const btnDownload = document.getElementById('btn-download');
 
+            const htmlContainer = document.getElementById('html-input-container');
+            const urlContainer = document.getElementById('url-input-container');
+            const inputTypeRadios = document.querySelectorAll('input[name="input-type"]');
+
             const turndownService = new TurndownService({
                 headingStyle: 'atx',
                 codeBlockStyle: 'fenced'
             });
 
-            btnConvert.addEventListener('click', () => {
-                const html = inputHtml.value;
-                if (!html.trim()) return;
+            // Toggle Input
+            inputTypeRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.value === 'html') {
+                        htmlContainer.classList.remove('hidden');
+                        urlContainer.classList.add('hidden');
+                    } else {
+                        htmlContainer.classList.add('hidden');
+                        urlContainer.classList.remove('hidden');
+                    }
+                });
+            });
 
+            btnConvert.addEventListener('click', async () => {
+                const mode = document.querySelector('input[name="input-type"]:checked').value;
+                let html = '';
+
+                if (mode === 'html') {
+                    html = inputHtml.value;
+                    if (!html.trim()) return;
+                    processHtml(html);
+                } else {
+                    const url = inputUrl.value.trim();
+                    if (!url) return;
+
+                    const originalBtnText = btnConvert.innerHTML;
+                    btnConvert.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Fetching...';
+                    btnConvert.disabled = true;
+
+                    try {
+                        // Use AllOrigins (free CORS proxy)
+                        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+                        const response = await fetch(proxyUrl);
+                        const data = await response.json();
+
+                        if (data.contents) {
+                            processHtml(data.contents);
+                        } else {
+                            throw new Error('No content found');
+                        }
+                    } catch (e) {
+                        alert('Failed to fetch URL. It might be blocked or invalid. Try pasting source code manually.');
+                        console.error(e);
+                    } finally {
+                        btnConvert.innerHTML = originalBtnText;
+                        btnConvert.disabled = false;
+                    }
+                }
+            });
+
+            function processHtml(html) {
                 try {
                     // 1. Parse HTML string to DOM
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, "text/html");
 
                     // 2. Use Readability to extract main content
-                    // Check if Readability exists and if the doc looks valid
                     let article;
                     try {
                         const reader = new Readability(doc);
                         article = reader.parse();
                     } catch (e) {
-                        console.warn("Readability failed, falling back to full body", e);
+                        console.warn("Readability failed", e);
                     }
 
                     let contentToConvert = "";
@@ -204,11 +267,9 @@
                     if (article && article.content) {
                         contentToConvert = article.content;
                         title = article.title;
-                        // Add title as H1
                         contentToConvert = `<h1>${title}</h1>\n\n` + contentToConvert;
                     } else {
-                        // Fallback: convert body
-                        contentToConvert = doc.body.innerHTML;
+                        contentToConvert = doc.body ? doc.body.innerHTML : html;
                     }
 
                     // 3. Convert to Markdown
@@ -224,7 +285,7 @@
                     console.error(error);
                     alert('Conversion failed. Please ensure the HTML is valid.');
                 }
-            });
+            }
 
             btnCopy.addEventListener('click', () => {
                 outputMd.select();
