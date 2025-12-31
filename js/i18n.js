@@ -2022,6 +2022,12 @@ const translations = {
 
         // Local LLM
         "local.seo.h2": "使用 WebGPU 在本地运行 LLM",
+        "local.req.title": "系统要求",
+        "local.req.desc": "您需要一个现代浏览器（Chrome/Edge 113+）和一个至少有 4GB 显存的 GPU 才能获得良好的性能。",
+        "local.faq.q1": "这真的隐私吗？",
+        "local.faq.a1": "是的。模型权重下载到您的浏览器缓存中，所有计算都在您的本地硬件上进行。",
+        "local.faq.q2": "为什么第一次加载很慢？",
+        "local.faq.a2": "浏览器需要下载模型权重（大约 1GB-4GB）。随后的访问将是即时的。",
 
         // Markdown
         "md.seo.keywords_label": "相关关键词：",
