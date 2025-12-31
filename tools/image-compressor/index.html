@@ -164,66 +164,86 @@
                         </div>
                     </div>
 
-                    <div
-                        class="relative w-full flex justify-center bg-checkered p-4 rounded-xl border border-gray-100 mb-6">
-                        <img id="preview-img" class="max-h-[400px] max-w-full object-contain shadow-md rounded-lg"
-                            src="" alt="Preview">
+                    <!-- Size Warning -->
+                    <div id="size-warning"
+                        class="hidden w-full mb-6 bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl flex items-start">
+                        <i class="fa-solid fa-triangle-exclamation mt-1 mr-3 flex-shrink-0"></i>
+                        <div>
+                            <p class="font-bold text-sm" data-i18n="img.warn.size_increase">File size increased.</p>
+                            <p class="text-xs mt-1" data-i18n="img.warn.size_tip">Use JPEG or WebP for photos. PNG is
+                                only for transparency/graphics.</p>
+                        </div>
                     </div>
 
-                    <a id="download-link" href="#"
-                        class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none transition transform hover:-translate-y-1">
-                        <i class="fa-solid fa-download mr-2"></i> <span data-i18n="img.action.download_image">Download
-                            Image</span>
-                    </a>
-                </div>
-            </div>
-        </div>
+                    <div
+                        class="relative w-full flex justify-center bg-checkered p-4 rounded-xl border border-gray-100 mb-6">
 
-        <!-- Combined SEO & Content Section -->
-        <div class="mt-16 border-t border-gray-100 pt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="img.seo.h2_compress">Compress Images Online
-                Without Losing Quality</h2>
-            <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider">
-                <span data-i18n="img.seo.keywords_label">Related Keywords:</span>
-                <span data-i18n="img.seo.keywords">compress image online free unlimited</span>
-            </p>
-            <div class="prose max-w-none text-gray-600">
-                <p class="mb-4" data-i18n="img.seo.p1">Optimize your website performance by reducing image file sizes.
-                    Our tool supports JPG,
-                    PNG, and WebP compression with adjustable quality settings.</p>
-
-                <!-- Features (Moved from manual section) -->
-                <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="img.faq.feat.title">Features:</h3>
-                <ul class="list-disc pl-5 space-y-2 mb-6">
-                    <li data-i18n="img.faq.feat.privacy"><strong>Privacy First:</strong> Browser-based processing means
-                        100%
-                        data security.</li>
-                    <li data-i18n="img.faq.feat.format"><strong>Format Support:</strong> Compatible with PNG, JPEG, and
-                        WebP.</li>
-                    <li data-i18n="img.faq.feat.control"><strong>Custom Controls:</strong> Adjust quality and max
-                        dimensions
-                        easily.</li>
-                </ul>
-            </div>
-            <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="img.seo.h2_faq">Frequently Asked Questions
-                </h2>
-                <div class="space-y-4" itemscope itemtype="https://schema.org/FAQPage">
-
-                    <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope
-                        itemprop="mainEntity" itemtype="https://schema.org/Question">
-                        <summary class="font-bold text-gray-800" itemprop="name" data-i18n="img.faq.q1">Can I compress
-                            multiple images?
-                        </summary>
-                        <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                            <p class="mt-2 text-gray-600" itemprop="text" data-i18n="img.faq.a1">Yes, you can drop
-                                multiple files or select
-                                them in batch.</p>
+                        <div
+                            class="relative w-full flex justify-center bg-checkered p-4 rounded-xl border border-gray-100 mb-6">
+                            <img id="preview-img" class="max-h-[400px] max-w-full object-contain shadow-md rounded-lg"
+                                src="" alt="Preview">
                         </div>
-                    </details>
+
+                        <a id="download-link" href="#"
+                            class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none transition transform hover:-translate-y-1">
+                            <i class="fa-solid fa-download mr-2"></i> <span
+                                data-i18n="img.action.download_image">Download
+                                Image</span>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Combined SEO & Content Section -->
+            <div class="mt-16 border-t border-gray-100 pt-12">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="img.seo.h2_compress">Compress Images Online
+                    Without Losing Quality</h2>
+                <p class="text-sm text-gray-400 mb-4 uppercase tracking-wider">
+                    <span data-i18n="img.seo.keywords_label">Related Keywords:</span>
+                    <span data-i18n="img.seo.keywords">compress image online free unlimited</span>
+                </p>
+                <div class="prose max-w-none text-gray-600">
+                    <p class="mb-4" data-i18n="img.seo.p1">Optimize your website performance by reducing image file
+                        sizes.
+                        Our tool supports JPG,
+                        PNG, and WebP compression with adjustable quality settings.</p>
+
+                    <!-- Features (Moved from manual section) -->
+                    <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="img.faq.feat.title">Features:</h3>
+                    <ul class="list-disc pl-5 space-y-2 mb-6">
+                        <li data-i18n="img.faq.feat.privacy"><strong>Privacy First:</strong> Browser-based processing
+                            means
+                            100%
+                            data security.</li>
+                        <li data-i18n="img.faq.feat.format"><strong>Format Support:</strong> Compatible with PNG, JPEG,
+                            and
+                            WebP.</li>
+                        <li data-i18n="img.faq.feat.control"><strong>Custom Controls:</strong> Adjust quality and max
+                            dimensions
+                            easily.</li>
+                    </ul>
+                </div>
+                <div class="mt-12">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="img.seo.h2_faq">Frequently Asked
+                        Questions
+                    </h2>
+                    <div class="space-y-4" itemscope itemtype="https://schema.org/FAQPage">
+
+                        <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer" itemscope
+                            itemprop="mainEntity" itemtype="https://schema.org/Question">
+                            <summary class="font-bold text-gray-800" itemprop="name" data-i18n="img.faq.q1">Can I
+                                compress
+                                multiple images?
+                            </summary>
+                            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <p class="mt-2 text-gray-600" itemprop="text" data-i18n="img.faq.a1">Yes, you can drop
+                                    multiple files or select
+                                    them in batch.</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
     </main>
 
     <!-- Footer -->
@@ -296,6 +316,15 @@
                 originalFileSize = file.size;
                 originalSizeEl.textContent = formatSize(file.size);
 
+                // Smart Format Selection
+                if (file.type === 'image/png') {
+                    formatSelect.value = 'image/png';
+                } else if (file.type === 'image/webp') {
+                    formatSelect.value = 'image/webp';
+                } else {
+                    formatSelect.value = 'image/jpeg';
+                }
+
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     originalImage = new Image();
@@ -343,7 +372,16 @@
 
                 const reduction = ((originalFileSize - sizeInBytes) / originalFileSize * 100).toFixed(1);
                 reductionRateEl.textContent = reduction + '%';
-                reductionRateEl.className = reduction > 0 ? "font-bold text-green-600 text-lg" : "font-bold text-red-600 text-lg";
+
+                const warningEl = document.getElementById('size-warning');
+
+                if (parseFloat(reduction) < 0) {
+                    reductionRateEl.className = "font-bold text-red-600 text-lg";
+                    warningEl.classList.remove('hidden');
+                } else {
+                    reductionRateEl.className = "font-bold text-green-600 text-lg";
+                    warningEl.classList.add('hidden');
+                }
 
                 const ext = format.split('/')[1];
                 downloadLink.href = dataUrl;

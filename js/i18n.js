@@ -771,6 +771,8 @@ const translations = {
         "img.opt.jpeg": "JPEG (Recommended)",
         "img.opt.png": "PNG (Lossless/Transparent)",
         "img.opt.webp": "WebP (Modern)",
+        "img.warn.size_increase": "File size increased.",
+        "img.warn.size_tip": "Use JPEG or WebP for photos. PNG is only for transparency/graphics.",
         "img.stat.reduction": "Reduction",
         "img.action.download_image": "Download Image",
 
@@ -1973,6 +1975,8 @@ const translations = {
         "img.opt.jpeg": "JPEG (推荐)",
         "img.opt.png": "PNG (无损/透明)",
         "img.opt.webp": "WebP (现代)",
+        "img.warn.size_increase": "文件变大了？",
+        "img.warn.size_tip": "照片建议使用 JPEG 或 WebP。PNG 更适合图标或透明背景。",
         "img.stat.reduction": "压缩率",
         "img.action.download_image": "下载图片",
 
@@ -2451,15 +2455,15 @@ const translations = {
         "ua.action.generate": "生成 User Agent",
 
         // [Auto-filled fallback]
-        "pwd.faq.desc": "Create secure passwords to keep your online accounts safe. Our tool runs locally in your browser.",
+        "pwd.faq.desc": "创建安全密码以保护您的在线账户。我们的工具在您的浏览器中本地运行。",
         "crop.preset.instagram": "Instagram",
         "crop.preset.twitter": "Twitter / X",
         "crop.preset.youtube": "YouTube",
-        "crop.action.apply": "Apply Size",
-        "ua.faq.change.q": "How to change my User Agent?",
-        "ua.faq.change.a": "You can use developer tools in your browser or extensions to 'spoof' or change your User Agent string.",
-        "ua.faq.safe.q": "Is modifying User Agent safe?",
-        "ua.faq.safe.a": "Yes, it generally is safe, but some websites might look broken if they rely on it for feature detection."
+        "crop.action.apply": "应用尺寸",
+        "ua.faq.change.q": "如何更改我的 User Agent？",
+        "ua.faq.change.a": "您可以使用浏览器开发者工具或扩展程序来“伪装”或更改您的 User Agent 字符串。",
+        "ua.faq.safe.q": "修改 User Agent 安全吗？",
+        "ua.faq.safe.a": "是的，通常是安全的，但如果某些网站依赖它进行功能检测，可能会显示异常。"
     },
     es: {
         "nav.home": "Inicio",
@@ -3613,7 +3617,9 @@ const translations = {
         // [Auto-filled fallback]
         "meta.keywords": "developer tools, pdf converter, json formatter, image resizer, base64 encoder",
         "tool.prompt.desc": "Build structured prompts for Claude & ChatGPT.",
+        "tool.prompt.desc": "Build structured prompts for Claude & ChatGPT.",
         "tool.aicost.desc": "Calculate API costs for OpenAI, Claude, and Gemini.",
+        "tool.imgprompt.desc": "Generate style prompts for Midjourney & Flux.",
         "tool.imgprompt.desc": "Generate style prompts for Midjourney & Flux.",
         "tool.arena.title": "AI Model Arena",
         "tool.arena.desc": "Compare LLM capabilities, prices, and specs.",
