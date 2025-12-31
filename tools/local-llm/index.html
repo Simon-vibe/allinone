@@ -110,62 +110,65 @@
 
     <!-- Main Content -->
     <!-- Main Content -->
-    <main
-        class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-12 flex flex-col min-h-[600px] md:h-[calc(100vh-280px)]">
+    <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-12 flex flex-col">
 
-        <!-- Model Selector & Status -->
+        <!-- App Interface Wrapper -->
         <div
-            class="bg-white p-4 rounded-t-xl border border-gray-200 border-b-0 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center space-x-2 w-full sm:w-auto">
-                <span class="text-sm font-bold text-gray-700 whitespace-nowrap"
-                    data-i18n="local.label.model">Model:</span>
-                <select id="model-select"
-                    class="text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 flex-grow sm:flex-grow-0 min-w-0">
-                    <option value="Llama-3-8B-Instruct-q4f32_1-MLC-1k">Llama 3 (8B) - High Quality (Requires ~6GB VRAM)
-                    </option>
-                    <option value="TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC" selected>TinyLlama (1.1B) - Fast (Low VRAM)
-                    </option>
-                    <option value="Gemma-2b-it-q4f32_1-MLC">Google Gemma (2B) - Balanced</option>
-                </select>
+            class="flex flex-col min-h-[600px] md:h-[calc(100vh-280px)] w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-12">
+            <!-- Model Selector & Status -->
+            <div
+                class="bg-gray-50 p-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center space-x-2 w-full sm:w-auto">
+                    <span class="text-sm font-bold text-gray-700 whitespace-nowrap"
+                        data-i18n="local.label.model">Model:</span>
+                    <select id="model-select"
+                        class="text-sm border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 flex-grow sm:flex-grow-0 min-w-0">
+                        <option value="Llama-3-8B-Instruct-q4f32_1-MLC-1k">Llama 3 (8B) - High Quality (Requires ~6GB
+                            VRAM)
+                        </option>
+                        <option value="TinyLlama-1.1B-Chat-v1.0-q4f32_1-MLC" selected>TinyLlama (1.1B) - Fast (Low VRAM)
+                        </option>
+                        <option value="Gemma-2b-it-q4f32_1-MLC">Google Gemma (2B) - Balanced</option>
+                    </select>
+                </div>
+                <div id="status-badge"
+                    class="px-2 py-1 rounded text-xs font-bold bg-gray-100 text-gray-500 whitespace-nowrap">
+                    Initializing...
+                </div>
             </div>
-            <div id="status-badge"
-                class="px-2 py-1 rounded text-xs font-bold bg-gray-100 text-gray-500 whitespace-nowrap">
-                Initializing...
+
+            <!-- Chat Area -->
+            <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 bg-white">
+                <!-- Messages go here -->
+                <div class="chat-msg chat-bot p-3 text-sm">
+                    👋 Hi! I'm a local AI running entirely in your browser. Select a model and start chatting!
+                    <br><br>
+                    <em class="text-xs text-gray-500">Note: First load requires downloading model weights (1-4GB).
+                        Please be
+                        patient.</em>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="bg-gray-50 p-4 border-t border-gray-200">
+                <div class="relative">
+                    <input type="text" id="user-input"
+                        class="w-full p-4 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+                        placeholder="Type a message..." disabled>
+                    <button id="send-btn"
+                        class="absolute right-2 top-2 bottom-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div id="download-progress" class="mt-2 text-xs text-center text-blue-600 hidden">
+                    Downloading... 0%
+                </div>
             </div>
         </div>
-
-        <!-- Chat Area -->
-        <div id="chat-container" class="flex-1 bg-white border border-gray-200 overflow-y-auto p-4 space-y-4">
-            <!-- Messages go here -->
-            <div class="chat-msg chat-bot p-3 text-sm">
-                👋 Hi! I'm a local AI running entirely in your browser. Select a model and start chatting!
-                <br><br>
-                <em class="text-xs text-gray-500">Note: First load requires downloading model weights (1-4GB). Please be
-                    patient.</em>
-            </div>
-        </div>
-
-        <!-- Input Area -->
-        <div class="bg-white p-4 rounded-b-xl border border-gray-200 border-t-0">
-            <div class="relative">
-                <input type="text" id="user-input"
-                    class="w-full p-4 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
-                    placeholder="Type a message..." disabled>
-                <button id="send-btn"
-                    class="absolute right-2 top-2 bottom-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled>
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </div>
-            <div id="download-progress" class="mt-2 text-xs text-center text-blue-600 hidden">
-                Downloading... 0%
-            </div>
-        </div>
-
-
 
         <!-- SEO Content -->
-        <div class="mt-16 border-t border-gray-100 pt-12">
+        <div class="border-t border-gray-100 pt-12">
             <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="local.seo.h2">Run LLMs Locally with WebGPU
             </h2>
             <div class="prose max-w-none text-gray-600">
@@ -180,7 +183,7 @@
                     performance.</p>
             </div>
             <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="prompt.seo.h2_faq">FAQ</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="local.faq.title">FAQ</h2>
                 <div class="space-y-4">
                     <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
                         <summary class="font-bold text-gray-800" data-i18n="local.faq.q1">Is this really private?

@@ -283,37 +283,47 @@
             };
 
             function generatePrompt() {
-                const data = {
-                    role: inputs.role.value,
-                    context: inputs.context.value,
-                    task: inputs.task.value,
-                    constraints: inputs.constraints.value,
-                    format: inputs.format.value
-                };
+                try {
+                    const getValue = (el) => el ? el.value : "";
 
-                let prompt = "";
+                    const data = {
+                        role: getValue(inputs.role),
+                        context: getValue(inputs.context),
+                        task: getValue(inputs.task),
+                        constraints: getValue(inputs.constraints),
+                        format: getValue(inputs.format)
+                    };
 
-                if (currentMode === 'claude') {
-                    // XML Structure - Always show tags for structure visibility
-                    prompt += `<role>\n${data.role || "(Enter role...)"}\n</role>\n\n`;
-                    prompt += `<context>\n${data.context || "..."}\n</context>\n\n`;
-                    prompt += `<task>\n${data.task || "..."}\n</task>\n\n`;
-                    prompt += `<constraints>\n${data.constraints || "..."}\n</constraints>\n\n`;
-                    prompt += `<output_format>\n${data.format || "..."}\n</output_format>`;
-                } else {
-                    // Markdown Structure
-                    prompt += `## Role\n${data.role || "(Enter role...)"}\n\n`;
-                    prompt += `## Context\n${data.context || "..."}\n\n`;
-                    prompt += `## Task\n${data.task || "..."}\n\n`;
-                    prompt += `## Constraints\n${data.constraints || "..."}\n\n`;
-                    prompt += `## Output Format\n${data.format || "..."}`;
+                    let prompt = "";
+
+                    if (currentMode === 'claude') {
+                        // XML Structure - Always show tags for structure visibility
+                        prompt += `<role>\n${data.role || "(Enter role...)"}\n</role>\n\n`;
+                        prompt += `<context>\n${data.context || "..."}\n</context>\n\n`;
+                        prompt += `<task>\n${data.task || "..."}\n</task>\n\n`;
+                        prompt += `<constraints>\n${data.constraints || "..."}\n</constraints>\n\n`;
+                        prompt += `<output_format>\n${data.format || "..."}\n</output_format>`;
+                    } else {
+                        // Markdown Structure
+                        prompt += `## Role\n${data.role || "(Enter role...)"}\n\n`;
+                        prompt += `## Context\n${data.context || "..."}\n\n`;
+                        prompt += `## Task\n${data.task || "..."}\n\n`;
+                        prompt += `## Constraints\n${data.constraints || "..."}\n\n`;
+                        prompt += `## Output Format\n${data.format || "..."}`;
+                    }
+
+                    if (preview) {
+                        preview.value = prompt.trim();
+                    }
+                } catch (e) {
+                    console.error("Error generating prompt:", e);
                 }
-
-                preview.value = prompt.trim();
             }
 
             function setMode(mode) {
                 currentMode = mode;
+                if (!modeBtns.claude || !modeBtns.gpt) return;
+
                 if (mode === 'claude') {
                     modeBtns.claude.className = "px-4 py-1.5 rounded-md text-sm font-medium transition bg-indigo-100 text-indigo-700";
                     modeBtns.gpt.className = "px-4 py-1.5 rounded-md text-sm font-medium transition text-gray-600 hover:bg-gray-50";
