@@ -86,50 +86,139 @@
     <!-- Main Tool Content -->
     <main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8">
 
-        <!-- Encoder Input -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-            <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                <i class="fa-solid fa-file-lines text-blue-500 mr-2"></i> <span data-i18n="base64.input.label">Plain
-                    Text / Base64</span>
-            </h2>
-            <textarea id="text-input" rows="6"
-                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm outline-none shadow-inner"
-                data-i18n="base64.input.placeholder" placeholder="Type text here to encode..."></textarea>
-        </div>
-
-        <!-- Controls -->
-        <div class="flex flex-col md:flex-row justify-center gap-4 mb-8">
-            <button id="btn-encode"
-                class="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-blue-200 transition transform hover:-translate-y-1">
-                <i class="fa-solid fa-arrow-down"></i> <span data-i18n="base64.action.encode">Encode</span>
-            </button>
-            <button id="btn-decode"
-                class="flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-emerald-200 transition transform hover:-translate-y-1">
-                <i class="fa-solid fa-arrow-up"></i> <span data-i18n="base64.action.decode">Decode</span>
-            </button>
-        </div>
-
-        <!-- Decoder Input -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-bold text-gray-900 flex items-center">
-                    <i class="fa-solid fa-code text-purple-500 mr-2"></i> <span data-i18n="base64.output.label">Base64
-                        Output</span>
-                </h2>
-                <button id="btn-copy"
-                    class="text-sm text-gray-400 hover:text-blue-600 font-medium transition flex items-center">
-                    <i class="fa-regular fa-copy mr-1"></i> <span data-i18n="json.action.copy">Copy</span>
+        <!-- Tabs -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-gray-100 p-1 rounded-xl inline-flex">
+                <button id="tab-text"
+                    class="px-6 py-2 rounded-lg text-sm font-medium transition bg-white text-blue-600 shadow-sm"
+                    onclick="switchTab('text')">
+                    <i class="fa-solid fa-font mr-2"></i> <span data-i18n="base64.tab.text">Text Converter</span>
+                </button>
+                <button id="tab-image"
+                    class="px-6 py-2 rounded-lg text-sm font-medium transition text-gray-500 hover:text-gray-700"
+                    onclick="switchTab('image')">
+                    <i class="fa-regular fa-image mr-2"></i> <span data-i18n="base64.tab.image">Image Converter</span>
                 </button>
             </div>
-            <textarea id="base64-input" rows="6"
-                class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 font-mono text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 resize-none outline-none shadow-inner"
-                data-i18n="base64.output.placeholder" placeholder="Paste Base64 string here to decode..."></textarea>
+        </div>
+
+        <!-- TEXT TAB -->
+        <div id="content-text" class="block">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Data Source -->
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <label class="block text-sm font-medium text-gray-700"
+                            data-i18n="base64.label.source">Source</label>
+                        <div class="flex space-x-2">
+                            <button id="btn-text-clear" class="text-xs text-red-500 hover:text-red-700">
+                                <i class="fa-solid fa-trash"></i> <span data-i18n="common.clear">Clear</span>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="text-input" rows="12"
+                        class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm outline-none shadow-sm font-mono"
+                        placeholder="Type text or paste Base64 here..."></textarea>
+                </div>
+
+                <!-- Action & Result -->
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <label class="block text-sm font-medium text-gray-700"
+                            data-i18n="base64.label.result">Result</label>
+                        <button id="btn-text-copy" class="text-xs text-blue-600 hover:text-blue-800">
+                            <i class="fa-regular fa-copy"></i> <span data-i18n="common.copy">Copy</span>
+                        </button>
+                    </div>
+
+                    <div class="flex space-x-2 mb-2">
+                        <button id="btn-mode-encode" onclick="setMode('encode')"
+                            class="flex-1 py-2 rounded-lg text-sm font-medium border border-blue-600 bg-blue-600 text-white transition">
+                            <i class="fa-solid fa-arrow-down"></i> <span data-i18n="base64.mode.encode">Encode</span>
+                        </button>
+                        <button id="btn-mode-decode" onclick="setMode('decode')"
+                            class="flex-1 py-2 rounded-lg text-sm font-medium border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 transition">
+                            <i class="fa-solid fa-arrow-up"></i> <span data-i18n="base64.mode.decode">Decode</span>
+                        </button>
+                    </div>
+
+                    <textarea id="text-output" rows="10" readonly
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl resize-none text-sm outline-none font-mono text-gray-600 mb-2"
+                        placeholder="Result will appear here..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- IMAGE TAB -->
+        <div id="content-image" class="hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Image Input -->
+                <div class="space-y-4">
+                    <label class="block text-sm font-medium text-gray-700" data-i18n="base64.label.image_source">Image
+                        Source</label>
+
+                    <!-- Mode Switch for Image -->
+                    <div class="flex bg-gray-100 p-1 rounded-lg mb-2">
+                        <button id="btn-img-mode-enc" onclick="setImageMode('encode')"
+                            class="flex-1 py-1.5 rounded-md text-sm font-medium bg-white text-blue-600 shadow-sm transition">
+                            Image to Base64
+                        </button>
+                        <button id="btn-img-mode-dec" onclick="setImageMode('decode')"
+                            class="flex-1 py-1.5 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition">
+                            Base64 to Image
+                        </button>
+                    </div>
+
+                    <!-- Upload Box (Encode Mode) -->
+                    <div id="img-upload-box"
+                        class="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center hover:bg-gray-50 transition cursor-pointer"
+                        onclick="document.getElementById('file-input').click()">
+                        <input type="file" id="file-input" accept="image/*" class="hidden">
+                        <i class="fa-regular fa-image text-4xl text-gray-300 mb-2"></i>
+                        <p class="text-sm text-gray-500" data-i18n="base64.img.upload_hint">Click or Drag Image Here</p>
+                    </div>
+
+                    <!-- Base64 Input (Decode Mode) -->
+                    <textarea id="img-base64-input" rows="8"
+                        class="hidden w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 resize-none text-sm font-mono"
+                        placeholder="Paste Base64 string here..."></textarea>
+                </div>
+
+                <!-- Result -->
+                <div class="space-y-4">
+                    <label class="block text-sm font-medium text-gray-700"
+                        data-i18n="base64.label.result">Result</label>
+
+                    <!-- Base64 Output (Encode Mode) -->
+                    <div id="img-result-code" class="block">
+                        <textarea id="img-base64-output" rows="8" readonly
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl resize-none text-sm font-mono mb-2"
+                            placeholder="Base64 string..."></textarea>
+                        <button id="btn-img-copy"
+                            class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition shadow-sm">
+                            <i class="fa-regular fa-copy"></i> <span data-i18n="common.copy">Copy Base64</span>
+                        </button>
+                    </div>
+
+                    <!-- Image Preview (Decode Mode) -->
+                    <div id="img-result-preview" class="hidden text-center">
+                        <div
+                            class="bg-gray-100 rounded-xl p-4 mb-2 flex items-center justify-center min-h-[200px] border border-gray-200">
+                            <img id="preview-img" class="max-w-full max-h-[300px] rounded shadow-sm hidden">
+                            <span id="preview-placeholder" class="text-gray-400 text-sm">Image Preview</span>
+                        </div>
+                        <button id="btn-img-download"
+                            class="w-full py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition shadow-sm hidden">
+                            <i class="fa-solid fa-download"></i> <span data-i18n="common.download">Download Image</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Rich Content / FAQ -->
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="base64.faq.title">Fast Base64 Encoder/Decoder
-            </h2>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="base64.faq.title">Base64 Converter FAQ</h2>
             <p class="mb-4" data-i18n="base64.faq.desc">Easily translate text to Base64 strings or decode Base64 back to
                 readable text with our <strong>Base64 Converter</strong>. Essential for developers working with data
                 transmission.</p>
@@ -143,8 +232,6 @@
             </ul>
         </section>
 
-
-
         <!-- SEO Content (Injected) -->
         <div class="mt-16 border-t border-gray-100 pt-12">
             <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2"
@@ -157,10 +244,10 @@
                 <span class="bg-gray-100 px-3 py-1 rounded-full">base64 converter</span>
             </div>
             <div class="prose max-w-none text-gray-600 mt-6">
-                <p class="mb-4">Convert images or text to Base64 strings for embedding in HTML/CSS, or decode Base64
-                    back to original files.</p>
+                <p class="mb-4" data-i18n="base64.seo.p1">Convert images or text to Base64 strings for embedding in
+                    HTML/CSS, or decode Base64
+                    back to original files. Fully client-side processing ensuring privacy.</p>
             </div>
-
         </div>
     </main>
 
@@ -190,34 +277,171 @@
 
     <script src="../../js/i18n.js?v=2"></script>
     <script>
+        // State
+        let currentTab = 'text';
+        let textMode = 'encode';
+        let imgMode = 'encode'; // encode (img->b64) or decode (b64->img)
+
+        // Text Logic
         function utf8_to_b64(str) {
             try { return window.btoa(unescape(encodeURIComponent(str))); }
-            catch (e) { alert(window.i18n.t('base64.error.fail')); return ""; }
+            catch (e) { return "Error: Invalid input for encoding."; }
         }
-
         function b64_to_utf8(str) {
             try { return decodeURIComponent(escape(window.atob(str))); }
-            catch (e) { alert(window.i18n.t('base64.error.decode')); return ""; }
+            catch (e) { return "Error: Invalid Base64 string."; }
         }
 
+        // DOM Elements
+        const tabText = document.getElementById('tab-text');
+        const tabImage = document.getElementById('tab-image');
+        const contentText = document.getElementById('content-text');
+        const contentImage = document.getElementById('content-image');
+
+        // Tab Switcher
+        window.switchTab = (tab) => {
+            currentTab = tab;
+            if (tab === 'text') {
+                contentText.classList.remove('hidden'); contentText.classList.add('block');
+                contentImage.classList.add('hidden'); contentImage.classList.remove('block');
+                tabText.className = "px-6 py-2 rounded-lg text-sm font-medium transition bg-white text-blue-600 shadow-sm";
+                tabImage.className = "px-6 py-2 rounded-lg text-sm font-medium transition text-gray-500 hover:text-gray-700";
+            } else {
+                contentImage.classList.remove('hidden'); contentImage.classList.add('block');
+                contentText.classList.add('hidden'); contentText.classList.remove('block');
+                tabImage.className = "px-6 py-2 rounded-lg text-sm font-medium transition bg-white text-blue-600 shadow-sm";
+                tabText.className = "px-6 py-2 rounded-lg text-sm font-medium transition text-gray-500 hover:text-gray-700";
+            }
+        };
+
+        // Text Mode Switcher
+        window.setMode = (mode) => {
+            textMode = mode;
+            const btnEnc = document.getElementById('btn-mode-encode');
+            const btnDec = document.getElementById('btn-mode-decode');
+
+            if (mode === 'encode') {
+                btnEnc.className = "flex-1 py-2 rounded-lg text-sm font-medium border border-blue-600 bg-blue-600 text-white transition";
+                btnDec.className = "flex-1 py-2 rounded-lg text-sm font-medium border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 transition";
+            } else {
+                btnEnc.className = "flex-1 py-2 rounded-lg text-sm font-medium border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 transition";
+                btnDec.className = "flex-1 py-2 rounded-lg text-sm font-medium border border-emerald-500 bg-emerald-500 text-white transition";
+            }
+            processText(); // Reprocess immediately
+        };
+
+        // Image Mode Switcher
+        window.setImageMode = (mode) => {
+            imgMode = mode;
+            const btnEnc = document.getElementById('btn-img-mode-enc');
+            const btnDec = document.getElementById('btn-img-mode-dec');
+            const uploadBox = document.getElementById('img-upload-box');
+            const b64Input = document.getElementById('img-base64-input');
+            const resCode = document.getElementById('img-result-code');
+            const resPrev = document.getElementById('img-result-preview');
+
+            if (mode === 'encode') {
+                btnEnc.className = "flex-1 py-1.5 rounded-md text-sm font-medium bg-white text-blue-600 shadow-sm transition";
+                btnDec.className = "flex-1 py-1.5 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition";
+                uploadBox.classList.remove('hidden');
+                b64Input.classList.add('hidden');
+                resCode.classList.remove('hidden');
+                resPrev.classList.add('hidden');
+            } else {
+                btnDec.className = "flex-1 py-1.5 rounded-md text-sm font-medium bg-white text-blue-600 shadow-sm transition";
+                btnEnc.className = "flex-1 py-1.5 rounded-md text-sm font-medium text-gray-500 hover:text-gray-700 transition";
+                uploadBox.classList.add('hidden');
+                b64Input.classList.remove('hidden');
+                resCode.classList.add('hidden');
+                resPrev.classList.remove('hidden');
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
+            /* TEXT LOGIC */
             const textInput = document.getElementById('text-input');
-            const base64Input = document.getElementById('base64-input');
+            const textOutput = document.getElementById('text-output');
 
-            document.getElementById('btn-encode').addEventListener('click', () => {
+            window.processText = () => {
                 const val = textInput.value;
-                if (val) base64Input.value = utf8_to_b64(val);
+                if (!val) { textOutput.value = ''; return; }
+
+                if (textMode === 'encode') {
+                    textOutput.value = utf8_to_b64(val);
+                } else {
+                    textOutput.value = b64_to_utf8(val.trim());
+                }
+            };
+
+            textInput.addEventListener('input', processText);
+            document.getElementById('btn-text-clear').addEventListener('click', () => { textInput.value = ''; processText(); });
+            document.getElementById('btn-text-copy').addEventListener('click', () => {
+                textOutput.select(); document.execCommand('copy');
             });
 
-            document.getElementById('btn-decode').addEventListener('click', () => {
-                const val = base64Input.value.trim();
-                if (val) textInput.value = b64_to_utf8(val);
+            /* IMAGE LOGIC */
+            // Encode
+            const fileInput = document.getElementById('file-input');
+            const imgOutputInfo = document.getElementById('img-base64-output');
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (evt) {
+                        imgOutputInfo.value = evt.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            document.getElementById('btn-img-copy').addEventListener('click', () => {
+                imgOutputInfo.select(); document.execCommand('copy');
             });
 
-            document.getElementById('btn-copy').addEventListener('click', () => {
-                base64Input.select();
-                document.execCommand('copy');
+            // Decode
+            const imgB64Input = document.getElementById('img-base64-input');
+            const previewImg = document.getElementById('preview-img');
+            const previewPlaceholder = document.getElementById('preview-placeholder');
+            const btnDownload = document.getElementById('btn-img-download');
+
+            imgB64Input.addEventListener('input', () => {
+                const val = imgB64Input.value.trim();
+                if (val && val.startsWith('data:image')) {
+                    previewImg.src = val;
+                    previewImg.classList.remove('hidden');
+                    previewPlaceholder.classList.add('hidden');
+                    btnDownload.classList.remove('hidden');
+                } else {
+                    previewImg.classList.add('hidden');
+                    previewPlaceholder.classList.remove('hidden');
+                    btnDownload.classList.add('hidden');
+                }
             });
+
+            btnDownload.addEventListener('click', () => {
+                const src = previewImg.src;
+                if (src) {
+                    const link = document.createElement('a');
+                    link.href = src;
+                    link.download = 'decoded-image.png';
+                    link.click();
+                }
+            });
+
+            // Drag and drop for Image Upload
+            const dropZone = document.getElementById('img-upload-box');
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('bg-blue-50'); });
+            dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('bg-blue-50'); });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('bg-blue-50');
+                if (e.dataTransfer.files[0] && e.dataTransfer.files[0].type.startsWith('image/')) {
+                    fileInput.files = e.dataTransfer.files;
+                    const event = new Event('change');
+                    fileInput.dispatchEvent(event);
+                }
+            });
+
         });
     </script>
     <script type="application/ld+json">

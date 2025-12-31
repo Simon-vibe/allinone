@@ -144,7 +144,7 @@
                         <i class="fa-solid fa-circle-notch fa-spin text-3xl text-blue-500"></i>
                     </div>
 
-                    <div id="response-content" class="hidden font-mono text-sm overflow-auto max-h-[500px]">
+                    <div id="response-content" class="hidden font-mono text-sm overflow-x-auto">
 
                         <!-- Headers -->
                         <div class="mb-6">
@@ -259,13 +259,33 @@
             const resBody = document.getElementById('res-body');
             const corsHelp = document.getElementById('cors-help');
 
+            // Inline Error Elements (created dynamically or we can inject them)
+            // Let's reuse the logic from Secure Encryption tool where we added error containers.
+            // But simpler: just add an error text below the input.
+
+            // Create error msg element
+            const errorMsg = document.createElement('div');
+            errorMsg.className = "hidden mt-2 text-sm text-red-600 font-medium flex items-center";
+            errorMsg.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-2"></i> <span data-i18n="cors.err.url_required">Please enter a valid URL.</span>`;
+            reqUrl.parentNode.appendChild(errorMsg);
+
             btnSend.addEventListener('click', async () => {
                 const url = reqUrl.value.trim();
                 const method = reqMethod.value;
 
                 if (!url) {
-                    alert("Please enter a URL");
+                    errorMsg.classList.remove('hidden');
+                    // Translate newly shown element if needed, though data-i18n handles static load.
+                    // For dynamic show, if language changed, we might need re-translate. 
+                    // But simpler: just rely on existing i18n logic if it runs on page load. 
+                    // To be safe, we can manually set text content if we had the key, but CSS toggle is easiest.
+                    // Actually, if we just insert it, we need to ensure it's translated.
+                    if (window.i18n && window.i18n.t) {
+                        errorMsg.querySelector('span').textContent = i18n.t('cors.err.url_required');
+                    }
                     return;
+                } else {
+                    errorMsg.classList.add('hidden');
                 }
 
                 // Reset UI
@@ -310,7 +330,7 @@
 
                     // Body
                     const text = await response.text();
-                    resBody.textContent = text.slice(0, 1000) + (text.length > 1000 ? '\n... (truncated)' : '');
+                    resBody.textContent = text.slice(0, 2000) + (text.length > 2000 ? '\n... (truncated)' : '');
 
                 } catch (error) {
                     // CORS Error or Network Error

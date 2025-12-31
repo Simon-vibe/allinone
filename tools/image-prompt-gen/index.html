@@ -76,7 +76,8 @@
 
                 <!-- Main Idea -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <label class="block text-sm font-bold text-gray-700 mb-2">Subject / Core Idea</label>
+                    <label class="block text-sm font-bold text-gray-700 mb-2"
+                        data-i18n="imgprompt.label.subject">Subject / Core Idea</label>
                     <textarea id="prompt-core" rows="2"
                         class="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none transition"
                         placeholder="e.g. A futuristic city floating in the clouds..."></textarea>
@@ -84,39 +85,41 @@
 
                 <!-- Styles Selector -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-bold text-gray-700 mb-4">Art Style</h3>
+                    <h3 class="text-sm font-bold text-gray-700 mb-4" data-i18n="imgprompt.label.style">Art Style</h3>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         <div class="style-card border-2 border-transparent rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 transition"
                             data-style="Cyberpunk, Neon Lights">
                             <i class="fa-solid fa-robot text-2xl text-purple-500 mb-2"></i>
-                            <div class="text-xs font-medium">Cyberpunk</div>
+                            <div class="text-xs font-medium" data-i18n="imgprompt.style.cyberpunk">Cyberpunk</div>
                         </div>
                         <div class="style-card border-2 border-transparent rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 transition"
                             data-style="Watercolor Painting, Soft Edges">
                             <i class="fa-solid fa-droplet text-2xl text-blue-400 mb-2"></i>
-                            <div class="text-xs font-medium">Watercolor</div>
+                            <div class="text-xs font-medium" data-i18n="imgprompt.style.watercolor">Watercolor</div>
                         </div>
                         <div class="style-card border-2 border-transparent rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 transition"
                             data-style="Photorealistic, 8k, Unreal Engine 5">
                             <i class="fa-solid fa-camera text-2xl text-gray-700 mb-2"></i>
-                            <div class="text-xs font-medium">Realism</div>
+                            <div class="text-xs font-medium" data-i18n="imgprompt.style.realism">Realism</div>
                         </div>
                         <div class="style-card border-2 border-transparent rounded-lg p-3 text-center cursor-pointer hover:bg-gray-50 transition"
                             data-style="Anime Style, Studio Ghibli">
                             <i class="fa-solid fa-star text-2xl text-yellow-500 mb-2"></i>
-                            <div class="text-xs font-medium">Anime</div>
+                            <div class="text-xs font-medium" data-i18n="imgprompt.style.anime">Anime</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Parameters -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
-                    <h3 class="text-sm font-bold text-gray-700">Midjourney Parameters</h3>
+                    <h3 class="text-sm font-bold text-gray-700" data-i18n="imgprompt.label.params">Midjourney Parameters
+                    </h3>
 
                     <!-- Aspect Ratio -->
                     <div>
                         <div class="flex justify-between mb-2">
-                            <label class="text-xs font-bold text-gray-500 uppercase">Aspect Ratio (--ar)</label>
+                            <label class="text-xs font-bold text-gray-500 uppercase"
+                                data-i18n="imgprompt.label.ar">Aspect Ratio (--ar)</label>
                             <span id="label-ar" class="text-xs font-mono bg-gray-100 px-2 rounded">1:1</span>
                         </div>
                         <input type="range" id="param-ar" min="0" max="6" step="1" value="3"
@@ -129,7 +132,8 @@
                     <!-- Stylize -->
                     <div>
                         <div class="flex justify-between mb-2">
-                            <label class="text-xs font-bold text-gray-500 uppercase">Stylize (--s)</label>
+                            <label class="text-xs font-bold text-gray-500 uppercase"
+                                data-i18n="imgprompt.label.stylize">Stylize (--s)</label>
                             <span id="label-s" class="text-xs font-mono bg-gray-100 px-2 rounded">250</span>
                         </div>
                         <input type="range" id="param-s" min="0" max="1000" step="50" value="250"
@@ -139,7 +143,8 @@
                     <!-- Chaos -->
                     <div>
                         <div class="flex justify-between mb-2">
-                            <label class="text-xs font-bold text-gray-500 uppercase">Chaos (--c)</label>
+                            <label class="text-xs font-bold text-gray-500 uppercase"
+                                data-i18n="imgprompt.label.chaos">Chaos (--c)</label>
                             <span id="label-c" class="text-xs font-mono bg-gray-100 px-2 rounded">0</span>
                         </div>
                         <input type="range" id="param-c" min="0" max="100" step="1" value="0"
@@ -152,16 +157,18 @@
             <!-- Right: Output -->
             <div class="lg:col-span-1">
                 <div class="sticky top-8 bg-gray-900 rounded-xl shadow-lg border border-gray-800 p-6">
-                    <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4">Final Prompt</h3>
+                    <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4"
+                        data-i18n="imgprompt.label.final">Final Prompt</h3>
                     <div id="final-prompt"
                         class="font-mono text-sm text-pink-300 leading-relaxed break-words mb-6 min-h-[100px]">
                         ...
                     </div>
                     <button id="btn-copy"
                         class="w-full py-3 bg-pink-600 hover:bg-pink-700 text-white rounded-lg font-bold transition flex items-center justify-center">
-                        <i class="fa-regular fa-copy mr-2"></i> Copy Prompt
+                        <i class="fa-regular fa-copy mr-2"></i> <span data-i18n="imgprompt.action.copy">Copy
+                            Prompt</span>
                     </button>
-                    <div class="mt-4 text-[10px] text-gray-500 text-center">
+                    <div class="mt-4 text-[10px] text-gray-500 text-center" data-i18n="imgprompt.hint.discord">
                         Ready to paste into Discord (Midjourney)
                     </div>
                 </div>
@@ -176,24 +183,31 @@
             <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="imgprompt.seo.h2">Mastering Midjourney Prompts
             </h2>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Creating stunning AI art requires knowing the right parameters. This tool visualizes
+                <p class="mb-4" data-i18n="imgprompt.p.intro">Creating stunning AI art requires knowing the right
+                    parameters. This tool visualizes
                     them for you.</p>
 
-                <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3">Key Parameters</h3>
+                <h3 class="text-lg font-bold text-gray-800 mt-6 mb-3" data-i18n="imgprompt.title.params">Key Parameters
+                </h3>
                 <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>--ar (Aspect Ratio):</strong> Controls the shape (16:9 for screens, 1:1 for social).
+                    <li data-i18n="imgprompt.li.ar"><strong>--ar (Aspect Ratio):</strong> Controls the shape (16:9 for
+                        screens, 1:1 for social).
                     </li>
-                    <li><strong>--s (Stylize):</strong> Higher values (up to 1000) make the image more artistic but less
+                    <li data-i18n="imgprompt.li.s"><strong>--s (Stylize):</strong> Higher values (up to 1000) make the
+                        image more artistic but less
                         faithful to the prompt.</li>
-                    <li><strong>--c (Chaos):</strong> Adds randomness and variation to the results.</li>
+                    <li data-i18n="imgprompt.li.c"><strong>--c (Chaos):</strong> Adds randomness and variation to the
+                        results.</li>
                 </ul>
             </div>
             <div class="mt-12">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">FAQ</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="imgprompt.faq.title">FAQ</h2>
                 <div class="space-y-4">
                     <details class="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer">
-                        <summary class="font-bold text-gray-800">Does this work with Flux AI?</summary>
-                        <p class="mt-2 text-gray-600">Yes, the style descriptors (Cyberpunk, Watercolor) work great with
+                        <summary class="font-bold text-gray-800" data-i18n="imgprompt.faq.q1">Does this work with Flux
+                            AI?</summary>
+                        <p class="mt-2 text-gray-600" data-i18n="imgprompt.faq.a1">Yes, the style descriptors
+                            (Cyberpunk, Watercolor) work great with
                             Flux, though the parameter syntax (--ar) is specific to Midjourney.</p>
                     </details>
                 </div>

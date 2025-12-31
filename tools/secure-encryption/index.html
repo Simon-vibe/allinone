@@ -54,7 +54,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -112,6 +113,10 @@
                             placeholder="Enter a strong password">
                     </div>
 
+                    <div id="encrypt-error"
+                        class="hidden text-center p-3 mb-4 bg-red-50 text-red-600 rounded-lg text-sm font-medium border border-red-100">
+                    </div>
+
                     <button id="btn-encrypt"
                         class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
                         <span data-i18n="crypto.action.encrypt">Encrypt File</span>
@@ -163,6 +168,10 @@
                             placeholder="Enter the password">
                     </div>
 
+                    <div id="decrypt-error"
+                        class="hidden text-center p-3 mb-4 bg-red-50 text-red-600 rounded-lg text-sm font-medium border border-red-100">
+                    </div>
+
                     <button id="btn-decrypt"
                         class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
                         <span data-i18n="crypto.action.decrypt">Decrypt File</span>
@@ -205,7 +214,7 @@
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -214,9 +223,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -272,6 +284,7 @@
             const btnEncrypt = document.getElementById('btn-encrypt');
             const encryptResult = document.getElementById('encrypt-result');
             const btnDownloadEnc = document.getElementById('btn-download-enc');
+            const encryptError = document.getElementById('encrypt-error');
 
             const decryptDrop = document.getElementById('decrypt-drop');
             const decryptInput = document.getElementById('decrypt-input');
@@ -280,9 +293,17 @@
             const btnDecrypt = document.getElementById('btn-decrypt');
             const decryptResult = document.getElementById('decrypt-result');
             const btnDownloadDec = document.getElementById('btn-download-dec');
+            const decryptError = document.getElementById('decrypt-error');
 
             let fileToEncrypt = null;
             let fileToDecrypt = null;
+
+            // Helper: Show Error
+            function showError(element, messageKey, defaultMessage) {
+                element.textContent = window.i18n.t(messageKey, defaultMessage);
+                element.classList.remove('hidden');
+                setTimeout(() => element.classList.add('hidden'), 5000);
+            }
 
             // Drag & Drop Helpers
             function preventDefaults(e) {
@@ -323,8 +344,11 @@
             });
 
             btnEncrypt.addEventListener('click', async () => {
+                encryptError.classList.add('hidden');
+                encryptResult.classList.add('hidden');
+
                 if (!fileToEncrypt || !encryptPass.value) {
-                    alert(i18n.t("Please select a file and enter a password."));
+                    showError(encryptError, "crypto.err.missing_input", "Please select a file and enter a password.");
                     return;
                 }
 
@@ -358,10 +382,10 @@
 
                 } catch (e) {
                     console.error(e);
-                    alert("Encryption failed.");
+                    showError(encryptError, "crypto.err.encrypt_failed", "Encryption failed.");
                 } finally {
                     btnEncrypt.disabled = false;
-                    btnEncrypt.textContent = i18n.t("crypto.action.encrypt");
+                    btnEncrypt.textContent = window.i18n.t("crypto.action.encrypt");
                 }
             });
 
@@ -383,8 +407,11 @@
             });
 
             btnDecrypt.addEventListener('click', async () => {
+                decryptError.classList.add('hidden');
+                decryptResult.classList.add('hidden');
+
                 if (!fileToDecrypt || !decryptPass.value) {
-                    alert("Please select a file and enter a password.");
+                    showError(decryptError, "crypto.err.missing_input", "Please select a file and enter a password.");
                     return;
                 }
 
@@ -421,10 +448,10 @@
 
                 } catch (e) {
                     console.error(e);
-                    alert("Decryption failed. Wrong password?");
+                    showError(decryptError, "crypto.err.decrypt_failed", "Decryption failed. Wrong password?");
                 } finally {
                     btnDecrypt.disabled = false;
-                    btnDecrypt.textContent = i18n.t("crypto.action.decrypt");
+                    btnDecrypt.textContent = window.i18n.t("crypto.action.decrypt");
                 }
             });
         });

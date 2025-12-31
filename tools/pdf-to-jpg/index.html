@@ -172,6 +172,21 @@
                     </li>
                     <li data-i18n="common.free"><strong>Free:</strong> No limitations or watermarks.</li>
                 </ul>
+
+                <!-- FAQ -->
+                <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.faq">FAQ</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-bold text-gray-900" data-i18n="pdf2jpg.faq.q1">How do I convert PDF to JPG?</h4>
+                        <p data-i18n="pdf2jpg.faq.a1">Simply drag and drop your PDF file into the box above. The tool
+                            will automatically convert each page into a separate JPG image.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900" data-i18n="pdf2jpg.faq.q2">Is it secure?</h4>
+                        <p data-i18n="pdf2jpg.faq.a2">Yes, all processing happens in your browser. Your files are never
+                            uploaded to any server.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -238,7 +253,7 @@
 
             async function processFile(file) {
                 if (file.type !== 'application/pdf') {
-                    alert('Please select a PDF file.');
+                    alert(window.i18n.t('pdf2jpg.alert.select'));
                     return;
                 }
 
@@ -290,7 +305,7 @@
 
                 } catch (err) {
                     console.error(err);
-                    alert('Error processing PDF: ' + err.message);
+                    alert(window.i18n.t('pdf2jpg.alert.error') + err.message);
                     dropZone.classList.remove('hidden');
                     processingState.classList.add('hidden');
                 }

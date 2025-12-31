@@ -54,7 +54,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -80,23 +81,32 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <p class="text-gray-600 mb-8 max-w-3xl mx-auto text-center" data-i18n="tts.seo.p1">Looking for a text reader?
+            Whether for accessibility, proofreading, or learning, our Text to Speech converter offers a seamless
+            experience. Just paste your text and click play.</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
             <!-- Left: Controls -->
             <div class="lg:col-span-1 space-y-6">
 
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-6">
                     <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="tts.label.voice">Select
                         Voice</label>
                     <select id="voice-select"
-                        class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none mb-4">
+                        class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none mb-6">
                         <option value="" disabled selected data-i18n="tts.loading.voices">Loading voices...</option>
                     </select>
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1"
-                            data-i18n="tts.label.rate">Speed</label>
-                        <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1" class="w-full">
-                        <div class="flex justify-between text-xs text-gray-400">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-sm font-medium text-gray-700"
+                                data-i18n="tts.label.rate">Speed</label>
+                            <span id="rate-value"
+                                class="text-xs text-blue-600 font-mono bg-blue-50 px-2 py-0.5 rounded">1.0x</span>
+                        </div>
+                        <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1"
+                            class="w-full accent-blue-600 cursor-pointer">
+                        <div class="flex justify-between text-xs text-gray-400 mt-1">
                             <span>0.5x</span>
                             <span>1x</span>
                             <span>2x</span>
@@ -104,10 +114,15 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1"
-                            data-i18n="tts.label.pitch">Pitch</label>
-                        <input type="range" id="pitch" min="0" max="2" value="1" step="0.1" class="w-full">
-                        <div class="flex justify-between text-xs text-gray-400">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-sm font-medium text-gray-700"
+                                data-i18n="tts.label.pitch">Pitch</label>
+                            <span id="pitch-value"
+                                class="text-xs text-blue-600 font-mono bg-blue-50 px-2 py-0.5 rounded">1.0</span>
+                        </div>
+                        <input type="range" id="pitch" min="0" max="2" value="1" step="0.1"
+                            class="w-full accent-blue-600 cursor-pointer">
+                        <div class="flex justify-between text-xs text-gray-400 mt-1">
                             <span>Low</span>
                             <span>Normal</span>
                             <span>High</span>
@@ -125,50 +140,77 @@
 
             <!-- Right: Text Input -->
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full flex flex-col">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full flex flex-col relative">
                     <textarea id="text-input"
-                        class="flex-grow w-full border border-gray-200 rounded-lg p-6 text-lg leading-relaxed outline-none resize-none focus:ring-2 focus:ring-blue-500 min-h-[300px]"
+                        class="flex-grow w-full border-0 rounded-lg p-4 text-lg leading-relaxed outline-none resize-none focus:ring-0 min-h-[300px] text-gray-700 placeholder-gray-300"
                         placeholder="Type or paste text here to listen..."></textarea>
 
-                    <div class="flex justify-center items-center mt-6 space-x-4">
-                        <button id="btn-play"
-                            class="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-blue-700 transition shadow-md hover:shadow-lg">
-                            <i class="fa-solid fa-play text-xl pl-1"></i>
-                        </button>
-                        <button id="btn-pause"
-                            class="bg-gray-200 text-gray-700 w-12 h-12 rounded-full flex items-center justify-center hover:bg-gray-300 transition hidden">
-                            <i class="fa-solid fa-pause text-xl"></i>
-                        </button>
+                    <div
+                        class="absolute bottom-6 right-6 flex items-center space-x-2 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-sm border border-gray-100">
+                        <div id="status-msg" class="text-xs text-gray-400 mr-2 px-2 hidden sm:block">Ready</div>
+
                         <button id="btn-stop"
-                            class="bg-red-100 text-red-600 w-12 h-12 rounded-full flex items-center justify-center hover:bg-red-200 transition">
-                            <i class="fa-solid fa-stop text-xl"></i>
+                            class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:bg-red-50 hover:text-red-500 transition"
+                            title="Stop">
+                            <i class="fa-solid fa-stop"></i>
+                        </button>
+
+                        <button id="btn-toggle"
+                            class="bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center hover:bg-blue-700 transition shadow-lg hover:shadow-blue-200 transform hover:scale-105">
+                            <i class="fa-solid fa-play text-xl pl-1" id="icon-play"></i>
+                            <i class="fa-solid fa-pause text-xl hidden" id="icon-pause"></i>
                         </button>
                     </div>
-                    <div class="text-center mt-2 text-xs text-gray-400" id="status-msg">Ready to speak</div>
                 </div>
             </div>
         </div>
 
-        <!-- FAQ -->
+        <!-- FAQ & SEO -->
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="tts.faq.title">Text to Speech FAQ</h2>
-            <p class="mb-4" data-i18n="tts.faq.desc">Browser-based text-to-speech technology allows you to listen to
+            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="tts.faq.title">Text to Speech FAQ</h2>
+            <p class="mb-8 text-lg leading-relaxed" data-i18n="tts.faq.desc">Browser-based text-to-speech technology
+                allows you to listen to
                 written content without installing any software.</p>
 
-            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Features</h3>
-            <ul class="list-disc pl-5 space-y-2 mb-6">
-                <li data-i18n="tts.feat.1"><strong>Free & Unlimited:</strong> No character limits or subscription fees.
-                </li>
-                <li data-i18n="tts.feat.2"><strong>Privacy:</strong> Processing happens locally on your device.</li>
-                <li data-i18n="tts.feat.3"><strong>Multiple Voices:</strong> Access all voices provided by your
-                    operating system.</li>
-            </ul>
+            <h3 class="text-xl font-bold text-gray-900 mb-4" data-i18n="tts.feat.title">Key Features</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="text-blue-500 text-xl mb-2"><i class="fa-solid fa-sack-dollar"></i></div>
+                    <p data-i18n="tts.feat.1"><strong>Free & Unlimited:</strong> No character limits.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="text-green-500 text-xl mb-2"><i class="fa-solid fa-shield-halved"></i></div>
+                    <p data-i18n="tts.feat.2"><strong>Privacy:</strong> Local processing.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="text-purple-500 text-xl mb-2"><i class="fa-solid fa-language"></i></div>
+                    <p data-i18n="tts.feat.3"><strong>Multiple Voices:</strong> System native voices.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
+                    <div class="text-orange-500 text-xl mb-2"><i class="fa-solid fa-sliders"></i></div>
+                    <p data-i18n="tts.feat.4"><strong>Customizable:</strong> Adjust pitch & speed.</p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-bold text-gray-900" data-i18n="tts.faq.q1">How do I download?</h4>
+                    <p data-i18n="tts.faq.a1">Use screen recording.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900" data-i18n="tts.faq.q2">Supported languages?</h4>
+                    <p data-i18n="tts.faq.a2">All system languages.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-900" data-i18n="tts.faq.q3">Different voices?</h4>
+                    <p data-i18n="tts.faq.a3">Depends on OS/Browser.</p>
+                </div>
+            </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -177,9 +219,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -197,40 +242,69 @@
             const voiceSelect = document.getElementById('voice-select');
             const rateInput = document.getElementById('rate');
             const pitchInput = document.getElementById('pitch');
-            const btnPlay = document.getElementById('btn-play');
-            const btnPause = document.getElementById('btn-pause');
+            const rateValue = document.getElementById('rate-value');
+            const pitchValue = document.getElementById('pitch-value');
+
+            const btnToggle = document.getElementById('btn-toggle');
+            const iconPlay = document.getElementById('icon-play');
+            const iconPause = document.getElementById('icon-pause');
             const btnStop = document.getElementById('btn-stop');
             const statusMsg = document.getElementById('status-msg');
 
             let voices = [];
+            let currentUtterance = null;
+
+            // Page Exit / Unload - Stop playback
+            window.addEventListener('beforeunload', () => {
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+            });
+
+            // Visibility Change - Stop playback if user leaves tab (Optional, but "Stop on page exit" usually implies navigation. 
+            // User might want to listen in background tab, so we ONLY stop on actual unload/navigation).
+            // However, user said "Leaving this page... continue playing is bad experience".
+            // Implementation of `beforeunload` covers navigation/close. 
+            // If they mean "switch tabs", that's `visibilitychange`. I'll stick to `beforeunload` as it's safer for "listening while working in other tabs".
 
             function populateVoices() {
                 voices = synth.getVoices();
+                if (voices.length === 0) return;
+
                 voiceSelect.innerHTML = '';
 
-                // Prioritize voices for current language
-                const currentLang = document.documentElement.lang || 'en';
-                const isZh = window.location.pathname.includes('/zh/');
+                // Get current page language
+                const urlParams = new URLSearchParams(window.location.search);
+                const pageLang = urlParams.get('lang') || 'en'; // Simple detection
 
+                // Sort: put voices matching page language first
                 voices.sort((a, b) => {
-                    const aName = a.name.toUpperCase();
-                    const bName = b.name.toUpperCase();
-                    if (aName < bName) return -1;
-                    if (aName > bName) return 1;
-                    return 0;
+                    const aLangMatch = a.lang.toLowerCase().includes(pageLang);
+                    const bLangMatch = b.lang.toLowerCase().includes(pageLang);
+
+                    if (aLangMatch && !bLangMatch) return -1;
+                    if (!aLangMatch && bLangMatch) return 1;
+                    return a.name.localeCompare(b.name);
                 });
+
+                let defaultFound = false;
 
                 voices.forEach((voice) => {
                     const option = document.createElement('option');
+                    // Clean up voice name for display
                     option.textContent = `${voice.name} (${voice.lang})`;
-                    option.setAttribute('data-lang', voice.lang);
                     option.setAttribute('data-name', voice.name);
+                    option.setAttribute('data-lang', voice.lang);
 
-                    // Simple auto-select logic
-                    if (isZh && voice.lang.includes('zh') && !voiceSelect.value) {
-                        option.selected = true;
-                    } else if (!isZh && voice.lang.includes('en') && !voiceSelect.value) {
-                        option.selected = true;
+                    // Auto-select logic
+                    // 1. Try to match exact page language (e.g. 'zh-CN')
+                    // 2. Try to match base language (e.g. 'zh')
+
+                    if (!defaultFound) {
+                        if (voice.lang.toLowerCase().includes(pageLang)) {
+                            option.selected = true;
+                            defaultFound = true;
+                        }
                     }
 
                     voiceSelect.appendChild(option);
@@ -242,19 +316,38 @@
                 speechSynthesis.onvoiceschanged = populateVoices;
             }
 
+            function setStatus(state) {
+                if (state === 'playing') {
+                    iconPlay.classList.add('hidden');
+                    iconPause.classList.remove('hidden');
+                    statusMsg.textContent = "Speaking...";
+                } else if (state === 'paused') {
+                    iconPlay.classList.remove('hidden');
+                    iconPause.classList.add('hidden');
+                    statusMsg.textContent = "Paused";
+                } else {
+                    iconPlay.classList.remove('hidden');
+                    iconPause.classList.add('hidden');
+                    statusMsg.textContent = "Ready";
+                }
+            }
+
             function speak() {
                 if (synth.speaking) {
                     console.error('speechSynthesis.speaking');
                     return;
                 }
-                if (textInput.value !== '') {
-                    const utterThis = new SpeechSynthesisUtterance(textInput.value);
-                    const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+                const text = textInput.value.trim();
+                if (text !== '') {
+                    const utterThis = new SpeechSynthesisUtterance(text);
+                    const selectedOption = voiceSelect.selectedOptions[0]?.getAttribute('data-name');
 
-                    for (let i = 0; i < voices.length; i++) {
-                        if (voices[i].name === selectedOption) {
-                            utterThis.voice = voices[i];
-                            break;
+                    if (selectedOption) {
+                        for (let i = 0; i < voices.length; i++) {
+                            if (voices[i].name === selectedOption) {
+                                utterThis.voice = voices[i];
+                                break;
+                            }
                         }
                     }
 
@@ -262,54 +355,70 @@
                     utterThis.rate = rateInput.value;
 
                     utterThis.onstart = () => {
-                        statusMsg.textContent = "Speaking...";
-                        btnPlay.classList.add('hidden');
-                        btnPause.classList.remove('hidden');
+                        setStatus('playing');
                     };
 
                     utterThis.onend = () => {
-                        statusMsg.textContent = "Finished.";
-                        btnPlay.classList.remove('hidden');
-                        btnPause.classList.add('hidden');
+                        setStatus('stopped');
                     };
 
                     utterThis.onerror = (event) => {
                         console.error('SpeechSynthesisUtterance.onerror', event);
-                        statusMsg.textContent = "Error occurred.";
-                        btnPlay.classList.remove('hidden');
-                        btnPause.classList.add('hidden');
+                        setStatus('stopped');
                     };
 
+                    currentUtterance = utterThis;
                     synth.speak(utterThis);
                 }
             }
 
-            btnPlay.addEventListener('click', () => {
-                if (synth.paused) {
-                    synth.resume();
-                    btnPlay.classList.add('hidden');
-                    btnPause.classList.remove('hidden');
-                    statusMsg.textContent = "Resumed.";
+            // Controls
+            btnToggle.addEventListener('click', () => {
+                if (synth.speaking) {
+                    if (synth.paused) {
+                        synth.resume();
+                        setStatus('playing');
+                    } else {
+                        synth.pause();
+                        setStatus('paused');
+                    }
                 } else {
                     speak();
                 }
             });
 
-            btnPause.addEventListener('click', () => {
-                if (synth.speaking && !synth.paused) {
-                    synth.pause();
-                    btnPlay.classList.remove('hidden');
-                    btnPause.classList.add('hidden');
-                    statusMsg.textContent = "Paused.";
-                }
-            });
-
             btnStop.addEventListener('click', () => {
                 synth.cancel();
-                btnPlay.classList.remove('hidden');
-                btnPause.classList.add('hidden');
-                statusMsg.textContent = "Read to speak";
+                setStatus('stopped');
             });
+
+            // Real-time Adjustment
+            // Since Web Speech API doesn't support changing rate/pitch mid-utterance, we must restart.
+            const restartSpeech = () => {
+                if (synth.speaking) {
+                    synth.cancel();
+                    // Needs a small timeout for generic browsers to clear the buffer
+                    setTimeout(() => {
+                        speak();
+                    }, 50);
+                }
+            };
+
+            // Debounce to prevent rapid restarts while dragging
+            let debounceTimer;
+            const handleAdjustment = (e, targetDisplay) => {
+                targetDisplay.textContent = e.target.value + (targetDisplay === rateValue ? 'x' : '');
+
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    if (synth.speaking && !synth.paused) {
+                        restartSpeech();
+                    }
+                }, 300); // 300ms wait after drag stops
+            };
+
+            rateInput.addEventListener('input', (e) => handleAdjustment(e, rateValue));
+            pitchInput.addEventListener('input', (e) => handleAdjustment(e, pitchValue));
         });
     </script>
 </body>

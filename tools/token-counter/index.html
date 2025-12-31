@@ -62,7 +62,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -81,70 +82,33 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-3xl font-bold mb-4" data-i18n="tool.token.title">LLM Token Counter</h1>
             <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.token.desc">Count tokens and estimate costs for
-                GPT-4, Claude, and Gemini.</p>
+                GPT, Claude, Gemini, and Llama.</p>
         </div>
     </div>
 
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left: Stats -->
-            <div class="lg:col-span-1 space-y-4">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 stat-card">
-                    <div class="text-gray-500 text-sm font-medium uppercase mb-2" data-i18n="token.label.count">Token
-                        Count</div>
-                    <div class="text-5xl font-bold text-blue-600" id="token-count">0</div>
-                    <div class="text-gray-400 text-xs mt-2">
-                        <span data-i18n="token.label.chars">Characters:</span> <span id="char-count">0</span>
-                    </div>
-                </div>
-
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left: Inputs -->
+            <div class="space-y-6">
+                <!-- Text Input -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="token.cost.title">Estimated Cost (Input)</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-600">GPT-4o</span>
-                            <span class="font-mono font-medium" id="cost-gpt4o">$0.0000</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-600">GPT-4o Mini</span>
-                            <span class="font-mono font-medium" id="cost-gpt35">$0.0000</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-gray-600">Claude 3.5 Sonnet</span>
-                            <span class="font-mono font-medium" id="cost-claude">$0.0000</span>
-                        </div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold text-gray-900" data-i18n="token.label.input">Input Content</h2>
+                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">Tokenizer: cl100k_base
+                            (OpenAI)</span>
                     </div>
-                </div>
 
-                <!-- Image Cost Estimator -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="token.img.title">Image Cost (Multimodal)</h3>
-                    <div class="space-y-4">
-                        <input type="file" id="img-input" accept="image/*"
-                            class="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-600" data-i18n="token.img.tokens">Image Tokens:</span>
-                            <span class="font-bold text-blue-600" id="img-token-count">0</span>
-                        </div>
-                        <p class="text-xs text-gray-400" data-i18n="token.img.desc">Based on GPT-4 Vision high-res
-                            calculation (Tiles + Base).</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right: Text Area -->
-            <div class="lg:col-span-2 space-y-4">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
-                    <label class="text-sm font-bold text-gray-700 mb-2" data-i18n="token.label.input">Input Text
-                        (Prompt)</label>
                     <textarea id="text-input"
-                        class="flex-grow w-full border border-gray-200 rounded-lg p-4 font-mono text-base focus:ring-2 focus:ring-blue-500 outline-none resize-none min-h-[300px]"
+                        class="w-full border border-gray-200 rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-y min-h-[250px] mb-2"
                         placeholder="Paste your prompt here..."></textarea>
 
-                    <div class="flex justify-between items-center mt-3">
-                        <span class="text-xs text-gray-500"><span id="input-token-count">0</span> tokens</span>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-600">
+                            <span data-i18n="token.label.chars">Characters:</span> <span id="char-count"
+                                class="font-medium">0</span>
+                        </div>
                         <div class="space-x-2">
                             <button id="btn-clear"
                                 class="text-red-500 hover:text-red-700 text-xs font-medium uppercase">
@@ -158,18 +122,89 @@
                     </div>
                 </div>
 
+                <!-- Image Input -->
+                <div class="bg-white rounded-xl shadow-sm border border-blue-100 p-6 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-2 opacity-10">
+                        <i class="fa-regular fa-image text-8xl text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-3 flex items-center relative z-10">
+                        <i class="fa-regular fa-image mr-2 text-blue-500"></i>
+                        <span data-i18n="token.img.title">Add Image (Multimodal)</span>
+                    </h3>
+                    <div class="flex items-center space-x-4 relative z-10">
+                        <input type="file" id="img-input" accept="image/*"
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer">
+                        <div class="flex-shrink-0 text-right bg-white/80 p-2 rounded-lg backdrop-blur-sm">
+                            <div class="text-xs text-gray-500" data-i18n="token.img.tokens">Image Tokens</div>
+                            <div class="text-xl font-bold text-blue-600" id="img-token-count">0</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-2 relative z-10" data-i18n="token.img.desc">Based on GPT-4 Vision
+                        high-res calculation.</p>
+                </div>
+            </div>
+
+            <!-- Right: Stats & Costs -->
+            <div class="space-y-6">
+
+                <!-- Token Breakdown -->
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <label class="text-sm font-bold text-gray-700 mb-2 flex justify-between">
-                        <span data-i18n="token.label.output">Estimated Output Tokens (Completion)</span>
-                        <span class="text-gray-400 font-normal text-xs">Max: 128k</span>
-                    </label>
-                    <input type="range" id="output-slider" min="0" max="4096" value="1000" class="w-full mb-2">
-                    <div class="flex justify-between items-center">
-                        <input type="number" id="output-input" value="1000"
-                            class="border border-gray-300 rounded p-1 text-sm w-24 text-center">
-                        <span class="text-xs text-gray-400">Adjust to estimate completion cost</span>
+                    <h2 class="text-lg font-bold text-gray-900 mb-4" data-i18n="token.label.breakdown">Token Breakdown
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-blue-50 rounded-lg p-4 text-center">
+                            <div class="text-blue-800 text-xs font-bold uppercase mb-1"
+                                data-i18n="token.label.total_input">Total Input</div>
+                            <div class="text-3xl font-bold text-blue-600" id="total-input-tokens">0</div>
+                            <div class="text-xs text-blue-400 mt-1">Text + Image</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-4 text-center">
+                            <div class="text-green-800 text-xs font-bold uppercase mb-1"
+                                data-i18n="token.label.est_output">Simulated Output</div>
+                            <div class="text-3xl font-bold text-green-600" id="output-token-display">1,000</div>
+                            <div class="text-xs text-green-400 mt-1">Response Length</div>
+                        </div>
+                    </div>
+
+                    <!-- Output Slider -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <label class="text-sm font-medium text-gray-700 mb-2 flex justify-between">
+                            <span data-i18n="token.label.set_output">Set Simulated Output Length</span>
+                            <span class="text-gray-400 text-xs">Max: 128k</span>
+                        </label>
+                        <input type="range" id="output-slider" min="0" max="8192" value="1000"
+                            class="w-full mb-3 accent-green-600">
+                        <div class="flex justify-between items-center">
+                            <input type="number" id="output-input" value="1000"
+                                class="border border-gray-300 rounded p-1 text-sm w-24 text-center focus:outline-none focus:ring-1 focus:ring-green-500">
+                            <span class="text-xs text-gray-400">tokens</span>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Cost Table -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 overflow-hidden">
+                    <h3 class="font-bold text-gray-900 mb-4" data-i18n="token.cost.title">Estimated Cost</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-500 bg-gray-50 uppercase border-b border-gray-100">
+                                <tr>
+                                    <th class="px-4 py-3 font-medium">Model</th>
+                                    <th class="px-4 py-3 font-medium text-right">Input</th>
+                                    <th class="px-4 py-3 font-medium text-right">Output</th>
+                                    <th class="px-4 py-3 font-medium text-right text-gray-900">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100" id="cost-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-4 text-center" data-i18n="token.cost.disclaimer">* Estimates
+                        based on public API pricing per 1M tokens.</p>
+                </div>
+
             </div>
         </div>
 
@@ -177,21 +212,20 @@
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
             <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="token.faq.title">Token Counter FAQ</h2>
             <p class="mb-4" data-i18n="token.faq.desc">Understanding token usage is crucial for managing costs when
-                working with Large Language Models (LLMs) like ChatGPT and Claude.</p>
+                working with Large Language Models (LLMs).</p>
 
             <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">How are tokens calculated?</h3>
             <ul class="list-disc pl-5 space-y-2 mb-6">
                 <li data-i18n="token.feat.1"><strong>Not just words:</strong> 1000 tokens is approximately 750 words.
                 </li>
                 <li data-i18n="token.feat.2"><strong>Tokenizer:</strong> We use the standard `cl100k_base` encoding used
-                    by GPT-4.</li>
+                    by GPT-4 and most modern LLMs (including Claude and Llama approximation).</li>
             </ul>
         </section>
 
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -200,9 +234,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -212,97 +249,112 @@
     </footer>
 
     <!-- Scripts -->
-    <!-- Scripts -->
     <script src="../../js/i18n.js?v=2"></script>
     <script type="module">
         import { getEncoding } from "https://cdn.jsdelivr.net/npm/js-tiktoken@1.0.18/+esm";
 
         document.addEventListener('DOMContentLoaded', async () => {
             const textInput = document.getElementById('text-input');
-            const totalTokenCount = document.getElementById('token-count');
-            const inputTokenCountDisplay = document.getElementById('input-token-count');
+            const totalInputTokensDisplay = document.getElementById('total-input-tokens');
+            const outputTokenDisplay = document.getElementById('output-token-display');
             const charCount = document.getElementById('char-count');
 
             const outputSlider = document.getElementById('output-slider');
             const outputInput = document.getElementById('output-input');
 
+            const costTableBody = document.getElementById('cost-table-body');
+
             const btnClear = document.getElementById('btn-clear');
             const btnCopy = document.getElementById('btn-copy');
-
-            const costGpt4o = document.getElementById('cost-gpt4o');
-            const costGpt35 = document.getElementById('cost-gpt35');
-            const costClaude = document.getElementById('cost-claude');
 
             // Image support
             const imgInput = document.getElementById('img-input');
             const imgTokenCountDisplay = document.getElementById('img-token-count');
             let currentImageTokens = 0;
 
-            // Initialize Tokenizer (cl100k_base is used by GPT-4, GPT-3.5 Turbo, text-embedding-ada-002)
+            // Initialize Tokenizer 
             let enc = null;
             try {
                 enc = getEncoding("cl100k_base");
-                console.log("Tokenizer loaded: cl100k_base");
             } catch (e) {
                 console.error("Failed to load tokenizer:", e);
             }
 
-            // Pricing per 1K tokens (Input, Output) - Aug 2024 Est.
-            const PRICING = {
-                gpt4o: { in: 0.005, out: 0.015 },      // $5.00 / $15.00 per 1M
-                gpt4o_mini: { in: 0.00015, out: 0.0006 }, // $0.15 / $0.60 per 1M
-                claude35: { in: 0.003, out: 0.015 },   // $3.00 / $15.00 per 1M
-                gpt35: { in: 0.0005, out: 0.0015 }     // $0.50 / $1.50 per 1M
-            };
+            // Pricing (Price per 1M tokens) - Updated Aug 2024
+            const MODELS = [
+                { id: 'gpt4o', name: 'GPT-4o', in: 5.00, out: 15.00 },
+                { id: 'gpt4o_mini', name: 'GPT-4o Mini', in: 0.15, out: 0.60 },
+                { id: 'claude35', name: 'Claude 3.5 Sonnet', in: 3.00, out: 15.00 },
+                { id: 'claude3opus', name: 'Claude 3 Opus', in: 15.00, out: 75.00 },
+                { id: 'gemini15pro', name: 'Gemini 1.5 Pro', in: 3.50, out: 10.50 },
+                { id: 'gemini15flash', name: 'Gemini 1.5 Flash', in: 0.075, out: 0.30 },
+                { id: 'llama31_70', name: 'Llama 3.1 (70B)', in: 0.90, out: 0.90 },
+                { id: 'llama31_405', name: 'Llama 3.1 (405B)', in: 2.40, out: 2.40 },
+            ];
 
-            let currentInputTokens = 0;
+            let currentTextTokens = 0;
 
             function updateStats() {
                 const text = textInput.value || '';
                 charCount.textContent = text.length.toLocaleString();
 
                 if (!text) {
-                    currentInputTokens = 0;
+                    currentTextTokens = 0;
                 } else {
                     if (enc) {
                         try {
                             const encoded = enc.encode(text);
-                            currentInputTokens = encoded.length;
+                            currentTextTokens = encoded.length;
                         } catch (e) {
                             console.error("Token encoding failed:", e);
-                            currentInputTokens = Math.ceil(text.length / 3.5); // Fallback
+                            currentTextTokens = Math.ceil(text.length / 3.5);
                         }
                     } else {
-                        // Fallback if WASM/JS init failed
-                        currentInputTokens = Math.ceil(text.length / 3.5);
+                        currentTextTokens = Math.ceil(text.length / 3.5);
                     }
                 }
 
-                inputTokenCountDisplay.textContent = currentInputTokens.toLocaleString();
                 updateTotalAndCosts();
             }
 
             function updateTotalAndCosts() {
                 const outputTokens = parseInt(outputInput.value) || 0;
-                // Total Input = Text + Image
-                const totalInput = currentInputTokens + currentImageTokens;
-                const total = totalInput + outputTokens;
+                const totalInput = currentTextTokens + currentImageTokens;
 
-                totalTokenCount.textContent = total.toLocaleString();
+                totalInputTokensDisplay.textContent = totalInput.toLocaleString();
+                outputTokenDisplay.textContent = outputTokens.toLocaleString();
 
-                // Calculate Costs: (TotalInput * PriceIn) + (Out * PriceOut)
-                // Note: Image tokens are input tokens.
-                const calc = (model) => {
-                    const cost = (totalInput / 1000 * model.in) + (outputTokens / 1000 * model.out);
-                    return '$' + cost.toFixed(4); // Show 4 decimals
-                };
-
-                costGpt4o.textContent = calc(PRICING.gpt4o);
-                costGpt35.textContent = calc(PRICING.gpt4o_mini);
-                costClaude.textContent = calc(PRICING.claude35);
+                renderCostTable(totalInput, outputTokens);
             }
 
-            // Image Token Logic (GPT-4 Vision High Res approximation)
+            function renderCostTable(inputCount, outputCount) {
+                costTableBody.innerHTML = '';
+
+                MODELS.forEach(model => {
+                    const costIn = (inputCount / 1_000_000) * model.in;
+                    const costOut = (outputCount / 1_000_000) * model.out;
+                    const totalCost = costIn + costOut;
+
+                    // Helper to format small currency
+                    const fmt = (num) => {
+                        if (num === 0) return '$0.00';
+                        if (num < 0.0001) return '<$0.0001';
+                        return '$' + num.toFixed(4);
+                    };
+
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-gray-50 transition-colors";
+                    row.innerHTML = `
+                        <td class="px-4 py-3 font-medium text-gray-700">${model.name}</td>
+                        <td class="px-4 py-3 text-right text-gray-500 font-mono text-xs">${fmt(costIn)}</td>
+                        <td class="px-4 py-3 text-right text-gray-500 font-mono text-xs">${fmt(costOut)}</td>
+                        <td class="px-4 py-3 text-right font-bold text-gray-900 font-mono text-xs">${fmt(totalCost)}</td>
+                    `;
+                    costTableBody.appendChild(row);
+                });
+            }
+
+            // Image Token Logic
             imgInput.addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) {
@@ -322,29 +374,21 @@
             });
 
             function calculateImageTokens(width, height) {
-                // Base cost
-                let tokens = 85;
-
-                // 1. Scale to fit within 2048x2048
+                let tokens = 85; // Base
                 if (width > 2048 || height > 2048) {
                     const ratio = Math.min(2048 / width, 2048 / height);
                     width *= ratio;
                     height *= ratio;
                 }
-
-                // 2. Scale shortest side to 768px
                 const shortest = Math.min(width, height);
                 if (shortest > 768) {
                     const ratio = 768 / shortest;
                     width *= ratio;
                     height *= ratio;
                 }
-
-                // 3. Count 512px tiles
                 const hTiles = Math.ceil(width / 512);
                 const vTiles = Math.ceil(height / 512);
                 const tiles = hTiles * vTiles;
-
                 tokens += tiles * 170;
                 return tokens;
             }
@@ -376,6 +420,7 @@
             updateStats();
         });
     </script>
+
 </body>
 
 </html>

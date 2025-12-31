@@ -54,7 +54,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -80,7 +81,7 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
             <!-- Stat Cards -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
                 <div class="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2"
@@ -102,16 +103,23 @@
                     data-i18n="word.stat.paragraphs">Paragraphs</div>
                 <div class="text-4xl font-bold text-gray-700" id="stat-paragraphs">0</div>
             </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <div class="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2"
+                    data-i18n="word.read.time">Reading Time</div>
+                <div class="text-4xl font-bold text-green-600" id="reading-time">0 min</div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                <div class="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2"
+                    data-i18n="word.speak.time">Speaking Time</div>
+                <div class="text-4xl font-bold text-green-600" id="speaking-time">0 min</div>
+            </div>
         </div>
 
         <!-- Input Area -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
             <div class="flex justify-between items-center mb-4">
                 <div class="flex space-x-4 text-sm text-gray-500">
-                    <span><i class="fa-regular fa-clock mr-1"></i> <span data-i18n="word.read.time">Reading Time:</span>
-                        <span id="reading-time" class="font-bold text-gray-800">0 min</span></span>
-                    <span><i class="fa-solid fa-microphone-lines mr-1"></i> <span data-i18n="word.speak.time">Speaking
-                            Time:</span> <span id="speaking-time" class="font-bold text-gray-800">0 min</span></span>
+                    <!-- Removed inline stats -->
                 </div>
                 <div>
                     <button id="btn-copy" class="text-blue-600 hover:text-blue-800 text-sm font-medium mr-4">
@@ -145,7 +153,7 @@
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -154,9 +162,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -187,27 +198,44 @@
                 // Characters (including spaces)
                 statChars.textContent = text.length.toLocaleString();
 
-                // Words
-                // Trim and split by whitespace, filter out empty strings
-                const words = text.trim() === '' ? [] : text.trim().split(/\s+/);
-                const wordCount = words.length;
-                statWords.textContent = wordCount.toLocaleString();
+                // Advanced Word/Char Counting for CJK
+                // 1. Identify CJK characters
+                // Range: \u4e00-\u9fa5 (Chinese), \u3040-\u30ff (Japanese), \uac00-\ud7af (Korean)
+                const cjkRegex = /[\u4e00-\u9fa5\u3040-\u30ff\uac00-\ud7af]/g;
+                const cjkMatches = text.match(cjkRegex) || [];
+                const cjkCount = cjkMatches.length;
 
-                // Sentences (approximate split by . ! ?)
-                const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+                // 2. Remove CJK characters to count remaining words (English/Latin/Numbers)
+                const nonCjkText = text.replace(cjkRegex, ' ');
+                // Split by whitespace
+                const standardWords = nonCjkText.trim() === '' ? [] : nonCjkText.trim().split(/\s+/);
+                const standardWordCount = standardWords.length;
+
+                // Total "Words"
+                const totalCount = cjkCount + standardWordCount;
+                statWords.textContent = totalCount.toLocaleString();
+
+                // Sentences (approximate split by . ! ? 。 ！？)
+                const sentences = text.split(/[.!?。！？]+/).filter(s => s.trim().length > 0);
                 statSentences.textContent = sentences.length.toLocaleString();
 
-                // Paragraphs (split by double newline)
+                // Paragraphs
                 const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0);
                 statParagraphs.textContent = paragraphs.length.toLocaleString();
 
-                // Reading Time (200 wpm)
-                const rTime = Math.ceil(wordCount / 200);
-                readingTime.textContent = rTime + (rTime === 1 ? ' min' : ' mins');
+                // Reading Time Calculation
+                // Rule: English ~200 wpm, CJK ~400 char/min (conservatively)
+                const engTime = standardWordCount / 200;
+                const cjkTime = cjkCount / 400;
+                const totalMinutes = Math.ceil(engTime + cjkTime);
+                readingTime.textContent = totalMinutes + (totalMinutes <= 1 ? ' min' : ' mins');
 
-                // Speaking Time (130 wpm)
-                const sTime = Math.ceil(wordCount / 130);
-                speakingTime.textContent = sTime + (sTime === 1 ? ' min' : ' mins');
+                // Speaking Time Calculation
+                // Rule: English ~130 wpm, CJK ~200 char/min
+                const engSpeakTime = standardWordCount / 130;
+                const cjkSpeakTime = cjkCount / 200;
+                const totalSpeakMinutes = Math.ceil(engSpeakTime + cjkSpeakTime);
+                speakingTime.textContent = totalSpeakMinutes + (totalSpeakMinutes <= 1 ? ' min' : ' mins');
             }
 
             // Auto-Save Logic

@@ -63,7 +63,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -112,11 +113,15 @@
                     <div class="flex items-center justify-between">
                         <label class="text-sm font-medium text-gray-700" data-i18n="ocr.lang">Language</label>
                         <select id="lang-select" class="border rounded-md p-2 text-sm bg-gray-50">
-                            <option value="eng">English</option>
-                            <option value="chi_sim">Chinese (Simplified)</option>
-                            <option value="chi_tra">Chinese (Traditional)</option>
-                            <option value="jpn">Japanese</option>
-                            <option value="kor">Korean</option>
+                            <option value="eng" data-i18n="ocr.lang.eng">English</option>
+                            <option value="chi_sim" data-i18n="ocr.lang.chi_sim">Chinese (Simplified)</option>
+                            <option value="chi_tra" data-i18n="ocr.lang.chi_tra">Chinese (Traditional)</option>
+                            <option value="jpn" data-i18n="ocr.lang.jpn">Japanese</option>
+                            <option value="kor" data-i18n="ocr.lang.kor">Korean</option>
+                            <option value="spa" data-i18n="ocr.lang.spa">Spanish</option>
+                            <option value="por" data-i18n="ocr.lang.por">Portuguese</option>
+                            <option value="fra" data-i18n="ocr.lang.fra">French</option>
+                            <option value="deu" data-i18n="ocr.lang.deu">German</option>
                         </select>
                     </div>
                 </div>
@@ -151,6 +156,7 @@
                     </div>
                     <textarea id="result-text" readonly
                         class="flex-grow w-full border border-gray-200 rounded-lg p-4 font-mono text-sm bg-gray-50 outline-none resize-none min-h-[400px]"
+                        data-i18n-attr="placeholder" data-i18n="ocr.placeholder"
                         placeholder="Extracted text will appear here..."></textarea>
                 </div>
             </div>
@@ -174,7 +180,7 @@
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -183,9 +189,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -256,7 +265,7 @@
                     }
                 } catch (error) {
                     console.error(error);
-                    statusText.innerText = 'Error: ' + error.message;
+                    statusText.innerText = window.i18n.t('ocr.status.error') + ': ' + error.message;
                     statusContainer.classList.remove('hidden');
                 }
             }
@@ -270,7 +279,7 @@
                 };
                 reader.readAsDataURL(file);
 
-                statusText.innerText = 'Initializing Tesseract...';
+                statusText.innerText = window.i18n.t('ocr.status.init');
                 progressBar.style.width = '0%';
                 progressPercent.innerText = '0%';
 
@@ -281,7 +290,7 @@
                         logger: m => {
                             if (m.status === 'recognizing text') {
                                 const pct = Math.round(m.progress * 100);
-                                statusText.innerText = `Recognizing text... ${pct}%`;
+                                statusText.innerText = window.i18n.t('ocr.status.recognizing').replace('{pct}', pct);
                                 progressBar.style.width = `${pct}%`;
                                 progressPercent.innerText = `${pct}%`;
                             } else {
@@ -296,13 +305,13 @@
             }
 
             async function processPDF(file, lang) {
-                statusText.innerText = 'Loading PDF...';
+                statusText.innerText = window.i18n.t('ocr.status.loading_pdf');
                 const arrayBuffer = await file.arrayBuffer();
                 const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
                 const totalPages = pdf.numPages;
                 let fullText = '';
 
-                statusText.innerText = `Processing PDF (0/${totalPages})...`;
+                statusText.innerText = window.i18n.t('ocr.status.processing_pdf').replace('{current}', 0).replace('{total}', totalPages);
 
                 for (let i = 1; i <= totalPages; i++) {
                     const page = await pdf.getPage(i);
@@ -323,7 +332,7 @@
                         previewContainer.classList.remove('hidden');
                     }
 
-                    statusText.innerText = `Processing Page ${i}/${totalPages}...`;
+                    statusText.innerText = window.i18n.t('ocr.status.processing_page').replace('{current}', i).replace('{total}', totalPages);
                     progressBar.style.width = `${Math.round((i / totalPages) * 100)}%`;
                     progressPercent.innerText = `${Math.round((i / totalPages) * 100)}%`;
 
@@ -336,7 +345,7 @@
             }
 
             function finishProcessing() {
-                statusText.innerText = 'Done!';
+                statusText.innerText = window.i18n.t('ocr.status.done');
                 progressBar.style.width = '100%';
                 progressPercent.innerText = '100%';
                 setTimeout(() => {

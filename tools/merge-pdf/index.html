@@ -67,7 +67,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -186,7 +187,7 @@
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -195,9 +196,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -303,7 +307,7 @@
 
             btnMerge.addEventListener('click', async () => {
                 if (files.length < 2) {
-                    alert('Please select at least 2 PDF files to merge.');
+                    alert(window.i18n.t('merge.alert.select'));
                     return;
                 }
 
@@ -315,7 +319,38 @@
 
                     for (const item of files) {
                         const arrayBuffer = await item.file.arrayBuffer();
-                        const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                        let pdf = null;
+                        let loaded = false;
+                        let password = '';
+
+                        while (!loaded) {
+                            try {
+                                if (password) {
+                                    pdf = await PDFLib.PDFDocument.load(arrayBuffer, { password: password });
+                                } else {
+                                    pdf = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+                                    // Note: ignoreEncryption: true might load it but content is inaccessible if encrypted? 
+                                    // Actually pdf-lib throws if encrypted and no password. 
+                                    // Let's try standard load first. 
+                                    // If we use ignoreEncryption: true, it might load but we can't copy pages?
+                                    // Let's rely on catch block.
+                                    // Re-reading docs: load() throws if encrypted and no password.
+                                    pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                                }
+                                loaded = true;
+                            } catch (e) {
+                                if (e.message.includes('encrypted')) {
+                                    const msg = window.i18n.t('merge.prompt.password').replace('{filename}', item.file.name);
+                                    password = prompt(msg);
+                                    if (password === null) {
+                                        throw new Error(window.i18n.t('merge.error.cancelled'));
+                                    }
+                                } else {
+                                    throw e;
+                                }
+                            }
+                        }
+
                         const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
                         copiedPages.forEach((page) => mergedPdf.addPage(page));
                     }
@@ -327,7 +362,7 @@
                     resultSection.classList.remove('hidden');
                 } catch (err) {
                     console.error(err);
-                    alert('Error merging PDFs: ' + err.message);
+                    alert(window.i18n.t('merge.alert.error') + err.message);
                     processingState.classList.add('hidden');
                     fileListSection.classList.remove('hidden');
                 }

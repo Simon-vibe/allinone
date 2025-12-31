@@ -103,76 +103,19 @@
                             <th scope="col" class="px-6 py-4 text-left">Model</th>
                             <th scope="col" class="px-6 py-4">Coding</th>
                             <th scope="col" class="px-6 py-4">Reasoning</th>
+                            <th scope="col" class="px-6 py-4">Writing</th>
                             <th scope="col" class="px-6 py-4">Context Window</th>
                             <th scope="col" class="px-6 py-4">Price / 1M Out</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        <tr class="bg-white hover:bg-gray-50">
-                            <td class="px-6 py-4 font-bold text-gray-900 text-left flex items-center">
-                                <span
-                                    class="w-8 h-8 rounded bg-orange-100 text-orange-600 flex items-center justify-center mr-3"><i
-                                        class="fa-solid fa-cube"></i></span>
-                                Claude 3.5 Sonnet
-                            </td>
-                            <td class="px-6 py-4 text-green-600 font-bold">S Tier</td>
-                            <td class="px-6 py-4 text-green-600 font-bold">S Tier</td>
-                            <td class="px-6 py-4">200k</td>
-                            <td class="px-6 py-4">$15.00</td>
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50">
-                            <td class="px-6 py-4 font-bold text-gray-900 text-left flex items-center">
-                                <span
-                                    class="w-8 h-8 rounded bg-green-100 text-green-600 flex items-center justify-center mr-3"><i
-                                        class="fa-solid fa-bolt"></i></span>
-                                GPT-4o
-                            </td>
-                            <td class="px-6 py-4 text-green-600 font-bold">A+ Tier</td>
-                            <td class="px-6 py-4 text-green-600 font-bold">S Tier</td>
-                            <td class="px-6 py-4">128k</td>
-                            <td class="px-6 py-4">$10.00</td>
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50">
-                            <td class="px-6 py-4 font-bold text-gray-900 text-left flex items-center">
-                                <span
-                                    class="w-8 h-8 rounded bg-blue-100 text-blue-600 flex items-center justify-center mr-3"><i
-                                        class="fa-solid fa-brain"></i></span>
-                                DeepSeek-V3
-                            </td>
-                            <td class="px-6 py-4 text-green-600 font-bold">A+ Tier</td>
-                            <td class="px-6 py-4 text-green-600 font-bold">A+ Tier</td>
-                            <td class="px-6 py-4">64k</td>
-                            <td class="px-6 py-4 text-green-600 font-bold">$0.28 🔥</td>
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50">
-                            <td class="px-6 py-4 font-bold text-gray-900 text-left flex items-center">
-                                <span
-                                    class="w-8 h-8 rounded bg-gray-100 text-gray-600 flex items-center justify-center mr-3"><i
-                                        class="fa-solid fa-rocket"></i></span>
-                                DeepSeek-R1 (Preview)
-                            </td>
-                            <td class="px-6 py-4 text-green-600 font-bold">S+ Tier</td>
-                            <td class="px-6 py-4 text-green-600 font-bold">S+ Tier</td>
-                            <td class="px-6 py-4">64k</td>
-                            <td class="px-6 py-4">-</td>
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50">
-                            <td class="px-6 py-4 font-bold text-gray-900 text-left flex items-center">
-                                <span
-                                    class="w-8 h-8 rounded bg-blue-50 text-blue-500 flex items-center justify-center mr-3"><i
-                                        class="fa-brands fa-google"></i></span>
-                                Gemini 1.5 Pro
-                            </td>
-                            <td class="px-6 py-4 ">A Tier</td>
-                            <td class="px-6 py-4">A+ Tier</td>
-                            <td class="px-6 py-4 text-green-600 font-bold">2 Million</td>
-                            <td class="px-6 py-4">$7.00</td>
-                        </tr>
+                        <!-- Rows rendered by JS -->
+
                     </tbody>
                 </table>
             </div>
             <div class="bg-gray-50 px-6 py-3 border-t border-gray-100 text-xs text-gray-400 text-right">
-                Data source: LMSYS Chatbot Arena & Official Pricing Pages (Updated Dec 2024)
+                Data source: LMSYS Chatbot Arena & Official Pricing Pages (Updated Jan 2025)
             </div>
         </div>
 
@@ -227,6 +170,41 @@
             const select = document.getElementById('scenario-select');
             const resultBox = document.getElementById('recommendation-result');
             const recText = document.getElementById('rec-text');
+            const tableBody = document.querySelector('tbody');
+
+            // Data Source
+            const models = [
+                {
+                    name: "Claude 3.5 Sonnet",
+                    icon: "fa-solid fa-cube", iconColor: "text-orange-600", bg: "bg-orange-100",
+                    coding: "S Tier", reasoning: "S Tier", writing: "S Tier", context: "200k", price: "$15.00",
+                    scores: { coding: 95, reasoning: 95, writing: 95 }
+                },
+                {
+                    name: "GPT-4o",
+                    icon: "fa-solid fa-bolt", iconColor: "text-green-600", bg: "bg-green-100",
+                    coding: "A+ Tier", reasoning: "S Tier", writing: "S- Tier", context: "128k", price: "$10.00",
+                    scores: { coding: 90, reasoning: 95, writing: 92 }
+                },
+                {
+                    name: "DeepSeek-V3",
+                    icon: "fa-solid fa-brain", iconColor: "text-blue-600", bg: "bg-blue-100",
+                    coding: "A+ Tier", reasoning: "A+ Tier", writing: "A+ Tier", context: "64k", price: "$0.28 🔥",
+                    scores: { coding: 92, reasoning: 92, writing: 88, price: 99 } // High price score = cheap
+                },
+                {
+                    name: "DeepSeek-R1 (Preview)",
+                    icon: "fa-solid fa-rocket", iconColor: "text-gray-600", bg: "bg-gray-100",
+                    coding: "S+ Tier", reasoning: "S+ Tier", writing: "B Tier", context: "64k", price: "-",
+                    scores: { coding: 98, reasoning: 99, writing: 85 }
+                },
+                {
+                    name: "Gemini 1.5 Pro",
+                    icon: "fa-brands fa-google", iconColor: "text-blue-500", bg: "bg-blue-50",
+                    coding: "A Tier", reasoning: "A+ Tier", writing: "A Tier", context: "2 Million", price: "$7.00",
+                    scores: { coding: 85, reasoning: 90, writing: 88, context: 99 }
+                }
+            ];
 
             const recommendations = {
                 coding: "Claude 3.5 Sonnet (Best) or DeepSeek-V3",
@@ -236,12 +214,50 @@
                 price: "DeepSeek-V3 ($0.14/1M in)"
             };
 
+            function renderTable(sortKey = null) {
+                // Sort models
+                let sortedModels = [...models];
+                if (sortKey) {
+                    if (sortKey === 'price') {
+                        // Special case for price (cheapest first/highest score)
+                        sortedModels.sort((a, b) => (b.scores.price || 0) - (a.scores.price || 0));
+                    } else if (sortKey === 'context') {
+                        sortedModels.sort((a, b) => (b.scores.context || 0) - (a.scores.context || 0));
+                    } else {
+                        // Default score sort
+                        sortedModels.sort((a, b) => (b.scores[sortKey] || 0) - (a.scores[sortKey] || 0));
+                    }
+                }
+
+                tableBody.innerHTML = sortedModels.map(m => `
+            <tr class="bg-white hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 font-bold text-gray-900 text-left flex items-center">
+                    <span class="w-8 h-8 rounded ${m.bg} ${m.iconColor} flex items-center justify-center mr-3">
+                        <i class="${m.icon}"></i>
+                    </span>
+                    ${m.name}
+                </td>
+                <td class="px-6 py-4 ${m.coding.includes('S') ? 'text-green-600 font-bold' : ''}">${m.coding}</td>
+                <td class="px-6 py-4 ${m.reasoning.includes('S') || m.reasoning.includes('A+') ? 'text-green-600 font-bold' : ''}">${m.reasoning}</td>
+                <td class="px-6 py-4 ${m.writing.includes('S') ? 'text-green-600 font-bold' : ''}">${m.writing}</td>
+                <td class="px-6 py-4 ${m.context.includes('Million') ? 'text-purple-600 font-bold' : ''}">${m.context}</td>
+                <td class="px-6 py-4 ${m.price.includes('$0.') ? 'text-orange-500 font-bold' : ''}">${m.price}</td>
+            </tr>
+                `).join('');
+            }
+
+            // Initial Render
+            renderTable();
+
             select.addEventListener('change', (e) => {
                 const val = e.target.value;
                 if (recommendations[val]) {
                     recText.textContent = recommendations[val];
                     resultBox.classList.remove('hidden');
-                    resultBox.classList.add('animate-fade-in'); // Check if CSS has this, otherwise just add helper class
+                    resultBox.classList.add('animate-fade-in');
+
+                    // Re-sort table based on selection
+                    renderTable(val);
                 }
             });
         });

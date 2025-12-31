@@ -144,7 +144,8 @@
                 <span data-i18n="yaml.seo.keywords">json to yaml, yaml to json, json converter, online dev tools</span>
             </p>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Easily switch between JSON and YAML formats. Essential for Kubernetes configuration and
+                <p class="mb-4" data-i18n="yaml.seo.p1">Easily switch between JSON and YAML formats. Essential for
+                    Kubernetes configuration and
                     API development.</p>
 
                 <!-- Features (Moved from manual section) -->
@@ -204,12 +205,13 @@
             let isUpdating = false;
 
             // JSON -> YAML
-            jsonInput.addEventListener('input', () => {
+            const updateYaml = () => {
                 if (isUpdating) return;
                 isUpdating = true;
 
                 const val = jsonInput.value.trim();
                 jsonError.textContent = '';
+                const style = document.getElementById('yaml-style').value; // block or flow
 
                 if (!val) {
                     yamlInput.value = '';
@@ -219,14 +221,29 @@
 
                 try {
                     const obj = JSON.parse(val);
-                    yamlInput.value = jsyaml.dump(obj);
+                    // js-yaml options: flowLevel -1 (block), or larger (flow)
+                    // Actually, flowLevel is deprecated in favor of 'flowLevel' option? 
+                    // Looking at docs: flowLevel: -1 (default, block). 
+                    // To force flow, we can use flowLevel: 0 or similar or 'styles'
+                    // Correct approach for js-yaml 4.x:
+                    // dump(obj, { flowLevel: ... })
+                    // block -> -1, flow -> 0 (or just don't set it for block)
+                    const options = {};
+                    if (style === 'flow') {
+                        options.flowLevel = 0; // JSON-like flow
+                    }
+
+                    yamlInput.value = jsyaml.dump(obj, options);
                     yamlError.textContent = '';
                 } catch (e) {
                     jsonError.textContent = 'Invalid JSON: ' + e.message;
                 }
 
                 isUpdating = false;
-            });
+            };
+
+            jsonInput.addEventListener('input', updateYaml);
+            document.getElementById('yaml-style').addEventListener('change', updateYaml);
 
             // YAML -> JSON
             yamlInput.addEventListener('input', () => {

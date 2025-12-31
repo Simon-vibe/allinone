@@ -33,6 +33,8 @@
     <!-- QRCode.js -->
     <!-- QRCode Styling -->
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <!-- jsQR for scanning -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -202,7 +204,7 @@
                     <h3 class="font-bold text-xl mb-4" data-i18n="qr.scan.result">Decoded Result</h3>
                     <textarea id="scan-result" readonly
                         class="w-full h-32 bg-gray-50 border border-gray-200 rounded-lg p-4 font-mono text-sm mb-4"
-                        placeholder="Result will appear here..."></textarea>
+                        placeholder="Result will appear here..." data-i18n-placeholder="qr.scan.placeholder"></textarea>
 
                     <button id="btn-copy-scan" disabled
                         class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50">
@@ -210,7 +212,8 @@
                     </button>
 
                     <div class="mt-8 border-t pt-8">
-                        <h4 class="font-bold text-sm text-gray-500 mb-2">Image Preview</h4>
+                        <h4 class="font-bold text-sm text-gray-500 mb-2" data-i18n="qr.scan.preview_img">Image Preview
+                        </h4>
                         <img id="scan-preview" class="max-h-48 rounded border border-gray-200 hidden" alt="Uploaded QR">
                     </div>
                 </div>
@@ -226,7 +229,8 @@
                 <span data-i18n="qr.seo.keywords">qr code generator, create qr code, online qr tool</span>
             </p>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Create QR codes for URLs, WiFi, or text. Customize colors and add your logo for
+                <p class="mb-4" data-i18n="qr.seo.p1">Create QR codes for URLs, WiFi, or text. Customize colors and add
+                    your logo for
                     branding.</p>
 
                 <!-- Features (Moved from manual section) -->
@@ -238,12 +242,25 @@
                     <li data-i18n="common.client_side"><strong>Client-Side:</strong> No tracking, no redirect links.
                     </li>
                 </ul>
+
+                <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="qr.faq.title">FAQ</h3>
+                <div class="space-y-4">
+                    <details class="bg-white rounded-lg border border-gray-200 p-4 open:bg-blue-50 transition">
+                        <summary class="font-bold cursor-pointer" data-i18n="qr.faq.q1">Does it expire?</summary>
+                        <p class="mt-2 text-sm" data-i18n="qr.faq.a1">No, these are static QR codes. They work forever
+                            as long as your link works.</p>
+                    </details>
+                    <details class="bg-white rounded-lg border border-gray-200 p-4 open:bg-blue-50 transition">
+                        <summary class="font-bold cursor-pointer" data-i18n="qr.faq.q2">Is it free?</summary>
+                        <p class="mt-2 text-sm" data-i18n="qr.faq.a2">Yes, completely free for personal and commercial
+                            use.</p>
+                    </details>
+                </div>
             </div>
 
         </div>
     </main>
 
-    <!-- Footer -->
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -290,6 +307,14 @@
             const controlsScan = document.getElementById('controls-scan');
             const previewGenerate = document.getElementById('preview-generate');
             const previewScan = document.getElementById('preview-scan');
+
+            // Scan Elements
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const scanResult = document.getElementById('scan-result');
+            const scanPreview = document.getElementById('scan-preview');
+            const btnCopyScan = document.getElementById('btn-copy-scan');
+
 
             // Tab Logic
             tabGenerate.addEventListener('click', () => {
@@ -406,6 +431,83 @@
                     generateQR();
                 }
             }, 100);
+
+            // ================= Scannning Logic =================
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('bg-blue-50', 'border-blue-500');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('bg-blue-50', 'border-blue-500');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('bg-blue-50', 'border-blue-500');
+                if (e.dataTransfer.files.length) {
+                    handleScan(e.dataTransfer.files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleScan(e.target.files[0]);
+                }
+            });
+
+            function handleScan(file) {
+                if (!file) return;
+
+                // Preview Image
+                scanPreview.src = URL.createObjectURL(file);
+                scanPreview.classList.remove('hidden');
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        context.drawImage(img, 0, 0, img.width, img.height);
+                        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+                        // Use jsQR
+                        if (window.jsQR) {
+                            const code = jsQR(imageData.data, imageData.width, imageData.height);
+                            if (code) {
+                                scanResult.value = code.data;
+                                btnCopyScan.disabled = false;
+                            } else {
+                                scanResult.value = "Scanning failed. Could not find a QR code in the image.";
+                                // Check if we have i18n
+                                if (window.i18n && window.i18n.t) {
+                                    scanResult.value = i18n.t('qr.scan.fail');
+                                }
+                                btnCopyScan.disabled = true;
+                            }
+                        } else {
+                            console.error("jsQR library not loaded");
+                            scanResult.value = "Error: Scanne library not loaded.";
+                        }
+                    };
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+
+            btnCopyScan.addEventListener('click', () => {
+                scanResult.select();
+                document.execCommand('copy');
+                const originalHtml = btnCopyScan.innerHTML;
+                btnCopyScan.innerHTML = `<i class="fa-solid fa-check mr-2"></i> Copied`;
+                setTimeout(() => btnCopyScan.innerHTML = originalHtml, 2000);
+            });
+
         });
     </script>
 </body>

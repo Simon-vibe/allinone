@@ -38,6 +38,8 @@
 
     <!-- Docx.js -->
     <script src="https://unpkg.com/docx@7.8.2/build/index.js"></script>
+    <!-- Tesseract.js -->
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
     <!-- FileSaver.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
@@ -306,13 +308,47 @@
                     }
 
                     if (!hasExtractedText) {
-                        alert(window.i18n.t("pdf.error.no_text"));
-                        dropZone.classList.remove('hidden');
-                        processingState.classList.add('hidden');
-                        return;
+                        // Switch to OCR Mode
+                        console.log("No text found, switching to OCR...");
+                        progressText.textContent = window.i18n.t('pdf.status.ocr_init');
+
+                        children.length = 0; // Clear empty pages
+
+                        for (let i = 1; i <= numPages; i++) {
+                            const page = await pdf.getPage(i);
+                            const viewport = page.getViewport({ scale: 2.0 });
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.height = viewport.height;
+                            canvas.width = viewport.width;
+
+                            await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+                            progressText.textContent = window.i18n.t('pdf.status.ocr_page').replace('{current}', i).replace('{total}', numPages);
+
+                            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                            const { data: { text } } = await Tesseract.recognize(blob, 'eng'); // Default to English for now, maybe auto-detect or add setting later? 
+                            // Using 'eng' + 'chi_sim' + 'chi_tra' might be too heavy? Let's stick to 'eng+chi_sim' if possible or just 'chi_sim' if language is Chinese? 
+                            // For simplicity and user context (likely Chinese/English), let's try a multi-lang string or just 'eng' + 'chi_sim' if possible, but Tesseract CDN download is big.
+                            // Let's use the site language to guess?
+                            // For now, let's just use 'eng+chi_sim' if the site is in Chinese, or default. 
+                            // Actually, Tesseract auto-downloads. Let's start with 'eng+chi_sim' to cover most bases for this user.
+
+                            // Splitting by lines to create paragraphs
+                            const lines = text.split('\n');
+                            lines.forEach(line => {
+                                if (line.trim()) {
+                                    children.push(new docx.Paragraph({ text: line.trim() }));
+                                }
+                            });
+
+                            if (i < numPages) {
+                                children.push(new docx.Paragraph({ children: [new docx.PageBreak()] }));
+                            }
+                        }
                     }
 
-                    // Create final document with gathered children
+                    // Create final document with gathered children (from Text or OCR)
                     const finalDoc = new docx.Document({
                         sections: [{
                             properties: {},

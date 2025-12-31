@@ -59,7 +59,8 @@
                 <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
                 <!-- Language Switcher Dropdown -->
                 <div class="relative inline-block text-left border-l pl-6 border-gray-300">
-                    <select onchange="changeLanguage(this.value)" class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
                         <option value="en">🇺🇸 EN</option>
                         <option value="zh">🇨🇳 中文</option>
                         <option value="es">🇪🇸 ES</option>
@@ -85,7 +86,20 @@
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <!-- Mode Switcher -->
+        <div class="max-w-md mx-auto mb-8">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-1 flex">
+                <button id="btn-tab-analyze"
+                    class="flex-1 py-2 text-sm font-bold text-blue-600 bg-blue-50 rounded-lg transition"
+                    data-i18n="ua.tab.analyze">My Info</button>
+                <button id="btn-tab-build"
+                    class="flex-1 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 rounded-lg transition"
+                    data-i18n="ua.tab.build">UA Builder</button>
+            </div>
+        </div>
+
+        <!-- Analyzer Tab (Existing) -->
+        <div id="view-analyze" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
 
             <!-- User Agent String -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 md:col-span-2 text-center">
@@ -151,6 +165,71 @@
 
         </div>
 
+        <!-- Builder Tab -->
+        <div id="view-build" class="hidden">
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Controls -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-lg mb-4" data-i18n="ua.builder.title">Configuration</h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="ua.label.os">OS</label>
+                            <select id="build-os" class="w-full border border-gray-300 rounded-lg p-2.5">
+                                <option value="windows">Windows</option>
+                                <option value="macos">macOS</option>
+                                <option value="linux">Linux</option>
+                                <option value="android">Android</option>
+                                <option value="ios">iOS (iPhone/iPad)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2"
+                                data-i18n="ua.label.browser">Browser</label>
+                            <select id="build-browser" class="w-full border border-gray-300 rounded-lg p-2.5">
+                                <option value="chrome">Google Chrome</option>
+                                <option value="firefox">Mozilla Firefox</option>
+                                <option value="safari">Apple Safari</option>
+                                <option value="edge">Microsoft Edge</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2"
+                                data-i18n="ua.builder.version">Version</label>
+                            <select id="build-version" class="w-full border border-gray-300 rounded-lg p-2.5">
+                                <option value="latest" data-i18n="ua.builder.ver.latest">Latest (Stable)</option>
+                                <option value="legacy" data-i18n="ua.builder.ver.legacy">Legacy (Older)</option>
+                            </select>
+                        </div>
+
+                        <button id="btn-generate"
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition mt-4">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> <span
+                                data-i18n="ua.action.generate">Generate User Agent</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-lg mb-4" data-i18n="ua.builder.result">Generated String</h3>
+                    <textarea id="build-result" readonly
+                        class="w-full h-32 bg-gray-50 border border-gray-200 rounded-lg p-4 font-mono text-sm mb-4 text-blue-600 break-all"
+                        placeholder="Click Generate..."></textarea>
+
+                    <button id="btn-copy-build" disabled
+                        class="w-full bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition disabled:opacity-50">
+                        <i class="fa-regular fa-copy mr-2"></i> <span data-i18n="json.action.copy">Copy to
+                            clipboard</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
         <!-- FAQ -->
         <section class="max-w-4xl mx-auto mt-16 prose prose-blue text-gray-600 mb-12">
             <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="ua.faq.title">User Agent FAQ</h2>
@@ -166,12 +245,22 @@
                 <li data-i18n="ua.feat.3"><strong>Analytics:</strong> Helps webmasters understand their audience's
                     devices.</li>
             </ul>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="ua.faq.change.q">How to change my User Agent?
+            </h3>
+            <p class="mb-4" data-i18n="ua.faq.change.a">You can use developer tools in your browser or extensions to
+                'spoof' or change your User Agent string.</p>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="ua.faq.safe.q">Is modifying User Agent safe?
+            </h3>
+            <p class="mb-4" data-i18n="ua.faq.safe.a">Yes, it generally is safe, but some websites might look broken if
+                they rely on it for feature detection.</p>
         </section>
 
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -180,9 +269,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -202,7 +294,28 @@
             const infoIp = document.getElementById('info-ip');
             const btnCopy = document.getElementById('btn-copy');
 
-            // 1. User Agent
+            // Tabs
+            const btnTabAnalyze = document.getElementById('btn-tab-analyze');
+            const btnTabBuild = document.getElementById('btn-tab-build');
+            const viewAnalyze = document.getElementById('view-analyze');
+            const viewBuild = document.getElementById('view-build');
+
+            btnTabAnalyze.addEventListener('click', () => {
+                viewAnalyze.classList.remove('hidden');
+                viewBuild.classList.add('hidden');
+                btnTabAnalyze.className = 'flex-1 py-2 text-sm font-bold text-blue-600 bg-blue-50 rounded-lg transition';
+                btnTabBuild.className = 'flex-1 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 rounded-lg transition';
+            });
+
+            btnTabBuild.addEventListener('click', () => {
+                viewAnalyze.classList.add('hidden');
+                viewBuild.classList.remove('hidden');
+                btnTabAnalyze.className = 'flex-1 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 rounded-lg transition';
+                btnTabBuild.className = 'flex-1 py-2 text-sm font-bold text-blue-600 bg-blue-50 rounded-lg transition';
+            });
+
+
+            // 1. User Agent (Analyzer)
             const ua = navigator.userAgent;
             uaString.textContent = ua;
 
@@ -254,6 +367,82 @@
                     setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
                 });
             });
+
+
+            // ================= Builder Logic =================
+            const buildOs = document.getElementById('build-os');
+            const buildBrowser = document.getElementById('build-browser');
+            const buildVersion = document.getElementById('build-version');
+            const btnGenerate = document.getElementById('btn-generate');
+            const buildResult = document.getElementById('build-result');
+            const btnCopyBuild = document.getElementById('btn-copy-build');
+
+            const uaPresets = {
+                windows: {
+                    chrome: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                    firefox: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0",
+                    edge: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0",
+                    safari: null // Safari on Windows is dead
+                },
+                macos: {
+                    chrome: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                    safari: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15",
+                    firefox: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0",
+                    edge: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0"
+                },
+                linux: {
+                    chrome: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                    firefox: "Mozilla/5.0 (X11; Linux x86_64; rv:127.0) Gecko/20100101 Firefox/127.0"
+                },
+                android: {
+                    chrome: "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6478.122 Mobile Safari/537.36",
+                    firefox: "Mozilla/5.0 (Android 14; Mobile; rv:127.0) Gecko/127.0 Firefox/127.0"
+                },
+                ios: {
+                    safari: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1",
+                    chrome: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/126.0.6478.54 Mobile/15E148 Safari/604.1"
+                }
+            };
+
+            const legacyPresets = {
+                windows: {
+                    chrome: "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36",
+                    firefox: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"
+                }
+            };
+
+            btnGenerate.addEventListener('click', () => {
+                const os = buildOs.value;
+                let browser = buildBrowser.value;
+                const version = buildVersion.value;
+
+                // Handle valid combinations
+                if (os === 'windows' && browser === 'safari') browser = 'chrome'; // Fallback
+                if (os === 'linux' && (browser === 'safari' || browser === 'edge')) browser = 'firefox'; // Fallback
+
+                let ua = "";
+                if (version === 'legacy' && legacyPresets[os] && legacyPresets[os][browser]) {
+                    ua = legacyPresets[os][browser];
+                } else if (uaPresets[os] && uaPresets[os][browser]) {
+                    ua = uaPresets[os][browser];
+                } else {
+                    // Generic fallback
+                    ua = `Mozilla/5.0 (${os}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36`;
+                }
+
+                buildResult.value = ua;
+                btnCopyBuild.disabled = false;
+            });
+
+            btnCopyBuild.addEventListener('click', () => {
+                buildResult.select();
+                navigator.clipboard.writeText(buildResult.value).then(() => {
+                    const originalHtml = btnCopyBuild.innerHTML;
+                    btnCopyBuild.innerHTML = `<i class="fa-solid fa-check mr-2"></i> ${i18n.t('common.copied')}`;
+                    setTimeout(() => btnCopyBuild.innerHTML = originalHtml, 2000);
+                });
+            });
+
         });
     </script>
 </body>

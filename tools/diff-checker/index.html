@@ -191,7 +191,8 @@
                 <span class="bg-gray-100 px-2 py-1 rounded">text difference</span>
             </div>
             <div class="prose max-w-none text-gray-600">
-                <p class="mb-4">Compare two text files or code snippetsside-by-side to highlight differences, additions,
+                <p class="mb-4">Compare two text files or code snippets side-by-side to highlight differences,
+                    additions,
                     and deletions.</p>
             </div>
 
@@ -286,7 +287,7 @@
                         textArea.value = text;
                     } catch (err) {
                         console.error(err);
-                        alert("Error reading file: " + err.message);
+                        alert(window.i18n.t('diff.alert.read_error') + err.message);
                     } finally {
                         textArea.placeholder = originalPlaceholder;
                     }

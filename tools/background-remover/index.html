@@ -37,12 +37,16 @@
     <script type="module">
         import imglyRemoveBackground from 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.2.1/+esm';
         window.removeBackground = imglyRemoveBackground;
+        window.dispatchEvent(new Event('imglyLoaded'));
     </script>
     <script>
         // Fallback or loading check
-        window.imglyRemoveBackground = async (blob) => {
-            if (window.removeBackground) return window.removeBackground(blob);
-            throw new Error("Library not loaded yet.");
+        window.waitForImgly = () => {
+            return new Promise((resolve) => {
+                if (window.removeBackground) return resolve(window.removeBackground);
+                window.addEventListener('imglyLoaded', () => resolve(window.removeBackground));
+                // Timeout fallback? 
+            });
         };
     </script>
     <!-- FileSaver.js -->
@@ -115,9 +119,7 @@
                     class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fa-solid fa-wand-magic-sparkles text-3xl"></i>
                 </div>
-                <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2"
-                    data-i18n="bgrem.seo.keywords_label">Related Keywords:</h2>
-                <div class="flex flex-wrap gap-2 text-sm text-gray-600" data-i18n="bgrem.seo.keywords"></div>
+
                 <h3 class="text-xl font-bold text-gray-900" data-i18n="img.drag.title">Drop Image Here</h3>
                 <p class="text-gray-500" data-i18n="img.drag.subtitle">or click to upload</p>
                 <button onclick="document.getElementById('file-input').click()"
@@ -461,7 +463,8 @@
 
                 try {
                     // Start Background Removal
-                    const blob = await imglyRemoveBackground(file);
+                    const removeBackground = await window.waitForImgly();
+                    const blob = await removeBackground(file);
 
                     resultBlob = blob;
                     imgResult.src = URL.createObjectURL(blob);
@@ -474,7 +477,7 @@
 
                 } catch (err) {
                     console.error(err);
-                    alert('Error removing background: ' + err.message);
+                    alert(window.i18n.t('bgrem.error.remove') + ': ' + err.message);
                     // If AI fails, maybe stay on Manual?
                     switchTab('manual');
                     processingState.classList.add('hidden');

@@ -232,6 +232,42 @@
                 });
             });
 
+            async function fetchWithFallback(url) {
+                // List of proxies to try
+                const proxies = [
+                    {
+                        name: 'CORSProxy.io',
+                        url: `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                        extract: async (res) => await res.text() // Returns raw HTML
+                    },
+                    {
+                        name: 'AllOrigins',
+                        url: `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+                        extract: async (res) => {
+                            const json = await res.json();
+                            if (!json.contents) throw new Error('No content in AllOrigins response');
+                            return json.contents;
+                        }
+                    }
+                ];
+
+                let lastError;
+
+                for (const proxy of proxies) {
+                    try {
+                        console.log(`Trying proxy: ${proxy.name}`);
+                        const response = await fetch(proxy.url);
+                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                        return await proxy.extract(response);
+                    } catch (e) {
+                        console.warn(`Proxy ${proxy.name} failed:`, e);
+                        lastError = e;
+                    }
+                }
+
+                throw lastError || new Error('All proxies failed');
+            }
+
             btnConvert.addEventListener('click', async () => {
                 const mode = document.querySelector('input[name="input-type"]:checked').value;
                 let html = '';
@@ -245,22 +281,18 @@
                     if (!url) return;
 
                     const originalBtnText = btnConvert.innerHTML;
-                    btnConvert.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> ${window.i18n.t('md.status.fetching')}`;
+                    btnConvert.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> ${window.i18n.t('md.status.fetching') || 'Fetching...'}`;
                     btnConvert.disabled = true;
 
                     try {
-                        // Use AllOrigins (free CORS proxy)
-                        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-                        const response = await fetch(proxyUrl);
-                        const data = await response.json();
-
-                        if (data.contents) {
-                            processHtml(data.contents);
+                        const content = await fetchWithFallback(url);
+                        if (content) {
+                            processHtml(content, url); // Pass URL for relative link fixing
                         } else {
-                            throw new Error('No content found');
+                            throw new Error('Empty response');
                         }
                     } catch (e) {
-                        alert(window.i18n.t('md.error.fetch'));
+                        alert(window.i18n.t('md.error.fetch') || 'Failed to fetch URL. Blocked by CORS or site?');
                         console.error(e);
                     } finally {
                         btnConvert.innerHTML = originalBtnText;
@@ -269,29 +301,50 @@
                 }
             });
 
-            function processHtml(html) {
+            function processHtml(html, baseUrl = '') {
                 try {
                     // 1. Parse HTML string to DOM
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, "text/html");
 
-                    // 2. Use Readability to extract main content
-                    let article;
-                    try {
-                        const reader = new Readability(doc);
-                        article = reader.parse();
-                    } catch (e) {
-                        console.warn("Readability failed", e);
+                    // Fix relative links if baseUrl is provided
+                    if (baseUrl) {
+                        const baseTag = doc.createElement('base');
+                        baseTag.href = baseUrl;
+                        doc.head.appendChild(baseTag);
+
+                        // Force resolution of relative URLs
+                        doc.querySelectorAll('a, img').forEach(el => {
+                            if (el.href) el.href = el.href;
+                            if (el.src) el.src = el.src;
+                        });
                     }
 
+                    // 2. Use Readability to extract main content
+                    let article;
                     let contentToConvert = "";
                     let title = "";
 
-                    if (article && article.content) {
+                    try {
+                        // Check if the document has a body and sufficient content
+                        if (!doc.body || doc.body.textContent.trim().length === 0) {
+                            throw new Error('Empty document body');
+                        }
+
+                        const reader = new Readability(doc);
+                        article = reader.parse();
+                    } catch (e) {
+                        console.warn("Readability failed or content too short", e);
+                    }
+
+                    if (article && article.content && article.content.length > 100) {
+                        // Use Readability result if it looks good
                         contentToConvert = article.content;
                         title = article.title;
                         contentToConvert = `<h1>${title}</h1>\n\n` + contentToConvert;
                     } else {
+                        // Fallback: Use the whole body (or the html if body is missing, though DOMParser usually gives body)
+                        console.log("Using raw body fallback");
                         contentToConvert = doc.body ? doc.body.innerHTML : html;
                     }
 
@@ -306,7 +359,7 @@
 
                 } catch (error) {
                     console.error(error);
-                    alert(window.i18n.t('md.error.parse'));
+                    alert(window.i18n.t('md.error.parse') || 'Error parsing HTML');
                 }
             }
 

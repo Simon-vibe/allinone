@@ -350,8 +350,8 @@ ${hreflangLinks}
                 const tagEnd = content.indexOf('>', quoteEnd);
                 if (tagEnd === -1) { cursor = quoteEnd + 1; continue; }
 
-                // Check Void Tags
-                const isVoid = ['img', 'meta', 'input', 'link', 'hr', 'br'].includes(tagName);
+                // Check Void Tags (and textarea to avoid overwriting value with placeholder translation)
+                const isVoid = ['img', 'meta', 'input', 'link', 'hr', 'br', 'textarea'].includes(tagName);
                 if (isVoid) {
                     cursor = tagEnd + 1;
                     continue;

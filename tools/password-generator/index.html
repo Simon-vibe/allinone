@@ -85,8 +85,8 @@
 
         <div class="max-w-3xl mx-auto">
 
-            <!-- Result Display -->
-            <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-8 mb-6 relative">
+            <!-- Result Display: Single -->
+            <div id="container-single" class="bg-white rounded-xl shadow-lg border border-gray-100 p-8 mb-6 relative">
                 <div class="flex items-center justify-between gap-4 mb-4">
                     <input type="text" id="password-output" readonly
                         class="w-full text-3xl font-mono text-gray-800 bg-transparent border-none focus:ring-0 p-0 tracking-wider"
@@ -107,6 +107,27 @@
                 </button>
             </div>
 
+            <!-- Result Display: Bulk -->
+            <div id="container-bulk" class="hidden bg-white rounded-xl shadow-lg border border-gray-100 p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-gray-700" data-i18n="base64.label.result">Result</h3>
+                    <div class="flex gap-2">
+                        <button id="btn-generate-bulk"
+                            class="text-sm bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-200 transition">
+                            <i class="fa-solid fa-rotate mr-1"></i> <span
+                                data-i18n="uuid.action.generate">Generate</span>
+                        </button>
+                        <button id="btn-copy-bulk"
+                            class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition">
+                            <i class="fa-regular fa-copy mr-1"></i> <span data-i18n="json.action.copy">Copy</span>
+                        </button>
+                    </div>
+                </div>
+                <textarea id="password-output-bulk" readonly rows="10"
+                    class="w-full bg-gray-50 border border-gray-200 rounded-lg p-4 font-mono text-sm focus:outline-none resize-y"
+                    placeholder="Passwords..."></textarea>
+            </div>
+
             <!-- Settings -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-12">
                 <h3 class="text-lg font-bold text-gray-900 mb-6" data-i18n="uuid.settings">Settings</h3>
@@ -120,6 +141,16 @@
                         </div>
                         <input type="range" id="pwd-length" min="4" max="64" value="16" step="1"
                             class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-gray-700 font-bold" data-i18n="pwd.label.quantity">Quantity</label>
+                            <span id="qty-val"
+                                class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-bold">1</span>
+                        </div>
+                        <input type="range" id="pwd-qty" min="1" max="50" value="1" step="1"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-500">
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -162,13 +193,28 @@
                     Customized length and
                     character sets ensure compliance with any security policy.</p>
 
-                <!-- Features (Moved from manual section) -->
+                <!-- Features -->
                 <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.features">Features</h3>
                 <ul class="list-disc pl-5 space-y-2 mb-6">
                     <li data-i18n="pwd.feat.1"><strong>Secure:</strong> Generated locally, never transmitted.</li>
                     <li data-i18n="pwd.feat.2"><strong>Customizable:</strong> Choose length and character types.</li>
                     <li data-i18n="common.free"><strong>Free:</strong> Unlimited use.</li>
                 </ul>
+
+                <!-- FAQ -->
+                <h3 class="text-xl font-bold text-gray-900 mb-2 mt-8" data-i18n="pwd.faq.title">Password FAQ</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-bold text-gray-800" data-i18n="pwd.faq.q1">Are these passwords stored?</h4>
+                        <p class="text-gray-600" data-i18n="pwd.faq.a1">No. Passwords are generated locally in your
+                            browser and are never sent to our servers.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800" data-i18n="pwd.faq.q2">What makes a password strong?</h4>
+                        <p class="text-gray-600" data-i18n="pwd.faq.a2">A strong password is long (12+ chars) and
+                            includes a mix of uppercase, lowercase, numbers, and symbols.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -202,17 +248,31 @@
     <script src="../../js/i18n.js?v=2"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const output = document.getElementById('password-output');
+            // UI Elements
+            const outputSingle = document.getElementById('password-output');
+            const outputBulk = document.getElementById('password-output-bulk');
+            const containerSingle = document.getElementById('container-single');
+            const containerBulk = document.getElementById('container-bulk');
+
             const lengthInput = document.getElementById('pwd-length');
             const lengthVal = document.getElementById('length-val');
+
+            const qtyInput = document.getElementById('pwd-qty');
+            const qtyVal = document.getElementById('qty-val');
+
             const chkUpper = document.getElementById('chk-uppercase');
             const chkLower = document.getElementById('chk-lowercase');
             const chkNumbers = document.getElementById('chk-numbers');
             const chkSymbols = document.getElementById('chk-symbols');
+
             const btnRefresh = document.getElementById('btn-refresh');
+            const btnGenerate = document.getElementById('btn-generate-bulk');
             const btnCopy = document.getElementById('btn-copy');
+            const btnCopyBulk = document.getElementById('btn-copy-bulk');
             const strengthBar = document.getElementById('strength-bar');
 
+            // Constants
+            const STORAGE_KEY = 'pwd_gen_settings';
             const CHARS = {
                 upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
                 lower: 'abcdefghijklmnopqrstuvwxyz',
@@ -220,10 +280,53 @@
                 symbol: '!@#$%^&*()_+~`|}{[]:;?><,./-='
             };
 
-            function generate() {
-                const length = parseInt(lengthInput.value);
-                lengthVal.textContent = length;
+            // Load Settings
+            function loadSettings() {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    try {
+                        const s = JSON.parse(saved);
+                        lengthInput.value = s.length || 16;
+                        qtyInput.value = s.quantity || 1;
+                        chkUpper.checked = s.upper !== false;
+                        chkLower.checked = s.lower !== false;
+                        chkNumbers.checked = s.numbers !== false;
+                        chkSymbols.checked = s.symbols !== false;
+                    } catch (e) {
+                        console.error('Failed to load settings', e);
+                    }
+                }
+                updateUIValues();
+            }
 
+            // Save Settings
+            function saveSettings() {
+                const settings = {
+                    length: parseInt(lengthInput.value),
+                    quantity: parseInt(qtyInput.value),
+                    upper: chkUpper.checked,
+                    lower: chkLower.checked,
+                    numbers: chkNumbers.checked,
+                    symbols: chkSymbols.checked
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+            }
+
+            function updateUIValues() {
+                lengthVal.textContent = lengthInput.value;
+                qtyVal.textContent = qtyInput.value;
+
+                const qty = parseInt(qtyInput.value);
+                if (qty > 1) {
+                    containerSingle.classList.add('hidden');
+                    containerBulk.classList.remove('hidden');
+                } else {
+                    containerSingle.classList.remove('hidden');
+                    containerBulk.classList.add('hidden');
+                }
+            }
+
+            function generateOne(length) {
                 let availableChars = '';
                 const guaranteedChars = [];
 
@@ -244,16 +347,11 @@
                     guaranteedChars.push(CHARS.symbol[Math.floor(Math.random() * CHARS.symbol.length)]);
                 }
 
-                if (availableChars === '') {
-                    output.value = '';
-                    updateStrength(0);
-                    return;
-                }
+                if (availableChars === '') return '';
 
                 let passwordArray = [...guaranteedChars];
-
-                // Fill the rest
                 const remainingLength = length - guaranteedChars.length;
+
                 if (remainingLength > 0) {
                     const array = new Uint32Array(remainingLength);
                     window.crypto.getRandomValues(array);
@@ -261,7 +359,6 @@
                         passwordArray.push(availableChars[array[i] % availableChars.length]);
                     }
                 } else if (remainingLength < 0) {
-                    // Length is less than types selected (rare but possible with min=4), truncate
                     passwordArray = passwordArray.slice(0, length);
                 }
 
@@ -271,24 +368,43 @@
                     [passwordArray[i], passwordArray[j]] = [passwordArray[j], passwordArray[i]];
                 }
 
-                const password = passwordArray.join('');
-                output.value = password;
-
-                updateStrength(password.length, Object.keys(CHARS).filter(k =>
-                    (k === 'upper' && chkUpper.checked) ||
-                    (k === 'lower' && chkLower.checked) ||
-                    (k === 'number' && chkNumbers.checked) ||
-                    (k === 'symbol' && chkSymbols.checked)
-                ).length);
+                return passwordArray.join('');
             }
 
-            function updateStrength(length, typesCount) {
-                // Simple heuristic
+            function generate() {
+                const length = parseInt(lengthInput.value);
+                const qty = parseInt(qtyInput.value);
+
+                if (qty === 1) {
+                    const pwd = generateOne(length);
+                    outputSingle.value = pwd;
+                    updateStrength(pwd.length);
+                } else {
+                    const pwds = [];
+                    for (let i = 0; i < qty; i++) {
+                        pwds.push(generateOne(length));
+                    }
+                    outputBulk.value = pwds.join('\n');
+                }
+                saveSettings();
+            }
+
+            function updateStrength(length) {
+                // Heuristic for UI bar
                 let score = 0;
-                if (length > 8) score += 20;
-                if (length > 12) score += 20;
-                if (length > 16) score += 20;
-                score += typesCount * 10;
+                if (!outputSingle.value) score = 0;
+                else {
+                    let types = 0;
+                    if (chkUpper.checked) types++;
+                    if (chkLower.checked) types++;
+                    if (chkNumbers.checked) types++;
+                    if (chkSymbols.checked) types++;
+
+                    if (length > 8) score += 20;
+                    if (length > 12) score += 20;
+                    if (length > 16) score += 20;
+                    score += types * 10;
+                }
 
                 let color = 'bg-red-500';
                 if (score > 80) color = 'bg-green-500';
@@ -298,21 +414,37 @@
                 strengthBar.style.width = Math.min(score, 100) + '%';
             }
 
-            [lengthInput, chkUpper, chkLower, chkNumbers, chkSymbols].forEach(el => {
-                el.addEventListener('input', generate);
+            // Events
+            [lengthInput, qtyInput, chkUpper, chkLower, chkNumbers, chkSymbols].forEach(el => {
+                el.addEventListener('input', () => {
+                    updateUIValues();
+                    generate();
+                });
             });
 
             btnRefresh.addEventListener('click', generate);
+            btnGenerate.addEventListener('click', generate); // For bulk view
 
             btnCopy.addEventListener('click', () => {
-                output.select();
+                outputSingle.select();
                 document.execCommand('copy');
-                const originalText = btnCopy.querySelector('span').innerText;
-                btnCopy.querySelector('span').innerText = 'Copied!';
-                setTimeout(() => btnCopy.querySelector('span').innerText = originalText, 2000);
+                const span = btnCopy.querySelector('span');
+                const originalText = span.innerText;
+                span.innerText = window.i18n.t('common.copied') || 'Copied!';
+                setTimeout(() => span.innerText = originalText, 2000);
+            });
+
+            btnCopyBulk.addEventListener('click', () => {
+                outputBulk.select();
+                document.execCommand('copy');
+                const span = btnCopyBulk.querySelector('span');
+                const originalText = span.innerText;
+                span.innerText = window.i18n.t('common.copied') || 'Copied!';
+                setTimeout(() => span.innerText = originalText, 2000);
             });
 
             // Initial
+            loadSettings();
             generate();
         });
     </script>

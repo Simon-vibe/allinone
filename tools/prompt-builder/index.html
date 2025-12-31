@@ -294,19 +294,19 @@
                 let prompt = "";
 
                 if (currentMode === 'claude') {
-                    // XML Structure
-                    if (data.role) prompt += `<role>\n${data.role}\n</role>\n\n`;
-                    if (data.context) prompt += `<context>\n${data.context}\n</context>\n\n`;
-                    if (data.task) prompt += `<task>\n${data.task}\n</task>\n\n`;
-                    if (data.constraints) prompt += `<constraints>\n${data.constraints}\n</constraints>\n\n`;
-                    if (data.format) prompt += `<output_format>\n${data.format}\n</output_format>`;
+                    // XML Structure - Always show tags for structure visibility
+                    prompt += `<role>\n${data.role || "(Enter role...)"}\n</role>\n\n`;
+                    prompt += `<context>\n${data.context || "..."}\n</context>\n\n`;
+                    prompt += `<task>\n${data.task || "..."}\n</task>\n\n`;
+                    prompt += `<constraints>\n${data.constraints || "..."}\n</constraints>\n\n`;
+                    prompt += `<output_format>\n${data.format || "..."}\n</output_format>`;
                 } else {
                     // Markdown Structure
-                    if (data.role) prompt += `## Role\n${data.role}\n\n`;
-                    if (data.context) prompt += `## Context\n${data.context}\n\n`;
-                    if (data.task) prompt += `## Task\n${data.task}\n\n`;
-                    if (data.constraints) prompt += `## Constraints\n${data.constraints}\n\n`;
-                    if (data.format) prompt += `## Output Format\n${data.format}`;
+                    prompt += `## Role\n${data.role || "(Enter role...)"}\n\n`;
+                    prompt += `## Context\n${data.context || "..."}\n\n`;
+                    prompt += `## Task\n${data.task || "..."}\n\n`;
+                    prompt += `## Constraints\n${data.constraints || "..."}\n\n`;
+                    prompt += `## Output Format\n${data.format || "..."}`;
                 }
 
                 preview.value = prompt.trim();
@@ -326,7 +326,9 @@
 
             // Event Listeners
             Object.values(inputs).forEach(input => {
-                input.addEventListener('input', generatePrompt);
+                ['input', 'change', 'keyup', 'paste'].forEach(evt => {
+                    input.addEventListener(evt, generatePrompt);
+                });
             });
 
             modeBtns.claude.addEventListener('click', () => setMode('claude'));
