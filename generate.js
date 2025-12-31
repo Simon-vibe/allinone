@@ -135,7 +135,7 @@ async function build() {
     });
 
     // Generate Root Index (English Content + Smart Redirect)
-    const languages = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
+    const languages = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar', 'ja'];
     const rootTemplate = fs.readFileSync(path.join(SRC_DIR, 'index.html'), 'utf-8');
     const rootLang = 'en';
     const tRoot = translations[rootLang];
