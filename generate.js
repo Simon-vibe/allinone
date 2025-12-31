@@ -58,25 +58,22 @@ function copyDir(src, dest) {
 }
 
 // 修正资源路径：因为所有页面都下沉了一级（/en/ 或 /zh/），所以资源引用要加 ../
-function adjustRelativePaths(content) {
+// 修正资源路径：depth=0 表示根目录，depth=1 表示一级子目录 (如 /en/)
+function adjustRelativePaths(content, depth = 1) {
+    if (depth === 0) return content; // 根目录不需要修正相对路径 (assuming template is written for root)
+
     return content.replace(/(href|src|action)=["']([^"']+)["']/g, (match, attr, url) => {
         if (url.startsWith('http') || url.startsWith('//') || url.startsWith('#') || url.startsWith('mailto:') || url.startsWith('data:')) {
             return match;
         }
         if (url.startsWith('/')) return match;
 
-        // Strip query params and fragments for extension check
         const cleanUrl = url.split('#')[0].split('?')[0];
 
-        // 如果是 HTML 页面跳转，保持原样（会在其他地方被处理或保持相对结构）
+        // 如果是 HTML 页面跳转，保持原样
         if (cleanUrl.endsWith('.html') || cleanUrl.endsWith('/')) {
             return match;
         }
-
-        // 核心修复：
-        // 1. 如果引用的是上级目录 (../)，说明是访问全局资源 -> 需要修正为 ../../ (加一个 ../)
-        // 2. 如果引用的是根目录下的全局资源文件夹 (css/, js/, assets/) -> 需要修正为 ../css/... (加一个 ../)
-        // 3. 其他情况视为“同级/子级资源” (如 tools/xxx/script.js)，这些资源会被拷贝到 /zh/tools/xxx/ 下，所以路径保持不变！
 
         const normalizedUrl = url.replace(/^\.\//, '');
         const isGlobalDir = normalizedUrl.startsWith('css/') || normalizedUrl.startsWith('js/') || normalizedUrl.startsWith('assets/');
@@ -90,7 +87,6 @@ function adjustRelativePaths(content) {
             return `${attr}="../${url}"`;
         }
 
-        // 默认为本地资源，不修改路径
         return match;
     });
 }
@@ -138,39 +134,108 @@ async function build() {
         }
     });
 
-    const redirectHtml = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=/en/">
-<script>
-  try {
-      var supported = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
-      var userLang = navigator.language || navigator.userLanguage;
-      var storedLang = localStorage.getItem('app_lang');
-      var targetLang = 'en';
+    // Generate Root Index (English Content + Smart Redirect)
+    const languages = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
+    const rootTemplate = fs.readFileSync(path.join(SRC_DIR, 'index.html'), 'utf-8');
+    const rootLang = 'en';
+    const tRoot = translations[rootLang];
 
-      if (storedLang && supported.includes(storedLang)) {
-          targetLang = storedLang;
-      } else {
-          var shortLang = userLang.substring(0, 2);
-          if (supported.includes(shortLang)) {
-              targetLang = shortLang;
+    let rootContent = rootTemplate;
+    // Basic replacements for Root
+    rootContent = rootContent.replace(/<html lang="[^"]*">/, `<html lang="en">`);
+
+    // Translation Replacements for Root
+    rootContent = rootContent.replace(/(<meta[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, key) => {
+        const text = tRoot[key];
+        if (text && match.includes('content=')) return match.replace(/content="[^"]*"/, `content="${text}"`);
+        return match;
+    });
+    rootContent = rootContent.replace(/(<img[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, key) => {
+        const text = tRoot[key];
+        if (text && match.includes('alt=')) return match.replace(/alt="[^"]*"/, `alt="${text}"`);
+        return match;
+    });
+    rootContent = rootContent.replace(/(<(input|textarea)[^>]+data-i18n="([^"]+)"[^>]*)/g, (match, tag, tagName, key) => {
+        const text = tRoot[key];
+        if (text && match.includes('placeholder=')) return match.replace(/placeholder="[^"]*"/, `placeholder="${text}"`);
+        return match;
+    });
+
+    // Content Text Replacement Loop (Simplified version of the main loop)
+    let cursor = 0;
+    while (true) {
+        const matchIndex = rootContent.indexOf('data-i18n="', cursor);
+        if (matchIndex === -1) break;
+        const tagStart = rootContent.lastIndexOf('<', matchIndex);
+        if (tagStart === -1 || tagStart < cursor) { cursor = matchIndex + 1; continue; }
+        const tagNameMatch = rootContent.substring(tagStart).match(/^<([a-zA-Z0-9]+)/);
+        if (!tagNameMatch) { cursor = matchIndex + 1; continue; }
+        const tagName = tagNameMatch[1].toLowerCase();
+        const quoteStart = matchIndex + 11;
+        const quoteEnd = rootContent.indexOf('"', quoteStart);
+        if (quoteEnd === -1) { cursor = matchIndex + 1; continue; }
+        const key = rootContent.substring(quoteStart, quoteEnd);
+        const tagEnd = rootContent.indexOf('>', quoteEnd);
+        if (tagEnd === -1) { cursor = quoteEnd + 1; continue; }
+
+        if (['img', 'meta', 'input'].includes(tagName)) { cursor = tagEnd + 1; continue; }
+
+        let depth = 1;
+        let scanPos = tagEnd + 1;
+        let closingTagIndex = -1;
+        while (depth > 0 && scanPos < rootContent.length) {
+            const nextOpen = rootContent.indexOf('<' + tagName, scanPos);
+            const nextClose = rootContent.indexOf('</' + tagName + '>', scanPos);
+            if (nextClose === -1) break;
+            if (nextOpen !== -1 && nextOpen < nextClose) { depth++; scanPos = nextOpen + 1; }
+            else { depth--; if (depth === 0) closingTagIndex = nextClose; scanPos = nextClose + 1; }
+        }
+
+        if (closingTagIndex !== -1 && tRoot[key]) {
+            rootContent = rootContent.substring(0, tagEnd + 1) + tRoot[key] + rootContent.substring(closingTagIndex);
+            cursor = tagEnd + 1 + tRoot[key].length;
+        } else {
+            cursor = tagEnd + 1;
+        }
+    }
+
+    // Adjust Paths (Depth 0)
+    rootContent = adjustRelativePaths(rootContent, 0);
+
+    // Inject Smart Redirect Script
+    const smartRedirect = `
+    <script>
+      try {
+          var supported = ['zh', 'es', 'pt', 'id', 'hi', 'ar'];
+          var storedLang = localStorage.getItem('app_lang');
+          var userLang = navigator.language || navigator.userLanguage;
+          var targetLang = null;
+          if (storedLang) {
+              if (supported.includes(storedLang)) targetLang = storedLang;
+          } else {
+              var shortLang = userLang.substring(0, 2);
+              if (supported.includes(shortLang)) targetLang = shortLang;
           }
-      }
-      window.location.href = '/' + targetLang + '/';
-  } catch (e) {
-      window.location.href = '/en/';
-  }
-</script>
-<title>Redirecting...</title>
-</head>
-<body></body>
-</html>`;
-    fs.writeFileSync(path.join(DIST_DIR, 'index.html'), redirectHtml);
+          if (targetLang) window.location.href = '/' + targetLang + '/';
+      } catch (e) {}
+    </script>`;
+    rootContent = rootContent.replace('</head>', `${smartRedirect}\n</head>`);
+
+    // Inject Hreflangs
+    let rootHreflang = languages.map(l =>
+        `<link rel="alternate" hreflang="${l}" href="https://allinone.page/${l}/" />`
+    ).join('\n    ');
+    rootHreflang += `\n    <link rel="alternate" hreflang="x-default" href="https://allinone.page/" />`;
+    rootContent = rootContent.replace(/<link rel="alternate" hreflang="en"[\s\S]*?x-default"[\s\S]*?\/>/, rootHreflang);
+
+    // Inject JSON-LD
+    rootContent = injectJsonLd(rootContent, 'en', 'https://allinone.page/');
+
+    fs.writeFileSync(path.join(DIST_DIR, 'index.html'), rootContent);
+    console.log('Root index.html generated.');
 
     const htmlFiles = findHtmlFiles(SRC_DIR);
-    const languages = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
+    // languages moved to top
     let sitemapUrls = [];
     const today = new Date().toISOString().split('T')[0];
 
@@ -328,7 +393,7 @@ ${hreflangLinks}
             }
 
             // 3. 路径修正
-            content = adjustRelativePaths(content);
+            content = adjustRelativePaths(content, 1);
 
             // 4. Canonical & Hreflang
             const currentCanonical = `https://allinone.page/${lang}/${pathSuffix}`;
