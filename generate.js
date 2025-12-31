@@ -206,7 +206,7 @@ async function build() {
     const smartRedirect = `
     <script>
       try {
-          var supported = ['zh', 'es', 'pt', 'id', 'hi', 'ar'];
+          var supported = ['en', 'zh', 'es', 'pt', 'id', 'hi', 'ar'];
           var storedLang = localStorage.getItem('app_lang');
           var userLang = navigator.language || navigator.userLanguage;
           var targetLang = null;
