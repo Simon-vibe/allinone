@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="loan.meta.title">Loan Calculator - Calculate EMI & Interest Online</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+    <meta name="description"
+        content="Free online loan calculator. Calculate monthly payments (EMI), total interest, and amortization for mortgages, car loans, and personal loans."
+        data-i18n="loan.meta.desc">
+    <meta name="keywords"
+        content="loan calculator, mortgage calculator, emi calculator, interest calculator, car loan calculator"
+        data-i18n="loan.meta.keywords">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://allinone.page/tools/loan-calculator/">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="en" href="https://allinone.page/tools/loan-calculator/" />
+    <link rel="alternate" hreflang="zh" href="https://allinone.page/tools/loan-calculator/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://allinone.page/tools/loan-calculator/" />
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://allinone.page/tools/loan-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Loan Calculator - Calculate EMI & Interest">
+    <meta property="og:description" content="Calculate your monthly loan payments and total interest instantly.">
+    <meta property="og:image" content="https://allinone.page/assets/og-image.png">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-2xl"></i>
+                <a href="../../index.html" class="text-xl font-bold text-gray-900">allinone.page</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                <a href="../../index.html" class="hover:text-blue-600 transition" data-i18n="nav.home">Home</a>
+                <a href="../../index.html#featured" class="hover:text-blue-600 transition"
+                    data-i18n="nav.categories">Categories</a>
+                <a href="../../about.html" class="hover:text-blue-600 transition" data-i18n="nav.about">About</a>
+                <div class="relative inline-block text-left border-l pl-6 border-gray-300">
+                    <select onchange="changeLanguage(this.value)"
+                        class="bg-transparent text-sm font-medium text-gray-600 hover:text-blue-600 focus:outline-none cursor-pointer">
+                        <option value="en">🇺🇸 EN</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="pt">🇧🇷 PT</option>
+                        <option value="id">🇮🇩 ID</option>
+                        <option value="hi">🇮🇳 HI</option>
+                        <option value="ar">🇸🇦 AR</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tool Header -->
+    <div class="bg-blue-600 text-white py-12 mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl font-bold mb-4" data-i18n="tool.loan.title">Loan Calculator</h1>
+            <p class="text-blue-100 max-w-2xl mx-auto" data-i18n="tool.loan.desc">Calculate monthly payments, total
+                interest, and amortization for loans.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Inputs -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 h-fit">
+                <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fa-solid fa-sliders text-blue-600 mr-2"></i> <span data-i18n="loan.settings">Loan
+                        Details</span>
+                </h3>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="loan.label.amount">Loan
+                            Amount</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                <span class="text-gray-500 sm:text-sm">$</span>
+                            </div>
+                            <input type="number" id="loan-amount"
+                                class="block w-full rounded-lg border-gray-300 pl-7 pr-12 py-3 focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-gray-50"
+                                placeholder="0.00" value="10000">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="loan.label.rate">Interest
+                            Rate (%)</label>
+                        <input type="number" id="interest-rate"
+                            class="block w-full rounded-lg border-gray-300 py-3 px-4 focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-gray-50"
+                            placeholder="5.0" value="5.0" step="0.1">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="loan.label.term">Loan
+                            Term (Years)</label>
+                        <input type="number" id="loan-term"
+                            class="block w-full rounded-lg border-gray-300 py-3 px-4 focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-gray-50"
+                            placeholder="5" value="5">
+                    </div>
+
+                    <button onclick="calculateLoan()"
+                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
+                        data-i18n="loan.action.calculate">Calculate</button>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center">
+                <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fa-solid fa-chart-pie text-green-600 mr-2"></i> <span
+                        data-i18n="loan.results">Summary</span>
+                </h3>
+
+                <div class="text-center mb-8">
+                    <p class="text-sm text-gray-500 uppercase tracking-wide mb-1" data-i18n="loan.res.monthly">Monthly
+                        Payment</p>
+                    <h2 class="text-4xl font-extrabold text-blue-600" id="res-monthly">$0.00</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-gray-600" data-i18n="loan.res.total_interest">Total Interest</span>
+                        <span class="font-bold text-gray-900" id="res-interest">$0.00</span>
+                    </div>
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                        <span class="text-gray-600" data-i18n="loan.res.total_payment">Total Payment</span>
+                        <span class="font-bold text-gray-900" id="res-total">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-100">
+                    <div class="flex items-center justify-between text-xs text-gray-400">
+                        <span data-i18n="loan.note">Estimates only.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Content -->
+        <div class="mt-16 border-t border-gray-100 pt-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="loan.seo.h2">Free Online Loan Calculator</h2>
+            <div class="prose max-w-none text-gray-600">
+                <p class="mb-4" data-i18n="loan.seo.p1">Use our simple loan calculator to estimate your monthly payments
+                    for mortgages, auto loans, student loans, or personal loans. Enter the loan amount, interest rate,
+                    and term to see your breakdown.</p>
+
+                <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="common.how_to_use">How to use</h3>
+                <ul class="list-disc pl-5 mb-4">
+                    <li data-i18n="loan.step.1"><strong>Loan Amount:</strong> The total amount you are borrowing.</li>
+                    <li data-i18n="loan.step.2"><strong>Interest Rate:</strong> The annual percentage rate (APR).</li>
+                    <li data-i18n="loan.step.3"><strong>Term:</strong> How many years you have to pay it back.</li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 pt-16 pb-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <i class="fa-solid fa-screwdriver-wrench text-blue-600 text-xl"></i>
+                    <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
+                </div>
+                <div class="flex space-x-8 text-sm text-gray-500">
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
+                </div>
+            </div>
+            <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
+                &copy; 2026 allinone.page. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/i18n.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateLoan(); // Initial calc
+        });
+
+        function calculateLoan() {
+            const amount = parseFloat(document.getElementById('loan-amount').value);
+            const rate = parseFloat(document.getElementById('interest-rate').value);
+            const years = parseFloat(document.getElementById('loan-term').value);
+
+            if (isNaN(amount) || isNaN(rate) || isNaN(years)) return;
+
+            const principal = amount;
+            const calculatedInterest = rate / 100 / 12;
+            const calculatedPayments = years * 12;
+
+            // Compute monthly payment
+            const x = Math.pow(1 + calculatedInterest, calculatedPayments);
+            const monthly = (principal * x * calculatedInterest) / (x - 1);
+
+            if (isFinite(monthly)) {
+                const totalPayment = (monthly * calculatedPayments).toFixed(2);
+                const totalInterest = ((monthly * calculatedPayments) - principal).toFixed(2);
+
+                document.getElementById('res-monthly').textContent = '$' + monthly.toFixed(2);
+                document.getElementById('res-total').textContent = '$' + totalPayment;
+                document.getElementById('res-interest').textContent = '$' + totalInterest;
+            } else {
+                // Handling div by zero or weird inputs
+                document.getElementById('res-monthly').textContent = '$0.00';
+            }
+        }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Loan Calculator",
+      "url": "https://allinone.page/tools/loan-calculator/",
+      "description": "Free online loan calculator for mortgages and EMI.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</body>
+
+</html>
