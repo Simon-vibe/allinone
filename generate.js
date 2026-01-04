@@ -122,6 +122,21 @@ function injectJsonLd(content, lang, url) {
     return content.replace('</head>', `${scriptTag}\n</head>`);
 }
 
+// 新增：注入 Google Analytics
+function injectGoogleAnalytics(content) {
+    const gaCode = `
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RDXQ67ZXN3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RDXQ67ZXN3');
+    </script>`;
+    return content.replace('</head>', `${gaCode}\n</head>`);
+}
+
 async function build() {
     console.log('Starting SEO Optimized build...');
 
@@ -239,6 +254,9 @@ async function build() {
 
     // Inject JSON-LD
     rootContent = injectJsonLd(rootContent, 'en', 'https://allinone.page/');
+
+    // Inject Google Analytics
+    rootContent = injectGoogleAnalytics(rootContent);
 
     fs.writeFileSync(path.join(DIST_DIR, 'index.html'), rootContent);
     console.log('Root index.html generated.');
@@ -425,7 +443,10 @@ ${hreflangLinks}
             // 5. 注入 JSON-LD
             content = injectJsonLd(content, lang, currentCanonical);
 
-            // 6. Set Active Language in Dropdown
+            // 6. 注入 Google Analytics
+            content = injectGoogleAnalytics(content);
+
+            // 7. Set Active Language in Dropdown
             content = content.replace(new RegExp(`<option value="${lang}">`, 'g'), `<option value="${lang}" selected>`);
 
             // 7. RTL Support (already handled in step 1 for root html tag, but good to keep structure)
