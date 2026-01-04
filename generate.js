@@ -275,12 +275,17 @@ ${hreflangLinks}
   </url>`);
         });
 
-        for (const lang of languages) {
+        const outputTargets = languages.map(lang => ({ lang, isRoot: false }));
+        if (relativePath !== 'index.html') {
+            outputTargets.push({ lang: 'en', isRoot: true });
+        }
+
+        for (const { lang, isRoot } of outputTargets) {
             const t = translations[lang];
             let content = template;
 
             // 1. HTML Lang
-            content = content.replace(/<html lang="[^"]*">/, `<html lang="${lang === 'zh' ? 'zh-CN' : 'en'}">`);
+            content = content.replace(/<html lang="[^"]*">/, `<html lang="${lang === 'zh' ? 'zh-CN' : 'en'}"${lang === 'ar' ? ' dir="rtl"' : ''}>`);
 
             // 2. 增强版替换逻辑 (支持 Meta, Title, Alt, Placeholder, 和普通文本)
 
@@ -393,12 +398,15 @@ ${hreflangLinks}
             }
 
             // 3. 路径修正
-            content = adjustRelativePaths(content, 1);
+            // If isRoot (legacy path), depth is 0 so we don't adjust paths.
+            content = adjustRelativePaths(content, isRoot ? 0 : 1);
 
             // 4. Canonical & Hreflang
+            // Canonical always points to the language path, even for the root legacy copy to avoid dupes
             const currentCanonical = `https://allinone.page/${lang}/${pathSuffix}`;
             content = content.replace(/<link rel="canonical" href="[^"]+">/, `<link rel="canonical" href="${currentCanonical}">`);
 
+            // Note: Hreflangs are the same for all copies
             const hreflangBlock = languages.map(l =>
                 `<link rel="alternate" hreflang="${l}" href="https://allinone.page/${l}/${pathSuffix}" />`
             ).join('\n    ') + `\n    <link rel="alternate" hreflang="x-default" href="https://allinone.page/en/${pathSuffix}" />`;
@@ -411,14 +419,19 @@ ${hreflangLinks}
             // 6. Set Active Language in Dropdown
             content = content.replace(new RegExp(`<option value="${lang}">`, 'g'), `<option value="${lang}" selected>`);
 
-            // 7. RTL Support for Arabic
-            if (lang === 'ar') {
-                content = content.replace(/<html lang="[^"]*">/, `<html lang="ar" dir="rtl">`);
-            }
+            // 7. RTL Support (already handled in step 1 for root html tag, but good to keep structure)
+            // if (lang === 'ar') ... (moved to step 1)
 
             // 7. 写入文件
-            const outSubDir = path.join(lang, path.dirname(relativePath));
-            const outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
+            let outPath;
+            if (isRoot) {
+                const outSubDir = path.dirname(relativePath);
+                outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
+            } else {
+                const outSubDir = path.join(lang, path.dirname(relativePath));
+                outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
+            }
+
             const outDir = path.dirname(outPath);
             if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
             fs.writeFileSync(outPath, content);
@@ -430,10 +443,22 @@ ${hreflangLinks}
     const toolAssets = findToolAssets(path.join(SRC_DIR, 'tools'));
     for (const asset of toolAssets) {
         const relativePath = path.relative(SRC_DIR, asset);
-        // Copy to both en/ and zh/ structure
-        for (const lang of languages) {
-            const outSubDir = path.join(lang, path.dirname(relativePath));
-            const outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
+
+        // Define copy targets (Languages + Root)
+        const assetTargets = languages.map(lang => ({ lang, isRoot: false }));
+        assetTargets.push({ lang: 'en', isRoot: true });
+
+        // Copy to all targets
+        for (const { lang, isRoot } of assetTargets) {
+            let outPath;
+            if (isRoot) {
+                const outSubDir = path.dirname(relativePath);
+                outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
+            } else {
+                const outSubDir = path.join(lang, path.dirname(relativePath));
+                outPath = path.join(DIST_DIR, outSubDir, path.basename(relativePath));
+            }
+
             const outDir = path.dirname(outPath);
             if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
             fs.copyFileSync(asset, outPath);
