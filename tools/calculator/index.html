@@ -297,7 +297,10 @@
             operator = null;
             historyDisplay.textContent = '';
             shouldResetScreen = true;
+            shouldResetScreen = true;
             updateScreen();
+
+            Analytics.logInteraction('complete', { method: 'calculate', operator: operator });
         }
 
         function clearAll() {
@@ -305,7 +308,10 @@
             previousInput = '';
             operator = null;
             historyDisplay.textContent = '';
+            historyDisplay.textContent = '';
             updateScreen();
+
+            Analytics.logInteraction('tool_interaction', { method: 'clear' });
         }
 
         function deleteChar() {

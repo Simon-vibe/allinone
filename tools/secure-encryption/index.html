@@ -357,6 +357,9 @@
                     btnEncrypt.disabled = true;
                     btnEncrypt.textContent = "Encrypting...";
 
+                    const start = Date.now();
+                    Analytics.logInteraction('processing', { method: 'encrypt_start', size: fileToEncrypt.size });
+
                     const salt = window.crypto.getRandomValues(new Uint8Array(16));
                     const iv = window.crypto.getRandomValues(new Uint8Array(12));
                     const key = await deriveKey(encryptPass.value, salt);
@@ -381,9 +384,13 @@
                     btnDownloadEnc.download = fileToEncrypt.name + ".enc";
                     encryptResult.classList.remove('hidden');
 
+                    Analytics.logInteraction('complete', { method: 'encrypt_success' });
+                    Analytics.logPerformance(start, fileToEncrypt.size);
+
                 } catch (e) {
                     console.error(e);
                     showError(encryptError, "crypto.err.encrypt_failed", "Encryption failed.");
+                    Analytics.logError('ENCRYPT_ERROR', e.message);
                 } finally {
                     btnEncrypt.disabled = false;
                     btnEncrypt.textContent = window.i18n.t("crypto.action.encrypt");
@@ -424,6 +431,9 @@
                     const dataView = new Uint8Array(fileData);
 
                     // Extract Salt and IV
+                    const start = Date.now();
+                    Analytics.logInteraction('processing', { method: 'decrypt_start', size: fileToDecrypt.size });
+
                     const salt = dataView.slice(0, 16);
                     const iv = dataView.slice(16, 28);
                     const encryptedContent = dataView.slice(28);
@@ -447,9 +457,13 @@
                     btnDownloadDec.download = originalName;
                     decryptResult.classList.remove('hidden');
 
+                    Analytics.logInteraction('complete', { method: 'decrypt_success' });
+                    Analytics.logPerformance(start, fileToDecrypt.size);
+
                 } catch (e) {
                     console.error(e);
                     showError(decryptError, "crypto.err.decrypt_failed", "Decryption failed. Wrong password?");
+                    Analytics.logError('DECRYPT_ERROR', e.message);
                 } finally {
                     btnDecrypt.disabled = false;
                     btnDecrypt.textContent = window.i18n.t("crypto.action.decrypt");

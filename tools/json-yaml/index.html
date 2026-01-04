@@ -205,6 +205,12 @@
 
             let isUpdating = false;
 
+            // Analytics
+            let hasStarted = false;
+            function trackStart(method) {
+                if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: method }); }
+            }
+
             // JSON -> YAML
             const updateYaml = () => {
                 if (isUpdating) return;
@@ -243,11 +249,15 @@
                 isUpdating = false;
             };
 
-            jsonInput.addEventListener('input', updateYaml);
+            jsonInput.addEventListener('input', () => {
+                trackStart('json_input');
+                updateYaml();
+            });
             document.getElementById('yaml-style').addEventListener('change', updateYaml);
 
             // YAML -> JSON
             yamlInput.addEventListener('input', () => {
+                trackStart('yaml_input');
                 if (isUpdating) return;
                 isUpdating = true;
 

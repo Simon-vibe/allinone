@@ -215,6 +215,11 @@
             const urlContainer = document.getElementById('url-input-container');
             const inputTypeRadios = document.querySelectorAll('input[name="input-type"]');
 
+            // Analytics
+            let hasStarted = false;
+            inputHtml.addEventListener('input', () => { if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'html_input' }); } });
+            inputUrl.addEventListener('input', () => { if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'url_input' }); } });
+
             const turndownService = new TurndownService({
                 headingStyle: 'atx',
                 codeBlockStyle: 'fenced'
@@ -270,13 +275,16 @@
             }
 
             btnConvert.addEventListener('click', async () => {
+                const startTime = Date.now();
                 const mode = document.querySelector('input[name="input-type"]:checked').value;
+                Analytics.logInteraction('processing', { method: mode });
+
                 let html = '';
 
                 if (mode === 'html') {
                     html = inputHtml.value;
                     if (!html.trim()) return;
-                    processHtml(html);
+                    processHtml(html, '', startTime);
                 } else {
                     const url = inputUrl.value.trim();
                     if (!url) return;
@@ -288,7 +296,7 @@
                     try {
                         const content = await fetchWithFallback(url);
                         if (content) {
-                            processHtml(content, url); // Pass URL for relative link fixing
+                            processHtml(content, url, startTime); // Pass URL for relative link fixing
                         } else {
                             throw new Error('Empty response');
                         }
@@ -302,7 +310,7 @@
                 }
             });
 
-            function processHtml(html, baseUrl = '') {
+            function processHtml(html, baseUrl = '', startTime = null) {
                 try {
                     // 1. Parse HTML string to DOM
                     const parser = new DOMParser();
@@ -358,9 +366,14 @@
                     // Scroll to result
                     resultContainer.scrollIntoView({ behavior: 'smooth' });
 
+                    // Analytics Success
+                    Analytics.logInteraction('complete', { method: 'convert' });
+                    if (startTime) Analytics.logPerformance(startTime, html.length);
+
                 } catch (error) {
                     console.error(error);
                     alert(window.i18n.t('md.error.parse') || 'Error parsing HTML');
+                    Analytics.logError('PARSE_ERROR', error.message);
                 }
             }
 
@@ -370,6 +383,9 @@
                 const originalHtml = btnCopy.innerHTML;
                 btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${window.i18n.t('common.copied')}`;
                 setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
+
+                // Analytics
+                Analytics.logInteraction('complete', { method: 'copy' });
             });
 
             btnDownload.addEventListener('click', () => {
@@ -385,6 +401,9 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+
+                // Analytics
+                Analytics.logInteraction('complete', { method: 'download' });
             });
         });
     </script>

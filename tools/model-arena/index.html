@@ -259,6 +259,8 @@
 
                     // Re-sort table based on selection
                     renderTable(val);
+
+                    Analytics.logInteraction('complete', { method: 'view_recommendation', scenario: val });
                 }
             });
         });

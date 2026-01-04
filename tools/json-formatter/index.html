@@ -208,6 +208,18 @@
             const output = document.getElementById('json-output');
             const errorMsg = document.getElementById('error-msg');
 
+
+            // Analytics State
+            let hasStarted = false;
+
+            // Track Start on Input
+            input.addEventListener('input', () => {
+                if (!hasStarted) {
+                    hasStarted = true;
+                    Analytics.logInteraction('start', { method: 'input' });
+                }
+            });
+
             function processJSON(minify = false) {
                 const raw = input.value.trim();
                 if (!raw) {
@@ -216,12 +228,19 @@
                     return;
                 }
 
+                const startTime = Date.now();
                 try {
                     const parsed = JSON.parse(raw);
                     output.value = minify ? JSON.stringify(parsed) : JSON.stringify(parsed, null, 4);
                     hideError();
+
+                    // 【埋点】记录成功
+                    Analytics.logInteraction('complete', { method: minify ? 'minify' : 'format' });
+                    Analytics.logPerformance(startTime, raw.length);
                 } catch (e) {
                     showError(e.message);
+                    // 【埋点】记录报错
+                    Analytics.logError('INVALID_JSON', e.message);
                 }
             }
 
@@ -241,8 +260,14 @@
             document.getElementById('btn-clear').addEventListener('click', () => {
                 input.value = '';
                 output.value = '';
+                input.value = '';
+                output.value = '';
                 hideError();
                 input.focus();
+
+                // 【埋点】记录清空
+                hasStarted = false;
+                Analytics.logInteraction('complete', { method: 'clear' });
             });
 
             document.getElementById('btn-copy').addEventListener('click', () => {
@@ -255,6 +280,9 @@
                 setTimeout(() => {
                     btn.innerHTML = originalHtml;
                 }, 2000);
+
+                // 【埋点】记录复制
+                Analytics.logInteraction('complete', { method: 'copy' });
             });
         });
     </script>

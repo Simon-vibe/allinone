@@ -333,6 +333,8 @@
                     modeBtns.claude.className = "px-4 py-1.5 rounded-md text-sm font-medium transition text-gray-600 hover:bg-gray-50";
                 }
                 generatePrompt();
+
+                Analytics.logInteraction('tool_interaction', { method: 'mode_switch', mode: mode });
             }
 
             // Event Listeners
@@ -354,6 +356,8 @@
                     inputs.constraints.value = presets[val].constraints;
                     inputs.format.value = presets[val].format;
                     generatePrompt();
+
+                    Analytics.logInteraction('tool_interaction', { method: 'preset_selected', preset: val });
                 }
             });
 
@@ -362,6 +366,8 @@
                     const originalHtml = btnCopy.innerHTML;
                     btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1.5"></i> Copied`;
                     setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
+
+                    Analytics.logInteraction('complete', { method: 'copy_prompt', mode: currentMode });
                 });
             });
 

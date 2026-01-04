@@ -133,7 +133,8 @@ function injectGoogleAnalytics(content) {
       gtag('js', new Date());
 
       gtag('config', 'G-RDXQ67ZXN3');
-    </script>`;
+    </script>
+    <script src="/js/analytics-helper.js"></script>`;
     return content.replace('</head>', `${gaCode}\n</head>`);
 }
 

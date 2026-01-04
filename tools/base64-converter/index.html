@@ -283,6 +283,10 @@
         let textMode = 'encode';
         let imgMode = 'encode'; // encode (img->b64) or decode (b64->img)
 
+        // Analytics State
+        let hasStartedText = false;
+        let hasStartedImage = false;
+
         // Text Logic
         function utf8_to_b64(str) {
             try { return window.btoa(unescape(encodeURIComponent(str))); }
@@ -374,10 +378,25 @@
                 }
             };
 
-            textInput.addEventListener('input', processText);
-            document.getElementById('btn-text-clear').addEventListener('click', () => { textInput.value = ''; processText(); });
+            textInput.addEventListener('input', () => {
+                if (!hasStartedText) {
+                    hasStartedText = true;
+                    Analytics.logInteraction('start', { method: 'text_input' });
+                }
+                processText();
+            });
+            document.getElementById('btn-text-clear').addEventListener('click', () => {
+                textInput.value = '';
+                processText();
+
+                // Analytics Reset
+                hasStartedText = false;
+                Analytics.logInteraction('complete', { method: 'text_clear' });
+            });
             document.getElementById('btn-text-copy').addEventListener('click', () => {
                 textOutput.select(); document.execCommand('copy');
+                // Success
+                Analytics.logInteraction('complete', { method: 'text_copy' });
             });
 
             /* IMAGE LOGIC */
@@ -388,9 +407,14 @@
             fileInput.addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (file) {
+                    const startTime = Date.now();
+                    Analytics.logInteraction('start', { method: 'image_upload', fileType: file.type });
+
                     const reader = new FileReader();
                     reader.onload = function (evt) {
                         imgOutputInfo.value = evt.target.result;
+                        Analytics.logInteraction('complete', { method: 'image_encode' });
+                        Analytics.logPerformance(startTime, file.size);
                     };
                     reader.readAsDataURL(file);
                 }
@@ -408,10 +432,17 @@
             imgB64Input.addEventListener('input', () => {
                 const val = imgB64Input.value.trim();
                 if (val && val.startsWith('data:image')) {
+                    if (!hasStartedImage) {
+                        hasStartedImage = true;
+                        Analytics.logInteraction('start', { method: 'base64_input' });
+                    }
                     previewImg.src = val;
                     previewImg.classList.remove('hidden');
                     previewPlaceholder.classList.add('hidden');
                     btnDownload.classList.remove('hidden');
+
+                    // Success Preview
+                    Analytics.logInteraction('complete', { method: 'image_preview' });
                 } else {
                     previewImg.classList.add('hidden');
                     previewPlaceholder.classList.remove('hidden');

@@ -302,6 +302,8 @@
                         styleCards.forEach(c => c.classList.remove('selected'));
                         card.classList.add('selected');
                         selectedStyle = card.getAttribute('data-style');
+
+                        Analytics.logInteraction('tool_interaction', { method: 'style_selected', style: selectedStyle });
                     }
                     updatePrompt();
                 });
@@ -312,6 +314,8 @@
                     const originalHtml = btnCopy.innerHTML;
                     btnCopy.innerHTML = `<i class="fa-solid fa-check mr-2"></i> Copied`;
                     setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
+
+                    Analytics.logInteraction('complete', { method: 'copy_prompt', ar: arMap[paramAr.value], s: paramS.value });
                 });
             });
 

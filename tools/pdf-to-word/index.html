@@ -228,6 +228,7 @@
             btnDownload.addEventListener('click', () => {
                 if (generatedBlob) {
                     saveAs(generatedBlob, currentFileName);
+                    Analytics.logInteraction('complete', { method: 'download_docx' });
                 }
             });
 
@@ -243,6 +244,11 @@
                 progressText.textContent = window.i18n.t('pdf2word.status.init');
 
                 try {
+                    // Analytics
+                    const processStart = Date.now();
+                    Analytics.logInteraction('start', { method: 'file_selected', size: file.size });
+                    Analytics.logInteraction('processing', { method: 'parsing_pdf' });
+
                     const arrayBuffer = await file.arrayBuffer();
                     const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
 
@@ -311,6 +317,7 @@
                     if (!hasExtractedText) {
                         // Switch to OCR Mode
                         console.log("No text found, switching to OCR...");
+                        Analytics.logInteraction('processing', { method: 'ocr_fallback' });
                         progressText.textContent = window.i18n.t('pdf.status.ocr_init');
 
                         children.length = 0; // Clear empty pages
@@ -366,11 +373,16 @@
                     processingState.classList.add('hidden');
                     resultSection.classList.remove('hidden');
 
+                    Analytics.logInteraction('complete', { method: 'conversion_success', mode: hasExtractedText ? 'text' : 'ocr', pages: numPages });
+                    Analytics.logPerformance(processStart, file.size);
+
                 } catch (err) {
                     console.error(err);
                     alert(window.i18n.t('pdf2word.alert.error') + err.message);
                     dropZone.classList.remove('hidden');
                     processingState.classList.add('hidden');
+
+                    Analytics.logError('PDF2WORD_ERROR', err.message);
                 }
             }
         });

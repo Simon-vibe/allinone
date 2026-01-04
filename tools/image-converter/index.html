@@ -253,6 +253,9 @@
                 dropZone.classList.add('hidden');
                 stagingArea.classList.remove('hidden');
 
+                // Analytics
+                Analytics.logInteraction('start', { method: 'files_selected', count: files.length });
+
                 for (const file of files) {
                     if (!file.type.startsWith('image/')) continue;
                     uploadedFiles.push(file);
@@ -284,6 +287,9 @@
                 const fileExt = targetFormat === 'image/jpeg' ? 'jpg' : (targetFormat === 'image/png' ? 'png' : 'webp');
                 let count = 0;
 
+                const processStart = Date.now();
+                Analytics.logInteraction('processing', { method: 'batch_convert', target_format: targetFormat, count: uploadedFiles.length });
+
                 for (const file of uploadedFiles) {
                     try {
                         const imgData = await convertImage(file, targetFormat);
@@ -295,10 +301,18 @@
                         count++;
                     } catch (err) {
                         console.error('Error processing ' + file.name, err);
+                        Analytics.logError('IMG_CONVERT_ERROR', err.message);
                     }
                 }
 
                 resultInfo.textContent = `${window.i18n.t('imgconv.msg.success')} ${count} -> ${fileExt.toUpperCase()}`;
+
+                Analytics.logInteraction('complete', { method: 'conversion_success', count: count });
+                // Approximate total size is hard to calculate without summing, let's just log processing time for now or use uploadedFiles total size if possible. 
+                // Let's sum initial size
+                const totalSize = uploadedFiles.reduce((acc, f) => acc + f.size, 0);
+                Analytics.logPerformance(processStart, totalSize);
+
                 processingState.classList.add('hidden');
                 resultSection.classList.remove('hidden');
             });
@@ -334,6 +348,7 @@
                 if (currentZip) {
                     currentZip.generateAsync({ type: "blob" }).then(function (content) {
                         saveAs(content, "converted_images.zip");
+                        Analytics.logInteraction('complete', { method: 'download_zip' });
                     });
                 }
             });

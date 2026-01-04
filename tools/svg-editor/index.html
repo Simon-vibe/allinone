@@ -155,7 +155,7 @@
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -164,9 +164,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -189,6 +192,12 @@
   <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
 </svg>`;
 
+            // Analytics
+            let hasStarted = false;
+            function trackStart() {
+                if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'code_input' }); }
+            }
+
             function updatePreview() {
                 const code = codeInput.value;
                 errorMsg.textContent = '';
@@ -210,9 +219,14 @@
                 }
             }
 
-            codeInput.addEventListener('input', updatePreview);
+            codeInput.addEventListener('input', () => {
+                trackStart();
+                updatePreview();
+            });
 
             btnLoadSample.addEventListener('click', () => {
+                Analytics.logInteraction('start', { method: 'load_sample' });
+                hasStarted = true;
                 codeInput.value = sampleSVG;
                 updatePreview();
             });
@@ -230,6 +244,8 @@
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+
+                Analytics.logInteraction('complete', { method: 'download' });
             });
 
             // Initial generic placeholder

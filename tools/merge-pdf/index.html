@@ -268,6 +268,9 @@
                 if (files.length > 0) {
                     dropZone.classList.add('hidden');
                     fileListSection.classList.remove('hidden');
+
+                    // Analytics
+                    Analytics.logInteraction('start', { method: 'files_selected', count: files.length });
                 }
             }
 
@@ -316,6 +319,9 @@
                 processingState.classList.remove('hidden');
 
                 try {
+                    const processStart = Date.now();
+                    Analytics.logInteraction('processing', { method: 'merging_pdfs', count: files.length });
+
                     const mergedPdf = await PDFLib.PDFDocument.create();
 
                     for (const item of files) {
@@ -361,17 +367,24 @@
 
                     processingState.classList.add('hidden');
                     resultSection.classList.remove('hidden');
+
+                    Analytics.logInteraction('complete', { method: 'merge_success', count: files.length });
+                    Analytics.logPerformance(processStart, mergedBlob.size);
+
                 } catch (err) {
                     console.error(err);
                     alert(window.i18n.t('merge.alert.error') + err.message);
                     processingState.classList.add('hidden');
                     fileListSection.classList.remove('hidden');
+
+                    Analytics.logError('MERGE_PDF_ERROR', err.message);
                 }
             });
 
             btnDownload.addEventListener('click', () => {
                 if (mergedBlob) {
                     saveAs(mergedBlob, 'merged_document.pdf');
+                    Analytics.logInteraction('complete', { method: 'download_merged' });
                 }
             });
         });

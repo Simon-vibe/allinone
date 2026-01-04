@@ -330,9 +330,25 @@
                 resultsContainer.innerHTML = html;
             }
 
+            // Debounce for analytics
+            let calcTimeout;
+            function trackCalculation() {
+                const iTokens = parseInt(inputTokens.value) || 0;
+                const oTokens = parseInt(outputTokens.value) || 0;
+                Analytics.logInteraction('complete', { method: 'calculate_cost', input_tokens: iTokens, output_tokens: oTokens, currency: currentCurrency });
+            }
+
             // Events
-            inputTokens.addEventListener('input', calculate);
-            outputTokens.addEventListener('input', calculate);
+            inputTokens.addEventListener('input', () => {
+                calculate();
+                clearTimeout(calcTimeout);
+                calcTimeout = setTimeout(trackCalculation, 2000); // Track after 2s of inactivity
+            });
+            outputTokens.addEventListener('input', () => {
+                calculate();
+                clearTimeout(calcTimeout);
+                calcTimeout = setTimeout(trackCalculation, 2000);
+            });
 
             currUsd.addEventListener('click', () => {
                 currentCurrency = 'USD';
@@ -345,6 +361,7 @@
                 currCny.classList.add('hover:text-gray-800');
                 document.body.classList.remove('currency-cny');
                 calculate();
+                Analytics.logInteraction('tool_interaction', { method: 'change_currency', currency: 'USD' });
             });
 
             currCny.addEventListener('click', () => {
@@ -358,6 +375,7 @@
                 currUsd.classList.add('hover:text-gray-800');
                 document.body.classList.add('currency-cny');
                 calculate();
+                Analytics.logInteraction('tool_interaction', { method: 'change_currency', currency: 'CNY' });
             });
 
             // Initial

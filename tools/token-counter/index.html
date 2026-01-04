@@ -370,6 +370,7 @@
                     currentImageTokens = calculateImageTokens(img.width, img.height);
                     imgTokenCountDisplay.textContent = currentImageTokens;
                     updateTotalAndCosts();
+                    Analytics.logInteraction('tool_interaction', { method: 'add_image', width: img.width, height: img.height });
                 };
                 img.src = URL.createObjectURL(file);
             });
@@ -395,7 +396,11 @@
             }
 
             // Listeners
-            textInput.addEventListener('input', updateStats);
+            textInput.addEventListener('input', () => {
+                updateStats();
+                clearTimeout(calcTimeout);
+                calcTimeout = setTimeout(trackCalculation, 2000);
+            });
 
             outputSlider.addEventListener('input', (e) => {
                 outputInput.value = e.target.value;
@@ -410,11 +415,13 @@
             btnClear.addEventListener('click', () => {
                 textInput.value = '';
                 updateStats();
+                Analytics.logInteraction('tool_interaction', { method: 'clear_input' });
             });
 
             btnCopy.addEventListener('click', () => {
                 textInput.select();
                 document.execCommand('copy');
+                Analytics.logInteraction('complete', { method: 'copy_text' });
             });
 
             // Initial calc

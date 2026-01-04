@@ -205,7 +205,7 @@
     </main>
 
     <!-- Footer -->
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-100 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
@@ -214,9 +214,12 @@
                     <a href="../../index.html" class="text-lg font-bold text-gray-900">allinone.page</a>
                 </div>
                 <div class="flex space-x-8 text-sm text-gray-500">
-                    <a href="../../privacy.html" class="hover:text-blue-600 transition" data-i18n="footer.privacy">Privacy Policy</a>
-                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of Service</a>
-                    <a href="../../about.html#contact" class="hover:text-blue-600 transition" data-i18n="footer.contact">Contact</a>
+                    <a href="../../privacy.html" class="hover:text-blue-600 transition"
+                        data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="../../terms.html" class="hover:text-blue-600 transition" data-i18n="footer.terms">Terms of
+                        Service</a>
+                    <a href="../../about.html#contact" class="hover:text-blue-600 transition"
+                        data-i18n="footer.contact">Contact</a>
                 </div>
             </div>
             <div class="mt-8 text-center md:text-right text-xs text-gray-400" data-i18n="footer.rights">
@@ -235,14 +238,24 @@
             window.getSelection().addRange(range);
             document.execCommand('copy');
             window.getSelection().removeAllRanges();
+            window.getSelection().removeAllRanges();
             alert(window.i18n.t('ts.success.copied') + el.innerText);
+
+            if (typeof Analytics !== 'undefined') Analytics.logInteraction('complete', { method: 'copy_result' });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             const tsDisplay = document.getElementById('current-timestamp');
             const readableDisplay = document.getElementById('current-readable');
             const btnPause = document.getElementById('btn-pause');
+            const btnPause = document.getElementById('btn-pause');
             let isPaused = false;
+
+            // Analytics
+            let hasStarted = false;
+            function trackStart(method) {
+                if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: method }); }
+            }
 
             function updateClock() {
                 if (isPaused) return;
@@ -284,7 +297,14 @@
                 outputDate.innerText = date.toLocaleString();
                 outputUtc.innerText = date.toUTCString();
                 resultDateBox.classList.remove('hidden');
+                outputDate.innerText = date.toLocaleString();
+                outputUtc.innerText = date.toUTCString();
+                resultDateBox.classList.remove('hidden');
+
+                Analytics.logInteraction('complete', { method: 'ts_to_date' });
             });
+
+            inputTs.addEventListener('input', () => trackStart('ts_input'));
 
             // B: Date -> TS
             const inputDate = document.getElementById('input-date');
@@ -293,7 +313,10 @@
 
             const now = new Date();
             now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
             inputDate.value = now.toISOString().slice(0, 19);
+
+            inputDate.addEventListener('input', () => trackStart('date_input'));
 
             document.getElementById('btn-convert-to-ts').addEventListener('click', () => {
                 const val = inputDate.value;
@@ -302,6 +325,10 @@
                 const ts = Math.floor(date.getTime() / 1000);
                 outputTs.innerText = ts;
                 resultTsBox.classList.remove('hidden');
+                outputTs.innerText = ts;
+                resultTsBox.classList.remove('hidden');
+
+                Analytics.logInteraction('complete', { method: 'date_to_ts' });
             });
         });
     </script>

@@ -248,6 +248,7 @@
                 if (currentZip) {
                     currentZip.generateAsync({ type: "blob" }).then(function (content) {
                         saveAs(content, "images.zip");
+                        Analytics.logInteraction('complete', { method: 'download_zip' });
                     });
                 }
             });
@@ -264,7 +265,14 @@
                 previewGrid.innerHTML = '';
                 currentZip = new JSZip();
 
+                currentZip = new JSZip();
+                const processStart = Date.now();
+
                 try {
+                    // Analytics
+                    Analytics.logInteraction('start', { method: 'file_selected', size: file.size });
+                    Analytics.logInteraction('processing', { method: 'rendering_pages' });
+
                     const arrayBuffer = await file.arrayBuffer();
                     const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
                     const numPages = pdf.numPages;
@@ -301,14 +309,20 @@
                     }
 
                     resultInfo.textContent = `${window.i18n.t('pdf2jpg.msg.success')} ${numPages}`;
+                    resultInfo.textContent = `${window.i18n.t('pdf2jpg.msg.success')} ${numPages}`;
                     processingState.classList.add('hidden');
                     resultSection.classList.remove('hidden');
+
+                    Analytics.logInteraction('complete', { method: 'conversion_success', pages: numPages });
+                    Analytics.logPerformance(processStart, file.size);
 
                 } catch (err) {
                     console.error(err);
                     alert(window.i18n.t('pdf2jpg.alert.error') + err.message);
                     dropZone.classList.remove('hidden');
                     processingState.classList.add('hidden');
+
+                    Analytics.logError('PDF2JPG_ERROR', err.message);
                 }
             }
         });

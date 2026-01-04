@@ -258,6 +258,11 @@
                 textInput.value = '';
                 localStorage.removeItem(STORAGE_KEY);
                 updateStats();
+
+                // 【埋点】记录清空
+                hasStarted = false;
+                trackingStartTime = null;
+                Analytics.logInteraction('complete', { method: 'clear' });
             });
 
             btnCopy.addEventListener('click', () => {
@@ -266,6 +271,34 @@
                 const originalHtml = btnCopy.innerHTML;
                 btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${i18n.t('common.copied')}`;
                 setTimeout(() => btnCopy.innerHTML = originalHtml, 2000);
+
+                // 【埋点】记录复制成功 (漏斗完成)
+                Analytics.logInteraction('complete', { method: 'copy' });
+                if (trackingStartTime) {
+                    Analytics.logPerformance(trackingStartTime, textInput.value.length);
+                }
+            });
+
+            // Analytics State
+            let trackingStartTime = null;
+            let hasStarted = false;
+
+            textInput.addEventListener('focus', () => {
+                if (!hasStarted) {
+                    hasStarted = true;
+                    trackingStartTime = Date.now();
+                    // 【埋点】记录开始 (漏斗第一步)
+                    Analytics.logInteraction('start', { method: 'focus' });
+                }
+            });
+
+            // Only log start on actual input if not focused (e.g. paste)
+            textInput.addEventListener('input', () => {
+                if (!hasStarted) {
+                    hasStarted = true;
+                    trackingStartTime = Date.now();
+                    Analytics.logInteraction('start', { method: 'input' });
+                }
             });
         });
     </script>

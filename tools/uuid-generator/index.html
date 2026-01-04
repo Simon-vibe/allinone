@@ -216,7 +216,16 @@
 
             qtyInput.addEventListener('input', () => {
                 qtyVal.textContent = qtyInput.value;
+                trackStart();
             });
+
+            // Analytics
+            let hasStarted = false;
+            function trackStart() {
+                if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'settings_change' }); }
+            }
+            hyphensInput.addEventListener('change', trackStart);
+            upperInput.addEventListener('change', trackStart);
 
             // UUID v4 Generator Polyfill-ish
             function generateUUID() {
@@ -229,7 +238,8 @@
                 });
             }
 
-            function run() {
+            function run(isUserAction = false) {
+                const startTime = Date.now();
                 const count = parseInt(qtyInput.value);
                 const useHyphens = hyphensInput.checked;
                 const useUpper = upperInput.checked;
@@ -242,9 +252,15 @@
                     results.push(uuid);
                 }
                 outputArea.value = results.join('\n');
+
+                if (isUserAction) {
+                    if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'generate_click' }); }
+                    Analytics.logInteraction('complete', { method: 'generate' });
+                    Analytics.logPerformance(startTime, count);
+                }
             }
 
-            btnGenerate.addEventListener('click', run);
+            btnGenerate.addEventListener('click', () => run(true));
 
             // Initial run
             run();
@@ -255,6 +271,9 @@
                 const originalText = btnCopy.innerHTML;
                 btnCopy.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied';
                 setTimeout(() => btnCopy.innerHTML = originalText, 2000);
+
+                // Analytics
+                Analytics.logInteraction('complete', { method: 'copy' });
             });
 
             btnDownload.addEventListener('click', () => {
@@ -265,6 +284,10 @@
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                // Analytics
+                Analytics.logInteraction('complete', { method: 'download' });
             });
         });
     </script>

@@ -212,7 +212,19 @@
             const optionCase = document.getElementById('option-case');
             const optionIndent = document.getElementById('option-indent');
 
+            // Analytics State
+            let hasStarted = false;
+
+            // Track Start on Input
+            input.addEventListener('input', () => {
+                if (!hasStarted) {
+                    hasStarted = true;
+                    Analytics.logInteraction('start', { method: 'input' });
+                }
+            });
+
             function formatSQL() {
+                const startTime = Date.now();
                 const code = input.value;
                 const dialect = dialectSelect.value;
                 const keywordCase = optionCase.value; // 'preserve', 'upper', 'lower'
@@ -230,9 +242,15 @@
                         indent: indent,
                     });
                     output.value = formatted;
+
+                    // 【埋点】记录成功
+                    Analytics.logInteraction('complete', { method: 'format' });
+                    Analytics.logPerformance(startTime, code.length);
                 } catch (e) {
                     console.error(e);
                     output.value = "Error: " + e.message;
+                    // 【埋点】记录报错
+                    Analytics.logError('FORMAT_ERROR', e.message);
                 }
             }
 
@@ -245,6 +263,9 @@
                 const originalText = btnCopy.innerHTML;
                 btnCopy.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied';
                 setTimeout(() => btnCopy.innerHTML = originalText, 2000);
+
+                // 【埋点】记录复制
+                Analytics.logInteraction('complete', { method: 'copy' });
             });
         });
     </script>

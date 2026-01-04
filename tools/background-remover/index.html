@@ -329,6 +329,7 @@
             btnDownload.addEventListener('click', () => {
                 if (resultBlob) {
                     saveAs(resultBlob, currentFileName);
+                    Analytics.logInteraction('complete', { method: 'download_result', type: 'ai' });
                 }
             });
 
@@ -365,8 +366,14 @@
                 }
             }
 
-            tabAi.addEventListener('click', () => switchTab('ai'));
-            tabManual.addEventListener('click', () => switchTab('manual'));
+            tabAi.addEventListener('click', () => {
+                switchTab('ai');
+                Analytics.logInteraction('tool_interaction', { method: 'tab_switch', tab: 'ai' });
+            });
+            tabManual.addEventListener('click', () => {
+                switchTab('manual');
+                Analytics.logInteraction('tool_interaction', { method: 'tab_switch', tab: 'manual' });
+            });
 
             // Manual Mode Logic
             function initManualMode(file) {
@@ -430,11 +437,17 @@
                     }
                 }
                 ctx.putImageData(imageData, 0, 0);
+
+                // Track significant manual edits (maybe debounce?)
+                // For now, let's just log it. High frequency, so be careful. 
+                // Maybe just 'tool_interaction' is enough?
+                // Analytics.logInteraction('tool_interaction', {method: 'manual_eraser_click'});
             });
 
             btnDownloadManual.addEventListener('click', () => {
                 manualCanvas.toBlob((blob) => {
                     saveAs(blob, currentFileName);
+                    Analytics.logInteraction('complete', { method: 'download_result', type: 'manual' });
                 });
             });
 
@@ -462,6 +475,10 @@
                 // Show original in AI section
                 imgOriginal.src = URL.createObjectURL(file);
 
+                const processStart = Date.now();
+                Analytics.logInteraction('start', { method: 'file_uploaded', size: file.size, type: file.type });
+                Analytics.logInteraction('processing', { method: 'ai_removal_start' });
+
                 try {
                     // Start Background Removal
                     const removeBackground = await window.waitForImgly();
@@ -476,12 +493,17 @@
                         resultSection.classList.remove('hidden');
                     }
 
+                    Analytics.logInteraction('complete', { method: 'ai_removal_success' });
+                    Analytics.logPerformance(processStart, file.size);
+
                 } catch (err) {
                     console.error(err);
                     alert(window.i18n.t('bgrem.error.remove') + ': ' + err.message);
                     // If AI fails, maybe stay on Manual?
                     switchTab('manual');
                     processingState.classList.add('hidden');
+
+                    Analytics.logError('BG_REM_ERROR', err.message);
                 }
             }
         });

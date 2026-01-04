@@ -235,6 +235,9 @@
 
             let history = [];
 
+            // Analytics
+            let hasStarted = false;
+
             // Reset Functionality
             btnReset.addEventListener('click', () => {
                 introMsg.classList.remove('hidden');
@@ -243,6 +246,9 @@
                 renderHistory();
                 // Reset modifiers visual state
                 [modCtrl, modAlt, modShift, modMeta].forEach(el => updateModifier(el, false));
+
+                Analytics.logInteraction('complete', { method: 'reset' });
+                hasStarted = false;
             });
 
             document.addEventListener('keydown', (e) => {
@@ -250,6 +256,11 @@
 
                 introMsg.classList.add('hidden');
                 resultContainer.classList.remove('hidden');
+
+                if (!hasStarted) {
+                    hasStarted = true;
+                    Analytics.logInteraction('start', { method: 'keydown' });
+                }
 
                 // Main Display
                 let keyDisplay = e.key;

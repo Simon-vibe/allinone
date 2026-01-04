@@ -287,6 +287,8 @@
                 gpsWarning.classList.add('hidden');
                 fileInput.value = '';
                 btnClear.classList.add('hidden');
+
+                Analytics.logInteraction('start', { method: 'clear_data' });
             }
 
             async function processFile(file) {
@@ -296,8 +298,13 @@
                 reader.onload = (e) => {
                     imagePreview.src = e.target.result;
                     previewContainer.classList.remove('hidden');
+                    previewContainer.classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
+
+                const processStart = Date.now();
+                Analytics.logInteraction('start', { method: 'file_selected', size: file.size, type: file.type });
+                Analytics.logInteraction('processing', { method: 'extract_exif' });
 
                 try {
                     const output = await exifr.parse(file, {
@@ -310,8 +317,12 @@
 
                     displayMetadata(output);
 
+                    Analytics.logInteraction('complete', { method: 'view_exif', tags_count: Object.keys(output || {}).length });
+                    Analytics.logPerformance(processStart, file.size);
+
                 } catch (error) {
                     console.error(error);
+                    Analytics.logError('EXIF_ERROR', error.message);
                     alert(window.i18n.t('exif.alert.read_error'));
                     clearData();
                 }

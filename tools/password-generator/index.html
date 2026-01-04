@@ -272,6 +272,12 @@
             const btnCopyBulk = document.getElementById('btn-copy-bulk');
             const strengthBar = document.getElementById('strength-bar');
 
+            // Analytics
+            let hasStarted = false;
+            function trackStart() {
+                if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'settings_change' }); }
+            }
+
             // Constants
             const STORAGE_KEY = 'pwd_gen_settings';
             const CHARS = {
@@ -372,7 +378,8 @@
                 return passwordArray.join('');
             }
 
-            function generate() {
+            function generate(trigger = 'auto') {
+                const startTime = Date.now();
                 const length = parseInt(lengthInput.value);
                 const qty = parseInt(qtyInput.value);
 
@@ -388,6 +395,12 @@
                     outputBulk.value = pwds.join('\n');
                 }
                 saveSettings();
+
+                if (trigger === 'refresh' || trigger === 'bulk') {
+                    if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'generate_click' }); }
+                    Analytics.logInteraction('complete', { method: 'generate_' + trigger });
+                    Analytics.logPerformance(startTime, length);
+                }
             }
 
             function updateStrength(length) {
@@ -419,12 +432,13 @@
             [lengthInput, qtyInput, chkUpper, chkLower, chkNumbers, chkSymbols].forEach(el => {
                 el.addEventListener('input', () => {
                     updateUIValues();
+                    trackStart();
                     generate();
                 });
             });
 
-            btnRefresh.addEventListener('click', generate);
-            btnGenerate.addEventListener('click', generate); // For bulk view
+            btnRefresh.addEventListener('click', () => generate('refresh'));
+            btnGenerate.addEventListener('click', () => generate('bulk')); // For bulk view
 
             btnCopy.addEventListener('click', () => {
                 outputSingle.select();
@@ -433,6 +447,9 @@
                 const originalText = span.innerText;
                 span.innerText = window.i18n.t('common.copied') || 'Copied!';
                 setTimeout(() => span.innerText = originalText, 2000);
+
+                // Analytics
+                Analytics.logInteraction('complete', { method: 'copy' });
             });
 
             btnCopyBulk.addEventListener('click', () => {
@@ -442,6 +459,9 @@
                 const originalText = span.innerText;
                 span.innerText = window.i18n.t('common.copied') || 'Copied!';
                 setTimeout(() => span.innerText = originalText, 2000);
+
+                // Analytics
+                Analytics.logInteraction('complete', { method: 'copy_bulk' });
             });
 
             // Initial

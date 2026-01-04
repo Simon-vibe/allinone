@@ -268,6 +268,7 @@
                     console.error(error);
                     statusText.innerText = window.i18n.t('ocr.status.error') + ': ' + error.message;
                     statusContainer.classList.remove('hidden');
+                    Analytics.logError('OCR_ERROR', error.message);
                 }
             }
 
@@ -279,6 +280,10 @@
                     previewContainer.classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
+
+                const processStart = Date.now();
+                Analytics.logInteraction('start', { method: 'file_selected', size: file.size, type: file.type });
+                Analytics.logInteraction('processing', { method: 'ocr_start', lang: lang });
 
                 statusText.innerText = window.i18n.t('ocr.status.init');
                 progressBar.style.width = '0%';
@@ -303,6 +308,8 @@
 
                 resultText.value = text;
                 finishProcessing();
+                Analytics.logInteraction('complete', { method: 'ocr_success', type: 'image', length: text.length });
+                Analytics.logPerformance(processStart, file.size);
             }
 
             async function processPDF(file, lang) {
@@ -343,6 +350,7 @@
 
                 resultText.value = fullText;
                 finishProcessing();
+                Analytics.logInteraction('complete', { method: 'ocr_success', type: 'pdf', length: fullText.length, pages: totalPages });
             }
 
             function finishProcessing() {
@@ -358,8 +366,10 @@
             btnCopy.addEventListener('click', () => {
                 resultText.select();
                 document.execCommand('copy');
-                const originalText = btnCopy.innerHTML;
                 btnCopy.innerHTML = `<i class="fa-solid fa-check mr-1"></i> ${i18n.t('common.copied')}`;
+
+                Analytics.logInteraction('complete', { method: 'copy_result' });
+
                 setTimeout(() => {
                     btnCopy.innerHTML = originalText;
                 }, 2000);

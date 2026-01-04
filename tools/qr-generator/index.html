@@ -416,10 +416,14 @@
                 });
 
                 btnDownload.disabled = false;
+
+                // Track generation (debounced not strictly needed if triggered by button, but here it is triggered by button)
+                Analytics.logInteraction('complete', { method: 'qr_generated', type: style });
             }
 
             btnDownload.addEventListener('click', () => {
                 qrCode.download({ name: "qrcode", extension: "png" });
+                Analytics.logInteraction('complete', { method: 'download_qr' });
             });
 
             // Initial generate
@@ -469,6 +473,10 @@
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const img = new Image();
+
+                    const processStart = Date.now();
+                    Analytics.logInteraction('start', { method: 'scan_file_uploaded', size: file.size });
+
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
                         const context = canvas.getContext('2d');
@@ -483,6 +491,9 @@
                             if (code) {
                                 scanResult.value = code.data;
                                 btnCopyScan.disabled = false;
+
+                                Analytics.logInteraction('complete', { method: 'scan_success', length: code.data.length });
+                                Analytics.logPerformance(processStart, file.size);
                             } else {
                                 scanResult.value = "Scanning failed. Could not find a QR code in the image.";
                                 // Check if we have i18n
@@ -494,8 +505,10 @@
                         } else {
                             console.error("jsQR library not loaded");
                             scanResult.value = "Error: Scanne library not loaded.";
+                            Analytics.logError('QR_SCAN_LIB_ERROR', 'jsqr_missing');
                         }
                     };
+                    img.onerror = () => Analytics.logError('QR_IMG_LOAD_ERROR', 'failed_to_load_image');
                     img.src = e.target.result;
                 }
                 reader.readAsDataURL(file);

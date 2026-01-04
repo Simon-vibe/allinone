@@ -370,6 +370,8 @@
                 const wb = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
                 XLSX.writeFile(wb, "bank_statement.xlsx");
+
+                Analytics.logInteraction('complete', { method: 'download_excel', rows: globalData.length });
             });
 
             // Password Modal Event Listeners
@@ -407,6 +409,15 @@
             async function processFile(file, password = null) {
                 // UI Update
                 dropZone.classList.add('hidden');
+
+                // Analytics
+                const processStart = Date.now();
+                if (!password) {
+                    // Only log start on fresh file, not on password retry 
+                    // (Actually we might want to log retry processing, but let's keep start clean)
+                    Analytics.logInteraction('start', { method: 'file_selected', size: file.size });
+                }
+                Analytics.logInteraction('processing', { method: 'parsing_pdf' });
                 processingState.classList.remove('hidden');
                 resultSection.classList.add('hidden');
 
@@ -525,15 +536,20 @@
                             passwordError.classList.add('hidden');
                             passwordInput.value = '';
                         }
-                        return; // Wait for user interaction
+                        passwordInput.value = '';
                     }
-
-                    alert(window.i18n.t('pdf.alert.error') + err.message);
-                    dropZone.classList.remove('hidden');
-                    processingState.classList.add('hidden');
-                    passwordModal.classList.add('hidden');
+                    Analytics.logInteraction('processing', { method: 'password_required' });
+                    return; // Wait for user interaction
                 }
+
+                Analytics.logError('PDF_PROCESS_ERROR', err.message);
+
+                alert(window.i18n.t('pdf.alert.error') + err.message);
+                dropZone.classList.remove('hidden');
+                processingState.classList.add('hidden');
+                passwordModal.classList.add('hidden');
             }
+        }
 
             function renderTable(data) {
                 previewTable.innerHTML = '';

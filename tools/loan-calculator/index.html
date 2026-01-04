@@ -120,7 +120,7 @@
                             placeholder="5" value="5">
                     </div>
 
-                    <button onclick="calculateLoan()"
+                    <button onclick="calculateLoan(true)"
                         class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200"
                         data-i18n="loan.action.calculate">Calculate</button>
                 </div>
@@ -206,7 +206,7 @@
             calculateLoan(); // Initial calc
         });
 
-        function calculateLoan() {
+        function calculateLoan(isUserAction = false) {
             const amount = parseFloat(document.getElementById('loan-amount').value);
             const rate = parseFloat(document.getElementById('interest-rate').value);
             const years = parseFloat(document.getElementById('loan-term').value);
@@ -231,6 +231,10 @@
             } else {
                 // Handling div by zero or weird inputs
                 document.getElementById('res-monthly').textContent = '$0.00';
+            }
+
+            if (isUserAction) {
+                Analytics.logInteraction('complete', { method: 'calculate', amount: amount, term: years });
             }
         }
     </script>

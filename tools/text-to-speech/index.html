@@ -357,15 +357,20 @@
 
                     utterThis.onstart = () => {
                         setStatus('playing');
+
+                        // Analytics
+                        Analytics.logInteraction('start', { method: 'tts_speak', voice: utterThis.voice?.name, lang: utterThis.voice?.lang });
                     };
 
                     utterThis.onend = () => {
                         setStatus('stopped');
+                        Analytics.logInteraction('complete', { method: 'tts_finish' });
                     };
 
                     utterThis.onerror = (event) => {
                         console.error('SpeechSynthesisUtterance.onerror', event);
                         setStatus('stopped');
+                        Analytics.logError('TTS_ERROR', event.error);
                     };
 
                     currentUtterance = utterThis;
@@ -391,6 +396,7 @@
             btnStop.addEventListener('click', () => {
                 synth.cancel();
                 setStatus('stopped');
+                Analytics.logInteraction('complete', { method: 'tts_stop_manual' });
             });
 
             // Real-time Adjustment

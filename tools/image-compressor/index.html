@@ -340,6 +340,9 @@
                     };
                 };
                 reader.readAsDataURL(file);
+
+                // Analytics
+                Analytics.logInteraction('start', { method: 'file_selected', type: file.type, size: file.size });
             });
 
             btnProcess.addEventListener('click', processImage);
@@ -349,6 +352,9 @@
 
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
+
+                const processStart = Date.now();
+                Analytics.logInteraction('processing', { method: 'compress_image', format: formatSelect.value });
 
                 canvas.width = originalImage.width;
                 canvas.height = originalImage.height;
@@ -387,6 +393,18 @@
                 const ext = format.split('/')[1];
                 downloadLink.href = dataUrl;
                 downloadLink.download = `compressed_${new Date().getTime()}.${ext}`;
+
+                // Log result stats
+                Analytics.logInteraction('complete', {
+                    method: 'compression_success',
+                    reduction_percent: reduction,
+                    original_size_kb: Math.round(originalFileSize / 1024),
+                    new_size_kb: Math.round(sizeInBytes / 1024)
+                });
+                Analytics.logPerformance(processStart, originalFileSize);
+
+                // Separate event for download click
+                downloadLink.onclick = () => Analytics.logInteraction('complete', { method: 'download_image' });
             }
         });
     </script>

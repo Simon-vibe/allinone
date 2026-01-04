@@ -241,6 +241,14 @@
             const fileOrig = document.getElementById('file-original');
             const fileNew = document.getElementById('file-changed');
 
+            // Analytics
+            let hasStarted = false;
+            function trackStart() {
+                if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'input_change' }); }
+            }
+            [textOrig, textNew].forEach(el => el.addEventListener('input', trackStart));
+            diffTypes.forEach(el => el.addEventListener('change', trackStart));
+
             async function extractTextFromPdf(file) {
                 const arrayBuffer = await file.arrayBuffer();
                 const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
@@ -270,6 +278,9 @@
                     textArea.placeholder = "Reading file...";
                     textArea.value = "";
 
+                    if (!hasStarted) { hasStarted = true; Analytics.logInteraction('start', { method: 'file_upload' }); }
+                    const loadStart = Date.now();
+
                     try {
                         let text = "";
                         if (file.type === "application/pdf") {
@@ -286,8 +297,11 @@
                         }
 
                         textArea.value = text;
+                        Analytics.logInteraction('processing', { method: 'upload_success' });
+                        Analytics.logPerformance(loadStart, file.size);
                     } catch (err) {
                         console.error(err);
+                        Analytics.logError('FILE_READ_ERROR', err.message);
                         alert(window.i18n.t('diff.alert.read_error') + err.message);
                     } finally {
                         textArea.placeholder = originalPlaceholder;
@@ -299,6 +313,7 @@
             handleFileUpload(fileNew, textNew);
 
             btnCompare.addEventListener('click', () => {
+                const diffStart = Date.now();
                 const one = textOrig.value;
                 const other = textNew.value;
 
@@ -327,6 +342,9 @@
                 output.innerHTML = '';
                 output.appendChild(fragment);
                 resultContainer.classList.remove('hidden');
+
+                Analytics.logInteraction('complete', { method: 'compare', type: type });
+                Analytics.logPerformance(diffStart, one.length + other.length);
             });
         });
     </script>
