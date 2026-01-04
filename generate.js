@@ -94,22 +94,31 @@ function adjustRelativePaths(content, depth = 1) {
 // 新增：注入 JSON-LD 结构化数据
 function injectJsonLd(content, lang, url) {
     const isToolPage = url.includes('/tools/');
-    // 基础 WebSite 数据
-    const schemaData = {
-        "@context": "https://schema.org",
-        "@type": isToolPage ? "WebApplication" : "WebSite",
-        "name": lang === 'zh' ? "AllInOne 开发者工具箱" : "AllInOne Developer Tools",
-        "url": url,
-        "applicationCategory": "DeveloperApplication",
-        "operatingSystem": "Any",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
+    // 基础 WebSite/WebApplication 数据
+    const definitions = [
+        {
+            "@context": "https://schema.org",
+            "@type": isToolPage ? "WebApplication" : "WebSite",
+            "name": lang === 'zh' ? "AllInOne 开发者工具箱" : "AllInOne Developer Tools",
+            "url": url,
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            }
+        },
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "AllInOne Developer Tools",
+            "url": "https://allinone.page",
+            "logo": "https://allinone.page/assets/logo.svg"
         }
-    };
+    ];
 
-    const scriptTag = `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>`;
+    const scriptTag = `<script type="application/ld+json">${JSON.stringify(definitions)}</script>`;
     return content.replace('</head>', `${scriptTag}\n</head>`);
 }
 
